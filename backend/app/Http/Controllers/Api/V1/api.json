@@ -1,0 +1,52 @@
+{
+    "candidates": [
+        {
+            "content": {
+                "parts": [
+                    {
+                        "text": "{\"schedule\": [{\"date\": {\"day\": 11, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Introduction to Laravel - Setting up the environment and basic concepts.\", \"lesson\": \"Introduction to Laravel\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 12, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Routing and Controllers in Laravel\", \"lesson\": \"Routing and Controllers\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 13, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Models and Databases\", \"lesson\": \"Models and Databases\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 14, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Views and Templates\", \"lesson\": \"Views and Templates\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 15, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Request Handling\", \"lesson\": \"Request Handling\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 18, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Eloquent ORM\", \"lesson\": \"Eloquent ORM\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 19, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Migrations and Seeders\", \"lesson\": \"Migrations and Seeders\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 20, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Authentication and Authorization\", \"lesson\": \"Authentication and Authorization\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 21, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Testing in Laravel\", \"lesson\": \"Testing in Laravel\"}, \"time\": {\"hour\": 9, \"minute\": 0}}, {\"date\": {\"day\": 22, \"month\": 2, \"year\": 2025}, \"roadmap\": {\"description\": \"Helper functions and Custom classes\", \"lesson\": \"Helper functions and Custom classes\"}, \"time\": {\"hour\": 9, \"minute\": 0}}]\n}"
+                    }
+                ],
+                "role": "model"
+            },
+            "finishReason": "STOP",
+            "safetyRatings": [
+                {
+                    "category": "HARM_CATEGORY_HATE_SPEECH",
+                    "probability": "NEGLIGIBLE"
+                },
+                {
+                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "probability": "NEGLIGIBLE"
+                },
+                {
+                    "category": "HARM_CATEGORY_HARASSMENT",
+                    "probability": "NEGLIGIBLE"
+                },
+                {
+                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "probability": "NEGLIGIBLE"
+                }
+            ],
+            "avgLogprobs": -0.05751192280857166
+        }
+    ],
+    "usageMetadata": {
+        "promptTokenCount": 60,
+        "candidatesTokenCount": 619,
+        "totalTokenCount": 679,
+        "promptTokensDetails": [
+            {
+                "modality": "TEXT",
+                "tokenCount": 60
+            }
+        ],
+        "candidatesTokensDetails": [
+            {
+                "modality": "TEXT",
+                "tokenCount": 619
+            }
+        ]
+    },
+    "modelVersion": "gemini-1.5-flash-8b-001"
+}
