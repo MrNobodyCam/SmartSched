@@ -15,10 +15,11 @@ class ScheduleController extends Controller
 {
     public function generateSchedule(Request $request)
     {
-        $apiKey = "AIzaSyD8Acx2bPpwY9anQNhU00JDA7nmRsFY5E8";
+        $apiKey = env('GOOGLE_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={$apiKey}";
 
         $currentDate = Carbon::now()->format('Y-m-d');
+        $textPrompt = $request->input('text_prompt', 'Give me a schedule for learning Laravel starting from ' . $currentDate);
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -26,7 +27,7 @@ class ScheduleController extends Controller
             'contents' => [
                 [
                     'parts' => [
-                        ['text' => 'Give me a schedule for learning Laravel starting from ' . $currentDate . ' including multiple-choice quizzes (QCM) for each lesson with correct answers for each question.']
+                        ['text' => $textPrompt]
                     ]
                 ]
             ],
