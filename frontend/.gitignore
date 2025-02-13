@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Package.json file
+frontend/package-lock.json
+frontend/package.json
