@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Package.json files
+# Package.json file
 frontend/package-lock.json
 frontend/package.json
