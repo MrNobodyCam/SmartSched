@@ -1,0 +1,48 @@
+.btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    min-height: 95vh;
+}
+
+.login{
+    width: 112px;
+    height: 48px;
+    background-color: #2D9CDB;
+    color: #ffffff;
+    border-radius: 12px;
+    margin-right: 50px;
+    border-color: white;
+    font-size: 25px;
+    box-shadow: inset  #2D9CDB;
+    transition: ease-out 0.3s;
+    cursor: pointer;
+}
+
+
+.login:hover{
+    background-color: rgba(45, 156, 219, 0.7);
+}
+
+.signup{
+
+    border-color: #27AE60;
+    color: #27AE60;
+    border-radius: 12px;
+    font-size: 25px;
+    width: 112px;
+    height: 48px;
+    cursor: pointer;
+    box-shadow: inset #27AE60;
+    transition:  0.3s ease-out;
+}
+
+.signup:hover{
+    border-color: rgba(39, 174, 96, 0.4); 
+    color: rgba(39, 174, 96, 0.4); 
+
+}
+
+
+
