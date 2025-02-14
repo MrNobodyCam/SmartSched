@@ -1,13 +1,25 @@
 import styles from "./Components-styles/Button.module.css";
-function SecondaryBtn (){
-
-return(   
+interface Props {
+  children: string;
+  color: string;
+  border: string;
+}
+const SecondaryBtn = ({ children, color, border }: Props) => {
+  return (
     <div className={styles.btn}>
-        <div className="Secondary">
-            <button className={styles.signup}>sign up</button>
-        </div>
+      <button
+        className={styles.secondary}
+        style={
+          {
+            "--text-color": color,
+            "--border-color": border,
+          } as React.CSSProperties
+        }
+      >
+        {children}
+      </button>
     </div>
-    );
+  );
 };
 
 export default SecondaryBtn;
