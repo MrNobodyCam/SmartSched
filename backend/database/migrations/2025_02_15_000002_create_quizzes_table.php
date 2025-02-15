@@ -14,22 +14,8 @@ return new class extends Migration
     Schema::create('quizzes', function (Blueprint $table) {
         $table->id();
         $table->string('question');
-        
-        // Add roadmap_id and quiz_id columns as unsignedBigInteger to match the referenced columns
-        $table->unsignedBigInteger('roadmap_id');
-        $table->unsignedBigInteger('quiz_id');
+        $table->string('result');
         $table->timestamps();
-        
-        // Add foreign key constraints
-        $table->foreign('roadmap_id')
-              ->references('id')
-              ->on('roadmaps')
-              ->onDelete('cascade');
-
-        $table->foreign('quiz_id')
-              ->references('id')
-              ->on('answers')
-              ->onDelete('cascade');
     });
 }
 
