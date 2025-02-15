@@ -170,4 +170,14 @@ class ScheduleController extends Controller
 
         return response()->json($scheduleData);
     }
+
+    public function show($id) {
+        $schedule = Schedule::find($id);
+
+        if (!$schedule) {
+            return response()->json(['error' => 'Schedule not found'], 404);
+        }
+
+        return response()->json($schedule);
+    }
 }
