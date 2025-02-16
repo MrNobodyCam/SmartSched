@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('schedule_roadmaps', function (Blueprint $table) {
-            // $table->id();
+            $table->id();
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('roadmap_id');
             $table->timestamps();
