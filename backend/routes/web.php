@@ -9,8 +9,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('api/v1/schedule', [ScheduleController::class,'generateSchedule']);
-Route::get('api/v1/schedule/{id}', [ScheduleController::class,'show']);
-Route::get('api/v1/quiz', [QuizController::class,'generateQuiz']);
-Route::get('api/v1/roadmap/{id}', [RoadmapController::class,'show']);
-
+// Route::get('api/v1/schedule', [ScheduleController::class, 'generateSchedule']);
+// Route::get('api/v1/schedule/{id}', [ScheduleController::class, 'show']);
+// Route::get('api/v1/quiz', [QuizController::class, 'generateQuiz']);
+// Route::get('api/v1/roadmap/{id}', [RoadmapController::class,'show']);
