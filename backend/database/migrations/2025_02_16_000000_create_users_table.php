@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('generate_topics', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('topic_id');
+            $table->string('full_name');
+            $table->string('gender');
+            $table->string('email')->unique();
+            $table->string('time_zone')->default('UTC');
+            $table->string('hash_password');
             $table->timestamps();
-
-            $table->foreign('topic_id')
-                ->references('id')
-                ->on('topics')
-                ->onDelete('cascade');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('generate_topics');
+        Schema::dropIfExists('users');
     }
 };

@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roadmap_quizzes', function (Blueprint $table) {
+        Schema::create('generator_topics', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('roadmap_id');
-            $table->unsignedBigInteger('quiz_id');
+            $table->unsignedBigInteger('topic_id');
             $table->timestamps();
 
-            $table->foreign('roadmap_id')->references('id')->on('roadmaps')->onDelete('cascade');
-            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
+            $table->foreign('topic_id')
+                ->references('id')
+                ->on('topics')
+                ->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roadmap_quizzes');
+        Schema::dropIfExists('generator_topics');
     }
 };
