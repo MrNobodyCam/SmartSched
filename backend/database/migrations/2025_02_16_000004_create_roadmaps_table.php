@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roadmaps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('topic_id');
+            $table->unsignedBigInteger('schedule_id');
             $table->string('lesson');
             $table->string('description');
             $table->time('time');
@@ -21,9 +22,13 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('topic_id')
-                  ->references('id')
-                  ->on('topics')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('topics')
+                ->onDelete('cascade');
+            $table->foreign('schedule_id')
+                ->references('id')
+                ->on('schedules')
+                ->onDelete('cascade');
         });
     }
 

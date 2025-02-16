@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('generators', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('generator_topic_id');
             $table->string('schedule_title');
             $table->string('free_day');
             $table->string('free_time');
@@ -26,10 +25,6 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-            $table->foreign('generator_topic_id')
-                ->references('id')
-                ->on('generator_topics')
                 ->onDelete('cascade');
         });
     }
