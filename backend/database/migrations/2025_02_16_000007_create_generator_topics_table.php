@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('generator_topics', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('generator_id');
             $table->unsignedBigInteger('topic_id');
             $table->timestamps();
 
+            $table->foreign('generator_id')
+                ->references('id')
+                ->on('generators')
+                ->onDelete('cascade');
             $table->foreign('topic_id')
                 ->references('id')
                 ->on('topics')
