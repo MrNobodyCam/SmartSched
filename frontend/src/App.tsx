@@ -1,6 +1,5 @@
 import SecondaryBtn from "./components/SecondayBtn";
 import PrimaryBtn from "./components/PrimaryBtn";
-import "./components/Components-styles/Tailwind.css";
 
 function App() {
   return (
