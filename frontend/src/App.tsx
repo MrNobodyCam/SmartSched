@@ -1,17 +1,10 @@
-import SecondaryBtn from "./components/SecondayBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
 
+import GenerateSchedule from './components/generate-scheudle';
 function App() {
   return (
-    <div>
-      <PrimaryBtn color="" background="">
-        Sign Up
-      </PrimaryBtn>
-      <br />
-      <SecondaryBtn color="" border="">
-        Sign In
-      </SecondaryBtn>
-    </div>
+    <>
+    <GenerateSchedule/>
+    </>
   );
 }
 
