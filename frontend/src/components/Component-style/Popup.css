@@ -1,0 +1,116 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* Popup Container */
+.popup-container {
+  width: 320px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+/* Header */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.popup-title {
+  display: flex;
+  align-items: center;
+}
+
+.popup-icon {
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.popup-close {
+  background: none;
+  border: none;
+  color: gray;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.popup-close:hover {
+  color: black;
+}
+
+/* Sections */
+.popup-section {
+  display: flex;
+  align-items: center;
+  color: gray;
+  margin-bottom: 12px;
+}
+
+.popup-icon-text {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* Description */
+.popup-description {
+  display: flex;
+  margin-bottom: 16px;
+  color: gray;
+  font-size: 14px;
+  line-height: 1.4; /* Keeps text readability */
+  
+
+}
+
+/* Buttons */
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Adds space between buttons */
+}
+
+.popup-edit,
+.popup-make-quiz {
+  flex: 1; /* Makes both buttons the same width */
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Edit Button */
+.popup-edit {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.popup-edit:hover {
+  background-color: #e5e7eb;
+}
+
+/* Make Quiz Button */
+.popup-make-quiz {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.popup-make-quiz:hover {
+  background-color: #2563eb;
+}
