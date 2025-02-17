@@ -1,0 +1,79 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 70px;
+  background-color: rgba(45, 156, 219, 0.1);
+  position: relative;
+}
+
+.navbar-left .brand-name {
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification {
+  position: relative;
+  margin-right: 44px;
+}
+
+.notification-icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -15px;
+  right: -20px;
+  background-color: #eb5757;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 10px;
+  width: 25px;
+  height: 17px;
+}
+.notification-badge:hover {
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .navbar-left {
+    margin-bottom: 10px;
+  }
+
+  .navbar-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .notification {
+    margin-right: 0;
+  }
+
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+  }
+}
