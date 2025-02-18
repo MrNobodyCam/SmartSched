@@ -1,9 +1,9 @@
 
-import GenerateSchedule from './components/generate-scheudle';
+import Schedule_Create from './components/sechulde_create';
 function App() {
   return (
     <>
-    <GenerateSchedule/>
+    <Schedule_Create/>
     </>
   );
 }
