@@ -1,3 +1,4 @@
+/*
 body {
   font-family: 'Inter', sans-serif;
 }
@@ -9,7 +10,10 @@ body {
   margin: auto;
 }
 
-/* Popup Container */
+/* open-popup-button 
+
+
+/* Popup Container 
 .popup-container {
   width: 320px;
   background-color: white;
@@ -18,7 +22,7 @@ body {
   padding: 16px;
 }
 
-/* Header */
+/* Header 
 .popup-header {
   display: flex;
   justify-content: space-between;
@@ -52,7 +56,7 @@ body {
   color: black;
 }
 
-/* Sections */
+/* Sections 
 .popup-section {
   display: flex;
   align-items: center;
@@ -65,27 +69,27 @@ body {
   font-weight: bold;
 }
 
-/* Description */
+/* Description 
 .popup-description {
   display: flex;
   margin-bottom: 16px;
   color: gray;
   font-size: 14px;
-  line-height: 1.4; /* Keeps text readability */
+  line-height: 1.4; /* Keeps text readability 
   
 
 }
 
-/* Buttons */
+/* Buttons 
 .popup-buttons {
   display: flex;
   justify-content: space-between;
-  gap: 10px; /* Adds space between buttons */
+  gap: 10px; /* Adds space between buttons 
 }
 
 .popup-edit,
 .popup-make-quiz {
-  flex: 1; /* Makes both buttons the same width */
+  flex: 1; /* Makes both buttons the same width 
   text-align: center;
   padding: 8px 16px;
   border-radius: 6px;
@@ -93,7 +97,7 @@ body {
   transition: background 0.2s;
 }
 
-/* Edit Button */
+/* Edit Button 
 .popup-edit {
   background-color: #f3f4f6;
   color: #374151;
@@ -104,7 +108,7 @@ body {
   background-color: #e5e7eb;
 }
 
-/* Make Quiz Button */
+/* Make Quiz Button 
 .popup-make-quiz {
   background-color: #3b82f6;
   color: white;
@@ -114,3 +118,5 @@ body {
 .popup-make-quiz:hover {
   background-color: #2563eb;
 }
+
+*/
