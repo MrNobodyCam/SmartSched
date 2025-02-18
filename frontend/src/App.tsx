@@ -1,5 +1,5 @@
 
-import GenerateSchedule from './components/generate-scheudle';
+import GenerateSchedule from './components/generate-schedule';
 function App() {
   return (
     <>
