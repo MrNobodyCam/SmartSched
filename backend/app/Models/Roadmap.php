@@ -10,17 +10,11 @@ class Roadmap extends Model
     use HasFactory;
 
     protected $fillable = [
-        'lesson',
-        'date',
-        'time',
+        'schedule_id',
         'topic_id',
+        'lesson',
+        'description',
+        'time',
+        'date',
     ];
-
-    /**
-     * Get the topic that owns the roadmap.
-     */
-    public function topic()
-    {
-        return $this->belongsTo(Topic::class);
-    }
 }
