@@ -1,9 +1,9 @@
 
-import Schedule_Create from './components/sechulde_create';
+import All_button from './components/all-button';
 function App() {
   return (
     <>
-    <Schedule_Create/>
+      <All_button/>
     </>
   );
 }
