@@ -198,12 +198,33 @@ class ScheduleController extends Controller
 
     public function show($id)
     {
-        $schedule = Schedule::find($id);
+        $schedule = Schedule::with(['generator.user', 'roadmaps.topic'])->find($id);
 
         if (!$schedule) {
             return response()->json(['error' => 'Schedule not found'], 404);
         }
 
-        return response()->json($schedule);
+        $response = [
+            // 'id' => $schedule->id,
+            'title' => $schedule->generator->schedule_title,
+            'start_date' => $schedule->start_date,
+            'end_date' => $schedule->end_date,
+            'roadmap' => $schedule->roadmaps->map(function ($roadmap) {
+                return [
+                    'lesson' => $roadmap->lesson,
+                    'description' => $roadmap->description,
+                    'date' => $roadmap->date,
+                    'time' => $roadmap->time,
+                    'topic' => $roadmap->topic->title,
+                ];
+            }),
+            // 'user' => [
+            //     'id' => $schedule->generator->user->id,
+            //     'full_name' => $schedule->generator->user->full_name,
+            //     'email' => $schedule->generator->user->email,
+            // ],
+        ];
+
+        return response()->json($response);
     }
 }

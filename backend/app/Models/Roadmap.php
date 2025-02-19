@@ -17,4 +17,9 @@ class Roadmap extends Model
         'time',
         'date',
     ];
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }

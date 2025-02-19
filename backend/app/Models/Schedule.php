@@ -20,4 +20,9 @@ class Schedule extends Model
     {
         return $this->belongsTo(Generator::class);
     }
+
+    public function roadmaps()
+    {
+        return $this->hasMany(Roadmap::class);
+    }
 }
