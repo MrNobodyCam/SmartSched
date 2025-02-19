@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
+import "./componets-styles/Quiz.css";
 
-
-const QuizQuestionPopup = () => {
+const QuizPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-
-  const togglePopup = () => setIsOpen(!isOpen);
 
   const options = [
     {
@@ -32,12 +30,12 @@ const QuizQuestionPopup = () => {
   ];
 
   return (
-    <div className="p-4">
+    <div className="h-screen w-screen flex items-center justify-center bg-white">
       <button
-        onClick={togglePopup}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
+        onClick={() => setIsOpen(true)}
+        className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-0.5"
       >
-        Open Quiz
+        Start Quiz
       </button>
 
       {isOpen && (
@@ -52,8 +50,8 @@ const QuizQuestionPopup = () => {
                   <h2 className="text-xl font-bold text-gray-800">Quiz 1</h2>
                 </div>
                 <button
-                  onClick={togglePopup}
-                  className="text-gray-400 hover:text-gray-600 transition-colors rounded-full p-1 hover:bg-gray-200"
+                  onClick={() => setIsOpen(false)}
+                  // className="text-gray-400 hover:text-gray-600 transition-colors rounded-full p-1 hover:bg-gray-200"
                 >
                   <X size={24} />
                 </button>
@@ -85,7 +83,9 @@ const QuizQuestionPopup = () => {
                   ))}
                 </div>
                 <div className="flex justify-end pt-4">
-                  <button className="px-6 py-2 bg-white text-blue-500 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all font-medium inline-flex items-center gap-2">
+                  <button
+                    className="px-6 py-2 bg-white text-blue-500 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all font-medium inline-flex items-center gap-2"
+                  >
                     Next Question
                     <svg
                       className="w-5 h-5"
@@ -111,4 +111,4 @@ const QuizQuestionPopup = () => {
   );
 };
 
-export default QuizQuestionPopup;
+export default QuizPopup;
