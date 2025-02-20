@@ -1,4 +1,4 @@
-import SecondaryBtn from "./components/SecondayBtn";
+import SecondaryBtn from "./components/SecondaryBtn";
 import PrimaryBtn from "./components/PrimaryBtn";
 
 function App() {
