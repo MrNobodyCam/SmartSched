@@ -1,5 +1,5 @@
-import SecondaryBtn from "./components/SecondayBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
+// import SecondaryBtn from "./components/SecondayBtn";
+// import PrimaryBtn from "./components/PrimaryBtn";
 import "./components/Components-styles/Tailwind.css";
 import Landingpage from "./pages/Landing-page";
 
