@@ -1,5 +1,6 @@
 import SecondaryBtn from "./components/SecondayBtn";
 import PrimaryBtn from "./components/PrimaryBtn";
+import NotificationPopup from "./components/NotificationPopup";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
           Sign In
         </SecondaryBtn>
       </div>
+      <br />
+      <NotificationPopup />
     </>
   );
 }
