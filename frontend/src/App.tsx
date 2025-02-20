@@ -5,13 +5,10 @@ function App() {
   return (
     <>
       <div>
-        <PrimaryBtn color="" background="">
-          Sign Up
-        </PrimaryBtn>
+        <PrimaryBtn extraContent={<span>🔥</span>}>Sign Up</PrimaryBtn>
         <br />
-        <SecondaryBtn color="" border="">
-          Sign In
-        </SecondaryBtn>
+        <br />
+        <SecondaryBtn extraContent={<span>🔥</span>}>Sign In</SecondaryBtn>
       </div>
     </>
   );
