@@ -7,7 +7,6 @@ function App() {
       <div>
         <PrimaryBtn extraContent={<span>🔥</span>}>Sign Up</PrimaryBtn>
         <br />
-        <br />
         <SecondaryBtn extraContent={<span>🔥</span>}>Sign In</SecondaryBtn>
       </div>
     </>
