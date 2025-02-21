@@ -1,12 +1,10 @@
-// import React from "react";
+import { useState, useRef, useEffect } from "react";
 import ErrorIcon from "../assets/icons/error-icon.svg";
 import InfoIcon from "../assets/icons/info-icon.svg";
 import SuccessIcon from "../assets/icons/success-icon.svg";
 import BellIcon from "../assets/icons/bell-icon.svg";
 
-import { useState, useRef, useEffect } from "react";
-
-function NotificationPopup() {
+const NotificationPopup = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
@@ -39,6 +37,46 @@ function NotificationPopup() {
     },
     {
       id: 4,
+      type: "success",
+      title: "This is error message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 5,
+      type: "success",
+      title: "This is error message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 6,
+      type: "info",
+      title: "This is error message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 7,
+      type: "error",
+      title: "This is error message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 8,
+      type: "success",
+      title: "This is error message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 9,
       type: "success",
       title: "This is error message",
       message:
@@ -88,27 +126,29 @@ function NotificationPopup() {
         onClick={() => setOpen(!open)}
         className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none"
       >
-        <img src={BellIcon} className="h-6 w-6 text-gray-700" />
+        <img
+          src={BellIcon}
+          className="h-6 w-6 text-gray-700"
+          alt="Notifications"
+        />
       </button>
 
       {/* Notification Popup */}
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-2 w-[500px] w-64 bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 h-[600px] overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-2 w-full sm:w-[90%] md:w-[400px] lg:w-[500px] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 max-h-[80vh] overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">
-              <h4 className="text-xl font-semibold">Notifications</h4>
-              <button className="font-medium text-sm text-gray-500 hover:text-gray-700">
+              <h4 className="text-lg sm:text-xl font-semibold">
+                Notifications
+              </h4>
+              <button className="font-medium text-sm text-gray-500 hover:text-gray-700 hover:font-semibold">
                 Mark All As Read
               </button>
             </div>
             <ul className="mt-2 space-y-2">
-              {/* <li className="p-2 bg-gray-50 hover:bg-gray-50 rounded-[12px]">
-                🔔 New message received
-              </li> */}
-
               {notifications.map((notification) => (
                 <li
                   key={notification.id}
@@ -122,7 +162,7 @@ function NotificationPopup() {
                       <p className="text-sm font-medium text-gray-900">
                         {notification.title}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-gray-500 mt-1 line-clamp-2">
                         {notification.message}
                       </p>
                       <p className="text-xs text-gray-400 mt-2">
@@ -138,6 +178,6 @@ function NotificationPopup() {
       )}
     </div>
   );
-}
+};
 
 export default NotificationPopup;
