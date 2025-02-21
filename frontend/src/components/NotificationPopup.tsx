@@ -2,8 +2,15 @@
 import ErrorIcon from "../assets/icons/error-icon.svg";
 import InfoIcon from "../assets/icons/info-icon.svg";
 import SuccessIcon from "../assets/icons/success-icon.svg";
+import BellIcon from "../assets/icons/bell-icon.svg";
 
-const NotificationPopup = () => {
+import { useState, useRef, useEffect } from "react";
+
+function NotificationPopup() {
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+
   // Notification data
   const notifications = [
     {
@@ -43,7 +50,9 @@ const NotificationPopup = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case "error":
-        return <img src={ErrorIcon} alt="Error Icon" className="w-5 h-6 mb-[2px]" />;
+        return (
+          <img src={ErrorIcon} alt="Error Icon" className="w-5 h-6 mb-[2px]" />
+        );
       case "info":
         return <img src={InfoIcon} alt="Info Icon" className="w-6 h-6" />;
       case "success":
@@ -53,76 +62,82 @@ const NotificationPopup = () => {
     }
   };
 
+  // Close the popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: { target: any }) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="w-full max-w-sm rounded-[12px] bg-[#E1EBF1] shadow-sm p-3 h-[600px] overflow-y-auto scrollbar-thin">
-      <div className="p-2 border-b border-gray-200">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
-          <button className="text-sm text-gray-600 hover:text-gray-900">
-            Mark All As Read
-          </button>
-        </div>
-      </div>
+    <div className="relative">
+      {/* Notification Button */}
+      <button
+        ref={buttonRef}
+        onClick={() => setOpen(!open)}
+        className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none"
+      >
+        <img src={BellIcon} className="h-6 w-6 text-gray-700" />
+      </button>
 
-      <div className="divide-y divide-gray-200 space-y-2">
-        <div className="px-3 py-1 border-b border-black border-opacity-20 mb-[18px]">
-          <h3 className="text-sm font-medium text-gray-900">New</h3>
-        </div>
-
-        {notifications.slice(0, 2).map((notification) => (
-          <div
-            key={notification.id}
-            className="p-2 bg-white hover:bg-gray-50 rounded-[12px]"
-          >
-            <div className="flex space-x-2">
-              <div className="w-[33px] h-[33px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
-                {getIcon(notification.type)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
-                  {notification.title}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  {notification.message}
-                </p>
-                <p className="text-xs text-gray-400 mt-2">
-                  {notification.timestamp}
-                </p>
-              </div>
+      {/* Notification Popup */}
+      {open && (
+        <div
+          ref={popupRef}
+          className="absolute right-0 mt-2 w-[500px] w-64 bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 h-[600px] overflow-y-auto scrollbar-thin"
+        >
+          <div className="p-4">
+            <div className="flex justify-between items-center">
+              <h4 className="text-xl font-semibold">Notifications</h4>
+              <button className="font-medium text-sm text-gray-500 hover:text-gray-700">
+                Mark All As Read
+              </button>
             </div>
-          </div>
-        ))}
+            <ul className="mt-2 space-y-2">
+              {/* <li className="p-2 bg-gray-50 hover:bg-gray-50 rounded-[12px]">
+                🔔 New message received
+              </li> */}
 
-        <div className="px-3 py-1 border-b border-black border-opacity-20 mb-[18px]">
-          <h3 className="text-sm font-medium text-gray-900">Earlier</h3>
+              {notifications.map((notification) => (
+                <li
+                  key={notification.id}
+                  className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px]"
+                >
+                  <div className="flex space-x-2">
+                    <div className="w-[33px] h-[33px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
+                      {getIcon(notification.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">
+                        {notification.title}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {notification.message}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-2">
+                        {notification.timestamp}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-
-        {notifications.slice(2).map((notification) => (
-          <div
-            key={notification.id}
-            className="p-2 bg-white hover:bg-gray-50 rounded-[12px]"
-          >
-            <div className="flex space-x-2">
-              <div className="w-[33px] h-[33px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
-                {getIcon(notification.type)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
-                  {notification.title}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  {notification.message}
-                </p>
-                <p className="text-xs text-gray-400 mt-2">
-                  {notification.timestamp}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      )}
     </div>
   );
-};
+}
 
 export default NotificationPopup;

@@ -1,21 +1,11 @@
-import SecondaryBtn from "./components/SecondayBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
 import NotificationPopup from "./components/NotificationPopup";
 
 function App() {
   return (
     <>
-      <div>
-        <PrimaryBtn color="" background="">
-          Sign Up
-        </PrimaryBtn>
-        <br />
-        <SecondaryBtn color="" border="">
-          Sign In
-        </SecondaryBtn>
+      <div className="flex flex-row justify-center min-h-screen space-x-4">
+        <NotificationPopup />
       </div>
-      <br />
-      <NotificationPopup />
     </>
   );
 }
