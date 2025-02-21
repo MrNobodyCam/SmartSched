@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -226,5 +225,16 @@ class ScheduleController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function destroy($id)
+    {
+        $schedule = Schedule::find($id);
+        if (!$schedule) {
+            return response()->json(['error' => 'Schedule not found'], 404);
+        }
+
+        $schedule->delete();
+        return response()->json(['message' => 'Schedule deleted successfully']);
     }
 }
