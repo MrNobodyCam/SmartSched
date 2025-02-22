@@ -5,15 +5,20 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class QuizController extends Controller
 {
     public function generateQuiz(Request $request)
     {
+        $lesson = DB::table('roadmaps')->where('id',  1)->value('lesson');
+        if (!$lesson) {
+            return response()->json(['error' => 'Lesson not found'], 404);
+        }
         $apiKey = env('GOOGLE_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={$apiKey}";
 
-        $textPrompt = $request->input('text_prompt', 'Generate a quiz for learning Laravel');
+        $textPrompt = $request->input('text_prompt', 'Generate a quiz that have 2 question for ' . $lesson);
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
