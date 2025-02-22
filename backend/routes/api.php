@@ -12,9 +12,13 @@ Route::get('/user', function (Request $request) {
 // Route for testing the TestController
 Route::get('/test', [TestController::class, 'test']);
 
-// Group routes with prefix 'v1'
-Route::group(['prefix' => 'v1'], function () {
-    Route::post('schedule/generate', [ScheduleController::class, 'generateSchedule']);
-    Route::get('schedule/{id}', [ScheduleController::class, 'show']);
-    Route::delete('schedule/{id}', [ScheduleController::class, 'destroy']);
+// // Group routes with prefix 'v1'
+// Route::group(['prefix' => 'v1'], function () {
+//     Route::post('schedule/generate', [ScheduleController::class, 'generateSchedule']);
+//     Route::get('schedule/{id}', [ScheduleController::class, 'show']);
+//     Route::delete('schedule/{id}', [ScheduleController::class, 'destroy']);
+// });
+
+Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+    Route::apiResource('schedule', 'ScheduleController');
 });

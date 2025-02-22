@@ -11,10 +11,11 @@ use App\Models\Roadmap;
 use App\Models\Topic;
 use App\Models\Generator;
 use App\Models\User;
+use App\Http\Resources\ScheduleResource;
 
 class ScheduleController extends Controller
 {
-    public function generateSchedule(Request $request)
+    public function store(Request $request)
     {
         $apiKey = env('GOOGLE_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={$apiKey}";
@@ -192,7 +193,7 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'Schedule data not found in the response'], 400);
         }
 
-        return response()->json($scheduleData);
+        return new ScheduleResource($schedule);
     }
 
     public function show($id)
@@ -203,28 +204,7 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'Schedule not found'], 404);
         }
 
-        $response = [
-            // 'id' => $schedule->id,
-            'title' => $schedule->generator->schedule_title,
-            'start_date' => $schedule->start_date,
-            'end_date' => $schedule->end_date,
-            'roadmap' => $schedule->roadmaps->map(function ($roadmap) {
-                return [
-                    'lesson' => $roadmap->lesson,
-                    'description' => $roadmap->description,
-                    'date' => $roadmap->date,
-                    'time' => $roadmap->time,
-                    'topic' => $roadmap->topic->title,
-                ];
-            }),
-            // 'user' => [
-            //     'id' => $schedule->generator->user->id,
-            //     'full_name' => $schedule->generator->user->full_name,
-            //     'email' => $schedule->generator->user->email,
-            // ],
-        ];
-
-        return response()->json($response);
+        return new ScheduleResource($schedule);
     }
 
     public function destroy($id)
