@@ -11,6 +11,7 @@ use App\Models\Roadmap;
 use App\Models\Topic;
 use App\Models\Generator;
 use App\Models\User;
+use App\Models\GeneratorTopic;
 use App\Http\Resources\ScheduleResource;
 
 class ScheduleController extends Controller
@@ -20,8 +21,42 @@ class ScheduleController extends Controller
         $apiKey = env('GOOGLE_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={$apiKey}";
 
+        // Ensure the user exists
+        $user = User::updateOrCreate(
+            ['email' => 'example@gmail.com'],
+            [
+                'full_name' => 'John Doe',
+                'gender' => 'male',
+                'time_zone' => 'UTC',
+                'hash_password' => bcrypt('password')
+            ]
+        );
+
+        $generator = Generator::create([
+            'user_id' => $user->id,
+            'schedule_title' => $request->input('schedule_title'),
+            'free_day' => implode(", ", $request->input('free_day')),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
+        ]);
+
+        for ($i = 0; $i < count($request->input('subject')); $i++) {
+            $topic = Topic::firstOrCreate([
+                'title' => $request->input('subject')[$i],
+            ]);
+            $generatorTopic = GeneratorTopic::create([
+                'generator_id' => $generator->id,
+                'topic_id' => $topic->id,
+            ]);
+        }
+
         $currentDate = Carbon::now()->format('Y-m-d');
-        $textPrompt = $request->input('text_prompt', 'Give me a schedule for learning Laravel starting from ' . $currentDate);
+        $textPrompt = "Generate a learning schedule for " . $generator->subject_title .
+            " starting from today, " . $currentDate .
+            ". The schedule should cover the following topics: " . implode(", ", $request->input('subject')) .
+            ". It should be created for the following days: " . $generator->free_day .
+            ". The daily schedule should start at " . $generator->start_time .
+            " and end at " . $generator->end_time . ".";
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -144,29 +179,11 @@ class ScheduleController extends Controller
         $textContent = $responseData['candidates'][0]['content']['parts'][0]['text'];
         $scheduleData = json_decode($textContent, true);
 
+
         if (isset($scheduleData['schedule'])) {
             foreach ($scheduleData['schedule'] as $item) {
                 $startDate = Carbon::create($item['start_date']['year'], $item['start_date']['month'], $item['start_date']['day']);
                 $endDate = Carbon::create($item['end_date']['year'], $item['end_date']['month'], $item['end_date']['day']);
-
-                // Ensure the user exists
-                $user = User::updateOrCreate(
-                    ['email' => 'example@gmail.com'],
-                    [
-                        'full_name' => 'John Doe',
-                        'gender' => 'male',
-                        'time_zone' => 'UTC',
-                        'hash_password' => bcrypt('password')
-                    ]
-                );
-
-                $generator = Generator::create([
-                    'user_id' => $user->id,
-                    'schedule_title' => $item['title'],
-                    'free_time' => '10:00',
-                    'start_time' => '08:00',
-                    'end_time' => '17:00'
-                ]);
 
                 $schedule = Schedule::create([
                     'generator_id' => $generator->id,
@@ -175,10 +192,6 @@ class ScheduleController extends Controller
                 ]);
 
                 foreach ($item['roadmap'] as $roadmapItem) {
-                    $topic = Topic::firstOrCreate([
-                        'title' => $roadmapItem['lesson'],
-                    ]);
-
                     Roadmap::create([
                         'schedule_id' => $schedule->id,
                         'topic_id' => $topic->id,

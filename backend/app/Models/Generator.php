@@ -12,7 +12,7 @@ class Generator extends Model
     protected $fillable = [
         'user_id',
         'schedule_title',
-        'free_time',
+        'free_day',
         'start_time',
         'end_time',
     ];
