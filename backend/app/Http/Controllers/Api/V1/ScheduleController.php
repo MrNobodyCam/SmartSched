@@ -74,92 +74,89 @@ class ScheduleController extends Controller
                     'type' => 'object',
                     'properties' => [
                         'schedule' => [
-                            'type' => 'array',
-                            'items' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'roadmap' => [
-                                        'type' => 'array',
-                                        'items' => [
-                                            'type' => 'object',
-                                            'properties' => [
-                                                'lesson' => [
-                                                    'type' => 'string'
-                                                ],
-                                                'description' => [
-                                                    'type' => 'string'
-                                                ],
-                                                'time' => [
-                                                    'type' => 'object',
-                                                    'properties' => [
-                                                        'hour' => [
-                                                            'type' => 'integer'
-                                                        ],
-                                                        'minute' => [
-                                                            'type' => 'integer'
-                                                        ]
+                            'type' => 'object',
+                            'properties' => [
+                                'roadmap' => [
+                                    'type' => 'array',
+                                    'items' => [
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'lesson' => [
+                                                'type' => 'string'
+                                            ],
+                                            'description' => [
+                                                'type' => 'string'
+                                            ],
+                                            'time' => [
+                                                'type' => 'object',
+                                                'properties' => [
+                                                    'hour' => [
+                                                        'type' => 'integer'
                                                     ],
-                                                    'required' => [
-                                                        'hour',
-                                                        'minute'
+                                                    'minute' => [
+                                                        'type' => 'integer'
                                                     ]
+                                                ],
+                                                'required' => [
+                                                    'hour',
+                                                    'minute'
                                                 ]
-                                            ],
-                                            'required' => [
-                                                'lesson',
-                                                'description',
-                                                'time'
-                                            ]
-                                        ]
-                                    ],
-                                    'start_date' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'day' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'month' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'year' => [
-                                                'type' => 'integer'
                                             ]
                                         ],
                                         'required' => [
-                                            'day',
-                                            'month',
-                                            'year'
+                                            'lesson',
+                                            'description',
+                                            'time'
                                         ]
-                                    ],
-                                    'end_date' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'day' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'month' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'year' => [
-                                                'type' => 'integer'
-                                            ]
-                                        ],
-                                        'required' => [
-                                            'day',
-                                            'month',
-                                            'year'
-                                        ]
-                                    ],
-                                    'title' => [
-                                        'type' => 'string'
                                     ]
                                 ],
-                                'required' => [
-                                    'roadmap',
-                                    'start_date',
-                                    'end_date',
-                                    'title'
+                                'start_date' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'day' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'month' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'year' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ],
+                                    'required' => [
+                                        'day',
+                                        'month',
+                                        'year'
+                                    ]
+                                ],
+                                'end_date' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'day' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'month' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'year' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ],
+                                    'required' => [
+                                        'day',
+                                        'month',
+                                        'year'
+                                    ]
+                                ],
+                                'title' => [
+                                    'type' => 'string'
                                 ]
+                            ],
+                            'required' => [
+                                'roadmap',
+                                'start_date',
+                                'end_date',
+                                'title'
                             ]
                         ]
                     ],
@@ -179,28 +176,26 @@ class ScheduleController extends Controller
         $textContent = $responseData['candidates'][0]['content']['parts'][0]['text'];
         $scheduleData = json_decode($textContent, true);
 
-
         if (isset($scheduleData['schedule'])) {
-            foreach ($scheduleData['schedule'] as $item) {
-                $startDate = Carbon::create($item['start_date']['year'], $item['start_date']['month'], $item['start_date']['day']);
-                $endDate = Carbon::create($item['end_date']['year'], $item['end_date']['month'], $item['end_date']['day']);
+            $scheduleData = $scheduleData['schedule'];
+            $startDate = Carbon::create($scheduleData['start_date']['year'], $scheduleData['start_date']['month'], $scheduleData['start_date']['day']);
+            $endDate = Carbon::create($scheduleData['end_date']['year'], $scheduleData['end_date']['month'], $scheduleData['end_date']['day']);
 
-                $schedule = Schedule::create([
-                    'generator_id' => $generator->id,
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
+            $schedule = Schedule::create([
+                'generator_id' => $generator->id,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ]);
+
+            foreach ($scheduleData['roadmap'] as $roadmapItem) {
+                Roadmap::create([
+                    'schedule_id' => $schedule->id,
+                    'topic_id' => $topic->id,
+                    'lesson' => $roadmapItem['lesson'],
+                    'description' => $roadmapItem['description'],
+                    'date' => $startDate,
+                    'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
                 ]);
-
-                foreach ($item['roadmap'] as $roadmapItem) {
-                    Roadmap::create([
-                        'schedule_id' => $schedule->id,
-                        'topic_id' => $topic->id,
-                        'lesson' => $roadmapItem['lesson'],
-                        'description' => $roadmapItem['description'],
-                        'date' => $startDate,
-                        'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
-                    ]);
-                }
             }
         } else {
             return response()->json(['error' => 'Schedule data not found in the response'], 400);
