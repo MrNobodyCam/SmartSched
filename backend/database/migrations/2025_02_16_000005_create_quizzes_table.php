@@ -15,7 +15,6 @@ return new class extends Migration
         $table->id();
         $table->unsignedBigInteger('roadmap_id');
         $table->string('question');
-        $table->string('result');
         $table->timestamps();
 
         $table->foreign('roadmap_id')

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->time('time');
             $table->date('date');
+            $table->integer('result');
             $table->timestamps();
 
             $table->foreign('topic_id')

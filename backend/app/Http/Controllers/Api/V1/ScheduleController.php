@@ -195,6 +195,7 @@ class ScheduleController extends Controller
                     'description' => $roadmapItem['description'],
                     'date' => $startDate,
                     'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
+                    'result' => 0,
                 ]);
             }
         } else {
