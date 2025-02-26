@@ -1,14 +1,9 @@
-import SecondaryBtn from "./components/SecondaryBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
 
+import GenerateSchedule from './components/generate-schedule';
 function App() {
   return (
     <>
-      <div>
-        <PrimaryBtn extraContent={<span>🔥</span>}>Sign Up</PrimaryBtn>
-        <br />
-        <SecondaryBtn extraContent={<span>🔥</span>}>Sign In</SecondaryBtn>
-      </div>
+    <GenerateSchedule/>
     </>
   );
 }
