@@ -1,9 +1,15 @@
+// import SecondaryBtn from "./components/SecondaryBtn";
+// import PrimaryBtn from "./components/PrimaryBtn";
 
-import GenerateSchedule from './components/generate-schedule';
+import HistoryScreen from "./pages/history_data";
+
+import GenerateSchedule from "./components/generate-schedule";
 function App() {
   return (
     <>
-    <GenerateSchedule/>
+      <div>
+        <HistoryScreen />
+      </div>
     </>
   );
 }
