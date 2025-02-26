@@ -5,12 +5,13 @@ interface Props {
   color?: string;
   background?: string;
   extraContent?: React.ReactNode;
+  onClick?: () => void;
 }
 
-const PrimaryBtn = ({ children, color, background, extraContent }: Props) => {
+const PrimaryBtn = ({ children, color, background, extraContent, onClick }: Props) => {
   return (
     <button
-      className="flex items-center font-medium text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-3 px-4 md:px-6 lg:px-8 rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg"
+      className="flex items-center font-medium text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-3 px-4 md:px-6 lg:px-8 rounded-[12px] shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg"
       style={
         {
           color: color || "#ffffff",
@@ -18,9 +19,10 @@ const PrimaryBtn = ({ children, color, background, extraContent }: Props) => {
           borderColor: background || "#2D9CDB",
         } as React.CSSProperties
       }
+      onClick={onClick}
     >
-      {children}
-      {extraContent && <span className="ml-2">{extraContent}</span>}
+      {extraContent && <span className="mr-2">{extraContent}</span>}
+      <span>{children}</span>
     </button>
   );
 };
