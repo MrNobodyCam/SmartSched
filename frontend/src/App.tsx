@@ -2,27 +2,58 @@ import { useState } from "react";
 import NavBar from "./components/navbar";
 import SideBar from "./components/sidebar";
 
+// Uncomment these imports when the screens are ready
+// import CalendarScreen from "./pages/calendar";
+// import HistoryScreen from "./pages/history";
+// import ServiceScreen from "./screens/ServiceScreen";
+// import PrivacyScreen from "./screens/PrivacyScreen";
+// import ContactScreen from "./screens/ContactScreen";
+// import SettingsScreen from "./screens/SettingsScreen";
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeScreen, setActiveScreen] = useState("calendar"); // Default to "calendar"
 
+  // Function to toggle the sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Function to handle screen change
+  const handleScreenChange = (screen: string) => {
+    setActiveScreen(screen);
+    setIsSidebarOpen(false); // Close the sidebar after selecting a screen
   };
 
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <SideBar isOpen={isSidebarOpen} />
+      <SideBar
+        isOpen={isSidebarOpen}
+        onScreenChange={handleScreenChange} // Pass screen change handler
+        toggleSidebar={toggleSidebar}
+      />
 
-      {/* Navbar */}
-      <NavBar toggleSidebar={toggleSidebar} />
+      {/* Main Content Area */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Navbar */}
+        <NavBar toggleSidebar={toggleSidebar} />
 
-      {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden ml-13">
-        {/* Main Area */}
-        <main className="flex-1 overflow-auto pt-20 px-6">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p>Welcome to SmartSched!</p>
+        {/* Main Content */}
+        <main
+          className={`flex-1 overflow-auto ${
+            activeScreen === "calendar"
+              ? "pt-[72px] ml-[78px]"
+              : "pt-[109px] ml-[123px]"
+          }`}
+        >
+          {/* Dynamically Render Screens Based on Active Screen */}
+          {activeScreen === "calendar" && <h1>Calendar Screen</h1>}
+          {activeScreen === "history" && <h1>History Screen</h1>}
+          {activeScreen === "service" && <h1>Service Screen</h1>}
+          {activeScreen === "privacy" && <h1>Privacy Screen</h1>}
+          {activeScreen === "contact" && <h1>Contact Screen</h1>}
+          {activeScreen === "setting" && <h1>Settings Screen</h1>}
         </main>
       </div>
     </div>
@@ -30,54 +61,3 @@ function App() {
 }
 
 export default App;
-
-// NOTE: When have screen all use this code to switch screen
-// import { useState } from "react";
-// import NavBar from "./components/navbar";
-// import SideBar from "./components/sidebar";
-// import CalendarScreen from "./screens/CalendarScreen";
-// import HistoryScreen from "./screens/HistoryScreen";
-// import ServiceScreen from "./screens/ServiceScreen";
-// import PrivacyScreen from "./screens/PrivacyScreen";
-// import ContactScreen from "./screens/ContactScreen";
-// import SettingsScreen from "./screens/SettingsScreen";
-
-// function App() {
-//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-//   const [activeScreen, setActiveScreen] = useState("calendar");
-
-//   const toggleSidebar = () => {
-//     setIsSidebarOpen(!isSidebarOpen);
-//   };
-
-//   // Function to handle screen change
-//   const handleScreenChange = (screen: string) => {
-//     setActiveScreen(screen);
-//   };
-
-//   return (
-//     <div className="flex h-screen">
-//       {/* Sidebar */}
-//       <SideBar
-//         isOpen={isSidebarOpen}
-//         onScreenChange={handleScreenChange} // Pass screen change handler
-//       />
-//       {/* Navbar */}
-//       <NavBar toggleSidebar={toggleSidebar} />
-//       {/* Main Content */}
-//       <div className="flex flex-col flex-1 overflow-hidden ml-13">
-//         {/* Main Area */}
-//         <main className="flex-1 overflow-auto pt-20 px-6">
-//           {activeScreen === "calendar" && <CalendarScreen />}
-//           {activeScreen === "history" && <HistoryScreen />}
-//           {activeScreen === "service" && <ServiceScreen />}
-//           {activeScreen === "privacy" && <PrivacyScreen />}
-//           {activeScreen === "contact" && <ContactScreen />}
-//           {activeScreen === "setting" && <SettingsScreen />}
-//         </main>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
