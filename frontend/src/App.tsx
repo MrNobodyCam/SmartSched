@@ -1,13 +1,13 @@
-import SecondaryBtn from "./components/SecondaryBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
+// import SecondaryBtn from "./components/SecondaryBtn";
+// import PrimaryBtn from "./components/PrimaryBtn";
+
+import HistoryScreen from "./pages/history_data";
 
 function App() {
   return (
     <>
       <div>
-        <PrimaryBtn extraContent={<span>🔥</span>}>Sign Up</PrimaryBtn>
-        <br />
-        <SecondaryBtn extraContent={<span>🔥</span>}>Sign In</SecondaryBtn>
+        <HistoryScreen />
       </div>
     </>
   );
