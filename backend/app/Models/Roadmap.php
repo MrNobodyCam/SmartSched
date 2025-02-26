@@ -16,6 +16,7 @@ class Roadmap extends Model
         'description',
         'time',
         'date',
+        'result'
     ];
 
     public function topic()

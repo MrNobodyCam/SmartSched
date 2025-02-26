@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -12,16 +11,52 @@ use App\Models\Roadmap;
 use App\Models\Topic;
 use App\Models\Generator;
 use App\Models\User;
+use App\Models\GeneratorTopic;
+use App\Http\Resources\ScheduleResource;
 
 class ScheduleController extends Controller
 {
-    public function generateSchedule(Request $request)
+    public function store(Request $request)
     {
         $apiKey = env('GOOGLE_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={$apiKey}";
 
+        // Ensure the user exists
+        $user = User::updateOrCreate(
+            ['email' => 'example@gmail.com'],
+            [
+                'full_name' => 'John Doe',
+                'gender' => 'male',
+                'time_zone' => 'UTC',
+                'hash_password' => bcrypt('password')
+            ]
+        );
+
+        $generator = Generator::create([
+            'user_id' => $user->id,
+            'schedule_title' => $request->input('schedule_title'),
+            'free_day' => implode(", ", $request->input('free_day')),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
+        ]);
+
+        for ($i = 0; $i < count($request->input('subject')); $i++) {
+            $topic = Topic::firstOrCreate([
+                'title' => $request->input('subject')[$i],
+            ]);
+            $generatorTopic = GeneratorTopic::create([
+                'generator_id' => $generator->id,
+                'topic_id' => $topic->id,
+            ]);
+        }
+
         $currentDate = Carbon::now()->format('Y-m-d');
-        $textPrompt = $request->input('text_prompt', 'Give me a schedule for learning Laravel starting from ' . $currentDate);
+        $textPrompt = "Generate a learning schedule for " . $generator->subject_title .
+            " starting from today, " . $currentDate .
+            ". The schedule should cover the following topics: " . implode(", ", $request->input('subject')) .
+            ". It should be created for the following days: " . $generator->free_day .
+            ". The daily schedule should start at " . $generator->start_time .
+            " and end at " . $generator->end_time . ".";
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -39,92 +74,89 @@ class ScheduleController extends Controller
                     'type' => 'object',
                     'properties' => [
                         'schedule' => [
-                            'type' => 'array',
-                            'items' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'roadmap' => [
-                                        'type' => 'array',
-                                        'items' => [
-                                            'type' => 'object',
-                                            'properties' => [
-                                                'lesson' => [
-                                                    'type' => 'string'
-                                                ],
-                                                'description' => [
-                                                    'type' => 'string'
-                                                ],
-                                                'time' => [
-                                                    'type' => 'object',
-                                                    'properties' => [
-                                                        'hour' => [
-                                                            'type' => 'integer'
-                                                        ],
-                                                        'minute' => [
-                                                            'type' => 'integer'
-                                                        ]
+                            'type' => 'object',
+                            'properties' => [
+                                'roadmap' => [
+                                    'type' => 'array',
+                                    'items' => [
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'lesson' => [
+                                                'type' => 'string'
+                                            ],
+                                            'description' => [
+                                                'type' => 'string'
+                                            ],
+                                            'time' => [
+                                                'type' => 'object',
+                                                'properties' => [
+                                                    'hour' => [
+                                                        'type' => 'integer'
                                                     ],
-                                                    'required' => [
-                                                        'hour',
-                                                        'minute'
+                                                    'minute' => [
+                                                        'type' => 'integer'
                                                     ]
+                                                ],
+                                                'required' => [
+                                                    'hour',
+                                                    'minute'
                                                 ]
-                                            ],
-                                            'required' => [
-                                                'lesson',
-                                                'description',
-                                                'time'
-                                            ]
-                                        ]
-                                    ],
-                                    'start_date' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'day' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'month' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'year' => [
-                                                'type' => 'integer'
                                             ]
                                         ],
                                         'required' => [
-                                            'day',
-                                            'month',
-                                            'year'
+                                            'lesson',
+                                            'description',
+                                            'time'
                                         ]
-                                    ],
-                                    'end_date' => [
-                                        'type' => 'object',
-                                        'properties' => [
-                                            'day' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'month' => [
-                                                'type' => 'integer'
-                                            ],
-                                            'year' => [
-                                                'type' => 'integer'
-                                            ]
-                                        ],
-                                        'required' => [
-                                            'day',
-                                            'month',
-                                            'year'
-                                        ]
-                                    ],
-                                    'title' => [
-                                        'type' => 'string'
                                     ]
                                 ],
-                                'required' => [
-                                    'roadmap',
-                                    'start_date',
-                                    'end_date',
-                                    'title'
+                                'start_date' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'day' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'month' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'year' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ],
+                                    'required' => [
+                                        'day',
+                                        'month',
+                                        'year'
+                                    ]
+                                ],
+                                'end_date' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'day' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'month' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'year' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ],
+                                    'required' => [
+                                        'day',
+                                        'month',
+                                        'year'
+                                    ]
+                                ],
+                                'title' => [
+                                    'type' => 'string'
                                 ]
+                            ],
+                            'required' => [
+                                'roadmap',
+                                'start_date',
+                                'end_date',
+                                'title'
                             ]
                         ]
                     ],
@@ -145,55 +177,32 @@ class ScheduleController extends Controller
         $scheduleData = json_decode($textContent, true);
 
         if (isset($scheduleData['schedule'])) {
-            foreach ($scheduleData['schedule'] as $item) {
-                $startDate = Carbon::create($item['start_date']['year'], $item['start_date']['month'], $item['start_date']['day']);
-                $endDate = Carbon::create($item['end_date']['year'], $item['end_date']['month'], $item['end_date']['day']);
+            $scheduleData = $scheduleData['schedule'];
+            $startDate = Carbon::create($scheduleData['start_date']['year'], $scheduleData['start_date']['month'], $scheduleData['start_date']['day']);
+            $endDate = Carbon::create($scheduleData['end_date']['year'], $scheduleData['end_date']['month'], $scheduleData['end_date']['day']);
 
-                // Ensure the user exists
-                $user = User::updateOrCreate(
-                    ['email' => 'example@gmail.com'],
-                    [
-                        'full_name' => 'John Doe',
-                        'gender' => 'male',
-                        'time_zone' => 'UTC',
-                        'hash_password' => bcrypt('password')
-                    ]
-                );
+            $schedule = Schedule::create([
+                'generator_id' => $generator->id,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ]);
 
-                $generator = Generator::create([
-                    'user_id' => $user->id,
-                    'schedule_title' => $item['title'],
-                    'free_time' => '10:00',
-                    'start_time' => '08:00',
-                    'end_time' => '17:00'
+            foreach ($scheduleData['roadmap'] as $roadmapItem) {
+                Roadmap::create([
+                    'schedule_id' => $schedule->id,
+                    'topic_id' => $topic->id,
+                    'lesson' => $roadmapItem['lesson'],
+                    'description' => $roadmapItem['description'],
+                    'date' => $startDate,
+                    'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
+                    'result' => 0,
                 ]);
-
-                $schedule = Schedule::create([
-                    'generator_id' => $generator->id,
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
-                ]);
-
-                foreach ($item['roadmap'] as $roadmapItem) {
-                    $topic = Topic::firstOrCreate([
-                        'title' => $roadmapItem['lesson'],
-                    ]);
-
-                    Roadmap::create([
-                        'schedule_id' => $schedule->id,
-                        'topic_id' => $topic->id,
-                        'lesson' => $roadmapItem['lesson'],
-                        'description' => $roadmapItem['description'],
-                        'date' => $startDate,
-                        'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
-                    ]);
-                }
             }
         } else {
             return response()->json(['error' => 'Schedule data not found in the response'], 400);
         }
 
-        return response()->json($scheduleData);
+        return new ScheduleResource($schedule);
     }
 
     public function show($id)
@@ -204,27 +213,17 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'Schedule not found'], 404);
         }
 
-        $response = [
-            // 'id' => $schedule->id,
-            'title' => $schedule->generator->schedule_title,
-            'start_date' => $schedule->start_date,
-            'end_date' => $schedule->end_date,
-            'roadmap' => $schedule->roadmaps->map(function ($roadmap) {
-                return [
-                    'lesson' => $roadmap->lesson,
-                    'description' => $roadmap->description,
-                    'date' => $roadmap->date,
-                    'time' => $roadmap->time,
-                    'topic' => $roadmap->topic->title,
-                ];
-            }),
-            // 'user' => [
-            //     'id' => $schedule->generator->user->id,
-            //     'full_name' => $schedule->generator->user->full_name,
-            //     'email' => $schedule->generator->user->email,
-            // ],
-        ];
+        return new ScheduleResource($schedule);
+    }
 
-        return response()->json($response);
+    public function destroy($id)
+    {
+        $schedule = Schedule::find($id);
+        if (!$schedule) {
+            return response()->json(['error' => 'Schedule not found'], 404);
+        }
+
+        $schedule->delete();
+        return response()->json(['message' => 'Schedule deleted successfully']);
     }
 }
