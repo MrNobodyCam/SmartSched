@@ -45,7 +45,7 @@ const EmptySchedule = () => {
       </div>
 
       <div className="flex flex-col items-center justify-center max-w-lg mx-auto mt-[200px] sm:mt-[300px] px-4 text-center">
-        <div className="w-25 h-12 mb-4">
+        <div className="w-25 h-12 mb-4 flex justify-center">
           <img src={BoxIcon} alt="Empty box" className="max-w-full h-auto" />
         </div>
         <p className="text-gray-500 font-inter text-base">
