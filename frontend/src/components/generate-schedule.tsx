@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BoxIcon from "../assets/images/box 1.svg";
 import PlusIcon from "../assets/icons/Icon (2).svg";
 import { ChevronDown } from "react-feather";
+import PrimaryBtn from "./PrimaryBtn";
 
 const EmptySchedule = () => {
   const [viewType, setViewType] = useState("calendar");
@@ -17,14 +18,25 @@ const EmptySchedule = () => {
             </button>
           </div>
           <div className="flex justify-end sm:justify-end sm:ml-auto mt-4 sm:mt-0 pl-40">
-            <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm w-[150px] sm:w-[200px] h-[35px] sm:h-[45px] gap-1 sm:gap-2">
+            {/* <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm w-[150px] sm:w-[200px] h-[35px] sm:h-[45px] gap-1 sm:gap-2">
               <span className="leading-none">Generate Schedule</span>
               <img
                 src={PlusIcon}
                 alt="Generate Schedule"
                 className="w-4 h-4 sm:w-5 sm:h-5"
               />
-            </button>
+            </button> */}
+            <PrimaryBtn
+              extraContent={
+                <img
+                  src={PlusIcon}
+                  alt="Generate Schedule"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
+                />
+              }
+            >
+              Generate Schedule
+            </PrimaryBtn>
           </div>
         </div>
       </div>
