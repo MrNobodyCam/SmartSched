@@ -9,5 +9,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
-    Route::get('/quizz', [QuizController::class, 'generateQuiz']);
+    Route::post('/generatequizz', [QuizController::class, 'generateQuiz']);
+    Route::get('/quizz/{id}', [QuizController::class, 'getQuizzes']);
 });
