@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import BoxIcon from "../assets/images/box 1.svg";
 import PlusIcon from "../assets/icons/Icon (2).svg";
+import { ChevronDown } from "react-feather";
 
 const EmptySchedule = () => {
   const [viewType, setViewType] = useState("calendar");
 
   return (
-    <div className="w-full max-w-[1356px] min-h-[934px] bg-white font-inter mx-auto shadow-md relative lg:absolute lg:left-1/2 lg:top-1/2 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2">
+    <div className="w-full h-screen bg-white font-inter mx-auto shadow-md relative">
       <div className="border-b border-gray-300 p-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between max-w-6xl mx-auto space-y-4 sm:space-y-0">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0">
-            <h1 className="font-open-sans text-2xl font-medium sm:mr-4">
-              January 2022
-            </h1>
-            <button className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full font-inter border-none cursor-pointer hover:bg-blue-200 w-fit">
-              Month ▾
+        <div className="flex sm:flex-row flex-col p-4">
+          <div className="flex flex-row items-center space-x-2 sm:mb-0 mb-4 justify-center">
+            <h1 className="text-2xl font-semibold">January 2022</h1>
+            <button className="flex items-center text-blue-500 border border-blue-500 rounded px-2 py-1 text-sm">
+              Month <ChevronDown size={16} className="ml-1" />
             </button>
           </div>
-          <div className="flex sm:ml-auto sm:justify-start justify-start">
-            <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-4 py-2 text-sm w-full sm:w-[200px] h-[45px] gap-2">
+          <div className="flex justify-center sm:justify-end sm:ml-auto mt-4 sm:mt-0">
+            <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-4 py-2 text-sm w-full sm:w-[200px] h-[35px] sm:h-[45px] gap-2">
               <span className="leading-none">Generate Schedule</span>
               <img src={PlusIcon} alt="Generate Schedule" className="w-5 h-5" />
             </button>
@@ -26,7 +25,7 @@ const EmptySchedule = () => {
         </div>
       </div>
 
-      <div className="flex justify-end p-4">
+      <div className="flex justify-end p-4 sm:mr-[46px] mr-0">
         <div className="flex items-center space-x-2">
           <span className="text-sm">List View</span>
           <label className="inline-flex items-center cursor-pointer">
