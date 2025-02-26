@@ -40,7 +40,7 @@ function App() {
           className={`flex-1 overflow-auto  ${
             activeScreen === "calendar"
               ? "pt-[78px] ml-[28px]"
-              : "pt-[109px] ml-[63px]"
+              : "pt-[109px] ml-[43px]"
           }`}
         >
           {activeScreen === "calendar" && <CalendarScreen />}
