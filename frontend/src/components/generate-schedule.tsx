@@ -11,21 +11,13 @@ const EmptySchedule = () => {
     <div className="w-full h-screen flex flex-col bg-white font-inter mx-auto shadow-md">
       <div className="border-b border-gray-300 p-4">
         <div className="flex sm:flex-row flex-col p-4">
-          <div className="flex flex-row items-center space-x-2 sm:mb-0 mb-4 justify-center">
+          <div className="flex flex-row items-center space-x-2 sm:mb-0 mb-4 justify-center sm:flex-row flex-col">
             <h1 className="text-2xl font-semibold">January 2022</h1>
-            <button className="flex items-center text-blue-500 border border-blue-500 rounded px-2 py-1 text-sm">
+            <button className="flex items-center text-blue-500 border border-blue-500 rounded px-2 py-1 text-sm sm:mt-0 mt-2">
               Month <ChevronDown size={16} className="ml-1" />
             </button>
           </div>
           <div className="flex justify-end sm:justify-end sm:ml-auto mt-4 sm:mt-0 pl-40">
-            {/* <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm w-[150px] sm:w-[200px] h-[35px] sm:h-[45px] gap-1 sm:gap-2">
-              <span className="leading-none">Generate Schedule</span>
-              <img
-                src={PlusIcon}
-                alt="Generate Schedule"
-                className="w-4 h-4 sm:w-5 sm:h-5"
-              />
-            </button> */}
             <PrimaryBtn
               extraContent={
                 <img
