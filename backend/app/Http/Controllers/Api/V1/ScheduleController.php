@@ -40,15 +40,6 @@ class ScheduleController extends Controller
             'end_time' => $request->input('end_time'),
         ]);
 
-        for ($i = 0; $i < count($request->input('subject')); $i++) {
-            $topic = Topic::firstOrCreate([
-                'title' => $request->input('subject')[$i],
-            ]);
-            $generatorTopic = GeneratorTopic::create([
-                'generator_id' => $generator->id,
-                'topic_id' => $topic->id,
-            ]);
-        }
 
         $currentDate = Carbon::now()->format('Y-m-d');
         $textPrompt = "Generate a learning schedule for " . $generator->subject_title .
@@ -187,16 +178,26 @@ class ScheduleController extends Controller
                 'end_date' => $endDate,
             ]);
 
-            foreach ($scheduleData['roadmap'] as $roadmapItem) {
-                Roadmap::create([
-                    'schedule_id' => $schedule->id,
-                    'topic_id' => $topic->id,
-                    'lesson' => $roadmapItem['lesson'],
-                    'description' => $roadmapItem['description'],
-                    'date' => $startDate,
-                    'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
-                    'result' => 0,
+            for ($i = 0; $i < count($request->input('subject')); $i++) {
+                $topic = Topic::firstOrCreate([
+                    'title' => $request->input('subject')[$i],
                 ]);
+                $generatorTopic = GeneratorTopic::create([
+                    'generator_id' => $generator->id,
+                    'topic_id' => $topic->id,
+                ]);
+
+                foreach ($scheduleData['roadmap'] as $roadmapItem) {
+                    Roadmap::create([
+                        'schedule_id' => $schedule->id,
+                        'topic_id' => $topic->id,
+                        'lesson' => $roadmapItem['lesson'],
+                        'description' => $roadmapItem['description'],
+                        'date' => $startDate,
+                        'time' => Carbon::createFromTime($roadmapItem['time']['hour'], $roadmapItem['time']['minute']),
+                        'result' => 0,
+                    ]);
+                }
             }
         } else {
             return response()->json(['error' => 'Schedule data not found in the response'], 400);
