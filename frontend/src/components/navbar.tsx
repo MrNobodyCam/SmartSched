@@ -1,11 +1,21 @@
+import React, { useState } from "react";
 import notificationIcon from "../assets/icons/notification.svg";
 import profilePic from "../assets/images/profile.svg";
+// import NotificationPopup from "./NotificationPopup"; // Assuming you have a pre-built NotificationPopup component
 
 interface NavBarProps {
   toggleSidebar: () => void;
 }
 
 function NavBar({ toggleSidebar }: NavBarProps) {
+  // State to manage the visibility of the notification popup
+  const [isNotificationPopupOpen, setIsNotificationPopupOpen] = useState(false);
+
+  // Function to toggle the notification popup
+  const toggleNotificationPopup = () => {
+    setIsNotificationPopupOpen((prevState) => !prevState);
+  };
+
   return (
     <header className="fixed top-0 left-0 w-full h-16 bg-[#D5F0FF] z-50 flex items-center justify-between px-4 md:px-8">
       {/* Navbar Left Section */}
@@ -29,11 +39,9 @@ function NavBar({ toggleSidebar }: NavBarProps) {
             ></path>
           </svg>
         </button>
-
         {/* Brand Name */}
         <h1 className="text-lg font-bold text-gray-800">SmartSched</h1>
       </div>
-
       {/* Navbar Right Section */}
       <div className="flex items-center space-x-4">
         {/* Notifications */}
@@ -42,15 +50,21 @@ function NavBar({ toggleSidebar }: NavBarProps) {
             src={notificationIcon}
             alt="Notifications"
             className="w-6 h-6 cursor-pointer"
+            onClick={toggleNotificationPopup} // Toggle popup visibility
           />
           {/* Notification Badge */}
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            10+
+          <span className="absolute -top-3 -right-4 bg-red-600 text-white text-xs font-semibold rounded-full w-7 h-5 flex items-center justify-center">
+            9+
           </span>
+          {/* Notification Popup */}
+          {/* {isNotificationPopupOpen && (
+            // <div className="absolute top-10 right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            //   <NotificationPopup />
+            // </div>
+          )} */}
         </div>
-
         {/* Profile Picture */}
-        <div className="profile">
+        <div>
           <img
             src={profilePic}
             alt="Profile"
