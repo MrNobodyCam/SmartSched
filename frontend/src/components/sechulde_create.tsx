@@ -6,7 +6,6 @@ import "../index.css"; // Ensure this file imports the global styles including f
 
 const CourseScheduleViewer = () => {
   const [viewMode, setViewMode] = useState("list");
-
   const scheduleData = [
     {
       date: "15 Feb 2025",
@@ -34,7 +33,6 @@ const CourseScheduleViewer = () => {
         },
       ],
     },
-
     {
       date: "15 Feb 2025",
       events: [
@@ -68,7 +66,6 @@ const CourseScheduleViewer = () => {
         },
       ],
     },
-
     {
       date: "15 Feb 2025",
       events: [
@@ -102,11 +99,13 @@ const CourseScheduleViewer = () => {
         },
       ],
     },
-    // ... rest of scheduleData
   ];
 
   return (
-    <div className="bg-white font-sans w-full max-w-6xl mx-auto">
+    <div
+      className="bg-white font-sans w-full h-screen max-w-full mx-auto flex flex-col overflow-hidden"
+      style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
+    >
       {/* Header - Original desktop layout with mobile responsiveness */}
       <div className="flex sm:flex-row flex-col p-4 border-b">
         <div className="flex items-center space-x-2 sm:mb-0 mb-4 sm:justify-start justify-center">
@@ -148,47 +147,44 @@ const CourseScheduleViewer = () => {
       </div>
 
       {/* Schedule Content */}
-      <div
-        className="bg-[#FFFFFF] p-4 overflow-auto rounded-xl scrollbar-thin scrollbar-thumb-gray-400"
-        style={{ height: "785px" }}
-      >
-        {scheduleData.map((daySchedule, index) => (
-          <div
-            key={index}
-            className="bg-gray-100 p-4 overflow-auto rounded-xl mb-8 scrollbar-thin scrollbar-thumb-gray-400 sm:overflow-hidden my-5"
-          >
-            <h2 className="text-lg font-semibold py-2 border-b border-gray-300 mb-4">
-              {daySchedule.date}
-            </h2>
-
-            <div className="space-y-4 pt-5 pb-5">
-              {daySchedule.events.map((event, eventIndex) => (
-                <div
-                  key={eventIndex}
-                  className="bg-white rounded-lg shadow-md overflow-hidden relative hover:bg-gray-200 cursor-pointer"
-                  onClick={() => alert(`Clicked on ${event.type}`)}
-                >
-                  <div className="flex">
-                    <div
-                      className={`w-2.5 ${
-                        event.color === "red" ? "bg-red-500" : "bg-green-500"
-                      }`}
-                    ></div>
-                    <div className="p-4 w-full">
-                      <h3 className="font-semibold text-2xl">{event.type}</h3>
-                      <p className="text-gray-500 text-sm mb-2">{event.time}</p>
-                      <p className="text-gray-700">
-                        {typeof event.description === "string"
-                          ? event.description
-                          : event.description}
-                      </p>
+      <div className="bg-[#FFFFFF] p-4 flex-1 overflow-hidden rounded-xl">
+        <div className="overflow-y-auto h-full">
+          {scheduleData.map((daySchedule, index) => (
+            <div key={index} className="bg-gray-100 p-4 rounded-xl mb-8">
+              <h2 className="text-lg font-semibold py-2 border-b border-gray-300 mb-4">
+                {daySchedule.date}
+              </h2>
+              <div className="space-y-4 pt-5 pb-5">
+                {daySchedule.events.map((event, eventIndex) => (
+                  <div
+                    key={eventIndex}
+                    className="bg-white rounded-lg shadow-md overflow-hidden relative hover:bg-gray-200 cursor-pointer"
+                    onClick={() => alert(`Clicked on ${event.type}`)}
+                  >
+                    <div className="flex">
+                      <div
+                        className={`w-2.5 ${
+                          event.color === "red" ? "bg-red-500" : "bg-green-500"
+                        }`}
+                      ></div>
+                      <div className="p-4 w-full">
+                        <h3 className="font-semibold text-2xl">{event.type}</h3>
+                        <p className="text-gray-500 text-sm mb-2">
+                          {event.time}
+                        </p>
+                        <p className="text-gray-700">
+                          {typeof event.description === "string"
+                            ? event.description
+                            : event.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
