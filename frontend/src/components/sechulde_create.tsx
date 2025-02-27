@@ -114,7 +114,7 @@ const CourseScheduleViewer = () => {
             Month <ChevronDown size={16} className="ml-1" />
           </button>
         </div>
-        <div className="flex sm:ml-auto space-x-2 sm:justify-start justify-center">
+        <div className="flex sm:ml-auto space-x-2 sm:justify-start justify-center sm:ml-0 ml-[180px]">
           <button className="flex items-center justify-center bg-[#F2994A] text-white rounded-xl px-4 py-2 text-sm w-[200px] h-[45px] gap-2">
             <span className="leading-none">Procrastinate Course</span>
             <img src={PlayPauseIcon} alt="Procrastinate" className="w-5 h-5" />
