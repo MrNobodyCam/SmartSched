@@ -18,25 +18,28 @@ const MenuItem: React.FC<{
   label: string;
   isSelected: boolean;
   onClick: () => void;
-  isExpanded: boolean;
-}> = ({ icon, label, isSelected, onClick, isExpanded }) => (
+  isOpen: boolean;
+}> = ({ icon, label, isSelected, onClick, isOpen }) => (
   <li
-    className={`flex items-center p-2 mb-2 rounded-lg ${
+    className={`flex items-center p-2 mb-2 rounded-lg cursor-pointer ${
       isSelected
         ? "bg-[rgb(45,156,219)] text-white"
-        : " hover:bg-[rgb(199,100,34)]  hover:invert "
-    }`}
+        : "hover:bg-[#D26310] hover:invert "
+    } transition duration-300`}
     onClick={onClick}
   >
+    {/* Icon */}
     <img
       src={icon}
       alt={label.toLowerCase()}
       className={`w-6 h-6 ${isSelected ? "filter invert" : ""}`}
     />
-    {/* Label visibility controlled by isExpanded */}
+    {/* Label */}
     <span
-      className={`ml-2 text-sm transition-opacity duration-300 ${
-        isExpanded ? "opacity-100" : "hidden lg:opacity-0"
+      className={`ml-2 text-sm ${
+        isOpen ? "inline" : "hidden"
+      } md:group-hover:inline transition duration-300 ${
+        isSelected ? "text-white" : "hover:text-black"
       }`}
     >
       {label}
@@ -50,45 +53,41 @@ const SideBar: React.FC<SideBarProps> = ({
   toggleSidebar,
 }) => {
   const [selectedItem, setSelectedItem] = React.useState("calendar");
-  const [isExpanded, setIsExpanded] = React.useState(false); // State to track expansion
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
     onScreenChange(item);
-    toggleSidebar(); // Close the sidebar after selecting an item on small screens
+    if (isOpen) toggleSidebar(); // Close the sidebar after selecting an item
   };
 
   return (
     <div
-      className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-[#D5F0FF] transition-transform duration-300 ease-in-out z-50 ${
-        isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-      } lg:w-17 lg:hover:w-68`}
-      onMouseEnter={() => setIsExpanded(true)} // Expand on hover for large screens
-      onMouseLeave={() => setIsExpanded(false)} // Collapse on leave for large screens
+      className={`fixed left-0 top-16 h-[calc(100vh-4rem)] ${
+        isOpen ? "w-64" : "w-16"
+      } md:hover:w-64 bg-[#D5F0FF] transition-transform duration-300 overflow-hidden group z-50`}
     >
       <nav className="p-3 h-full flex flex-col justify-between">
         {/* Main Menu */}
         <div>
-          <p className="font-bold uppercase text-gray-500 text-xs mb-4 ">
-            MENU
-          </p>
+          <p className="font-bold uppercase text-gray-500 text-xs mb-4">MENU</p>
           <ul>
             <MenuItem
               icon={calendarIcon}
               label="Calendar"
               isSelected={selectedItem === "calendar"}
               onClick={() => handleItemClick("calendar")}
-              isExpanded={isExpanded || isOpen} // Show text if expanded or open
+              isOpen={isOpen}
             />
             <MenuItem
               icon={history}
               label="History Schedule"
               isSelected={selectedItem === "history"}
               onClick={() => handleItemClick("history")}
-              isExpanded={isExpanded || isOpen}
+              isOpen={isOpen}
             />
           </ul>
         </div>
+
         {/* Secondary Menu */}
         <div>
           <ul>
@@ -97,45 +96,40 @@ const SideBar: React.FC<SideBarProps> = ({
               label="Terms of Service"
               isSelected={selectedItem === "service"}
               onClick={() => handleItemClick("service")}
-              isExpanded={isExpanded || isOpen}
+              isOpen={isOpen}
             />
             <MenuItem
               icon={privacy}
               label="Privacy Policy"
               isSelected={selectedItem === "privacy"}
               onClick={() => handleItemClick("privacy")}
-              isExpanded={isExpanded || isOpen}
+              isOpen={isOpen}
             />
             <MenuItem
               icon={contact}
               label="Contact Us"
               isSelected={selectedItem === "contact"}
               onClick={() => handleItemClick("contact")}
-              isExpanded={isExpanded || isOpen}
+              isOpen={isOpen}
             />
             <MenuItem
               icon={setting}
               label="Settings"
               isSelected={selectedItem === "setting"}
               onClick={() => handleItemClick("setting")}
-              isExpanded={isExpanded || isOpen}
+              isOpen={isOpen}
             />
           </ul>
+
           {/* Logout Button */}
-          <div>
-            <li
-              className="flex items-center p-2 mt-5 rounded-lg bg-[#2D9CDB] w-full h-12 text-white cursor-pointer transition-colors"
+          <div className="bg-[rgb(45,156,219)] rounded-lg mt-4 hover:bg-[#D26310] transition duration-300 text-white">
+            <MenuItem
+              icon={logout}
+              label="Logout"
+              isSelected={selectedItem === "logout"}
               onClick={() => handleItemClick("logout")}
-            >
-              <img src={logout} alt="logout" className="w-6 h-6" />
-              <span
-                className={`ml-2 text-sm transition-opacity duration-300 ${
-                  isExpanded || isOpen ? "opacity-100" : "hidden lg:opacity-0"
-                }`}
-              >
-                Log out
-              </span>
-            </li>
+              isOpen={isOpen}
+            />
           </div>
         </div>
       </nav>
