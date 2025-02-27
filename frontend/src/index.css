@@ -2,26 +2,6 @@
 @import "tailwindcss/utilities";
 /* @import "tailwindcss/components"; */
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #2D9CDB40; /* #2D9CDB with 25% opacity */
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #2D9CDB80; /* Darker on hover for better visibility */
-}
+@tailwind utilities; */
