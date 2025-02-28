@@ -1,13 +1,9 @@
-import NotificationPopup from "./components/NotificationPopup";
-
-import HistoryScreen from "./pages/history_data";
-
-import GenerateSchedule from "./components/generate-schedule";
+import PrimaryBtn from "./components/PrimaryBtn";
 function App() {
   return (
     <>
-      <div className="flex flex-row justify-center min-h-screen space-x-4">
-        <NotificationPopup />
+      <div className="flex justify-end">
+        <PrimaryBtn>Login</PrimaryBtn>
       </div>
     </>
   );
