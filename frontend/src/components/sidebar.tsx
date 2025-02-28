@@ -8,9 +8,9 @@ import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
 
 interface SideBarProps {
-  isOpen: boolean;
+  isOpen: boolean; // Controls whether the sidebar is open or closed
   onScreenChange: (screen: string) => void;
-  toggleSidebar: () => void;
+  toggleSidebar: () => void; // Toggles the sidebar's open state
 }
 
 const MenuItem: React.FC<{
@@ -24,22 +24,24 @@ const MenuItem: React.FC<{
     className={`flex items-center p-2 mb-2 rounded-lg cursor-pointer ${
       isSelected
         ? "bg-[rgb(45,156,219)] text-white"
-        : "hover:bg-[#D26310] hover:invert "
-    } transition duration-300`}
+        : "hover:bg-[rgb(45,156,219)] hover:text-white"
+    } transition-all duration-300 ease-in-out`}
     onClick={onClick}
   >
     {/* Icon */}
     <img
       src={icon}
       alt={label.toLowerCase()}
-      className={`w-6 h-6 ${isSelected ? "filter invert" : ""}`}
+      className={`w-6 h-6 flex-shrink-0 ${isSelected ? "filter invert" : ""}`}
     />
     {/* Label */}
     <span
-      className={`ml-2 text-sm ${
-        isOpen ? "inline" : "hidden"
-      } md:group-hover:inline transition duration-300 ${
-        isSelected ? "text-white" : "hover:text-black"
+      className={`ml-2 text-sm truncate ${
+        isOpen
+          ? "inline opacity-100"
+          : "hidden md:group-hover:inline opacity-0 md:group-hover:opacity-100"
+      } transition whitespace-nowrap overflow-hidden ${
+        isSelected ? "text-white" : "text-black"
       }`}
     >
       {label}
@@ -57,14 +59,14 @@ const SideBar: React.FC<SideBarProps> = ({
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
     onScreenChange(item);
-    if (isOpen) toggleSidebar(); // Close the sidebar after selecting an item
+    if (isOpen) setTimeout(toggleSidebar, 300); // Delay closing the sidebar to match the animation duration
   };
 
   return (
     <div
       className={`fixed left-0 top-16 h-[calc(100vh-4rem)] ${
-        isOpen ? "w-64" : "w-16"
-      } md:hover:w-64 bg-[#D5F0FF] transition-transform duration-300 overflow-hidden group z-50`}
+        isOpen ? "w-64" : "w-0 md:w-16"
+      } bg-[#D5F0FF] duration-300 overflow-hidden group z-50 md:hover:w-64`}
     >
       <nav className="p-3 h-full flex flex-col justify-between">
         {/* Main Menu */}
@@ -121,16 +123,24 @@ const SideBar: React.FC<SideBarProps> = ({
             />
           </ul>
 
-          {/* Logout Button */}
-          <div className="bg-[rgb(45,156,219)] rounded-lg mt-4 hover:bg-[#D26310] transition duration-300 text-white">
-            <MenuItem
-              icon={logout}
-              label="Logout"
-              isSelected={selectedItem === "logout"}
-              onClick={() => handleItemClick("logout")}
-              isOpen={isOpen}
-            />
-          </div>
+          {/* Custom Logout Button */}
+          <button
+            className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out"
+            onClick={() => handleItemClick("logout")}
+          >
+            {/* Icon */}
+            <img src={logout} alt="logout" className="w-6 h-6 flex-shrink-0" />
+            {/* Label */}
+            <span
+              className={`pl-30 ml-2 text-sm truncate ${
+                isOpen
+                  ? "inline opacity-100"
+                  : "hidden md:group-hover:inline opacity-0 md:group-hover:opacity-100"
+              } transition duration-300 ease-in-out delay-100 whitespace-nowrap overflow-hidden`}
+            >
+              Logout
+            </span>
+          </button>
         </div>
       </nav>
     </div>

@@ -35,8 +35,8 @@ function App() {
         <main
           className={`flex-1 overflow-auto ${
             activeScreen === "calendar"
-              ? "pt-[72px] ml-[78px]"
-              : "pt-[109px] ml-[123px]"
+              ? "pt-[72px] ml-[78px] "
+              : "pt-[109px] ml-[123px] "
           }`}
         >
           {/* Dynamically Render Screens Based on Active Screen */}
