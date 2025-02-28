@@ -1,91 +1,96 @@
-import ButtonWithToast from "./components/ButtonWithToast";
 import AlertButton from "./components/AlertButton";
 import TrashIcon from "./assets/icons/trash-icon.svg";
 import CrossStatus from "./assets/icons/cross-status.svg";
 import SuccessStatus from "./assets/icons/success-status.svg";
 import WarningStatus from "./assets/icons/warning-icon.svg";
 
-import HistoryScreen from "./pages/history_data";
+// Toastify
+import { ToastContainer, toast } from "react-toastify";
 
-import GenerateSchedule from "./components/generate-schedule";
+// Import toastify css
+// import 'react-toastify/dist/ReactToastify.css';
+
+// Toast notify message
+const errorNotify = () => {
+  toast.error("Error hz very!!!");
+};
+
+const successNotify = () => {
+  toast.success("Okay anh delete hzhz!");
+};
+
+const warningNotify = () => {
+  toast.warn("Tong ti 1 anh leng hg pin ng!");
+};
+
+const infoNotify = () => {
+  toast.info("Kmean s'eii te bach read te!!!");
+};
+
 function App() {
   return (
     <>
       <div className="flex justify-center items-center h-screen space-x-2">
-        {/* Toast button */}
-        <ButtonWithToast
-          message="success"
-          children="Button with toast"
-          duratiion={3000}
-          background="#27AE60"
-          color="#ffffff"
-        />
         {/* Something wrong button */}
         <AlertButton
           children="Something Wrong"
-          onClick={() => true}
+          onClick={() => console.log("It's Work")}
           id="kikilu"
           statusImage={CrossStatus}
           title="Something wrong"
           message="We're so sorry this happened Please, check everything"
-          background="#FAF9F6"
-          color="#EB5757"
-          confirmBtnBackground="#EB5757"
-        />
-        {/* Success button */}
-        <AlertButton
-          children="Success"
-          onClick={() => true}
-          id="kikilu"
-          statusImage={SuccessStatus}
-          title="Successful state!"
-          message="You have reached your maximum prototyping speed"
-          background="#2D9CDB"
+          background="#EB5757"
           color="#FFFFFF"
-          confirmBtnBackground="#2D9CDB"
+          confirmBtnBackground="#EB5757"
+          toastNotify={errorNotify}
         />
-        {/* Delete button */}
+
         <AlertButton
           children="Delete"
-          onClick={() => true}
+          onClick={() => console.log("It's Work")}
           id="kikilu"
           statusImage={TrashIcon}
           title="Are you sure?"
           message="This action cannot be undone"
+          background="#FAF9F6"
+          color="#EB5757"
           extraContent={
             <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
+              <img src={TrashIcon} alt="Trash Icon" />
             </span>
           }
-          background="#EB5757"
-          color="#FFFFFF"
           confirmBtnBackground="#EB5757"
+          toastNotify={successNotify}
         />
-        {/* Warning button */}
+
         <AlertButton
           children="Warning"
-          onClick={() => true}
+          onClick={() => console.log("It's Work")}
           id="kikilu"
           statusImage={WarningStatus}
-          title="Oops!"
-          message="Opp jon ach chkae bat"
+          title="This is warning!"
+          message="This action cannot be undone"
           background="#F2994A"
           color="#FFFFFF"
           confirmBtnBackground="#F2994A"
+          toastNotify={warningNotify}
         />
+
+        <AlertButton
+          children="Info"
+          onClick={() => console.log("It's Work")}
+          id="kikilu"
+          statusImage={SuccessStatus}
+          title="This is infomation alert"
+          message="This action cannot be undone"
+          background="#2D9CDB"
+          color="#FFFFFF"
+          confirmBtnBackground="#2D9CDB"
+          toastNotify={infoNotify}
+        />
+
+        {/* Toast Message */}
+        <ToastContainer />
       </div>
     </>
   );

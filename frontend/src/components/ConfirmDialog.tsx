@@ -11,7 +11,9 @@ interface ConfirmDialogProps {
   message: string;
   confirmBtnColor?: string;
   confirmBtnBackground?: string;
+  toastNotify?: () => void;
 }
+
 
 function ConfirmDialog({
   open,
@@ -22,6 +24,7 @@ function ConfirmDialog({
   message,
   confirmBtnColor,
   confirmBtnBackground,
+  toastNotify
 }: ConfirmDialogProps) {
   return (
     <div
@@ -39,12 +42,16 @@ function ConfirmDialog({
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 p-1 rounded-[12px] text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
+          className="absolute top-2 right-2 p-3 rounded-full text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600 cursor-pointer"
         >
           <img src={CrossIcon} alt="cross icon" />
         </button>
         <div className="text-center">
-          <img className="mx-auto w-16 md:w-18" src={statusImage} alt="status image" />
+          <img
+            className="mx-auto w-16 md:w-18"
+            src={statusImage}
+            alt="status image"
+          />
           <div className="mx-auto my-4 w-48 space-y-1">
             <h3 className="text-lg font-black text-gray-800">{title}</h3>
             <p className="text-sm text-gray-500 mb-6 text-center">{message}</p>
@@ -65,7 +72,10 @@ function ConfirmDialog({
               children="Confirm"
               background={confirmBtnBackground}
               color={confirmBtnColor}
-              onClick={onConfirm}
+              onClick={() => {
+                onConfirm && onConfirm();
+                toastNotify && toastNotify();
+              }}
             />
           </div>
         </div>
@@ -75,3 +85,5 @@ function ConfirmDialog({
 }
 
 export default ConfirmDialog;
+
+// toast message is also here!

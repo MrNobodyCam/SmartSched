@@ -1,7 +1,6 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
 import PrimaryBtn from "./PrimaryBtn";
-import TestToast from "./TestToast";
 
 type Props = {
   id?: string;
@@ -15,6 +14,7 @@ type Props = {
   message: string;
   confirmBtnColor?: string;
   confirmBtnBackground?: string;
+  toastNotify?: () => void;
 };
 
 function AlertButton({
@@ -29,9 +29,9 @@ function AlertButton({
   message,
   confirmBtnColor = "#ffffff",
   confirmBtnBackground = "#2D9CDB",
+  toastNotify,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const toastRef = useRef<any>(null);
 
   const handleConfirm = () => {
     onClick(id);
@@ -59,13 +59,10 @@ function AlertButton({
         statusImage={statusImage}
         confirmBtnColor={confirmBtnColor}
         confirmBtnBackground={confirmBtnBackground}
+        toastNotify={toastNotify}
       />
-
-      <TestToast ref={toastRef} />
     </>
   );
 }
 
 export default AlertButton;
-
-//modify this button to handle warning and error
