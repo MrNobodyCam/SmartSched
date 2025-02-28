@@ -5,6 +5,7 @@ interface Props {
   color?: string;
   border?: string;
   extraContent?: React.ReactNode;
+  extraContent_Right?: React.ReactNode;
   onClick?: () => void;
   px?: string;
   py?: string;
@@ -15,6 +16,7 @@ const SecondaryBtn = ({
   color,
   border,
   extraContent,
+  extraContent_Right,
   onClick,
   px = "px-4 md:px-6 lg:px-8",
   py = "py-2 md:py-3 lg:py-3",
@@ -30,8 +32,9 @@ const SecondaryBtn = ({
       }
       onClick={onClick}
     >
-      {children}
       {extraContent && <span className="ml-2">{extraContent}</span>}
+      {children}
+      {extraContent_Right && <span className="ml-2">{extraContent_Right}</span>}
     </button>
   );
 };
