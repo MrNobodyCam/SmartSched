@@ -32,7 +32,7 @@ const SecondaryBtn = ({
       }
       onClick={onClick}
     >
-      {extraContent && <span className="ml-2">{extraContent}</span>}
+      {extraContent && <span className="mr-2">{extraContent}</span>}
       {children}
       {extraContent_Right && <span className="ml-2">{extraContent_Right}</span>}
     </button>
