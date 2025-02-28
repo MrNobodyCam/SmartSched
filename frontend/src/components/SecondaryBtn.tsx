@@ -6,19 +6,29 @@ interface Props {
   borderColor?: string;
   extraContent?: React.ReactNode;
   onClick?: () => void;
+  px?: string;
+  py?: string;
 }
 
-const SecondaryBtn = ({ children, color, borderColor, extraContent, onClick }: Props) => {
+const SecondaryBtn = ({
+  children,
+  color,
+  borderColor,
+  extraContent,
+  onClick,
+  px = "px-4 md:px-6 lg:px-8",
+  py = "py-2 md:py-3 lg:py-3",
+}: Props) => {
   return (
     <button
-      onClick={onClick}
-      className="flex items-center font-medium text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-3 px-4 md:px-6 lg:px-8 rounded-[12px] shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg"
+      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${px} ${py} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
       style={
         {
           color: color || "#27AE60",
           borderColor: borderColor || "#27AE60",
         } as React.CSSProperties
       }
+      onClick={onClick}
     >
       {extraContent && <span className="mr-2">{extraContent}</span>}
       <span>{children}</span>

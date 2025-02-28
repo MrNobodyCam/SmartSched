@@ -5,6 +5,9 @@ import CrossStatus from "./assets/icons/cross-status.svg";
 import SuccessStatus from "./assets/icons/success-status.svg";
 import WarningStatus from "./assets/icons/warning-icon.svg";
 
+import HistoryScreen from "./pages/history_data";
+
+import GenerateSchedule from "./components/generate-schedule";
 function App() {
   return (
     <>
