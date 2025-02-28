@@ -28,3 +28,6 @@ const PrimaryBtn = ({ children, color, background, extraContent, onClick }: Prop
 };
 
 export default PrimaryBtn;
+
+
+//add width and height props
