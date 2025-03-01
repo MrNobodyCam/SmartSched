@@ -12,7 +12,7 @@ function NavBar({ toggleSidebar }: NavBarProps) {
       <div className="flex items-center space-x-4">
         {/* Hamburger Menu Button */}
         <button
-          className="btn btn-square btn-ghost p-1 md:hidden"
+          className="btn btn-square btn-ghost p-1 md:hidden cursor-pointer"
           onClick={toggleSidebar}
         >
           <svg
