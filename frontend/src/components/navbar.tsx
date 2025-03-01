@@ -1,4 +1,5 @@
-import notificationIcon from "../assets/icons/notification.svg";
+import React from "react";
+import NotificationPopup from "./NotificationPopup"; // Import the NotificationPopup component
 import profilePic from "../assets/images/profile.svg";
 
 interface NavBarProps {
@@ -35,27 +36,22 @@ function NavBar({ toggleSidebar }: NavBarProps) {
       </div>
 
       {/* Navbar Right Section */}
-      <div className="flex items-center space-x-4">
-        {/* Notifications */}
-        <div className="relative">
-          <img
-            src={notificationIcon}
-            alt="Notifications"
-            className="w-6 h-6 cursor-pointer"
-          />
-          {/* Notification Badge */}
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            10+
-          </span>
-        </div>
+      <div className="flex items-center ">
+        {/* Notifications and Profile Container */}
+        <div className="flex items-center ">
+          {/* Notifications */}
+          <div className="relative">
+            <NotificationPopup />
+          </div>
 
-        {/* Profile Picture */}
-        <div className="profile">
-          <img
-            src={profilePic}
-            alt="Profile"
-            className="w-10 h-10 rounded-full cursor-pointer"
-          />
+          {/* Profile Picture */}
+          <div className="profile">
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="w-10 h-10 rounded-full cursor-pointer"
+            />
+          </div>
         </div>
       </div>
     </header>
