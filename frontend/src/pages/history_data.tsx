@@ -1,6 +1,7 @@
 import { useState } from "react";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
+import PrimaryBtn from "../components/PrimaryBtn";
 import duration from "../assets/icons/timelapse.svg";
 // import search from "../assets/icons/search.svg";
 
@@ -126,11 +127,16 @@ function HistoryScreen() {
                       {item.duration}
                     </p>
                   </div>
+                  {/* Button */}
                 </div>
-                {/* Button */}
-                <button className="mt-4 ml-auto block w-full sm:w-auto bg-[rgba(45,156,219,0.8)] bg-opacity-80 text-white py-2 px-4 rounded-lg shadow-md text-xs sm:text-sm lg:text-base">
+                <div className="mt-4 ml-auto flex justify-end">
+                  <PrimaryBtn py="py-1" px="px-8 md:px-6 lg:px-6">
+                    See more
+                  </PrimaryBtn>
+                </div>
+                {/* <button className="mt-4 ml-auto block w-full sm:w-auto bg-[rgba(45,156,219,0.8)] bg-opacity-80 text-white py-2 px-4 rounded-lg shadow-md text-xs sm:text-sm lg:text-base">
                   See more
-                </button>
+                </button> */}
               </div>
             ))
           ) : (
