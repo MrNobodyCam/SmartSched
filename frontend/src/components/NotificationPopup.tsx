@@ -70,6 +70,9 @@ const NotificationPopup = () => {
     },
   ];
 
+  // Calculate the total number of unread notifications
+  const notificationCount = notifications.length;
+
   const getIcon = (type: string) => {
     switch (type) {
       case "error":
@@ -87,12 +90,12 @@ const NotificationPopup = () => {
 
   // Close the popup when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: { target: any }) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         popupRef.current &&
-        !popupRef.current.contains(event.target) &&
+        !popupRef.current.contains(event.target as Node) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target)
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setOpen(false);
       }
@@ -105,27 +108,33 @@ const NotificationPopup = () => {
 
   return (
     <div
-      className="relative inline-block w-[70vh]"
+      className="relative inline-block w-[70vh] cursor-pointer pl-160 pt-1 "
       style={{ maxWidth: "100%" }}
     >
-      {/* Notification Button */}
+      {/* Notification Button with Badge */}
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="absolute right-0 p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none"
+        className="relative p-2 rounded-full cursor-pointer hover:bg-gray-200 focus:outline-none"
       >
         <img
           src={BellIcon}
           className="h-4 w-4 md:h-6 md:w-6 text-gray-700"
           alt="Notifications"
         />
+        {/* Notification Count Badge */}
+        {notificationCount > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {notificationCount > 9 ? "9+" : notificationCount}
+          </span>
+        )}
       </button>
 
       {/* Notification Popup */}
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-10 sm:mt-10 md:mt-12 sm w-full sm:max-w-[100vh] md:max-w-[100vh] lg:max-w-[100vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 h-[80vh] max-h-[80vh] overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-10 sm:mt-10 md:mt-12 w-full sm:max-w-[100vh] md:max-w-[100vh] lg:max-w-[100vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 h-[80vh] max-h-[80vh] overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">

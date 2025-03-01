@@ -58,10 +58,10 @@ function HistoryScreen() {
       {/* Container */}
       <div className="relative w-full min-h-screen p-4 sm:p-6">
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">
+        <h1 className="text-[36px] sm:text-2xl lg:text-[36px] font-bold text-black">
           History Schedule
         </h1>
-        <p className="text-lg sm:text-xl lg:text-2xl text-black mt-4">
+        <p className="text-[18px] sm:text-sm lg:text-[18px] text-black mt-4">
           Showing your all histories with a clear view
         </p>
 
