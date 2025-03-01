@@ -1,7 +1,5 @@
 import NotificationPopup from "./components/NotificationPopup";
-
 import HistoryScreen from "./pages/history_data";
-
 import GenerateSchedule from "./components/generate-schedule";
 function App() {
   return (
