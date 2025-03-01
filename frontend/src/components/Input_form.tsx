@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { X, Clock } from 'lucide-react';
-import './Components-styles/Input_form.css'; // Import the CSS file
-
+import React, { useState } from "react";
+import { X, Clock } from "lucide-react";
+import "./Components-styles/Input_form.css"; // Import the CSS file
 
 interface FormData {
   title: string;
@@ -14,26 +13,26 @@ interface FormData {
 const InputForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
-    title: '',
-    subjects: '',
+    title: "",
+    subjects: "",
     freeDays: [],
-    startTime: '',
-    endTime: '',
+    startTime: "",
+    endTime: "",
   });
 
   const weekDays: string[] = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     setIsOpen(false);
   };
 
@@ -109,40 +108,53 @@ const InputForm: React.FC = () => {
                     ))}
                   </div>
                 </div>
-               {/* Free Time Inputs */}
-<div className="form-group">
-  <label>
-    <span>Free Time</span>
-    <span className="text-red-500">*</span>
-  </label>
-  <div className="grid grid-cols-2 gap-4">
-    {/* Start Time */}
-    <div className="time-input-container">
-      <input
-        type="time"
-        value={formData.startTime}
-        onChange={(e) =>
-          setFormData({ ...formData, startTime: e.target.value })
-        }
-        required
-      />
-      <Clock className="clock-icon" size={16} style={{ color: '#000000' }} /> {/* Black color */}
-    </div>
+                {/* Free Time Inputs */}
+                <div className="form-group">
+                  <label>
+                    <span>Free Time</span>
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Start Time */}
+                    <div className="time-input-container">
+                      <input
+                        type="time"
+                        value={formData.startTime}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            startTime: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                      <Clock
+                        className="clock-icon"
+                        size={16}
+                        style={{ color: "#000000" }}
+                      />{" "}
+                      {/* Black color */}
+                    </div>
 
-    {/* End Time */}
-    <div className="time-input-container">
-      <input
-        type="time"
-        value={formData.endTime}
-        onChange={(e) =>
-          setFormData({ ...formData, endTime: e.target.value })
-        }
-        required
-      />
-      <Clock className="clock-icon" size={16} style={{ color: '#000000' }} /> {/* Black color */}
-    </div>
-  </div>
-</div>
+                    {/* End Time */}
+                    <div className="time-input-container">
+                      <input
+                        type="time"
+                        value={formData.endTime}
+                        onChange={(e) =>
+                          setFormData({ ...formData, endTime: e.target.value })
+                        }
+                        required
+                      />
+                      <Clock
+                        className="clock-icon"
+                        size={16}
+                        style={{ color: "#000000" }}
+                      />{" "}
+                      {/* Black color */}
+                    </div>
+                  </div>
+                </div>
                 <div className="action-buttons">
                   <button
                     type="button"
