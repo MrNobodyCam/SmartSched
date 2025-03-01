@@ -1,14 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import NavBar from "./components/navbar";
 import SideBar from "./components/sidebar";
-
-// Uncomment these imports when the screens are ready
-// import CalendarScreen from "./pages/calendar";
-// import HistoryScreen from "./pages/history";
-// import ServiceScreen from "./screens/ServiceScreen";
-// import PrivacyScreen from "./screens/PrivacyScreen";
-// import ContactScreen from "./screens/ContactScreen";
-// import SettingsScreen from "./screens/SettingsScreen";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -30,7 +22,7 @@ function App() {
       {/* Sidebar */}
       <SideBar
         isOpen={isSidebarOpen}
-        onScreenChange={handleScreenChange} // Pass screen change handler
+        onScreenChange={handleScreenChange}
         toggleSidebar={toggleSidebar}
       />
 
@@ -43,8 +35,8 @@ function App() {
         <main
           className={`flex-1 overflow-auto ${
             activeScreen === "calendar"
-              ? "pt-[72px] ml-[78px]"
-              : "pt-[109px] ml-[123px]"
+              ? "pt-[72px] ml-[78px] "
+              : "pt-[109px] ml-[123px] "
           }`}
         >
           {/* Dynamically Render Screens Based on Active Screen */}
