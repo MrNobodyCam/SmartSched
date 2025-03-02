@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Login from "./components/login";
+import Login from "./components/signin";
 import PrimaryBtn from "./components/PrimaryBtn";
 import Signup from "./components/signup";
 
@@ -36,10 +36,10 @@ function App() {
       </PrimaryBtn>
 
       {isLoginOpen && (
-        <Login onClose={() => setIsLoginOpen(false)} openSignup={openSignup} />
+        <Login onClose={() => setIsLoginOpen(false)} openSignUp={openSignup} />
       )}
       {isSignupOpen && (
-        <Signup onClose={() => setIsSignupOpen(false)} openLogin={openLogin} />
+        <Signup onClose={() => setIsSignupOpen(false)} openSignIn={openLogin} />
       )}
     </>
   );
