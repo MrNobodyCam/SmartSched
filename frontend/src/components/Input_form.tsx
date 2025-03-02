@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { X, Clock } from 'lucide-react';
-import './Components-styles/Input_form.css'; // Import the CSS file
-
+import React, { useState } from "react";
+import { X } from "lucide-react";
+import TimePicker from "./TimePicker";
 
 interface FormData {
   title: string;
@@ -14,26 +13,27 @@ interface FormData {
 const InputForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
-    title: '',
-    subjects: '',
+    title: "",
+    subjects: "",
     freeDays: [],
-    startTime: '',
-    endTime: '',
+    startTime: "",
+    endTime: "",
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   const weekDays: string[] = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     setIsOpen(false);
   };
 
@@ -48,21 +48,27 @@ const InputForm: React.FC = () => {
 
   return (
     <div className="relative">
-      {/* Removed the dark mode toggle button */}
-      <button onClick={() => setIsOpen(true)} className="button">
+      <button
+        onClick={() => setIsOpen(true)}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-600 text-[18px]"
+      >
         Generate Schedule
       </button>
       {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="form-container">
-              <div className="form-header">
-                <span className="text-2xl">👋</span>
-                <h2>Input your data to generate a smart schedule</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl mx-4">
+            <div className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <h2
+                  className="text-2xl font-bold text-black"
+                  style={{ fontSize: "20px" }}
+                >
+                  Input your data to generate a smart schedule
+                </h2>
               </div>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="form-group">
-                  <label>
+                <div className="mb-4">
+                  <label className="block font-medium mb-2 text-black text-[18px]">
                     <span>Title</span>
                     <span className="text-red-500">*</span>
                   </label>
@@ -74,10 +80,11 @@ const InputForm: React.FC = () => {
                       setFormData({ ...formData, title: e.target.value })
                     }
                     required
+                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
                   />
                 </div>
-                <div className="form-group">
-                  <label>
+                <div className="mb-4">
+                  <label className="block font-medium mb-2 text-black text-[18px]">
                     <span>Subjects</span>
                     <span className="text-red-500">*</span>
                   </label>
@@ -89,70 +96,106 @@ const InputForm: React.FC = () => {
                       setFormData({ ...formData, subjects: e.target.value })
                     }
                     required
+                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
                   />
                 </div>
-                <div className="form-group">
-                  <label>
+                <div className="mb-4">
+                  <label className="block font-medium mb-2 text-black text-[18px]">
                     <span>Free Days</span>
                     <span className="text-red-500">*</span>
                   </label>
-                  <div className="checkbox-grid">
-                    {weekDays.map((day) => (
-                      <label key={day}>
-                        <input
-                          type="checkbox"
-                          checked={formData.freeDays.includes(day)}
-                          onChange={() => handleDayToggle(day)}
-                        />
-                        <span>{day}</span>
-                      </label>
-                    ))}
+
+                  {/* Desktop View: Checkbox Grid */}
+                  <div className="hidden md:block">
+                    <div className="grid grid-cols-4 gap-2">
+                      {weekDays.map((day) => (
+                        <label
+                          key={day}
+                          className="flex items-center gap-2 text-black text-[14px]"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={formData.freeDays.includes(day)}
+                            onChange={() => handleDayToggle(day)}
+                            className="w-4 h-4 rounded border-black bg-white"
+                          />
+                          <span>{day}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Mobile View: Custom Dropdown */}
+                  <div className="block md:hidden">
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                      >
+                        {formData.freeDays.length > 0
+                          ? formData.freeDays.join(", ")
+                          : "Select Free Days"}
+                      </button>
+                      {isDropdownOpen && (
+                        <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                          {weekDays.map((day) => (
+                            <label
+                              key={day}
+                              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-black text-[14px]"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={formData.freeDays.includes(day)}
+                                onChange={() => handleDayToggle(day)}
+                                className="w-4 h-4 rounded border-black bg-white"
+                              />
+                              <span>{day}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-               {/* Free Time Inputs */}
-<div className="form-group">
-  <label>
-    <span>Free Time</span>
-    <span className="text-red-500">*</span>
-  </label>
-  <div className="grid grid-cols-2 gap-4">
-    {/* Start Time */}
-    <div className="time-input-container">
-      <input
-        type="time"
-        value={formData.startTime}
-        onChange={(e) =>
-          setFormData({ ...formData, startTime: e.target.value })
-        }
-        required
-      />
-      <Clock className="clock-icon" size={16} style={{ color: '#000000' }} /> {/* Black color */}
-    </div>
 
-    {/* End Time */}
-    <div className="time-input-container">
-      <input
-        type="time"
-        value={formData.endTime}
-        onChange={(e) =>
-          setFormData({ ...formData, endTime: e.target.value })
-        }
-        required
-      />
-      <Clock className="clock-icon" size={16} style={{ color: '#000000' }} /> {/* Black color */}
-    </div>
-  </div>
-</div>
-                <div className="action-buttons">
+                <div className="mb-4">
+                  <label className="block font-medium mb-2 text-black text-[18px]">
+                    <span>Free Time</span>
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <TimePicker
+                      value={formData.startTime}
+                      onChange={(time) =>
+                        setFormData({ ...formData, startTime: time })
+                      }
+                      className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black"
+                      isStartTime={true}
+                    />
+                    <TimePicker
+                      value={formData.endTime}
+                      onChange={(time) =>
+                        setFormData({ ...formData, endTime: time })
+                      }
+                      className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black"
+                      isStartTime={false}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-4 mt-6">
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="cancel-button"
+                    className="flex items-center gap-1 px-4 py-2 text-[#A5A5A5] transition-colors duration-300 ease-in-out bg-[#FDFDFD] border border-[#A5A5A5] rounded-xl hover:text-black"
                   >
                     <X size={16} />
                     Cancel
                   </button>
-                  <button type="submit" className="generate-button">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-blue-500 text-white rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-600"
+                  >
                     Generate
                   </button>
                 </div>
