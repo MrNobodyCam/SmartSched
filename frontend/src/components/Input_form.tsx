@@ -194,7 +194,7 @@ const InputForm: React.FC = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-blue-500 text-white rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-600"
+                    className="px-6 py-2 bg-[#2D9CDB] text-white rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-600 rounded-xl"
                   >
                     Generate
                   </button>
