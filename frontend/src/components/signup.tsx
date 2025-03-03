@@ -3,6 +3,7 @@ import "./Components-styles/login_signup_animation.css";
 import Google from "../assets/icons/Google.svg";
 import Facebook from "../assets/icons/Facebook.svg";
 import PrimaryBtn from "./PrimaryBtn";
+import { X } from "react-feather";
 
 const Card: React.FC<{
   icon?: string;
@@ -42,12 +43,18 @@ const Login = ({
   return (
     <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      // onClick={onClose}
     >
       <div
-        className="flex bg-white h-[80%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
-        onClick={(e) => e.stopPropagation()}
+        className="relative flex bg-white h-[80%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
+        // onClick={(e) => e.stopPropagation()}
       >
+        <X
+          className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-black lg:text-black"
+          size={28}
+          strokeWidth={3}
+          onClick={onClose}
+        />
         <div className="slideInFromLeft z-10 w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-r-[130px]">
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-white text-center">
             Welcome Back!

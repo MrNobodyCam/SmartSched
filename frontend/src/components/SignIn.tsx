@@ -2,6 +2,7 @@ import SecondaryBtn from "./SecondaryBtn";
 import Google from "../assets/icons/Google.svg";
 import Facebook from "../assets/icons/Facebook.svg";
 import PrimaryBtn from "./PrimaryBtn";
+import { X } from "react-feather";
 
 const Card: React.FC<{
   icon?: string;
@@ -40,12 +41,18 @@ const Signup = ({
   return (
     <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      // onClick={onClose}
     >
       <div
-        className="flex bg-white h-[80%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
-        onClick={(e) => e.stopPropagation()}
+        className="relative flex bg-white h-[80%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
+        // onClick={(e) => e.stopPropagation()}
       >
+        <X
+          className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-white lg:text-white"
+          size={28}
+          strokeWidth={3}
+          onClick={onClose}
+        />
         <div className="slideInFromLeft w-[100%] md:w-[55%] lg:w-[55%] flex flex-col justify-center items-center">
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-center">
             Access Your Account
