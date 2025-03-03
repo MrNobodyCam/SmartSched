@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Login from "./components/signin";
+import Login from "./components/SignIn";
 import PrimaryBtn from "./components/PrimaryBtn";
-import Signup from "./components/signup";
+import Signup from "./components/Signup";
 
 function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
