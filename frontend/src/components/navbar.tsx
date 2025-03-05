@@ -1,5 +1,5 @@
 import React from "react";
-import NotificationPopup from "./NotificationPopup"; // Import the NotificationPopup component
+import NotificationPopup from "./NotificationPopup";
 import profilePic from "../assets/images/profile.svg";
 
 interface NavBarProps {
@@ -36,22 +36,19 @@ function NavBar({ toggleSidebar }: NavBarProps) {
       </div>
 
       {/* Navbar Right Section */}
-      <div className="flex items-center ">
-        {/* Notifications and Profile Container */}
-        <div className="flex items-center ">
-          {/* Notifications */}
-          <div className="relative">
-            <NotificationPopup />
-          </div>
+      <div className="flex items-center space-x-4">
+        {/* Notifications */}
+        <div className="relative">
+          <NotificationPopup />
+        </div>
 
-          {/* Profile Picture */}
-          <div className="profile">
-            <img
-              src={profilePic}
-              alt="Profile"
-              className="w-10 h-10 rounded-full cursor-pointer"
-            />
-          </div>
+        {/* Profile Picture */}
+        <div className="profile">
+          <img
+            src={profilePic}
+            alt="Profile"
+            className="w-10 h-10 rounded-full cursor-pointer"
+          />
         </div>
       </div>
     </header>
