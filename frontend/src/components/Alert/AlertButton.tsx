@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
-import PrimaryBtn from "./PrimaryBtn";
+import PrimaryBtn from "../PrimaryBtn";
 
 type Props = {
   id?: string;

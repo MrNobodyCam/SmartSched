@@ -1,6 +1,6 @@
-import PrimaryBtn from "./PrimaryBtn";
-import CrossIcon from "../assets/icons/cross-icon.svg";
-import SecondaryBtn from "./SecondaryBtn";
+import PrimaryBtn from "../PrimaryBtn";
+import CrossIcon from "../../assets/icons/cross-icon.svg";
+import SecondaryBtn from "../SecondaryBtn";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -14,7 +14,6 @@ interface ConfirmDialogProps {
   toastNotify?: () => void;
 }
 
-
 function ConfirmDialog({
   open,
   onClose,
@@ -24,7 +23,7 @@ function ConfirmDialog({
   message,
   confirmBtnColor,
   confirmBtnBackground,
-  toastNotify
+  toastNotify,
 }: ConfirmDialogProps) {
   return (
     <div
@@ -52,7 +51,7 @@ function ConfirmDialog({
             src={statusImage}
             alt="status image"
           />
-          <div className="mx-auto my-4 w-48 space-y-1">
+          <div className="mx-auto my-4 w-50 space-y-1">
             <h3 className="text-lg font-black text-gray-800">{title}</h3>
             <p className="text-sm text-gray-500 mb-6 text-center">{message}</p>
           </div>

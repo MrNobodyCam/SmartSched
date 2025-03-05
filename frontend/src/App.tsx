@@ -1,8 +1,9 @@
-import AlertButton from "./components/AlertButton";
+import AlertButton from "./components/Alert/AlertButton";
 import TrashIcon from "./assets/icons/trash-icon.svg";
 import CrossStatus from "./assets/icons/cross-status.svg";
 import SuccessStatus from "./assets/icons/success-status.svg";
 import WarningStatus from "./assets/icons/warning-icon.svg";
+import "./components/Components-styles/font.css";
 
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
@@ -35,7 +36,6 @@ function App() {
         <AlertButton
           children="Something Wrong"
           onClick={() => console.log("It's Work")}
-          id="kikilu"
           statusImage={CrossStatus}
           title="Something wrong"
           message="We're so sorry this happened Please, check everything"
@@ -48,7 +48,6 @@ function App() {
         <AlertButton
           children="Delete"
           onClick={() => console.log("It's Work")}
-          id="kikilu"
           statusImage={TrashIcon}
           title="Are you sure?"
           message="This action cannot be undone"
@@ -66,7 +65,6 @@ function App() {
         <AlertButton
           children="Warning"
           onClick={() => console.log("It's Work")}
-          id="kikilu"
           statusImage={WarningStatus}
           title="This is warning!"
           message="This action cannot be undone"
@@ -79,7 +77,6 @@ function App() {
         <AlertButton
           children="Info"
           onClick={() => console.log("It's Work")}
-          id="kikilu"
           statusImage={SuccessStatus}
           title="This is infomation alert"
           message="This action cannot be undone"
