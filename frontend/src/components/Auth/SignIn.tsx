@@ -1,8 +1,7 @@
-import SecondaryBtn from "./SecondaryBtn";
-import "./Components-styles/login_signup_animation.css";
+import SecondaryBtn from "../SecondaryBtn";
 import Google from "../assets/icons/Google.svg";
 import Facebook from "../assets/icons/Facebook.svg";
-import PrimaryBtn from "./PrimaryBtn";
+import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 
 const Card: React.FC<{
@@ -32,13 +31,12 @@ const Card: React.FC<{
     {label}
   </div>
 );
-
-const Login = ({
+const Signup = ({
   onClose,
-  openSignIn,
+  openSignUp,
 }: {
   onClose: () => void;
-  openSignIn: () => void;
+  openSignUp: () => void;
 }) => {
   return (
     <div
@@ -50,34 +48,14 @@ const Login = ({
         // onClick={(e) => e.stopPropagation()}
       >
         <X
-          className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-black lg:text-black"
+          className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-white lg:text-white"
           size={28}
           strokeWidth={3}
           onClick={onClose}
         />
-        <div className="slideInFromLeft z-10 w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-r-[130px]">
-          <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-white text-center">
-            Welcome Back!
-          </h1>
-          <p className="text-sm md:text-base lg:text-lg text-white w-[70%] mt-3 mb-5">
-            To keep connected with us, please log in with your personal info.
-          </p>
-          <SecondaryBtn
-            border="white"
-            color="white"
-            px="px-15 md:px-15"
-            py="py-1"
-            onClick={() => {
-              onClose();
-              openSignIn();
-            }}
-          >
-            SIGN IN
-          </SecondaryBtn>
-        </div>
-        <div className="slideInFromRight w-[100%] md:w-[55%] lg:w-[55%] flex flex-col justify-center items-center">
-          <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold">
-            Create Account
+        <div className="slideInFromLeft w-[100%] md:w-[55%] lg:w-[55%] flex flex-col justify-center items-center">
+          <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-center">
+            Access Your Account
           </h1>
           <div className="flex my-[20px]">
             <Card
@@ -98,18 +76,12 @@ const Login = ({
             />
           </div>
           <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5]">
-            or use your email for registration
+            or use your email password
           </p>
           <form
             action="#"
-            className="w-[75%] md:w-[55%] flex flex-col items-center"
+            className="w-[75%] my-[20px] md:w-[55%] flex flex-col items-center"
           >
-            <input
-              type="text"
-              placeholder="Full Name"
-              name="name"
-              className="text-[14px] my-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
-            />
             <input
               type="email"
               placeholder="Email"
@@ -122,20 +94,74 @@ const Login = ({
               name="password"
               className="text-[14px] my-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
             />
-            <input
-              type="password"
-              name="cf_password"
-              placeholder="Confirm Password"
-              className="text-[14px] mb-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
-            />
             <PrimaryBtn px="px-[30%]" py="py-1">
               SIGN UP
             </PrimaryBtn>
           </form>
+        </div>
+        <div className="slideInFromRight w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-l-[130px]">
+          <h1 className="text-[36px] md:text-[30px] sm:text-[28px] font-bold text-white">
+            Hello Friend!
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-white w-[70%] mt-3 mb-5">
+            Register with your personal detail to use all of site features
+          </p>
+          <SecondaryBtn
+            borderColor="white"
+            color="white"
+            px="px-15 md:px-15"
+            py="py-1"
+            onClick={() => {
+              onClose();
+              openSignUp();
+            }}
+          >
+            SIGN UP
+          </SecondaryBtn>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
+
+// const [isLoginOpen, setIsLoginOpen] = useState(false);
+//   const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+//   const openSignup = () => {
+//     setIsLoginOpen(false);
+//     setIsSignupOpen(true);
+//   };
+
+//   const openLogin = () => {
+//     setIsSignupOpen(false);
+//     setIsLoginOpen(true);
+//   };
+
+//   return (
+//     <>
+//       <PrimaryBtn
+//         px="px-10 md:px-12 lg:px-4"
+//         py="py-1"
+//         onClick={() => setIsLoginOpen(true)}
+//       >
+//         Login
+//       </PrimaryBtn>
+//       <br />
+//       <PrimaryBtn
+//         px="px-10 md:px-12 lg:px-4"
+//         py="py-1"
+//         onClick={() => setIsSignupOpen(true)}
+//       >
+//         Sign Up
+//       </PrimaryBtn>
+
+//       {isLoginOpen && (
+//         <Login onClose={() => setIsLoginOpen(false)} openSignUp={openSignup} />
+//       )}
+//       {isSignupOpen && (
+//         <Signup onClose={() => setIsSignupOpen(false)} openSignIn={openLogin} />
+//       )}
+//     </>
+//   );
