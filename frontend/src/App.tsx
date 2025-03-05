@@ -3,6 +3,7 @@ import NavBar from "./components/navbar";
 import SideBar from "./components/sidebar";
 import HistoryScreen from "./pages/history_data";
 import CalendarScreen from "./components/generate-schedule";
+import TermOfService from "./pages/termof_service";
 
 // Uncomment these imports when the screens are ready
 // import CalendarScreen from "./pages/calendar";
@@ -52,7 +53,7 @@ function App() {
           {/* Dynamically Render Screens Based on Active Screen */}
           {activeScreen === "calendar" && <CalendarScreen />}
           {activeScreen === "history" && <HistoryScreen />}
-          {activeScreen === "service" && <h1>Service Screen</h1>}
+          {activeScreen === "service" && <TermOfService />}
           {activeScreen === "privacy" && <h1>Privacy Screen</h1>}
           {activeScreen === "contact" && <h1>Contact Screen</h1>}
           {activeScreen === "setting" && <h1>Settings Screen</h1>}

@@ -1,0 +1,69 @@
+function TermOfService() {
+  return (
+    <>
+      {/* Container */}
+      <div className="relative w-full min-h-screen p-4 sm:p-6">
+        {/* Title */}
+        <h1 className="text-[36px] sm:text-2xl lg:text-[36px] font-bold text-black">
+          Terms of Service
+        </h1>
+        <p className="text-[18px] sm:text-sm lg:text-[18px] text-black mt-4">
+          Please read these terms and conditions carefully before using our
+          calendar application.
+        </p>
+
+        {/* Terms Content */}
+        <div className="mt-6 space-y-4">
+          {/* Acceptance of Terms Section */}
+          <div className="rounded-lg shadow-lg  p-3 sm:p-4">
+            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+              Acceptance of Terms
+            </h2>
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+              By accessing or using this calendar application, you acknowledge
+              and agree to the terms and conditions set forth by the provider.
+              These terms include the proper use of scheduling features, data
+              privacy policies, and any updates made to improve functionality.
+              Continued use of the calendar signifies your acceptance of these
+              terms.
+            </p>
+          </div>
+
+          {/* Description of Services Section */}
+          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+              Description of Services
+            </h2>
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+              Our calendar application provides users with an intuitive platform
+              to schedule, manage, and track events efficiently. With features
+              such as event reminders, recurring event scheduling, and
+              synchronization across devices, users can stay organized
+              effortlessly. The service also includes customizable notifications
+              and sharing options, allowing seamless collaboration for personal
+              and professional planning.
+            </p>
+          </div>
+
+          {/* User Conduct Section */}
+          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+              User Conduct
+            </h2>
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+              Users are expected to use the calendar application responsibly and
+              ethically. Any misuse, including but not limited to spamming
+              events, sharing false information, or unauthorized access to
+              others' schedules, is strictly prohibited. Users must respect
+              privacy settings and refrain from any activities that may disrupt
+              the functionality of the service. Violation of these guidelines
+              may result in account suspension or termination.
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default TermOfService;

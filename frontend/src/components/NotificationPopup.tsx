@@ -15,7 +15,7 @@ const NotificationPopup = () => {
     {
       id: 1,
       type: "error",
-      title: "This is error message",
+      title: "This is an error message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
@@ -23,7 +23,7 @@ const NotificationPopup = () => {
     {
       id: 2,
       type: "error",
-      title: "This is error message",
+      title: "This is an error message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
@@ -31,7 +31,7 @@ const NotificationPopup = () => {
     {
       id: 3,
       type: "info",
-      title: "This is error message",
+      title: "This is an info message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
@@ -39,7 +39,7 @@ const NotificationPopup = () => {
     {
       id: 4,
       type: "success",
-      title: "This is error message",
+      title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
@@ -47,23 +47,7 @@ const NotificationPopup = () => {
     {
       id: 5,
       type: "success",
-      title: "This is error message",
-      message:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-      timestamp: "12 Feb 2025 at 9:25 pm",
-    },
-    {
-      id: 6,
-      type: "info",
-      title: "This is error message",
-      message:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-      timestamp: "12 Feb 2025 at 9:25 pm",
-    },
-    {
-      id: 7,
-      type: "error",
-      title: "This is error message",
+      title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
@@ -107,19 +91,16 @@ const NotificationPopup = () => {
   }, []);
 
   return (
-    <div
-      className="relative inline-block w-[70vh] cursor-pointer pl-160 pt-1 "
-      style={{ maxWidth: "100%" }}
-    >
+    <div className="relative">
       {/* Notification Button with Badge */}
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-full cursor-pointer hover:bg-gray-200 focus:outline-none"
+        className="relative p-2 rounded-full hover:bg-gray-200 focus:outline-none"
       >
         <img
           src={BellIcon}
-          className="h-4 w-4 md:h-6 md:w-6 text-gray-700"
+          className="h-6 w-6 text-gray-700"
           alt="Notifications"
         />
         {/* Notification Count Badge */}
@@ -134,7 +115,7 @@ const NotificationPopup = () => {
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-10 sm:mt-10 md:mt-12 w-full sm:max-w-[100vh] md:max-w-[100vh] lg:max-w-[100vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 h-[80vh] max-h-[80vh] overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-2 w-[90vw] sm:w-[70vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">
