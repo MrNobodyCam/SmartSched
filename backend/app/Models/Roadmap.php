@@ -14,7 +14,8 @@ class Roadmap extends Model
         'topic_id',
         'lesson',
         'description',
-        'time',
+        'start_time',
+        'end_time',
         'date',
         'result'
     ];

@@ -24,7 +24,8 @@ class ScheduleResource extends JsonResource
                     'lesson' => $roadmap->lesson,
                     'description' => $roadmap->description,
                     'date' => $roadmap->date,
-                    'time' => $roadmap->time,
+                    'start_time' => $roadmap->start_time,
+                    'end_time' => $roadmap->end_time,
                     'topic' => $roadmap->topic->title,
                 ];
             }),

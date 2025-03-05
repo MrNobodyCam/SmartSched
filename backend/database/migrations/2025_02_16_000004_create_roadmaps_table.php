@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->string('lesson');
             $table->text('description');
-            $table->time('time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->date('date');
             $table->integer('result');
             $table->timestamps();
