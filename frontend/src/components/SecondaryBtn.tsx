@@ -3,7 +3,7 @@ import React from "react";
 interface Props {
   children?: string;
   color?: string;
-  border?: string;
+  borderColor?: string;
   extraContent?: React.ReactNode;
   extraContent_Right?: React.ReactNode;
   onClick?: () => void;
@@ -14,7 +14,7 @@ interface Props {
 const SecondaryBtn = ({
   children,
   color,
-  border,
+  borderColor,
   extraContent,
   extraContent_Right,
   onClick,
@@ -27,7 +27,7 @@ const SecondaryBtn = ({
       style={
         {
           color: color || "#27AE60",
-          borderColor: border || "#27AE60",
+          borderColor: borderColor || "#27AE60",
         } as React.CSSProperties
       }
       onClick={onClick}
