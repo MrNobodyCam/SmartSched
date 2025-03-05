@@ -1,12 +1,10 @@
-import Input_form from "./components/Input_form";
-import "./App.css";
-
+import HistoryInformation from "./components/history_information";
 
 function App() {
 
 
   return (
-   <Input_form/>
+   <HistoryInformation/>
   );
 }
 

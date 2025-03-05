@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import PlayStopIcon from "../assets/icons/play-stop-o.svg";
 import PlayPauseIcon from "../assets/icons/play-pause-o.svg";
-import "../index.css"; // Ensure this file imports the global styles including fonts
+// import "../index.css"; // Ensure this file imports the global styles including fonts
 
 const CourseScheduleViewer = () => {
   const [viewMode, setViewMode] = useState("list");
@@ -150,7 +150,7 @@ const CourseScheduleViewer = () => {
       <div className="bg-[#FFFFFF] p-4 flex-1 overflow-hidden rounded-xl">
         <div className="overflow-y-auto h-full">
           {scheduleData.map((daySchedule, index) => (
-            <div key={index} className="bg-gray-100 p-4 rounded-xl mb-8">
+            <div key={index} className=" p-4 rounded-xl mb-8">
               <h2 className="text-lg font-semibold py-2 border-b border-gray-300 mb-4">
                 {daySchedule.date}
               </h2>
