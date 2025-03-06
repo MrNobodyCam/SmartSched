@@ -3,27 +3,39 @@ import Login from "./components/Auth/SignIn";
 import PrimaryBtn from "./components/PrimaryBtn";
 import Signup from "./components/Auth/Signup";
 import VerifyEmail from "./components/Auth/Verify_email";
+import ForgotPassword from "./components/Auth/Forgot_password";
+import ResetPassword from "./components/Auth/Reset_password";
 
 function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isVerifyOpen, setIsVerifyOpen] = useState(false);
-
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
+  const [fromResetPassword, setFromResetPassword] = useState(false);
   const openSignup = () => {
     setIsLoginOpen(false);
     setIsSignupOpen(true);
-    setIsVerifyOpen(false);
+    setFromResetPassword(false);
   };
 
   const openLogin = () => {
     setIsSignupOpen(false);
     setIsLoginOpen(true);
-    setIsVerifyOpen(false);
   };
   const openVerifyEmail = () => {
     setIsSignupOpen(false);
-    setIsLoginOpen(false);
     setIsVerifyOpen(true);
+  };
+
+  const openForgotPassword = () => {
+    setIsForgotPasswordOpen(true);
+    setIsLoginOpen(false);
+    setFromResetPassword(true);
+  };
+  const openResetPasswordOpen = () => {
+    setIsVerifyOpen(false);
+    setIsResetPasswordOpen(true);
   };
   return (
     <>
@@ -44,7 +56,11 @@ function App() {
       </PrimaryBtn>
 
       {isLoginOpen && (
-        <Login onClose={() => setIsLoginOpen(false)} openSignUp={openSignup} />
+        <Login
+          onClose={() => setIsLoginOpen(false)}
+          openSignUp={openSignup}
+          openForgotPassword={openForgotPassword}
+        />
       )}
       {isSignupOpen && (
         <Signup
@@ -53,7 +69,26 @@ function App() {
           openVerifyEmail={openVerifyEmail}
         />
       )}
-      {isVerifyOpen && <VerifyEmail onClose={() => setIsVerifyOpen(false)} />}
+      {isVerifyOpen && (
+        <VerifyEmail
+          onClose={() => setIsVerifyOpen(false)}
+          openResetPasswordOpen={openResetPasswordOpen}
+          openSignIn={openLogin}
+          fromResetPassword={fromResetPassword}
+        />
+      )}
+      {isForgotPasswordOpen && (
+        <ForgotPassword
+          onClose={() => setIsForgotPasswordOpen(false)}
+          openVerifyEmail={openVerifyEmail}
+        />
+      )}
+      {isResetPasswordOpen && (
+        <ResetPassword
+          onClose={() => setIsResetPasswordOpen(false)}
+          openSignIn={openLogin}
+        />
+      )}
     </>
   );
 }
