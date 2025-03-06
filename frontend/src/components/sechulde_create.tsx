@@ -4,6 +4,35 @@ import PlayStopIcon from "../assets/icons/play-stop-o.svg";
 import PlayPauseIcon from "../assets/icons/play-pause-o.svg";
 import "../index.css"; // Ensure this file imports the global styles including fonts
 
+// Add custom scrollbar styles in your global CSS or Tailwind config
+const scrollbarStyles = `
+  /* Custom Scrollbar Styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #2D9CDB40; /* Blue color */
+    border-radius: 5px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #2D9CDB40; /* Darker blue on hover */
+  }
+`;
+
+// Inject the custom scrollbar styles into the document
+if (typeof window !== "undefined") {
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = scrollbarStyles;
+  document.head.appendChild(styleSheet);
+}
+
 const CourseScheduleViewer = () => {
   const [viewMode, setViewMode] = useState("list");
   const scheduleData = [
@@ -148,7 +177,7 @@ const CourseScheduleViewer = () => {
 
       {/* Schedule Content */}
       <div className="bg-[#FFFFFF] p-4 flex-1 overflow-hidden rounded-xl">
-        <div className="overflow-y-auto h-full">
+        <div className="overflow-y-auto h-full custom-scrollbar">
           {scheduleData.map((daySchedule, index) => (
             <div key={index} className="bg-gray-100 p-4 rounded-xl mb-8">
               <h2 className="text-lg font-semibold py-2 border-b border-gray-300 mb-4">
