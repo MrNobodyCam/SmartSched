@@ -1,7 +1,7 @@
-import SecondaryBtn from "./SecondaryBtn";
-import Google from "../assets/icons/Google.svg";
-import Facebook from "../assets/icons/Facebook.svg";
-import PrimaryBtn from "./PrimaryBtn";
+import SecondaryBtn from "../SecondaryBtn";
+import Google from "../../assets/icons/Google.svg";
+import Facebook from "../../assets/icons/Facebook.svg";
+import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 
 const Card: React.FC<{

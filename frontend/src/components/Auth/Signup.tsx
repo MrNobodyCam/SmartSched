@@ -1,8 +1,8 @@
-import SecondaryBtn from "./SecondaryBtn";
-import "./Components-styles/login_signup_animation.css";
-import Google from "../assets/icons/Google.svg";
-import Facebook from "../assets/icons/Facebook.svg";
-import PrimaryBtn from "./PrimaryBtn";
+import SecondaryBtn from "../SecondaryBtn";
+import "../Components-styles/login_signup_animation.css";
+import Google from "../../assets/icons/Google.svg";
+import Facebook from "../../assets/icons/Facebook.svg";
+import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 
 const Card: React.FC<{
@@ -36,9 +36,11 @@ const Card: React.FC<{
 const Login = ({
   onClose,
   openSignIn,
+  openVerifyEmail,
 }: {
   onClose: () => void;
   openSignIn: () => void;
+  openVerifyEmail: () => void;
 }) => {
   return (
     <div
@@ -128,7 +130,14 @@ const Login = ({
               placeholder="Confirm Password"
               className="text-[14px] mb-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
             />
-            <PrimaryBtn px="px-[30%]" py="py-1">
+            <PrimaryBtn
+              px="px-[30%]"
+              py="py-1"
+              onClick={() => {
+                onClose();
+                openVerifyEmail();
+              }}
+            >
               SIGN UP
             </PrimaryBtn>
           </form>

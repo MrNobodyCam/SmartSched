@@ -1,22 +1,30 @@
 import { useState } from "react";
-import Login from "./components/SignIn";
+import Login from "./components/Auth/SignIn";
 import PrimaryBtn from "./components/PrimaryBtn";
-import Signup from "./components/Signup";
+import Signup from "./components/Auth/Signup";
+import VerifyEmail from "./components/Auth/Verify_email";
 
 function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isVerifyOpen, setIsVerifyOpen] = useState(false);
 
   const openSignup = () => {
     setIsLoginOpen(false);
     setIsSignupOpen(true);
+    setIsVerifyOpen(false);
   };
 
   const openLogin = () => {
     setIsSignupOpen(false);
     setIsLoginOpen(true);
+    setIsVerifyOpen(false);
   };
-
+  const openVerifyEmail = () => {
+    setIsSignupOpen(false);
+    setIsLoginOpen(false);
+    setIsVerifyOpen(true);
+  };
   return (
     <>
       <PrimaryBtn
@@ -39,8 +47,13 @@ function App() {
         <Login onClose={() => setIsLoginOpen(false)} openSignUp={openSignup} />
       )}
       {isSignupOpen && (
-        <Signup onClose={() => setIsSignupOpen(false)} openSignIn={openLogin} />
+        <Signup
+          onClose={() => setIsSignupOpen(false)}
+          openSignIn={openLogin}
+          openVerifyEmail={openVerifyEmail}
+        />
       )}
+      {isVerifyOpen && <VerifyEmail onClose={() => setIsVerifyOpen(false)} />}
     </>
   );
 }
