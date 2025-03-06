@@ -1,6 +1,6 @@
 import SecondaryBtn from "../SecondaryBtn";
-import Google from "../assets/icons/Google.svg";
-import Facebook from "../assets/icons/Facebook.svg";
+import Google from "../../assets/icons/Google.svg";
+import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 
@@ -34,9 +34,11 @@ const Card: React.FC<{
 const Signup = ({
   onClose,
   openSignUp,
+  openForgotPassword,
 }: {
   onClose: () => void;
   openSignUp: () => void;
+  openForgotPassword: () => void;
 }) => {
   return (
     <div
@@ -92,12 +94,32 @@ const Signup = ({
               type="password"
               placeholder="Password"
               name="password"
-              className="text-[14px] my-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              className="text-[14px] mt-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
             />
-            <PrimaryBtn px="px-[30%]" py="py-1">
-              SIGN UP
+            <a
+              href="#"
+              onClick={openForgotPassword}
+              className="w-[100%] text-end my-3 font-semibold text-[14px] md:text-[16px] lg:text-[18px] text-[blue]"
+            >
+              Forgot Password
+            </a>
+            <PrimaryBtn px="px-15 md:px-15" py="py-1">
+              SIGN IN
             </PrimaryBtn>
           </form>
+          <p className="text-[14px] md:text-[16px] lg:text-[18px] flex sm:hidden">
+            Don't have account?
+            <a
+              href="#"
+              className="ml-2 text-[blue] underline font-semibold"
+              onClick={() => {
+                onClose();
+                openSignUp();
+              }}
+            >
+              Sign up
+            </a>
+          </p>
         </div>
         <div className="slideInFromRight w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-l-[130px]">
           <h1 className="text-[36px] md:text-[30px] sm:text-[28px] font-bold text-white">
