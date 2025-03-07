@@ -7,10 +7,6 @@ function TermOfService() {
         <h1 className="text-[36px] sm:text-2xl lg:text-[36px] font-bold text-black">
           Terms of Service
         </h1>
-        <p className="text-[18px] sm:text-sm lg:text-[18px] text-black mt-4">
-          Please read these terms and conditions carefully before using our
-          calendar application.
-        </p>
 
         {/* Terms Content */}
         <div className="mt-6 space-y-4">
@@ -19,7 +15,7 @@ function TermOfService() {
             <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
               Acceptance of Terms
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
               By accessing or using this calendar application, you acknowledge
               and agree to the terms and conditions set forth by the provider.
               These terms include the proper use of scheduling features, data
@@ -34,7 +30,7 @@ function TermOfService() {
             <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
               Description of Services
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
               Our calendar application provides users with an intuitive platform
               to schedule, manage, and track events efficiently. With features
               such as event reminders, recurring event scheduling, and
@@ -50,7 +46,7 @@ function TermOfService() {
             <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
               User Conduct
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1">
+            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
               Users are expected to use the calendar application responsibly and
               ethically. Any misuse, including but not limited to spamming
               events, sharing false information, or unauthorized access to
