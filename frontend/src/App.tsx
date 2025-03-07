@@ -1,63 +1,62 @@
-import SecondaryBtn from "./components/SecondayBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
-import "./components/Components-styles/Tailwind.css";
+import { useState } from "react";
+import NavBar from "./components/navbar";
+import SideBar from "./components/sidebar";
+
+// Uncomment these imports when the screens are ready
+// import CalendarScreen from "./pages/calendar";
+// import HistoryScreen from "./pages/history";
+// import ServiceScreen from "./screens/ServiceScreen";
+// import PrivacyScreen from "./screens/PrivacyScreen";
+// import ContactScreen from "./screens/ContactScreen";
+// import SettingsScreen from "./screens/SettingsScreen";
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeScreen, setActiveScreen] = useState("calendar"); // Default to "calendar"
+
+  // Function to toggle the sidebar
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Function to handle screen change
+  const handleScreenChange = (screen: string) => {
+    setActiveScreen(screen);
+    setIsSidebarOpen(false); // Close the sidebar after selecting a screen
+  };
+
   return (
-    <>
-      <div>
-        <PrimaryBtn color="" background="">
-          Sign Up
-        </PrimaryBtn>
-        <br />
-        <SecondaryBtn color="" border="">
-          Sign In
-        </SecondaryBtn>
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <SideBar
+        isOpen={isSidebarOpen}
+        onScreenChange={handleScreenChange} // Pass screen change handler
+        toggleSidebar={toggleSidebar}
+      />
+
+      {/* Main Content Area */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Navbar */}
+        <NavBar toggleSidebar={toggleSidebar} />
+
+        {/* Main Content */}
+        <main
+          className={`flex-1 overflow-auto ${
+            activeScreen === "calendar"
+              ? "pt-[72px] ml-[78px]"
+              : "pt-[109px] ml-[123px]"
+          }`}
+        >
+          {/* Dynamically Render Screens Based on Active Screen */}
+          {activeScreen === "calendar" && <h1>Calendar Screen</h1>}
+          {activeScreen === "history" && <h1>History Screen</h1>}
+          {activeScreen === "service" && <h1>Service Screen</h1>}
+          {activeScreen === "privacy" && <h1>Privacy Screen</h1>}
+          {activeScreen === "contact" && <h1>Contact Screen</h1>}
+          {activeScreen === "setting" && <h1>Settings Screen</h1>}
+        </main>
       </div>
-      <div>
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-          <a href="#">
-            <img
-              className="rounded-t-lg"
-              src="https://flowbite.com/docs/images/blog/image-1.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Noteworthy technology acquisitions 2021
-              </h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order.
-            </p>
-            <a
-              href="#"
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Read more
-              <svg
-                className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 10"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M1 5h12m0 0L9 1m4 4L9 9"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
 
