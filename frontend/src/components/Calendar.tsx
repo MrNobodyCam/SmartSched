@@ -1,94 +1,112 @@
-import React, { useState } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { format, parse, startOfWeek, getDay } from "date-fns";
-import { enUS } from "date-fns/locale/en-US";
+import React, { useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import './CalendarStyles.css'; // Custom CSS for additional styling
 
-const locales = {
-  "en-US": enUS,
-};
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 1 }),
-  getDay,
-  locales,
-});
+const CustomCalendar = () => {
+  const [view, setView] = useState('dayGridMonth');
+  const [currentMonth, setCurrentMonth] = useState('January 2022');
 
-const events = [
-  {
-    title: "Meeting",
-    start: new Date(),
-    end: new Date(new Date().setHours(new Date().getHours() + 1)),
-  },
-];
+  // Sample events data
+  const events = [
+    { id: '1', title: 'Event Name', start: '2022-01-02T08:00:00', color: '#4CAF50' },
+    { id: '2', title: 'Event Name', start: '2022-01-02T08:00:00', color: '#4CAF50' },
+    { id: '3', title: 'Event Name', start: '2022-01-03T08:00:00', color: '#4CAF50' },
+    { id: '4', title: 'Event Name', start: '2022-01-03T08:00:00', color: '#7B68EE' },
+    { id: '5', title: 'Event Name', start: '2022-01-04T08:00:00', color: '#FF5252' },
+    { id: '6', title: 'Event Name', start: '2022-01-04T08:00:00', color: '#4CAF50' },
+    { id: '7', title: 'Event Name', start: '2022-01-05T08:00:00', color: '#4CAF50' },
+    { id: '8', title: 'Event Name', start: '2022-01-05T08:00:00', color: '#FF5252' },
+    // Add more events as needed
+  ];
 
-const MyCalendar = () => {
-  const [view, setView] = useState("month");
-  const [date, setDate] = useState(new Date());
-
-  const eventStyleGetter = (event, start, end, isSelected) => {
-    const backgroundColor = event.title === "Meeting" ? "#3174ad" : "#f0f0f0";
-    const style = {
-      backgroundColor,
-      borderRadius: "0px",
-      opacity: 0.8,
-      color: "black",
-      border: "0px",
-      display: "block",
+  // Function to handle date change
+  interface DateInfo {
+    view: {
+      currentStart: Date;
     };
-    return {
-      style,
-    };
+  }
+
+  const handleDatesSet = (dateInfo: DateInfo) => {
+    const date = dateInfo.view.currentStart;
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    setCurrentMonth(`${month} ${year}`);
+  };
+
+  // Render custom header with buttons
+  const renderEventContent = (eventInfo: { event: { backgroundColor: any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }; }) => {
+    return (
+      <div className="custom-event">
+        <div 
+          className="event-dot" 
+          style={{ backgroundColor: eventInfo.event.backgroundColor }}
+        ></div>
+        <span className="event-title">{eventInfo.event.title}</span>
+        <span className="event-time">08:00</span>
+      </div>
+    );
+  };
+
+  // Custom view toggle
+  const toggleView = () => {
+    setView(prev => prev === 'dayGridMonth' ? 'listMonth' : 'dayGridMonth');
   };
 
   return (
-    <div className="p-4 w-full h-full">
-      <div className="flex justify-between mb-4">
-        <button
-          onClick={() => setDate(new Date())}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
-        >
-          Today
-        </button>
-        <div>
-          <button
-            onClick={() => setDate(new Date(date.setDate(date.getDate() - 1)))}
-            className="px-4 py-2 bg-gray-300 rounded-lg shadow mr-2 hover:bg-gray-400"
-          >
-            ← Prev
+    <div className="calendar-container">
+      <div className="calendar-header">
+        <div className="calendar-title-container">
+          <h1 className="calendar-title">{currentMonth}</h1>
+          <div className="dropdown">
+            <button className="dropdown-button">Month</button>
+          </div>
+        </div>
+        <div className="calendar-actions">
+          <button className="action-button procrastinate">
+            Procrastinate Course
           </button>
-          <button
-            onClick={() => setDate(new Date(date.setDate(date.getDate() + 1)))}
-            className="px-4 py-2 bg-gray-300 rounded-lg shadow hover:bg-gray-400"
-          >
-            Next →
+          <button className="action-button leave">
+            Leave Course
           </button>
         </div>
-        <select
-          className="px-4 py-2 border rounded-lg"
-          value={view}
-          onChange={(e) => setView(e.target.value)}
-        >
-          <option value="month">Month</option>
-          <option value="week">Week</option>
-          <option value="day">Day</option>
-        </select>
       </div>
-      <Calendar
-        localizer={localizer}
+      
+      <div className="view-toggle-container">
+        <span className="view-label">List View</span>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={view === 'dayGridMonth'}
+            onChange={toggleView}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span className="view-label">Calendar</span>
+      </div>
+
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+        initialView={view}
+        headerToolbar={false} // Hide default header
         events={events}
-        startAccessor="start"
-        endAccessor="end"
-        date={date}
-        onNavigate={setDate}
-        view={view}
-        onView={setView}
-        style={{ height: "calc(100vh - 150px)" }}
-        eventPropGetter={eventStyleGetter}
+        eventContent={renderEventContent}
+        datesSet={handleDatesSet}
+        dayMaxEventRows={4}
+        moreLinkContent={({num}) => `+${num} More`}
+        height="auto"
+        contentHeight="auto"
+        aspectRatio={3}
+        fixedWeekCount={false}
+        showNonCurrentDates={false}
+        dayHeaderFormat={{ weekday: 'short' }}
       />
     </div>
   );
 };
 
-export default MyCalendar;
+export default CustomCalendar;
