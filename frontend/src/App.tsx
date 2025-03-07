@@ -5,8 +5,7 @@ import Landingpage from "./pages/Landing-page";
 
 function App() {
   return (
-
-    <Landingpage/>
+    <Landingpage />
     // <>
     //   <div>
     //     <PrimaryBtn color="" background="">

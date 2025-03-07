@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Props {
-  children: string;
+  children?: string;
   color?: string;
-  background?: string;
+  borderColor?: string;
   extraContent?: React.ReactNode;
   extraContent_Right?: React.ReactNode;
   onClick?: () => void;
@@ -11,10 +11,10 @@ interface Props {
   py?: string;
 }
 
-const PrimaryBtn = ({
+const SecondaryBtn = ({
   children,
   color,
-  background,
+  borderColor,
   extraContent,
   extraContent_Right,
   onClick,
@@ -23,12 +23,11 @@ const PrimaryBtn = ({
 }: Props) => {
   return (
     <button
-      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${py} ${px} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
+      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${px} ${py} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
       style={
         {
-          color: color || "#ffffff",
-          backgroundColor: background || "#2D9CDB",
-          borderColor: background || "#2D9CDB",
+          color: color || "#27AE60",
+          borderColor: borderColor || "#27AE60",
         } as React.CSSProperties
       }
       onClick={onClick}
@@ -40,6 +39,4 @@ const PrimaryBtn = ({
   );
 };
 
-export default PrimaryBtn;
-
-//add width and height props
+export default SecondaryBtn;

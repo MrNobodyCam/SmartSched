@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
-import SecondaryBtn from "../components/SecondayBtn";
+import SecondaryBtn from "../components/SecondaryBtn";
 import arrow from "../assets/icons/majesticons_arrow-up.svg";
 
 function Landingpage() {
