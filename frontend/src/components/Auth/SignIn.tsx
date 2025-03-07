@@ -103,7 +103,13 @@ const Signup = ({
             >
               Forgot Password
             </a>
-            <PrimaryBtn px="px-15 md:px-15" py="py-1">
+            <PrimaryBtn
+              px="px-15 md:px-15"
+              py="py-1"
+              onClick={() => {
+                alert("Sign In Successful");
+              }}
+            >
               SIGN IN
             </PrimaryBtn>
           </form>

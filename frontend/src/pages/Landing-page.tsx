@@ -2,8 +2,44 @@ import React, { useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import SecondaryBtn from "../components/SecondaryBtn";
 import arrow from "../assets/icons/majesticons_arrow-up.svg";
+import Login from "../components/Auth/SignIn";
+import Signup from "../components/Auth/Signup";
+import VerifyEmail from "../components/Auth/Verify_email";
+import ForgotPassword from "../components/Auth/Forgot_password";
+import ResetPassword from "../components/Auth/Reset_password";
+import PrimaryBtn from "../components/PrimaryBtn";
 
 function Landingpage() {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isVerifyOpen, setIsVerifyOpen] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
+  const [fromResetPassword, setFromResetPassword] = useState(false);
+  const openSignup = () => {
+    setIsLoginOpen(false);
+    setIsSignupOpen(true);
+    setFromResetPassword(false);
+  };
+
+  const openLogin = () => {
+    setIsSignupOpen(false);
+    setIsLoginOpen(true);
+  };
+  const openVerifyEmail = () => {
+    setIsSignupOpen(false);
+    setIsVerifyOpen(true);
+  };
+
+  const openForgotPassword = () => {
+    setIsForgotPasswordOpen(true);
+    setIsLoginOpen(false);
+    setFromResetPassword(true);
+  };
+  const openResetPasswordOpen = () => {
+    setIsVerifyOpen(false);
+    setIsResetPasswordOpen(true);
+  };
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown toggle
   const teamMembers = [
     {
@@ -66,19 +102,23 @@ function Landingpage() {
   ];
 
   return (
-    <div id="home" className="text-gray-900">
+    <div
+      id="home"
+      className="text-gray-900 text-[14px] sm:text-[16px] lg:text-[18px] "
+      onClick={() => setIsOpen(!isOpen)}
+    >
       {/* Header */}
       <header className="bg-white shadow-md p-4 w-[100%] fixed z-50">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
-          <h1 className="text-3xl sm:text-3xl font-bold text-[#2D9CDB]">
+          <h1 className="text-[28px] md:text-[32px] lg-[36px] font-bold text-[#2D9CDB]">
             SmartSched
           </h1>
 
           {/* Dropdown Toggle (Visible on Small Screens) */}
           <div className="sm:hidden relative">
             <button
-              className="text-gray-700 hover:text-blue-500 focus:outline-none"
+              className="text-gray-700 hover:text-blue-500 focus:outline-none cursor-pointer"
               onClick={() => setIsOpen(!isOpen)}
             >
               Menu
@@ -116,7 +156,10 @@ function Landingpage() {
                 >
                   Team
                 </a>
-                <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50">
+                <button
+                  className="bg-[#2D9CDB] rounded-[12px] text-white block w-full text-left px-4 py-2 cursor-pointer duration-75 hover:opacity-50 hover:text-gray-700 "
+                  onClick={() => setIsLoginOpen(true)}
+                >
                   Login
                 </button>
               </motion.div>
@@ -137,9 +180,16 @@ function Landingpage() {
             <a href="#team" className="text-gray-700 hover:text-[#2D9CDB]">
               Team
             </a>
-            <button className="bg-[#2D9CDB] text-white px-4 py-2 rounded-md hover:bg-[#2D9CDB]">
+            {/* <button className="bg-[#2D9CDB] text-white px-4 py-2 rounded-md hover:bg-[#2D9CDB]">
               Login
-            </button>
+            </button> */}
+            <PrimaryBtn
+              px="px-8 "
+              py="py-1"
+              onClick={() => setIsLoginOpen(true)}
+            >
+              Login
+            </PrimaryBtn>
           </nav>
         </div>
       </header>
@@ -153,15 +203,22 @@ function Landingpage() {
       >
         {/* Left Text Section */}
         <div className="sm:w-[50%] text-center sm:text-left space-y-8 sapce-x-8 items-center mt-5">
-          <h2 className="text-3xl sm:text-5xl text-gray-900 font-bold">
+          <h2 className="text-[28px] md:text-[32px] lg:text-[36px] text-gray-900 font-bold">
             Welcome to SmartSched
           </h2>
-          <p className="text-gray-700 text-[16px] mt-3 w-[380px]">
+          <p className="text-gray-700  text-[14px] sm:text-[16px] lg:text-[18px] mt-3 w-[300px] md:w-[260px] lg:w-[480px]">
             We are introducing our smart AI that can generate your everyday
             study. It can help you improve your study and your schedule.
           </p>
-          <div className="mt-6">
-            <SecondaryBtn color="" border="">
+          <div className="mt-6 justify-center w-[100%] items-center flex sm:block">
+            <SecondaryBtn
+              extraContent_Right={<img src={arrow}></img>}
+              color=""
+              borderColor=""
+              py="py-1"
+              px="px-5"
+              onClick={() => setIsSignupOpen(true)}
+            >
               Get Started Now
             </SecondaryBtn>
           </div>
@@ -198,7 +255,7 @@ function Landingpage() {
                   style={{ backgroundColor: feature.bgColor }}
                 ></div>
                 <h4 className="mt-12 text-lg font-semibold">{feature.title}</h4>
-                <p className="text-gray-600 text-sm mt-8 ">
+                <p className="text-gray-600 text-sm mt-8 text-[14px] sm:text-[16px] lg:text-[18px]">
                   {feature.description}
                 </p>
               </motion.div>
@@ -222,7 +279,7 @@ function Landingpage() {
               <h3 className="text-3xl sm:text-5xl text-gray-800 font-bold text-center">
                 About Us
               </h3>
-              <p className="text-gray-700 mt-4 sm:mt-12 text-center ">
+              <p className="text-gray-700 mt-4 sm:mt-12 text-center text-[14px] sm:text-[16px] lg:text-[18px]">
                 Struggling to manage your study time? We’ve got you covered!
                 SmartSched is an AI-powered tool that creates personalized study
                 plans based on your free time, learning goals, and subject
@@ -247,7 +304,7 @@ function Landingpage() {
               <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4 sm:mb-6">
                 Why Choose Us?
               </h2>
-              <ul className="list-disc list-inside text-gray-700 space-y-2 sm:space-y-4 text-[16px]">
+              <ul className="list-disc list-inside text-gray-700 space-y-2 sm:space-y-4 text-[14px] sm:text-[16px] lg:text-[18px]">
                 <li>
                   <strong>AI-Powered Study Schedules</strong> - Get the best
                   study plan tailored to your needs.
@@ -281,7 +338,7 @@ function Landingpage() {
           <h3 className="text-3xl sm:text-5xl text-gray-800 font-bold text-center">
             Meet Our Team
           </h3>
-          <p className="text-gray-600 mt-4 max-w-2xl mx-auto text-center">
+          <p className="text-gray-600 mt-4 max-w-2xl mx-auto text-center text-[14px] sm:text-[16px] lg:text-[18px]">
             At SmartSched, we are dedicated to making learning more efficient
             with AI-powered study plans. Our developers team work together to
             create smart scheduling solutions that help students stay organized.
@@ -416,6 +473,40 @@ function Landingpage() {
           </p>
         </div>
       </section>
+      {isLoginOpen && (
+        <Login
+          onClose={() => setIsLoginOpen(false)}
+          openSignUp={openSignup}
+          openForgotPassword={openForgotPassword}
+        />
+      )}
+      {isSignupOpen && (
+        <Signup
+          onClose={() => setIsSignupOpen(false)}
+          openSignIn={openLogin}
+          openVerifyEmail={openVerifyEmail}
+        />
+      )}
+      {isVerifyOpen && (
+        <VerifyEmail
+          onClose={() => setIsVerifyOpen(false)}
+          openResetPasswordOpen={openResetPasswordOpen}
+          openSignIn={openLogin}
+          fromResetPassword={fromResetPassword}
+        />
+      )}
+      {isForgotPasswordOpen && (
+        <ForgotPassword
+          onClose={() => setIsForgotPasswordOpen(false)}
+          openVerifyEmail={openVerifyEmail}
+        />
+      )}
+      {isResetPasswordOpen && (
+        <ResetPassword
+          onClose={() => setIsResetPasswordOpen(false)}
+          openSignIn={openLogin}
+        />
+      )}
     </div>
   );
 }
