@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
-import "./componets-styles/Quiz.css";
+// import "./componets-styles/Quiz.css";
 
 const QuizPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,9 +83,7 @@ const QuizPopup = () => {
                   ))}
                 </div>
                 <div className="flex justify-end pt-4">
-                  <button
-                    className="px-6 py-2 bg-white text-blue-500 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all font-medium inline-flex items-center gap-2"
-                  >
+                  <button className="px-6 py-2 bg-white text-blue-500 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all font-medium inline-flex items-center gap-2">
                     Next Question
                     <svg
                       className="w-5 h-5"

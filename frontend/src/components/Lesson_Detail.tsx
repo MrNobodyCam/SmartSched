@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X, Clock, Menu, FileText } from "lucide-react";
+import Pen from "../assets/icons/pen.svg";
 
 const PopupComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ const PopupComponent = () => {
 
       {/* Popup Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
           {/* Popup Content */}
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md relative">
             {/* Close Button */}
@@ -65,7 +66,7 @@ const PopupComponent = () => {
               {/* Action Buttons */}
               <div className="flex gap-4 justify-end">
                 <button className="flex items-center gap-2 px-4 py-2 text-orange-500 rounded-md hover:bg-orange-50">
-                  <span className="transform rotate-45">✏️</span>
+                  <img src={Pen} alt="" />
                   Edit
                 </button>
                 <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
