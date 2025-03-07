@@ -4,7 +4,7 @@ import SideBar from "./components/sidebar";
 import HistoryScreen from "./pages/history_data";
 import CalendarScreen from "./components/generate-schedule";
 import TermOfService from "./pages/termof_service";
-
+import PolicyScreen from "./pages/policy";
 // Uncomment these imports when the screens are ready
 // import CalendarScreen from "./pages/calendar";
 // import HistoryScreen from "./pages/history";
@@ -46,15 +46,15 @@ function App() {
         <main
           className={`flex-1 overflow-auto ${
             activeScreen === "calendar"
-              ? "pt-[72px] ml-[78px]"
-              : "pt-[109px] ml-[123px]"
+              ? "pt-[52px] ml-[58px]"
+              : "pt-[69px] ml-[80px]"
           }`}
         >
           {/* Dynamically Render Screens Based on Active Screen */}
           {activeScreen === "calendar" && <CalendarScreen />}
           {activeScreen === "history" && <HistoryScreen />}
           {activeScreen === "service" && <TermOfService />}
-          {activeScreen === "privacy" && <h1>Privacy Screen</h1>}
+          {activeScreen === "privacy" && <PolicyScreen />}
           {activeScreen === "contact" && <h1>Contact Screen</h1>}
           {activeScreen === "setting" && <h1>Settings Screen</h1>}
         </main>

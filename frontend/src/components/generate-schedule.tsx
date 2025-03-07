@@ -9,7 +9,7 @@ const EmptySchedule = () => {
 
   return (
     <div className="w-full h-screen flex flex-col bg-white font-inter mx-auto shadow-md">
-      <div className="border-b border-gray-300 p-4">
+      <div className="border-b  border-gray-300 p-1">
         <div className="flex sm:flex-row flex-col p-4">
           <div className="flex flex-row items-center space-x-2 sm:mb-0 mb-4 justify-center">
             <h1 className="text-2xl font-semibold">January 2022</h1>
@@ -18,20 +18,12 @@ const EmptySchedule = () => {
             </button>
           </div>
           <div className="flex justify-end sm:justify-end sm:ml-auto mt-4 sm:mt-0 pl-40">
-            {/* <button className="flex items-center justify-center bg-[#2D9CDB] text-white rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm w-[150px] sm:w-[200px] h-[35px] sm:h-[45px] gap-1 sm:gap-2">
-              <span className="leading-none">Generate Schedule</span>
-              <img
-                src={PlusIcon}
-                alt="Generate Schedule"
-                className="w-4 h-4 sm:w-5 sm:h-5"
-              />
-            </button> */}
             <PrimaryBtn
               extraContent={
                 <img
                   src={PlusIcon}
                   alt="Generate Schedule"
-                  className="w-4 h-4 sm:w-5 sm:h-5"
+                  className="w-3 h-3 sm:w-5 sm:h-5 "
                 />
               }
             >
@@ -54,7 +46,7 @@ const EmptySchedule = () => {
                 setViewType(viewType === "list" ? "calendar" : "list")
               }
             />
-            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div className="relative w-11 h-6 bg-gray-400 peer-focus:outline-none peer-focus:ring-4  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#2D9CDB]"></div>
           </label>
           <span className="text-sm">Calendar</span>
         </div>

@@ -52,6 +52,22 @@ const NotificationPopup = () => {
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
+    {
+      id: 6,
+      type: "success",
+      title: "This is a success message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
+    {
+      id: 7,
+      type: "success",
+      title: "This is a success message",
+      message:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      timestamp: "12 Feb 2025 at 9:25 pm",
+    },
   ];
 
   // Calculate the total number of unread notifications
@@ -115,7 +131,7 @@ const NotificationPopup = () => {
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-2 w-[90vw] sm:w-[70vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-2 w-[90vw] sm:w-[70vh] max-h-[50vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">
