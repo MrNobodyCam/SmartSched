@@ -20,7 +20,7 @@ class Quiz extends Model
      */
     public function roadmap()
     {
-        return $this->belongsTo(Roadmap::class);
+        return $this->belongsTo(Roadmap::class, 'roadmap_id');
     }
 
     /**
