@@ -1,13 +1,11 @@
-// import { useEffect, useState } from "react";
-// import Calendar from "./components/Calendar";
 import "./App.css";
-import CustomCalendar from "./components/Test calendar/CalendarTailwind";
+import Calendar from "./components/Calendar";
 
 //* App function
 function App() {
   return (
     <>
-      <CustomCalendar />
+      <Calendar />
     </>
   );
 }
