@@ -11,11 +11,6 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
-
-  // const onShowResult = () => {
-  //   setopenQuiz(false);
-  //   setShowResult(true);
-  // };
   const togglePopup = () => {
     setRoadMapID(RoadmapID);
     setIsDetailOpen(!isDetailOpen);
@@ -43,13 +38,6 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
       </button>{" "}
       <br />
       <br />
-      {/* <Result quizResult={}></Result> */}
-      {/* <button
-        onClick={onLoading}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
-      >
-        Loading
-      </button> */}
       {isDetailOpen && (
         <Lesson_Detail
           openQuiz={() => {
@@ -70,9 +58,6 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
           onSubmit={(result) => {
             onSubmit(result);
           }}
-          // Question={() => {
-          //   return "What is the capital of India?";
-          // }}
           onClose={() => {
             setopenQuiz(true);
             setLeftQuiz(true);
