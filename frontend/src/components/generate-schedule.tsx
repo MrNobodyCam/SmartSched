@@ -19,6 +19,7 @@ const EmptySchedule = () => {
           </div>
           <div className="flex justify-end sm:justify-end sm:ml-auto mt-4 sm:mt-0 pl-40">
             <PrimaryBtn
+              py="py-2"
               extraContent={
                 <img
                   src={PlusIcon}
