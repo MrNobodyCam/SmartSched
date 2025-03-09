@@ -60,16 +60,16 @@ class ScheduleController extends Controller
         $firstFreeDayDate = $startDate->format('jS F Y');
 
         $textPrompt = "Create a structured study schedule with the following details:\n" .
-              "Title: " . $scheduleTitle . "\n" .
-              "Subjects: " . $subject . "\n" .
-              "Study Days: " . $freeDays . "\n" .
-              "Study Time: " . $startTime . " - " . $endTime . "\n" .
-              "Start Date: " . $firstFreeDayDate . "\n" .
-              "Duration: " . $duration . "\n\n" .
-              "Guidelines:\n" .
-              "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
-              "- Provide a clear weekly breakdown for balanced learning.";
-
+                      "Title: " . $scheduleTitle . "\n" .
+                      "Subjects: " . $subject . "\n" .
+                      "Study Days: " . $freeDays . "\n" .
+                      "Study Time: " . $startTime . " - " . $endTime . "\n" .
+                      "Start Date: " . $firstFreeDayDate . "\n" .
+                      "Duration: " . $duration . " weeks\n\n" .
+                      "Guidelines:\n" .
+                      "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
+                      "- Provide a clear weekly breakdown for balanced learning.\n" .
+                      "- Each subject should have complete sessions that fit within the 90-minute timeframe.";
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -153,6 +153,8 @@ class ScheduleController extends Controller
         $textContent = $responseData['candidates'][0]['content']['parts'][0]['text'];
         $scheduleData = json_decode($textContent, true);
 
+        // dd($scheduleData);
+
         if (isset($scheduleData['schedule'])) {
             $scheduleData = $scheduleData['schedule'];
             
@@ -183,108 +185,130 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Create a custom schedule based on user's free days
-     * 
-     * @param Schedule $schedule The schedule model instance
-     * @param Generator $generator The generator model instance
-     * @param array $subjects List of subjects to study
-     * @param array $freeDays List of days the user is free to study
-     * @param Carbon $startDate The start date of the schedule
-     * @param int $durationWeeks Number of weeks for the schedule
-     * @param string $startTime Daily start time
-     * @param string $endTime Daily end time
-     * @param array $roadmapContent Content suggestions from AI
-     * @return void
-     */
-    private function createCustomSchedule($schedule, $generator, $subjects, $freeDays, $startDate, $durationWeeks, $startTime, $endTime, $roadmapContent)
-    {
-        // Map day names to their numeric values (0 = Sunday, 1 = Monday, etc.)
-        $dayMapping = [
-            'sunday' => 0,
-            'monday' => 1,
-            'tuesday' => 2,
-            'wednesday' => 3,
-            'thursday' => 4,
-            'friday' => 5,
-            'saturday' => 6,
-        ];
-
-        // Convert free day names to day numbers for easier date calculation
-        $freeDayNumbers = [];
-        foreach ($freeDays as $day) {
-            $freeDayNumbers[] = $dayMapping[strtolower($day)];
-        }
-        
-        // Organize roadmap content by subject
-        $subjectContent = [];
-        foreach ($roadmapContent as $item) {
-            $subject = $item['lesson'];
-            if (!isset($subjectContent[$subject])) {
-                $subjectContent[$subject] = [];
-            }
-            $subjectContent[$subject][] = [
-                'description' => $item['description'],
-                'lesson' => $item['lesson']
+         * Create a custom schedule based on user's free days
+         * 
+         * @param Schedule $schedule The schedule model instance
+         * @param Generator $generator The generator model instance
+         * @param array $subjects List of subjects to study
+         * @param array $freeDays List of days the user is free to study
+         * @param Carbon $startDate The start date of the schedule
+         * @param int $durationWeeks Number of weeks for the schedule
+         * @param string $startTime Daily start time
+         * @param string $endTime Daily end time
+         * @param array $roadmapContent Content suggestions from AI
+         * @return void
+         */
+        private function createCustomSchedule($schedule, $generator, $subjects, $freeDays, $startDate, $durationWeeks, $startTime, $endTime, $roadmapContent)
+        {
+            // Map day names to their numeric values (0 = Sunday, 1 = Monday, etc.)
+            $dayMapping = [
+                'sunday' => 0,
+                'monday' => 1,
+                'tuesday' => 2,
+                'wednesday' => 3,
+                'thursday' => 4,
+                'friday' => 5,
+                'saturday' => 6,
             ];
-        }
-        
-        // Create topics and associate with generator
-        $topicMap = [];
-        foreach ($subjects as $subject) {
-            $topic = Topic::firstOrCreate(['title' => $subject]);
-            GeneratorTopic::create([
-                'generator_id' => $generator->id,
-                'topic_id' => $topic->id,
-            ]);
-            $topicMap[$subject] = $topic->id;
-        }
-        
-        // Calculate total available study days
-        $totalStudyDays = count($freeDayNumbers) * $durationWeeks;
-        
-        // Distribute study days evenly among subjects
-        $daysPerSubject = intval($totalStudyDays / count($subjects));
-        $extraDays = $totalStudyDays % count($subjects);
-        
-        // Schedule creation
-        $currentDate = clone $startDate;
-        
-        foreach ($subjects as $index => $subject) {
-            // Calculate how many days this subject gets
-            $subjectDays = $daysPerSubject + ($index < $extraDays ? 1 : 0);
+    
+            // Convert free day names to day numbers for easier date calculation
+            $freeDayNumbers = [];
+            foreach ($freeDays as $day) {
+                $freeDayNumbers[] = $dayMapping[strtolower($day)];
+            }
             
-            // Get content for this subject
-            $content = $subjectContent[$subject] ?? [];
-            $contentCount = count($content);
+            // Organize roadmap content by subject
+            $subjectContent = [];
+            foreach ($roadmapContent as $item) {
+                $subject = $item['lesson'];
+                if (!isset($subjectContent[$subject])) {
+                    $subjectContent[$subject] = [];
+                }
+                $subjectContent[$subject][] = [
+                    'description' => $item['description'],
+                    'lesson' => $item['lesson']
+                ];
+            }
             
-            for ($i = 0; $i < $subjectDays; $i++) {
-                // Find the next free day
-                while (!in_array($currentDate->dayOfWeek, $freeDayNumbers)) {
+            // Create topics and associate with generator
+            $topicMap = [];
+            foreach ($subjects as $subject) {
+                $topic = Topic::firstOrCreate(['title' => $subject]);
+                GeneratorTopic::create([
+                    'generator_id' => $generator->id,
+                    'topic_id' => $topic->id,
+                ]);
+                $topicMap[$subject] = $topic->id;
+            }
+            
+            // Parse daily time boundaries
+            $dailyEndTime = Carbon::parse($endTime);
+            $sessionDuration = 90; // Duration in minutes
+            
+            // Schedule creation
+            $currentDate = clone $startDate;
+            $endDateLimit = (clone $startDate)->addWeeks($durationWeeks);
+            $subjectIndex = 0; // Start with the first subject
+            $contentIndices = array_fill_keys($subjects, 0); // Track content index for each subject
+            
+            // Continue scheduling until we reach the end date
+            while ($currentDate->lessThan($endDateLimit)) {
+                // Skip days that are not free days
+                if (!in_array($currentDate->dayOfWeek, $freeDayNumbers)) {
                     $currentDate->addDay();
+                    continue;
                 }
                 
-                // Get content for this session (cycle through if we run out)
-                $sessionContent = $contentCount > 0 
-                    ? $content[$i % $contentCount] 
-                    : ['description' => "Study session for $subject", 'lesson' => $subject];
+                // Start time for this day
+                $currentSlotStart = Carbon::parse($startTime)->setDateFrom($currentDate);
                 
-                // Create roadmap entry
-                Roadmap::create([
-                    'schedule_id' => $schedule->id,
-                    'topic_id' => $topicMap[$subject],
-                    'lesson' => $subject,
-                    'description' => $sessionContent['description'],
-                    'date' => clone $currentDate,
-                    'start_time' => Carbon::parse($startTime),
-                    'end_time' => Carbon::parse($endTime),
-                    'result' => 0,
-                ]);
+                // Create sessions until we reach the end time for this day
+                while (true) {
+                    $currentSlotEnd = (clone $currentSlotStart)->addMinutes($sessionDuration);
+                    
+                    // If there's not enough time for another session, move to the next day
+                    if ($currentSlotEnd->greaterThan(Carbon::parse($endTime)->setDateFrom($currentDate))) {
+                        break;
+                    }
+                    
+                    $subject = $subjects[$subjectIndex];
+                    
+                    // Get content for this subject
+                    $content = $subjectContent[$subject] ?? [];
+                    $contentCount = count($content);
+                    
+                    // Get content for this session (cycle through if we run out)
+                    if ($contentCount > 0) {
+                        $contentIndex = $contentIndices[$subject] % $contentCount;
+                        $sessionContent = $content[$contentIndex];
+                        $contentIndices[$subject]++; // Move to next content piece for this subject
+                    } else {
+                        $sessionContent = ['description' => "Study session for $subject", 'lesson' => $subject];
+                    }
+                    
+                    // Create roadmap entry with fixed 1h30m duration
+                    Roadmap::create([
+                        'schedule_id' => $schedule->id,
+                        'topic_id' => $topicMap[$subject],
+                        'lesson' => $subject,
+                        'description' => $sessionContent['description'],
+                        'date' => clone $currentDate,
+                        'start_time' => $currentSlotStart,
+                        'end_time' => $currentSlotEnd,
+                        'result' => 0,
+                    ]);
+                    
+                    // Move to next subject in rotation
+                    $subjectIndex = ($subjectIndex + 1) % count($subjects);
+                    
+                    // The next slot starts immediately after this one
+                    $currentSlotStart = clone $currentSlotEnd;
+                }
                 
                 // Move to next day
                 $currentDate->addDay();
             }
         }
-    }
 
     public function show($id)
     {
