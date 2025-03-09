@@ -66,9 +66,11 @@ class ScheduleController extends Controller
             "Start Date: " . $firstFreeDayDate . "\n" .
             "Duration: " . $duration . " weeks\n\n" .
             "Guidelines:\n" .
-            "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
-            "- Provide a clear weekly breakdown for balanced learning.\n" .
-            "- Each subject should have complete sessions that fit within the 90-minute timeframe.";
+            "- Each lesson should be the title of the subject being studied.\n" .
+            "- The description should be a brief overview of the lesson in minimum 40 words maximum 50 word.\n" .
+            "- Provide a structured weekly breakdown for effective learning.\n" .
+            "- Ensure each study session fits within the allocated time slots.\n";
+
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -295,7 +297,7 @@ class ScheduleController extends Controller
                     'date' => clone $currentDate,
                     'start_time' => $currentSlotStart,
                     'end_time' => $currentSlotEnd,
-                    'result' => 0,
+                    'result' => null,
                 ]);
 
                 // Move to next subject in rotation

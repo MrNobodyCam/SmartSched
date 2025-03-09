@@ -20,7 +20,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->date('date');
-            $table->integer('result');
+            $table->integer('result')->nullable();
             $table->timestamps();
 
             $table->foreign('topic_id')
