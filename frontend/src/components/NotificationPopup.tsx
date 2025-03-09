@@ -131,14 +131,14 @@ const NotificationPopup = () => {
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-2 w-[90vw] sm:w-[70vh] max-h-[50vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-2 w-[80vw] sm:w-[70vh] max-h-[85vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">
-              <h4 className="text-lg sm:text-xl font-semibold">
+              <h4 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold">
                 Notifications
               </h4>
-              <button className="font-medium text-sm sm:text-base text-gray-500 hover:text-gray-700 hover:font-semibold">
+              <button className="font-medium text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 hover:text-gray-700 hover:font-semibold">
                 Mark All As Read
               </button>
             </div>
@@ -149,17 +149,17 @@ const NotificationPopup = () => {
                   className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px]"
                 >
                   <div className="flex space-x-2">
-                    <div className="w-[33px] h-[33px] sm:w-[40px] sm:h-[40px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
+                    <div className="w-[36px] h-[36px] sm:w-[36px] sm:h-[36px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
                       {getIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm sm:text-base font-medium text-gray-900">
+                      <p className="text-[14px] md:text-[16px] lg:text-[18px] font-medium text-gray-900">
                         {notification.title}
                       </p>
-                      <p className="text-sm sm:text-base text-gray-500 mt-1 line-clamp-2">
+                      <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mt-1 line-clamp-2">
                         {notification.message}
                       </p>
-                      <p className="text-xs sm:text-sm text-gray-400 mt-2">
+                      <p className="text-[12px] md:text-[14px] lg:text-[16px] text-gray-400 mt-2">
                         {notification.timestamp}
                       </p>
                     </div>

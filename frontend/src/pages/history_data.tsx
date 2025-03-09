@@ -58,10 +58,10 @@ function HistoryScreen() {
       {/* Container */}
       <div className="relative w-full min-h-screen p-4 sm:p-6">
         {/* Title */}
-        <h1 className="text-[36px] sm:text-2xl lg:text-[36px] font-bold text-black">
+        <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold text-black">
           History Schedule
         </h1>
-        <p className="text-[18px] sm:text-sm lg:text-[18px] text-black mt-4">
+        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-4">
           Showing your all histories with a clear view
         </p>
 
@@ -73,7 +73,7 @@ function HistoryScreen() {
               placeholder="Search"
               value={searchTerm}
               onChange={handleSearch}
-              className="outline-none text-opacity-40 mr-2 flex-grow text-sm sm:text-base"
+              className="outline-none text-opacity-40 mr-2 flex-grow text-[14px] md:text-[16px] lg:text-[18px]"
             />
             {/* <img src={search} alt="Search" className="w-5 h-5 sm:w-6 sm:h-6" /> */}
           </div>
@@ -88,7 +88,7 @@ function HistoryScreen() {
                 className="relative bg-green-100 rounded-lg shadow-lg p-4 sm:p-6"
               >
                 {/* Title */}
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-black">
+                <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
                   {item.title}
                 </h2>
                 <div className="mt-4 space-y-2">
@@ -99,7 +99,7 @@ function HistoryScreen() {
                       alt="Topic"
                       className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                     />
-                    <p className="text-sm sm:text-base lg:text-lg text-black">
+                    <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                       <span className="font-semibold">Topic:</span> {item.topic}
                     </p>
                   </div>
@@ -110,7 +110,7 @@ function HistoryScreen() {
                       alt="Time"
                       className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                     />
-                    <p className="text-sm sm:text-base lg:text-lg text-black">
+                    <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                       <span className="font-semibold">Free Time:</span>{" "}
                       {item.freeTime}
                     </p>
@@ -122,26 +122,22 @@ function HistoryScreen() {
                       alt="Duration"
                       className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                     />
-                    <p className="text-sm sm:text-base lg:text-lg text-black">
+                    <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                       <span className="font-semibold">Duration:</span>{" "}
                       {item.duration}
                     </p>
                   </div>
-                  {/* Button */}
                 </div>
                 <div className="mt-4 ml-auto flex justify-end">
                   <PrimaryBtn py="py-1" px="px-8 md:px-6 lg:px-6">
                     See more
                   </PrimaryBtn>
                 </div>
-                {/* <button className="mt-4 ml-auto block w-full sm:w-auto bg-[rgba(45,156,219,0.8)] bg-opacity-80 text-white py-2 px-4 rounded-lg shadow-md text-xs sm:text-sm lg:text-base">
-                  See more
-                </button> */}
               </div>
             ))
           ) : (
             <div className="col-span-full flex items-center justify-center min-h-[50vh]">
-              <p className="text-black text-center text-lg sm:text-xl lg:text-2xl">
+              <p className="text-[20px] md:text-[22px] lg:text-[24px] text-black text-center">
                 No results found.
               </p>
             </div>
