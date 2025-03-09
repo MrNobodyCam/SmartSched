@@ -1,11 +1,11 @@
 // import { useEffect, useState } from "react";
-import Contact from "./components/Contact_us";
+import Account from "./components/general_account";
 
 //* App function
 function App() {
   return (
     <>
-      <Contact />
+      <Account/>
     </>
   );
 }
