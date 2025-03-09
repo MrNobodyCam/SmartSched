@@ -4,7 +4,7 @@ function Policy() {
       {/* Container */}
       <div className="relative w-full min-h-screen p-4 sm:p-6">
         {/* Title */}
-        <h1 className="text-[36px] sm:text-2xl lg:text-[36px] font-bold text-black">
+        <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold text-black">
           Privacy Policy
         </h1>
 
@@ -12,10 +12,10 @@ function Policy() {
         <div className="mt-6 space-y-4">
           {/* Information We Collect Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
-            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Information We Collect
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-1 opacity-50">
               We collect and store user information to enhance the scheduling
               experience and improve the functionality of our calendar
               application. This includes personal details such as name and
@@ -30,10 +30,10 @@ function Policy() {
 
           {/* Privacy and Data Security Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
-            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Privacy and Data Security
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-1 opacity-50">
               We value your privacy and are committed to protecting your
               personal data. The calendar application collects and stores user
               information solely for enhancing the scheduling experience. All
@@ -46,10 +46,10 @@ function Policy() {
 
           {/* How We Use Your Information Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
-            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               How We Use Your Information
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-1 opacity-50">
               We use the information collected to provide, improve, and
               personalize your scheduling experience. This includes managing
               your calendar events, sending reminders, optimizing performance,
@@ -62,10 +62,10 @@ function Policy() {
 
           {/* Information Sharing Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
-            <h2 className="text-base sm:text-lg lg:text-xl font-bold text-black">
+            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Information Sharing
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-black mt-1 opacity-50">
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-1 opacity-50">
               We do not sell, rent, or share your personal information with
               third parties for marketing purposes. Your data is only shared in
               limited cases, such as when integrating with third-party services

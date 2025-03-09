@@ -44,10 +44,10 @@ function App() {
 
         {/* Main Content */}
         <main
-          className={`flex-1 overflow-auto ${
+          className={`flex-1 overflow-auto pt-16 ${
             activeScreen === "calendar"
-              ? "pt-[52px] ml-[58px]"
-              : "pt-[69px] ml-[80px]"
+              ? "pt-[50px] sm:pt-[50px] md:pt-[50px] lg:pt-[50px] xl:pt-[50px] 2xl:pt-[50px] md:ml-[58px] lg:ml-[58px] xl:ml-[58px] 2xl:ml-[58px]"
+              : "pt-[50px] sm:pt-[50px] md:pt-[78px] lg:pt-[78px] xl:pt-[78px] 2xl:pt-[78px] ml-[-5px] md:ml-[78px] lg:ml-[78px] xl:ml-[78px] 2xl:ml-[78px]"
           }`}
         >
           {/* Dynamically Render Screens Based on Active Screen */}
