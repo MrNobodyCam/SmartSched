@@ -1,0 +1,55 @@
+{
+    "type": "object",
+    "properties": {
+        "schedule": {
+            "type": "object",
+            "properties": {
+                "roadmap": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "lesson": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "date": {
+                                "type": "string"
+                            },
+                            "start_time": {
+                                "type": "string",
+                                "format": "time"
+                            },
+                            "end_time": {
+                                "type": "string",
+                                "format": "time"
+                            }
+                        },
+                        "required": [
+                            "lesson",
+                            "description",
+                            "date",
+                            "start_time",
+                            "end_time"
+                        ]
+                    }
+                },
+                "start_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "end_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": ["roadmap", "start_date", "end_date", "title"]
+        }
+    },
+    "required": ["schedule"]
+}
