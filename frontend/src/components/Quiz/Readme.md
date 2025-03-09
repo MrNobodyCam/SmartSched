@@ -1,9 +1,17 @@
+# How To Call Roadmap Detail
+
+## First
+
+**In CallDetail.tsx** Change the button to your part that you want to popup, but onClick you need to apply `_togglePopup();_` you can run the following code:
+
+```tsx
 import { useState } from "react";
 import Lesson_Detail from "./Lesson_Detail";
 import QuizPopup from "./Quiz";
 import Result from "./Result";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
+
 function CallDetail({ RoadmapID }: { RoadmapID: number }) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [RoadMapID, setRoadMapID] = useState(1);
@@ -11,21 +19,26 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
+
   const togglePopup = () => {
     setRoadMapID(RoadmapID);
     setIsDetailOpen(!isDetailOpen);
   };
+
   const onOpenQuiz = () => {
     setIsDetailOpen(false);
     setopenQuiz(true);
   };
+
   const onSubmit = (result: any) => {
     setQuizResult(result);
   };
+
   const onPopupResult = () => {
     setopenQuiz(false);
     setShowResult(true);
   };
+
   return (
     <>
       <button
@@ -35,7 +48,7 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
       >
         Open Popup
-      </button>{" "}
+      </button>
       {/* Do not touch */}
       {isDetailOpen && (
         <Lesson_Detail
@@ -96,3 +109,4 @@ function CallDetail({ RoadmapID }: { RoadmapID: number }) {
 }
 
 export default CallDetail;
+```
