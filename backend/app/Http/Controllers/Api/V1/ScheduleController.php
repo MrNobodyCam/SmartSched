@@ -60,15 +60,15 @@ class ScheduleController extends Controller
         $firstFreeDayDate = $startDate->format('jS F Y');
 
         $textPrompt = "Create a structured study schedule with the following details:\n" .
-              "Title: " . $scheduleTitle . "\n" .
-              "Subjects: " . $subject . "\n" .
-              "Study Days: " . $freeDays . "\n" .
-              "Study Time: " . $startTime . " - " . $endTime . "\n" .
-              "Start Date: " . $firstFreeDayDate . "\n" .
-              "Duration: " . $duration . "\n\n" .
-              "Guidelines:\n" .
-              "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
-              "- Provide a clear weekly breakdown for balanced learning.";
+            "Title: " . $scheduleTitle . "\n" .
+            "Subjects: " . $subject . "\n" .
+            "Study Days: " . $freeDays . "\n" .
+            "Study Time: " . $startTime . " - " . $endTime . "\n" .
+            "Start Date: " . $firstFreeDayDate . "\n" .
+            "Duration: " . $duration . "\n\n" .
+            "Guidelines:\n" .
+            "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
+            "- Provide a clear weekly breakdown for balanced learning.";
 
 
         $response = Http::withHeaders([
@@ -155,7 +155,7 @@ class ScheduleController extends Controller
 
         if (isset($scheduleData['schedule'])) {
             $scheduleData = $scheduleData['schedule'];
-            
+
             // Create schedule with our calculated dates
             $schedule = Schedule::create([
                 'generator_id' => $generator->id,
@@ -214,7 +214,7 @@ class ScheduleController extends Controller
         foreach ($freeDays as $day) {
             $freeDayNumbers[] = $dayMapping[strtolower($day)];
         }
-        
+
         // Organize roadmap content by subject
         $subjectContent = [];
         foreach ($roadmapContent as $item) {
@@ -227,7 +227,7 @@ class ScheduleController extends Controller
                 'lesson' => $item['lesson']
             ];
         }
-        
+
         // Create topics and associate with generator
         $topicMap = [];
         foreach ($subjects as $subject) {
@@ -238,36 +238,36 @@ class ScheduleController extends Controller
             ]);
             $topicMap[$subject] = $topic->id;
         }
-        
+
         // Calculate total available study days
         $totalStudyDays = count($freeDayNumbers) * $durationWeeks;
-        
+
         // Distribute study days evenly among subjects
         $daysPerSubject = intval($totalStudyDays / count($subjects));
         $extraDays = $totalStudyDays % count($subjects);
-        
+
         // Schedule creation
         $currentDate = clone $startDate;
-        
+
         foreach ($subjects as $index => $subject) {
             // Calculate how many days this subject gets
             $subjectDays = $daysPerSubject + ($index < $extraDays ? 1 : 0);
-            
+
             // Get content for this subject
             $content = $subjectContent[$subject] ?? [];
             $contentCount = count($content);
-            
+
             for ($i = 0; $i < $subjectDays; $i++) {
                 // Find the next free day
                 while (!in_array($currentDate->dayOfWeek, $freeDayNumbers)) {
                     $currentDate->addDay();
                 }
-                
+
                 // Get content for this session (cycle through if we run out)
-                $sessionContent = $contentCount > 0 
-                    ? $content[$i % $contentCount] 
+                $sessionContent = $contentCount > 0
+                    ? $content[$i % $contentCount]
                     : ['description' => "Study session for $subject", 'lesson' => $subject];
-                
+
                 // Create roadmap entry
                 Roadmap::create([
                     'schedule_id' => $schedule->id,
@@ -279,7 +279,7 @@ class ScheduleController extends Controller
                     'end_time' => Carbon::parse($endTime),
                     'result' => 0,
                 ]);
-                
+
                 // Move to next day
                 $currentDate->addDay();
             }
