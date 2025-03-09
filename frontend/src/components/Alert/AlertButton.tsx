@@ -1,29 +1,21 @@
-import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
-import PrimaryBtn from "../PrimaryBtn";
 
 type Props = {
-  id?: string;
-  onClick: (id?: string) => void;
-  children: string;
-  color?: string;
-  background?: string;
-  extraContent?: React.ReactNode;
+  onClose?: () => void;
+  isError?: boolean;
   statusImage: string;
   title: string;
   message: string;
   confirmBtnColor?: string;
   confirmBtnBackground?: string;
+  onConfirm: () => void;
   toastNotify?: () => void;
 };
 
 function AlertButton({
-  id,
-  onClick,
-  children,
-  color,
-  background,
-  extraContent,
+  onClose,
+  isError,
+  onConfirm,
   statusImage,
   title,
   message,
@@ -31,29 +23,12 @@ function AlertButton({
   confirmBtnBackground = "#2D9CDB",
   toastNotify,
 }: Props) {
-  const [open, setOpen] = useState(false);
-
-  const handleConfirm = () => {
-    onClick(id);
-    setOpen(false);
-  };
-
   return (
     <>
-      {/* Button */}
-      <PrimaryBtn
-        children={children}
-        onClick={() => setOpen(true)}
-        background={background}
-        color={color}
-        extraContent={extraContent}
-      />
-
-      {/* Confirmation Dialog */}
       <ConfirmDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        onConfirm={handleConfirm}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        isError={isError}
         title={title}
         message={message}
         statusImage={statusImage}

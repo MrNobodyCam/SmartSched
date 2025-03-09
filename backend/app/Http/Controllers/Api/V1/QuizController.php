@@ -15,7 +15,7 @@ class QuizController extends Controller
             ['roadmap_id' => 'required|integer'],
         );
         $roadmap_id = $request->input('roadmap_id');
-        $lesson = DB::table('roadmaps')->where('id', operator: $roadmap_id)->value('lesson');
+        $lesson = DB::table('roadmaps')->where('id', operator: $roadmap_id)->value('description');
         if (!$lesson) {
             return response()->json(['error' => 'Lesson not found'], 404);
         }
@@ -140,28 +140,5 @@ class QuizController extends Controller
         }
 
         return $responses;
-    }
-    public function getRoadMap($roadmap_id)
-    {
-        $roadmap = DB::table('roadmaps')->where('id', $roadmap_id)->get();
-        if ($roadmap->isEmpty()) {
-            return response()->json(['error' => 'Roadmap not found'], 404);
-        }
-        return response()->json($roadmap);
-    }
-    public function updateRoadmapScore(Request $request, $roadmap_id)
-    {
-        $request->validate([
-            'score' => 'required|integer',
-        ]);
-        $score = $request->input('score');
-        $roadmap = DB::table('roadmaps')->where('id', $roadmap_id)->get();
-        if ($roadmap->isEmpty()) {
-            return response()->json(['error' => 'Roadmap not found'], 404);
-        }
-        DB::table('roadmaps')->where('id', $roadmap_id)->update([
-            'score' => $score,
-        ]);
-        return response()->json(['message' => 'Score updated successfully']);
     }
 }

@@ -3,10 +3,10 @@ import CrossIcon from "../../assets/icons/cross-icon.svg";
 import SecondaryBtn from "../SecondaryBtn";
 
 interface ConfirmDialogProps {
-  open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onConfirm: () => void;
   statusImage: string;
+  isError?: boolean;
   title: string;
   message: string;
   confirmBtnColor?: string;
@@ -15,7 +15,7 @@ interface ConfirmDialogProps {
 }
 
 function ConfirmDialog({
-  open,
+  isError = false,
   onClose,
   onConfirm,
   statusImage,
@@ -28,51 +28,54 @@ function ConfirmDialog({
   return (
     <div
       onClick={onClose}
-      className={`fixed inset-0 flex justify-center items-center transition-colors ${
-        open ? "visible bg-black/20" : "invisible"
-      }`}
+      className={`fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center transition-colors z-100`}
     >
       {/* modal */}
       <div
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the modal from closing it
-        className={`bg-white rounded-xl shadow p-6 transition-all ${
-          open ? "scale-100 opacity-100" : "scale-125 opacity-0"
-        }`}
+        className={`bg-white rounded-xl shadow p-6 transition-all w-[70%] md:w-[50%] lg:w-[40%]`}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 p-3 rounded-full text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600 cursor-pointer"
-        >
-          <img src={CrossIcon} alt="cross icon" />
-        </button>
         <div className="text-center">
           <img
-            className="mx-auto w-16 md:w-18"
+            className="mx-auto w-16 md:w-18 lg:w-20"
             src={statusImage}
             alt="status image"
           />
-          <div className="mx-auto my-4 w-50 space-y-1">
-            <h3 className="text-lg font-black text-gray-800">{title}</h3>
-            <p className="text-sm text-gray-500 mb-6 text-center">{message}</p>
+          <div className="mx-auto my-4 w-[80%] space-y-1">
+            <h3 className="text-[18px] md:text-[20px] lg:text-[22px] font-black text-gray-800">
+              {title}
+            </h3>
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mb-6 text-center">
+              {message}
+            </p>
           </div>
-          <div className="flex gap-4">
-            <SecondaryBtn
-              children="Cancel"
-              extraContent={
-                <span>
-                  <img src={CrossIcon} alt="Cross Icon" />
-                </span>
-              }
-              borderColor="#A5A5A5"
-              color="#A5A5A5"
-              onClick={onClose}
-            />
+          <div className="flex justify-center gap-4">
+            {isError == false && (
+              <SecondaryBtn
+                children="Close"
+                py="py-1"
+                extraContent={
+                  <span>
+                    <img
+                      src={CrossIcon}
+                      alt="Cross Icon"
+                      className="w-[14px] md:w-[16px] lg:w-[18px]"
+                    />
+                  </span>
+                }
+                borderColor="#A5A5A5"
+                color="#A5A5A5"
+                onClick={onClose}
+              />
+            )}
+
             <PrimaryBtn
+              py="py-1"
               children="Confirm"
               background={confirmBtnBackground}
               color={confirmBtnColor}
               onClick={() => {
-                onConfirm && onConfirm();
+                onConfirm();
                 toastNotify && toastNotify();
               }}
             />
@@ -84,5 +87,3 @@ function ConfirmDialog({
 }
 
 export default ConfirmDialog;
-
-// toast message is also here!

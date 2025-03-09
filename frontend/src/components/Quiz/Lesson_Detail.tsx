@@ -22,7 +22,6 @@ const PopupComponent = ({
     const fetch = async () => {
       setLoading(true);
       setError(null);
-
       try {
         const data = await fetchGetData(`roadmap/${RoadMapID}`);
         setQuizData(data[0]);
@@ -31,13 +30,15 @@ const PopupComponent = ({
       } finally {
         setLoading(false);
       }
+      console.log(error);
     };
 
     fetch();
   }, [RoadMapID]);
   if (loading) {
-    return <Loading text="Loading your study roadmap... Stay focused! 📚⏳" />;
+    return <Loading text="Wait For Detail... Stay focused! 📚⏳" />;
   }
+
   return (
     <div className="p-4">
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -57,7 +58,7 @@ const PopupComponent = ({
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-red-400 rounded-lg" />
               <h2 className=" text-[24px] md:text-[26px] lg:text-[28px] font-bold">
-                React Js
+                {quizData?.title || "No title available"}
               </h2>
             </div>
 
@@ -112,14 +113,14 @@ const PopupComponent = ({
               {/* <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                   Make Quiz
                 </button> */}
-              {quizData?.score != null ? (
+              {quizData?.result != null ? (
                 <SecondaryBtn
                   onClick={openQuiz}
                   py="py-1"
                   borderColor="#2D9CDB"
                   color="#2D9CDB"
                 >
-                  Quiz Score {quizData?.score} /10
+                  Quiz Score {quizData?.result} /10
                 </SecondaryBtn>
               ) : (
                 <PrimaryBtn py="py-1" onClick={openQuiz}>

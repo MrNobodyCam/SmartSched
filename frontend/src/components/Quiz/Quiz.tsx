@@ -72,7 +72,7 @@ const QuizPopup = ({
 
     try {
       const data = await fetchUpdateData(`roadmap/score/${RoadMapID}`, {
-        score: score,
+        result: score,
       });
       console.log(data);
     } catch (error) {

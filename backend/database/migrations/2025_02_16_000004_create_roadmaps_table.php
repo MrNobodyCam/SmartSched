@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->string('lesson');
             $table->text('description');
-            $table->integer('score')->nullable();
+            $table->integer('result')->nullable();
             $table->time('time');
             $table->date('date');
             $table->timestamps();
