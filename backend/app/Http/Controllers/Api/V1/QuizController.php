@@ -92,28 +92,28 @@ class QuizController extends Controller
         $textContent = $response->json()['candidates'][0]['content']['parts'][0]['text'];
         $quizData = json_decode($textContent, true);
 
-        if (isset($quizData['quiz'])) {
-            foreach ($quizData['quiz'] as $quizItem) {
-                DB::table('quizzes')->insert([
-                    'question' => $quizItem['question'],
-                    'roadmap_id' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-                $question = DB::table('quizzes')->where('question', $quizItem['question'])->value('id');
-                foreach ($quizItem['multi-answer'] as $answerItem) {
-                    DB::table('answers')->insert([
-                        'answer' => $answerItem['answer'],
-                        'is_correct' => $answerItem['is_correct'],
-                        'quiz_id' => $question,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-            }
-        } else {
-            return response()->json(['error' => 'Quiz data not found in the response'], 400);
-        }
+        // if (isset($quizData['quiz'])) {
+        //     foreach ($quizData['quiz'] as $quizItem) {
+        //         DB::table('quizzes')->insert([
+        //             'question' => $quizItem['question'],
+        //             'roadmap_id' => 1,
+        //             'created_at' => now(),
+        //             'updated_at' => now(),
+        //         ]);
+        //         $question = DB::table('quizzes')->where('question', $quizItem['question'])->value('id');
+        //         foreach ($quizItem['multi-answer'] as $answerItem) {
+        //             DB::table('answers')->insert([
+        //                 'answer' => $answerItem['answer'],
+        //                 'is_correct' => $answerItem['is_correct'],
+        //                 'quiz_id' => $question,
+        //                 'created_at' => now(),
+        //                 'updated_at' => now(),
+        //             ]);
+        //         }
+        //     }
+        // } else {
+        //     return response()->json(['error' => 'Quiz data not found in the response'], 400);
+        // }
 
         return response()->json($quizData);
     }
@@ -140,5 +140,28 @@ class QuizController extends Controller
         }
 
         return $responses;
+    }
+    public function getRoadMap($roadmap_id)
+    {
+        $roadmap = DB::table('roadmaps')->where('id', $roadmap_id)->get();
+        if ($roadmap->isEmpty()) {
+            return response()->json(['error' => 'Roadmap not found'], 404);
+        }
+        return response()->json($roadmap);
+    }
+    public function updateRoadmapScore(Request $request, $roadmap_id)
+    {
+        $request->validate([
+            'score' => 'required|integer',
+        ]);
+        $score = $request->input('score');
+        $roadmap = DB::table('roadmaps')->where('id', $roadmap_id)->get();
+        if ($roadmap->isEmpty()) {
+            return response()->json(['error' => 'Roadmap not found'], 404);
+        }
+        DB::table('roadmaps')->where('id', $roadmap_id)->update([
+            'score' => $score,
+        ]);
+        return response()->json(['message' => 'Score updated successfully']);
     }
 }
