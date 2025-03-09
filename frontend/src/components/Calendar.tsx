@@ -187,8 +187,25 @@ const CustomCalendar = () => {
     event: { id: string; title: string; start: string; description?: string };
     position: { top: number; left: number };
   } | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const dropdownRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<FullCalendar>(null);
+
+  // Month names array
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   // Sample events data
   const events = [
@@ -198,7 +215,8 @@ const CustomCalendar = () => {
       start: "2025-03-02T08:00:00",
       color: "#4CAF50",
       extendedProps: {
-        description: "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
+        description:
+          "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
       },
     },
     {
@@ -216,7 +234,8 @@ const CustomCalendar = () => {
       start: "2025-03-04T18:00:00",
       color: "#FF5252",
       extendedProps: {
-        description: "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
+        description:
+          "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
       },
     },
   ];
@@ -224,7 +243,10 @@ const CustomCalendar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -281,23 +303,39 @@ const CustomCalendar = () => {
 
   const handleDatesSet = (dateInfo: DateInfo) => {
     const date = dateInfo.view.currentStart;
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
     setCurrentMonth(`${month} ${year}`);
+    setSelectedMonth(date.getMonth());
+  };
+
+  // Handle month selection
+  const handleMonthChange = (monthIndex: number) => {
+    setSelectedMonth(monthIndex);
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.gotoDate(
+        new Date(calendarApi.getDate().getFullYear(), monthIndex, 1)
+      );
+    }
+  };
+
+  // Handle previous month
+  const handlePrevMonth = () => {
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.prev();
+      setSelectedMonth(calendarApi.getDate().getMonth());
+    }
+  };
+
+  // Handle next month
+  const handleNextMonth = () => {
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.next();
+      setSelectedMonth(calendarApi.getDate().getMonth());
+    }
   };
 
   // Render custom header with buttons
@@ -305,7 +343,6 @@ const CustomCalendar = () => {
     event: {
       backgroundColor: any;
       title: React.ReactNode;
-      start: any;
     };
   }) => {
     return (
@@ -315,15 +352,20 @@ const CustomCalendar = () => {
           style={{ backgroundColor: eventInfo.event.backgroundColor }}
         ></div>
         <span className="event-title">{eventInfo.event.title}</span>
-        <span className="event-time">
-          {new Date(eventInfo.event.start).toLocaleTimeString()}
-        </span>
       </div>
     );
   };
 
   // Handle event click
-  const handleEventClick = (info: { event: { id: string; title: string; start: Date | null; extendedProps: { description?: string } }, jsEvent: MouseEvent }) => {
+  const handleEventClick = (info: {
+    event: {
+      id: string;
+      title: string;
+      start: Date | null;
+      extendedProps: { description?: string };
+    };
+    jsEvent: MouseEvent;
+  }) => {
     const { event, jsEvent } = info;
     setPopupEvent({
       event: {
@@ -355,13 +397,52 @@ const CustomCalendar = () => {
             </button>
             {isDropdownOpen && (
               <div className="dropdown-content">
-                <button onClick={() => { setView("dayGridMonth"); setIsDropdownOpen(false); }}>Month</button>
-                <button onClick={() => { setView("timeGridWeek"); setIsDropdownOpen(false); }}>Week</button>
-                <button onClick={() => { setView("timeGridDay"); setIsDropdownOpen(false); }}>Day</button>
+                <button
+                  onClick={() => {
+                    setView("dayGridMonth");
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  Month
+                </button>
+                <button
+                  onClick={() => {
+                    setView("timeGridWeek");
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  Week
+                </button>
+                <button
+                  onClick={() => {
+                    setView("timeGridDay");
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  Day
+                </button>
               </div>
             )}
           </div>
         </div>
+        {/* Month Selector and Navigation Buttons */}
+        <div className="calendar-navigation">
+          <button onClick={handlePrevMonth}>Previous</button>
+          <div className="month-selector ">
+            <select
+              value={selectedMonth}
+              onChange={(e) => handleMonthChange(Number(e.target.value))}
+            >
+              {monthNames.map((month, index) => (
+                <option  key={index} value={index}>
+                  {month}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button onClick={handleNextMonth}>Next</button>
+        </div>
+
         <div className="calendar-actions">
           <button className="action-button procrastinate">
             Procrastinate Course
@@ -431,10 +512,7 @@ const CustomCalendar = () => {
           }}
         >
           <div className="popup-content">
-            <button
-              className="close-icon"
-              onClick={() => setPopupEvent(null)}
-            >
+            <button className="close-icon" onClick={() => setPopupEvent(null)}>
               ×
             </button>
             <h3>{popupEvent.event.title}</h3>
