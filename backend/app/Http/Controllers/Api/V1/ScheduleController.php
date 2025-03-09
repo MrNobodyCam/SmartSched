@@ -28,7 +28,6 @@ class ScheduleController extends Controller
         $endTime = $request->input('end_time');
         $duration = $request->input('duration');
 
-
         // Ensure the user exists
         $user = User::updateOrCreate(
             ['email' => 'example@gmail.com'],
@@ -65,11 +64,11 @@ class ScheduleController extends Controller
             "Study Days: " . $freeDays . "\n" .
             "Study Time: " . $startTime . " - " . $endTime . "\n" .
             "Start Date: " . $firstFreeDayDate . "\n" .
-            "Duration: " . $duration . "\n\n" .
+            "Duration: " . $duration . " weeks\n\n" .
             "Guidelines:\n" .
             "- Sessions begin on " . $firstFreeDay . ", covering topics progressively.\n" .
-            "- Provide a clear weekly breakdown for balanced learning.";
-
+            "- Provide a clear weekly breakdown for balanced learning.\n" .
+            "- Each subject should have complete sessions that fit within the 90-minute timeframe.";
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -152,6 +151,8 @@ class ScheduleController extends Controller
 
         $textContent = $responseData['candidates'][0]['content']['parts'][0]['text'];
         $scheduleData = json_decode($textContent, true);
+
+        // dd($scheduleData);
 
         if (isset($scheduleData['schedule'])) {
             $scheduleData = $scheduleData['schedule'];
@@ -239,50 +240,73 @@ class ScheduleController extends Controller
             $topicMap[$subject] = $topic->id;
         }
 
-        // Calculate total available study days
-        $totalStudyDays = count($freeDayNumbers) * $durationWeeks;
-
-        // Distribute study days evenly among subjects
-        $daysPerSubject = intval($totalStudyDays / count($subjects));
-        $extraDays = $totalStudyDays % count($subjects);
+        // Parse daily time boundaries
+        $dailyEndTime = Carbon::parse($endTime);
+        $sessionDuration = 90; // Duration in minutes
+        $breakDuration = 15; // Break duration in minutes
 
         // Schedule creation
         $currentDate = clone $startDate;
+        $endDateLimit = (clone $startDate)->addWeeks($durationWeeks);
+        $subjectIndex = 0; // Start with the first subject
+        $contentIndices = array_fill_keys($subjects, 0); // Track content index for each subject
 
-        foreach ($subjects as $index => $subject) {
-            // Calculate how many days this subject gets
-            $subjectDays = $daysPerSubject + ($index < $extraDays ? 1 : 0);
+        // Continue scheduling until we reach the end date
+        while ($currentDate->lessThan($endDateLimit)) {
+            // Skip days that are not free days
+            if (!in_array($currentDate->dayOfWeek, $freeDayNumbers)) {
+                $currentDate->addDay();
+                continue;
+            }
 
-            // Get content for this subject
-            $content = $subjectContent[$subject] ?? [];
-            $contentCount = count($content);
+            // Start time for this day
+            $currentSlotStart = Carbon::parse($startTime)->setDateFrom($currentDate);
 
-            for ($i = 0; $i < $subjectDays; $i++) {
-                // Find the next free day
-                while (!in_array($currentDate->dayOfWeek, $freeDayNumbers)) {
-                    $currentDate->addDay();
+            // Create sessions until we reach the end time for this day
+            while (true) {
+                $currentSlotEnd = (clone $currentSlotStart)->addMinutes($sessionDuration);
+
+                // If there's not enough time for another session, move to the next day
+                if ($currentSlotEnd->greaterThan(Carbon::parse($endTime)->setDateFrom($currentDate))) {
+                    break;
                 }
 
-                // Get content for this session (cycle through if we run out)
-                $sessionContent = $contentCount > 0
-                    ? $content[$i % $contentCount]
-                    : ['description' => "Study session for $subject", 'lesson' => $subject];
+                $subject = $subjects[$subjectIndex];
 
-                // Create roadmap entry
+                // Get content for this subject
+                $content = $subjectContent[$subject] ?? [];
+                $contentCount = count($content);
+
+                // Get content for this session (cycle through if we run out)
+                if ($contentCount > 0) {
+                    $contentIndex = $contentIndices[$subject] % $contentCount;
+                    $sessionContent = $content[$contentIndex];
+                    $contentIndices[$subject]++; // Move to next content piece for this subject
+                } else {
+                    $sessionContent = ['description' => "Study session for $subject", 'lesson' => $subject];
+                }
+
+                // Create roadmap entry with fixed 1h30m duration
                 Roadmap::create([
                     'schedule_id' => $schedule->id,
                     'topic_id' => $topicMap[$subject],
                     'lesson' => $subject,
                     'description' => $sessionContent['description'],
                     'date' => clone $currentDate,
-                    'start_time' => Carbon::parse($startTime),
-                    'end_time' => Carbon::parse($endTime),
+                    'start_time' => $currentSlotStart,
+                    'end_time' => $currentSlotEnd,
                     'result' => 0,
                 ]);
 
-                // Move to next day
-                $currentDate->addDay();
+                // Move to next subject in rotation
+                $subjectIndex = ($subjectIndex + 1) % count($subjects);
+
+                // The next slot starts after a 15-minute break
+                $currentSlotStart = (clone $currentSlotEnd)->addMinutes($breakDuration);
             }
+
+            // Move to next day
+            $currentDate->addDay();
         }
     }
 

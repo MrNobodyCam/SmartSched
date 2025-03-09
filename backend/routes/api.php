@@ -9,8 +9,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Route for testing the TestController
-Route::get('/test', [TestController::class, 'test']);
 
 // // Group routes with prefix 'v1'
 // Route::group(['prefix' => 'v1'], function () {
