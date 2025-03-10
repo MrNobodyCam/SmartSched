@@ -7,13 +7,13 @@ import SessionSettings from "../pages/General/general_sessions";
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<MainGeneral />}>
+      <Route path="/setting" element={<MainGeneral />}>
         <Route index element={<AccountSettings />} />
         <Route path="account" element={<AccountSettings />} />
         <Route path="password" element={<PasswordSettings />} />
         <Route path="session" element={<SessionSettings />} />
       </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/setting" replace />} />
     </Routes>
   );
 };
