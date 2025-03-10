@@ -102,7 +102,7 @@ const UserProfileSettings: React.FC = () => {
             <div>
               <p className="lg:text-[24px] font-bold mb-2">Profile Photo</p>
               <div className="flex items-center space-x-4">
-                <div className="w-25 h-25 rounded-full bg-gray-200">
+                <div className="w-25 h-25 rounded-full bg-gray-200 overflow-hidden">
                   {profile.profilePhoto ? (
                     <img
                       src={profile.profilePhoto}
@@ -132,14 +132,14 @@ const UserProfileSettings: React.FC = () => {
                       accept="image/*"
                       onChange={handleFileUpload}
                     />
-                    <span className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 lg:text-[22px]">
+                    <span className="inline-flex items-center px-4 py-2 bg-[#2D9CDB] text-white rounded-xl lg:text-[22px]">
                       Upload Image
                     </span>
                   </label>
                   {profile.profilePhoto && (
                     <button
                       onClick={handleDeletePhoto}
-                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-50 flex items-center lg:text-[22px]"
+                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center lg:text-[22px]"
                     >
                       <svg
                         className="w-4 h-4 mr-1"
@@ -169,13 +169,13 @@ const UserProfileSettings: React.FC = () => {
                   value={profile.fullName}
                   onChange={handleInputChange}
                   placeholder="Full Name"
-                  className="w-[442px] h-12 px-3 border rounded-md"
+                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px] "
                 />
                 <select
                   name="gender"
                   value={profile.gender}
                   onChange={handleInputChange}
-                  className="w-[208px] h-12 px-3 border rounded-md bg-white"
+                  className="w-[208px] h-12 px-3 border rounded-md bg-white lg:text-[22px]"
                 >
                   <option value="">Select gender</option>
                   <option value="male">Male</option>
@@ -192,13 +192,13 @@ const UserProfileSettings: React.FC = () => {
                   value={profile.email}
                   onChange={handleInputChange}
                   placeholder="Input your email"
-                  className="w-[442px] h-12 px-3 border rounded-md"
+                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px]"
                 />
                 <select
                   name="timezone"
                   value={profile.timezone}
                   onChange={handleInputChange}
-                  className="w-[442px] h-12 px-3 border rounded-md bg-white"
+                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px]"
                 >
                   <option value="">Select timezone</option>
                   <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
@@ -244,7 +244,7 @@ const UserProfileSettings: React.FC = () => {
               </div>
               <button
                 onClick={handleDeleteAccount}
-                className="px-6 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-200"
+                className="px-6 py-2 bg-[#2D9CDB] text-gray-200 rounded-xl lg:text-[22px]"
               >
                 Delete Account
               </button>
