@@ -9,7 +9,7 @@ function TermOfService() {
         </h1>
 
         {/* Terms Content */}
-        <div className="mt-6 space-y-4">
+        <div className="space-y-4">
           {/* Acceptance of Terms Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">

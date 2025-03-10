@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BoxIcon from "../assets/images/box 1.svg";
 import PlusIcon from "../assets/icons/Icon (2).svg";
 import { ChevronDown } from "react-feather";
@@ -9,7 +9,7 @@ const EmptySchedule = () => {
 
   return (
     <div className="w-full h-screen flex flex-col bg-white font-inter mx-auto shadow-md">
-      <div className="border-b  border-gray-300 p-1">
+      <div className="border-b w-full border-gray-300 p-1 fixed   bg-white z-10">
         <div className="flex sm:flex-row flex-col p-4">
           <div className="flex flex-row items-center space-x-2 sm:mb-0 mb-4 justify-center">
             <h1 className="text-2xl font-semibold">January 2022</h1>
@@ -17,13 +17,14 @@ const EmptySchedule = () => {
               Month <ChevronDown size={16} className="ml-1" />
             </button>
           </div>
-          <div className="flex justify-end sm:justify-end sm:ml-auto mt-4 sm:mt-0 pl-40">
+          <div className="flex justify-end sm:justify-end sm:ml-auto mt-5 sm:mt-0 pr-15 pl-40 ">
             <PrimaryBtn
+              py="py-2 sm:py-3 px-4 sm:px-6"
               extraContent={
                 <img
                   src={PlusIcon}
                   alt="Generate Schedule"
-                  className="w-3 h-3 sm:w-5 sm:h-5 "
+                  className="w-5 h-5 sm:w-5 sm:h-5"
                 />
               }
             >
@@ -33,7 +34,7 @@ const EmptySchedule = () => {
         </div>
       </div>
 
-      <div className="flex justify-end p-4 sm:mr-[46px] mr-0">
+      <div className="flex justify-end p-7 sm:mr-[46px] mr-0 mt-[80px]">
         <div className="flex items-center space-x-2">
           <span className="text-sm">List View</span>
           <label className="inline-flex items-center cursor-pointer">
@@ -46,12 +47,13 @@ const EmptySchedule = () => {
                 setViewType(viewType === "list" ? "calendar" : "list")
               }
             />
-            <div className="relative w-11 h-6 bg-gray-400 peer-focus:outline-none peer-focus:ring-4  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#2D9CDB]"></div>
+            <div className="relative w-11 h-6 bg-gray-400 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2D9CDB]"></div>
           </label>
           <span className="text-sm">Calendar</span>
         </div>
       </div>
-      <div className="w-full flex-grow flex items-center justify-center text-white">
+
+      <div className="w-full flex-grow flex items-center justify-center text-white overflow-y-auto mt-[160px]">
         <div className="flex flex-col items-center justify-center max-w-lg mx-auto px-4 text-center">
           <div className="w-25 h-12 mb-4">
             <img src={BoxIcon} alt="Empty box" className="max-w-full h-auto" />

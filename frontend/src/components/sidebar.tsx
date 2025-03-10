@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import calendarIcon from "../assets/icons/calendar.svg";
 import history from "../assets/icons/history.svg";
 import service from "../assets/icons/service.svg";
@@ -54,7 +55,13 @@ const SideBar: React.FC<SideBarProps> = ({
   onScreenChange,
   toggleSidebar,
 }) => {
-  const [selectedItem, setSelectedItem] = React.useState("calendar");
+  const [selectedItem, setSelectedItem] = React.useState(
+    localStorage.getItem("selectedItem") || "calendar"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedItem", selectedItem);
+  }, [selectedItem]);
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
@@ -73,54 +80,66 @@ const SideBar: React.FC<SideBarProps> = ({
         <div>
           <p className="font-bold uppercase text-gray-500 text-xs mb-4">MENU</p>
           <ul>
-            <MenuItem
-              icon={calendarIcon}
-              label="Calendar"
-              isSelected={selectedItem === "calendar"}
-              onClick={() => handleItemClick("calendar")}
-              isOpen={isOpen}
-            />
-            <MenuItem
-              icon={history}
-              label="History Schedule"
-              isSelected={selectedItem === "history"}
-              onClick={() => handleItemClick("history")}
-              isOpen={isOpen}
-            />
+            <Link to="/calendar">
+              <MenuItem
+                icon={calendarIcon}
+                label="Calendar"
+                isSelected={selectedItem === "calendar"}
+                onClick={() => handleItemClick("calendar")}
+                isOpen={isOpen}
+              />
+            </Link>
+            <Link to="/history">
+              <MenuItem
+                icon={history}
+                label="History Schedule"
+                isSelected={selectedItem === "history"}
+                onClick={() => handleItemClick("history")}
+                isOpen={isOpen}
+              />
+            </Link>
           </ul>
         </div>
 
         {/* Secondary Menu */}
         <div>
           <ul>
-            <MenuItem
-              icon={service}
-              label="Terms of Service"
-              isSelected={selectedItem === "service"}
-              onClick={() => handleItemClick("service")}
-              isOpen={isOpen}
-            />
-            <MenuItem
-              icon={privacy}
-              label="Privacy Policy"
-              isSelected={selectedItem === "privacy"}
-              onClick={() => handleItemClick("privacy")}
-              isOpen={isOpen}
-            />
-            <MenuItem
-              icon={contact}
-              label="Contact Us"
-              isSelected={selectedItem === "contact"}
-              onClick={() => handleItemClick("contact")}
-              isOpen={isOpen}
-            />
-            <MenuItem
-              icon={setting}
-              label="Settings"
-              isSelected={selectedItem === "setting"}
-              onClick={() => handleItemClick("setting")}
-              isOpen={isOpen}
-            />
+            <Link to="/service">
+              <MenuItem
+                icon={service}
+                label="Terms of Service"
+                isSelected={selectedItem === "service"}
+                onClick={() => handleItemClick("service")}
+                isOpen={isOpen}
+              />
+            </Link>
+            <Link to="/privacy">
+              <MenuItem
+                icon={privacy}
+                label="Privacy Policy"
+                isSelected={selectedItem === "privacy"}
+                onClick={() => handleItemClick("privacy")}
+                isOpen={isOpen}
+              />
+            </Link>
+            <Link to="/contact">
+              <MenuItem
+                icon={contact}
+                label="Contact Us"
+                isSelected={selectedItem === "contact"}
+                onClick={() => handleItemClick("contact")}
+                isOpen={isOpen}
+              />
+            </Link>
+            <Link to="/setting">
+              <MenuItem
+                icon={setting}
+                label="Settings"
+                isSelected={selectedItem === "setting"}
+                onClick={() => handleItemClick("setting")}
+                isOpen={isOpen}
+              />
+            </Link>
           </ul>
 
           {/* Custom Logout Button */}
