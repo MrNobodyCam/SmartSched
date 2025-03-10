@@ -8,7 +8,7 @@ const MainGeneral: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>("account");
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className=" w-full fixed ">
       <div className="p-6">
         <TabButtons activeTab={activeTab} onTabChange={setActiveTab} />
         {activeTab === "account" && <UserProfileSettings />}

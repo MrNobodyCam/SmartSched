@@ -65,8 +65,8 @@ const PasswordChangeForm = () => {
   };
 
   return (
-    <div className="bg-green-600 min-h-screen">
-      <div className=" bg-pink-600 relative ">
+    <div className="min-h-screen">
+      <div className=" relative ">
         <div className="space-y-6 -mt-1">
           <form onSubmit={handleSubmit}>
             <h2 className="text-xl font-semibold mb-1 text-white">
