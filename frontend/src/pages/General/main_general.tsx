@@ -1,19 +1,33 @@
-import React, { useState } from "react";
-import TabButtons, { TabType } from "./3button";
-import UserProfileSettings from "./general_account";
-import PasswordChangeForm from "./general_password";
-import SessionManagement from "./general_sessions";
+import React from "react";
+import { Link, useLocation, Outlet } from "react-router-dom";
 
 const MainGeneral: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>("account");
+  const location = useLocation();
+  const currentTab = location.pathname.slice(1) || "account";
 
   return (
-    <div className=" w-full fixed ">
+    <div className="min-h-screen">
       <div className="p-6">
-        <TabButtons activeTab={activeTab} onTabChange={setActiveTab} />
-        {activeTab === "account" && <UserProfileSettings />}
-        {activeTab === "password" && <PasswordChangeForm />}
-        {activeTab === "session" && <SessionManagement />}
+        <h1 className="text-2xl lg:text-[36px] font-bold mb-6">General</h1>
+        <div className="flex gap-4 mb-6">
+          {["account", "password", "session"].map((tab) => (
+            <Link
+              key={tab}
+              to={`/${tab}`}
+              className={`py-2 px-4 rounded-full font-medium transition-colors
+                ${
+                  currentTab === tab
+                    ? "bg-[#2D9CDB] text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </Link>
+          ))}
+        </div>
+        <div className="mt-4">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

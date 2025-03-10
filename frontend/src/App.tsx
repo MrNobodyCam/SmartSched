@@ -1,9 +1,11 @@
-import MainGeneral from "./pages/General/main_general";
+import AppRoutes from "./utils/Routes";
+import { BrowserRouter } from "react-router-dom";
+
 function App() {
   return (
-    <>
-      <MainGeneral />
-    </>
+    <BrowserRouter>
+      <AppRoutes/>
+    </BrowserRouter>
   );
 }
 
