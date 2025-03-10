@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, useRef } from "react";
+import PrimaryBtn from "../../components/PrimaryBtn";
 
 interface UserProfile {
   fullName: string;
@@ -93,14 +94,28 @@ const UserProfileSettings: React.FC = () => {
     alert("Account deletion request submitted");
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleUpdateProfile();
+  };
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleDeleteAccount();
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
-    <div className=" min-h-screen">
-      <div className="  relative  ">
-        <div className="p-6 ">
+    <div className="min-h-screen">
+      <div className="relative">
+        <div className="p-6">
           <div className="space-y-6 -mt-5">
             {/* Profile Photo Section */}
             <div>
-              <p className="lg:text-[24px] font-bold mb-2">Profile Photo</p>
+              <p className="text-[24px] font-bold mb-2">Profile Photo</p>
               <div className="flex items-center space-x-4">
                 <div className="w-25 h-25 rounded-full bg-gray-200 overflow-hidden">
                   {profile.profilePhoto ? (
@@ -124,22 +139,20 @@ const UserProfileSettings: React.FC = () => {
                   )}
                 </div>
                 <div className="flex space-x-2">
-                  <label className="cursor-pointer">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                    />
-                    <span className="inline-flex items-center px-4 py-2 bg-[#2D9CDB] text-white rounded-xl lg:text-[22px]">
-                      Upload Image
-                    </span>
-                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                  />
+                  <PrimaryBtn onClick={triggerFileInput}>
+                    Upload Image
+                  </PrimaryBtn>
                   {profile.profilePhoto && (
                     <button
                       onClick={handleDeletePhoto}
-                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center lg:text-[22px]"
+                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center text-[18px] font-bold"
                     >
                       <svg
                         className="w-4 h-4 mr-1"
@@ -160,7 +173,7 @@ const UserProfileSettings: React.FC = () => {
               )}
             </div>
 
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Form Fields */}
               <div className="flex gap-6">
                 <input
@@ -169,13 +182,15 @@ const UserProfileSettings: React.FC = () => {
                   value={profile.fullName}
                   onChange={handleInputChange}
                   placeholder="Full Name"
-                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px] "
+                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                  required
                 />
                 <select
                   name="gender"
                   value={profile.gender}
                   onChange={handleInputChange}
-                  className="w-[208px] h-12 px-3 border rounded-md bg-white lg:text-[22px]"
+                  className="w-[208px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                  required
                 >
                   <option value="">Select gender</option>
                   <option value="male">Male</option>
@@ -192,15 +207,17 @@ const UserProfileSettings: React.FC = () => {
                   value={profile.email}
                   onChange={handleInputChange}
                   placeholder="Input your email"
-                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px]"
+                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                  required
                 />
                 <select
                   name="timezone"
                   value={profile.timezone}
                   onChange={handleInputChange}
-                  className="w-[442px] h-12 px-3 border rounded-md lg:text-[22px]"
+                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium "
+                  required
                 >
-                  <option value="">Select timezone</option>
+                  <option value="">Select Timezone</option>
                   <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
                   <option value="Asia/Singapore">Singapore (+08:00)</option>
                   <option value="America/New_York">New York (-05:00)</option>
@@ -209,45 +226,38 @@ const UserProfileSettings: React.FC = () => {
                   <option value="Australia/Sydney">Sydney (+10:00)</option>
                 </select>
               </div>
-            </div>
-            {/* booom */}
-            <div className="pt-4">
-              <button
-                onClick={handleUpdateProfile}
-                className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-                Update
-              </button>
-            </div>
+
+              <div className="pt-4">
+                <PrimaryBtn> Update </PrimaryBtn>
+              </div>
+            </form>
 
             {/* Delete Account Section */}
             <div className="mt-12 pt-6">
-              <h2 className="text-xl lg:text-[30px] font-bold text-black-900 mb-2">
+              <h2 className="text-[24px] font-bold text-black-900 mb-2">
                 Delete Account
               </h2>
-              <p className="text-gray-600 mb-4 lg:text-[24px]">
+              <p className="text-gray-400 mb-4 text-[18px]">
                 Once you delete your account and account data, there is no going
                 back.
                 <br />
-                <span className="font-medium">
+                <span className="text-gray-400 font-bold"> 
                   Delete your account and account data
                 </span>
               </p>
-              <div className="mb-4">
-                <input
-                  type="email"
-                  value={confirmEmail}
-                  onChange={handleConfirmEmailChange}
-                  placeholder="Confirm Email"
-                  className="w-full md:w-80 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 lg:text-[22px]"
-                />
-              </div>
-              <button
-                onClick={handleDeleteAccount}
-                className="px-6 py-2 bg-[#2D9CDB] text-gray-200 rounded-xl lg:text-[22px]"
-              >
-                Delete Account
-              </button>
+              <form onSubmit={handleDeleteSubmit}>
+                <div className="mb-4">
+                  <input
+                    type="email"
+                    value={confirmEmail}
+                    onChange={handleConfirmEmailChange}
+                    placeholder="Confirm Email"
+                    className="w-full md:w-80 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-[18px]"
+                    required
+                  />
+                </div>
+                <PrimaryBtn>Delete Account</PrimaryBtn>
+              </form>
             </div>
           </div>
         </div>
