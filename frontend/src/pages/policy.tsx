@@ -9,7 +9,7 @@ function Policy() {
         </h1>
 
         {/* Privacy Policy Content */}
-        <div className="mt-6 space-y-4">
+        <div className=" space-y-4">
           {/* Information We Collect Section */}
           <div className="rounded-lg shadow-lg p-3 sm:p-4">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
