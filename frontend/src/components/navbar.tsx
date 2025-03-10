@@ -32,7 +32,9 @@ function NavBar({ toggleSidebar }: NavBarProps) {
         </button>
 
         {/* Brand Name */}
-        <h1 className="text-lg font-bold text-gray-800">SmartSched</h1>
+        <h1 className="text-[22px] md:text-[24px] lg:text-[26px] font-bold text-gray-800">
+          SmartSched
+        </h1>
       </div>
 
       {/* Navbar Right Section */}

@@ -36,6 +36,13 @@ function HistoryScreen() {
       freeTime: "9:00AM - 12:00PM",
       duration: "25 Days",
     },
+    {
+      id: 5,
+      title: "Explore Python",
+      topic: "Python",
+      freeTime: "9:00AM - 12:00PM",
+      duration: "25 Days",
+    },
   ];
 
   // State for search input and filtered data
@@ -130,29 +137,10 @@ function HistoryScreen() {
                       </p>
                     </div>
                   </div>
-                  {/* Free Time */}
-                  <div className="flex items-center">
-                    <img
-                      src={time}
-                      alt="Time"
-                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
-                    />
-                    <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
-                      <span className="font-semibold">Free Time:</span>{" "}
-                      {item.freeTime}
-                    </p>
-                  </div>
-                  {/* Duration */}
-                  <div className="flex items-center">
-                    <img
-                      src={duration}
-                      alt="Duration"
-                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
-                    />
-                    <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
-                      <span className="font-semibold">Duration:</span>{" "}
-                      {item.duration}
-                    </p>
+                  <div className="mt-4 ml-auto flex justify-end">
+                    <PrimaryBtn py="py-1" px="px-8 md:px-6 lg:px-6">
+                      See more
+                    </PrimaryBtn>
                   </div>
                 </div>
               ))
@@ -162,13 +150,8 @@ function HistoryScreen() {
                   No results found.
                 </p>
               </div>
-            ))
-          ) : (
-            <div className="col-span-full flex items-center justify-center min-h-[50vh]">
-              <p className="text-[20px] md:text-[22px] lg:text-[24px] text-black text-center">
-                No results found.
-              </p>
-            </div>
+            )}
+          </div>
         </div>
       </div>
     </>

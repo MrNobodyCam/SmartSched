@@ -116,7 +116,7 @@ const NotificationPopup = () => {
       >
         <img
           src={BellIcon}
-          className="h-6 w-6 text-gray-700"
+          className="h-6 w-6 text-gray-700 cursor-pointer"
           alt="Notifications"
         />
         {/* Notification Count Badge */}
