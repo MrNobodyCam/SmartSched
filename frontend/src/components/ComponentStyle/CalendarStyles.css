@@ -32,7 +32,6 @@
 }
 
 .calendar-title {
-  /* width: 230px; */
   font-size: 1.8rem;
   font-weight: 500;
   margin: 0;
@@ -42,7 +41,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 0.5rem;
+  margin-left: 1.5rem;
 }
 
 .dropdown-button {
@@ -94,7 +93,9 @@
 }
 
 .calendar-actions {
+  width: 350px;
   display: flex;
+  justify-content: end;
   gap: 10px;
 }
 
@@ -188,7 +189,6 @@ input:checked + .slider:before {
 .fc-theme-standard .fc-scrollgrid {
   border: none !important;
   border-right: none !important;
-  /* border: 1px solid #2196f3 !important; */
 }
 
 .fc .fc-scrollgrid-section-header > * {
@@ -210,8 +210,7 @@ input:checked + .slider:before {
   color: #333;
 }
 
-.fc .fc-daygrid-day.fc-day-today {
-  /* background-color: #f7f9fc !important; */
+.fc td.fc-day-today {
   background-color: #2195f34f !important;
 }
 
@@ -235,6 +234,36 @@ input:checked + .slider:before {
 /* Background for date cells */
 .fc-daygrid-day {
   background-color: white;
+}
+
+.fc .fc-daygrid-day-top {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 35px !important;
+}
+
+.fc .fc-timegrid-slot {
+  border-bottom: 1px solid #a5a5a5 !important;
+  height: 1.5em;
+}
+
+/* Ensure scrollbar more visually appealing */
+.fc-popover-body {
+  max-height: 270px; /* Set fixed height */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+}
+
+.fc-popover-body::-webkit-scrollbar {
+  width: 6px; /* Adjust scrollbar width */
+}
+
+.fc-popover-body::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar color */
+  border-radius: 4px; /* Rounded edges */
+}
+
+.fc-popover-body::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker shade on hover */
 }
 
 /* To-do list style */

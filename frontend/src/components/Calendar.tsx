@@ -1,457 +1,225 @@
-// import React, { useState } from "react";
-// import FullCalendar from "@fullcalendar/react";
-// import dayGridPlugin from "@fullcalendar/daygrid";
-// import timeGridPlugin from "@fullcalendar/timegrid";
-// import listPlugin from "@fullcalendar/list";
-// import "./ComponentStyle/CalendarStyles.css";
-
-// const CustomCalendar = () => {
-//   const [view, setView] = useState("dayGridMonth");
-//   const [currentMonth, setCurrentMonth] = useState("January 2025");
-
-//   // Sample events data
-//   const events = [
-//     {
-//       id: "1",
-//       title: "Event Name",
-//       start: "2022-01-02T08:00:00",
-//       color: "#4CAF50",
-//     },
-//     {
-//       id: "2",
-//       title: "Event Name",
-//       start: "2022-01-02T08:00:00",
-//       color: "#4CAF50",
-//     },
-//     {
-//       id: "3",
-//       title: "Event Name",
-//       start: "2022-01-03T08:00:00",
-//       color: "#4CAF50",
-//     },
-//     {
-//       id: "4",
-//       title: "Event Name",
-//       start: "2022-01-03T08:00:00",
-//       color: "#7B68EE",
-//     },
-//     {
-//       id: "5",
-//       title: "Event Name",
-//       start: "2022-01-04T08:00:00",
-//       color: "#FF5252",
-//     },
-//     {
-//       id: "6",
-//       title: "Event Name",
-//       start: "2022-01-04T08:00:00",
-//       color: "#4CAF50",
-//     },
-//     {
-//       id: "7",
-//       title: "Event Name",
-//       start: "2022-01-05T08:00:00",
-//       color: "#4CAF50",
-//     },
-//     {
-//       id: "8",
-//       title: "Event Name",
-//       start: "2022-01-05T08:00:00",
-//       color: "#FF5252",
-//     },
-//   ];
-
-//   // Function to handle date change
-//   interface DateInfo {
-//     view: {
-//       currentStart: Date;
-//     };
-//   }
-
-//   const handleDatesSet = (dateInfo: DateInfo) => {
-//     const date = dateInfo.view.currentStart;
-//     const monthNames = [
-//       "January",
-//       "February",
-//       "March",
-//       "April",
-//       "May",
-//       "June",
-//       "July",
-//       "August",
-//       "September",
-//       "October",
-//       "November",
-//       "December",
-//     ];
-//     const month = monthNames[date.getMonth()];
-//     const year = date.getFullYear();
-//     setCurrentMonth(`${month} ${year}`);
-//   };
-
-//   // Render custom header with buttons
-//   const renderEventContent = (eventInfo: {
-//     event: {
-//       backgroundColor: any;
-//       title:
-//         | string
-//         | number
-//         | boolean
-//         | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-//         | Iterable<React.ReactNode>
-//         | React.ReactPortal
-//         | null
-//         | undefined;
-//     };
-//   }) => {
-//     return (
-//       <div className="custom-event">
-//         <div
-//           className="event-dot"
-//           style={{ backgroundColor: eventInfo.event.backgroundColor }}
-//         ></div>
-//         <span className="event-title">{eventInfo.event.title}</span>
-//         <span className="event-time">08:00</span>
-//       </div>
-//     );
-//   };
-
-//   // Custom view toggle
-//   const toggleView = () => {
-//     setView((prev) => (prev === "dayGridMonth" ? "listMonth" : "dayGridMonth"));
-//   };
-
-//   return (
-//     <div className="calendar-container">
-//       <div className="calendar-header">
-//         <div className="calendar-title-container">
-//           <h1 className="calendar-title">{currentMonth}</h1>
-//           <div className="dropdown">
-//             <button className="dropdown-button">Month</button>
-//           </div>
-//         </div>
-//         <div className="calendar-actions">
-//           <button className="action-button procrastinate">
-//             Procrastinate Course
-//           </button>
-//           <button className="action-button leave">Leave Course</button>
-//         </div>
-//       </div>
-
-//       <div className="view-toggle-container">
-//         <span className="view-label">List View</span>
-//         <label className="switch">
-//           <input
-//             type="checkbox"
-//             checked={view === "dayGridMonth"}
-//             onChange={toggleView}
-//           />
-//           <span className="slider round"></span>
-//         </label>
-//         <span className="view-label">Calendar</span>
-//       </div>
-
-//       <FullCalendar
-//         plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-//         initialView={view}
-//         headerToolbar={false} // Hide default header
-//         events={events}
-//         eventContent={renderEventContent}
-//         datesSet={handleDatesSet}
-//         dayMaxEventRows={4}
-//         moreLinkContent={({ num }) => `+${num} More`}
-//         height="auto"
-//         contentHeight="auto"
-//         aspectRatio={3}
-//         fixedWeekCount={false}
-//         showNonCurrentDates={false}
-//         dayHeaderFormat={{ weekday: "short" }}
-//       />
-//     </div>
-//   );
-// };
-
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import "./ComponentStyle/CalendarStyles.css";
+import CustomDatePicker from "./CustomDatePicker";
 
-const CustomCalendar = () => {
+const CustomCalendar: React.FC = () => {
   const [view, setView] = useState("dayGridMonth");
   const [currentMonth, setCurrentMonth] = useState("January 2025");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showTodoList, setShowTodoList] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [popupEvent, setPopupEvent] = useState<{
     event: { id: string; title: string; start: string; description?: string };
     position: { top: number; left: number };
   } | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+
+  const calendarRef = useRef<FullCalendar | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const calendarRef = useRef<FullCalendar>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  // Month names array
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  // Sample events data
-  const events = [
+  // ✅ Store events in state
+  const [events, setEvents] = useState([
     {
       id: "1",
       title: "Reading a Book",
       start: "2025-03-02T08:00:00",
       color: "#4CAF50",
-      extendedProps: {
-        description:
-          "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
-      },
+      allDay: false,
+      extendedProps: { description: "Lecture session on literature." },
     },
     {
       id: "2",
       title: "Meeting with Team",
-      start: "2025-03-03T10:00:00",
+      start: "2025-03-03T10:30:00",
       color: "#2196F3",
-      extendedProps: {
-        description: "Lecture",
-      },
+      allDay: false,
+      extendedProps: { description: "Weekly sprint meeting." },
     },
     {
       id: "3",
       title: "Gym Session",
       start: "2025-03-04T18:00:00",
       color: "#FF5252",
-      extendedProps: {
-        description:
-          "Lecture fd;lkfj l;k df sdlkfjasl;kdj fl;kdjflk;sjfdljf als;f",
-      },
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
     },
-  ];
+    {
+      id: "4",
+      title: "Jivava Pingiling",
+      start: "2025-03-10T18:00:00",
+      color: "#FF5252",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+  ]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
+  // ✅ Function to add a new event dynamically
+  const addEvent = () => {
+    const newEvent = {
+      id: String(events.length + 1),
+      title: "Go to Kikilu",
+      start: "2025-03-10T21:00:00",
+      color: "#FF5252",
+      allDay: false,
+      extendedProps: { description: "Dinner at Kikilu restaurant." },
+    };
+
+    setEvents((prevEvents) => {
+      const updatedEvents = [...prevEvents, newEvent];
+
+      // ✅ Ensure FullCalendar updates by refetching events
+      if (calendarRef.current) {
+        calendarRef.current.getApi().refetchEvents();
       }
-    };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Close popup when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const popup = document.querySelector(".event-popup");
-      if (popup && !popup.contains(event.target as Node)) {
-        setPopupEvent(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Change the calendar view when the `view` state changes
-  useEffect(() => {
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.changeView(view);
-    }
-  }, [view]);
-
-  // Map view types to display text
-  const getViewText = (viewType: string) => {
-    switch (viewType) {
-      case "dayGridMonth":
-        return "Month";
-      case "timeGridWeek":
-        return "Week";
-      case "timeGridDay":
-        return "Day";
-      default:
-        return "Month";
-    }
-  };
-
-  // Function to handle date change
-  interface DateInfo {
-    view: {
-      currentStart: Date;
-    };
-  }
-
-  const handleDatesSet = (dateInfo: DateInfo) => {
-    const date = dateInfo.view.currentStart;
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    setCurrentMonth(`${month} ${year}`);
-    setSelectedMonth(date.getMonth());
-  };
-
-  // Handle month selection
-  const handleMonthChange = (monthIndex: number) => {
-    setSelectedMonth(monthIndex);
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.gotoDate(
-        new Date(calendarApi.getDate().getFullYear(), monthIndex, 1)
-      );
-    }
-  };
-
-  // Handle previous month
-  const handlePrevMonth = () => {
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.prev();
-      setSelectedMonth(calendarApi.getDate().getMonth());
-    }
-  };
-
-  // Handle next month
-  const handleNextMonth = () => {
-    if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.next();
-      setSelectedMonth(calendarApi.getDate().getMonth());
-    }
-  };
-
-  // Render custom header with buttons
-  const renderEventContent = (eventInfo: {
-    event: {
-      backgroundColor: any;
-      title: React.ReactNode;
-    };
-  }) => {
-    return (
-      <div className="custom-event">
-        <div
-          className="event-dot"
-          style={{ backgroundColor: eventInfo.event.backgroundColor }}
-        ></div>
-        <span className="event-title">{eventInfo.event.title}</span>
-      </div>
-    );
-  };
-
-  // Handle event click
-  const handleEventClick = (info: {
-    event: {
-      id: string;
-      title: string;
-      start: Date | null;
-      extendedProps: { description?: string };
-    };
-    jsEvent: MouseEvent;
-  }) => {
-    const { event, jsEvent } = info;
-    setPopupEvent({
-      event: {
-        id: event.id,
-        title: event.title,
-        start: event.start ? event.start.toISOString() : "", // Convert Date to string
-        description: event.extendedProps.description || "No description", // Safely access description
-      },
-      position: { top: jsEvent.clientY, left: jsEvent.clientX },
+      return updatedEvents;
     });
   };
 
-  // Toggle between calendar and to-do list
+  // ✅ Sync DatePicker label with FullCalendar when the view changes
+  const handleDatesSet = useCallback(
+    ({ view }: { view: { currentStart: Date } }) => {
+      const date = view.currentStart;
+      setCurrentMonth(
+        `${date.toLocaleString("default", {
+          month: "long",
+        })} ${date.getFullYear()}`
+      );
+      setSelectedDate(new Date(date));
+    },
+    []
+  );
+
+  // ✅ Handle Previous & Next buttons properly
+  const handlePrevMonth = () => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().prev();
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().next();
+    }
+  };
+
+  // ✅ Handle switching calendar view
+  const handleViewChange = (newView: string) => {
+    setView(newView);
+    setIsDropdownOpen(false);
+    if (calendarRef.current) {
+      calendarRef.current.getApi().changeView(newView);
+    }
+  };
+
+  // ✅ Toggle Between Calendar & To-Do List
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
   };
 
+  // ✅ Handle event clicks
+  const handleEventClick = useCallback(
+    ({ event, jsEvent }: { event: any; jsEvent: MouseEvent }) => {
+      let left = jsEvent.pageX + 10; // Default to the right of the event
+      let top = jsEvent.pageY - 20; // Adjust for better positioning
+
+      // Ensure the modal stays within the screen bounds
+      if (window.innerWidth - jsEvent.pageX < 250) {
+        left = jsEvent.pageX - 220; // Move left if no space on the right
+      }
+
+      setPopupEvent({
+        event: {
+          id: event.id,
+          title: event.title,
+          start: event.start?.toISOString() || "",
+          description:
+            event.extendedProps?.description || "No description available",
+        },
+        position: { top, left },
+      });
+    },
+    []
+  );
+
+  //✅ Close modal when clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setPopupEvent(null);
+      }
+    };
+
+    if (popupEvent) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popupEvent]);
+
   return (
     <div className="calendar-container">
+      {/* Calendar Header */}
       <div className="calendar-header">
         <div className="calendar-title-container">
           <h1 className="calendar-title">{currentMonth}</h1>
+
+          {/* Dropdown for Switching Views */}
           <div className="dropdown" ref={dropdownRef}>
             <button
               className="dropdown-button"
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
-              {getViewText(view)}
+              {view === "dayGridMonth"
+                ? "Month"
+                : view === "timeGridWeek"
+                ? "Week"
+                : "Day"}
             </button>
             {isDropdownOpen && (
               <div className="dropdown-content">
-                <button
-                  onClick={() => {
-                    setView("dayGridMonth");
-                    setIsDropdownOpen(false);
-                  }}
-                >
+                <button onClick={() => handleViewChange("dayGridMonth")}>
                   Month
                 </button>
-                <button
-                  onClick={() => {
-                    setView("timeGridWeek");
-                    setIsDropdownOpen(false);
-                  }}
-                >
+                <button onClick={() => handleViewChange("timeGridWeek")}>
                   Week
                 </button>
-                <button
-                  onClick={() => {
-                    setView("timeGridDay");
-                    setIsDropdownOpen(false);
-                  }}
-                >
+                <button onClick={() => handleViewChange("timeGridDay")}>
                   Day
                 </button>
               </div>
             )}
           </div>
         </div>
-        {/* Month Selector and Navigation Buttons */}
+
+        {/* Navigation Buttons & Date Picker */}
         <div className="calendar-navigation">
           <button onClick={handlePrevMonth}>Previous</button>
-          <div className="month-selector ">
-            <select
-              value={selectedMonth}
-              onChange={(e) => handleMonthChange(Number(e.target.value))}
-            >
-              {monthNames.map((month, index) => (
-                <option  key={index} value={index}>
-                  {month}
-                </option>
-              ))}
-            </select>
-          </div>
+          <CustomDatePicker
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+          />
           <button onClick={handleNextMonth}>Next</button>
         </div>
 
+        {/* ✅ Add Event Button */}
         <div className="calendar-actions">
-          <button className="action-button procrastinate">
-            Procrastinate Course
+          <button className="action-button bg-amber-500" onClick={addEvent}>
+            Add Event
           </button>
-          <button className="action-button leave">Leave Course</button>
         </div>
       </div>
 
-      {/* Toggle Button for Calendar and To-Do List */}
+      {/* ✅ Toggle Button to Switch Between Calendar & To-Do List */}
       <div className="view-toggle-container">
         <span className="view-label">To-Do List</span>
         <label className="switch">
@@ -465,7 +233,7 @@ const CustomCalendar = () => {
         <span className="view-label">Calendar</span>
       </div>
 
-      {/* Conditionally Render Calendar or To-Do List */}
+      {/* ✅ Show Calendar or To-Do List Based on Toggle */}
       {showTodoList ? (
         <div className="todo-list">
           <h2>To-Do List</h2>
@@ -482,14 +250,15 @@ const CustomCalendar = () => {
         </div>
       ) : (
         <FullCalendar
+          key={events.length} // ✅ Forces re-render when events change
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView={view}
           headerToolbar={false}
           events={events}
-          eventContent={renderEventContent}
-          datesSet={handleDatesSet}
-          dayMaxEventRows={4}
+          eventClick={handleEventClick}
+          datesSet={handleDatesSet} // ✅ DatePicker now updates automatically
+          dayMaxEventRows={2}
           moreLinkContent={({ num }) => `+${num} More`}
           height="auto"
           contentHeight="auto"
@@ -497,28 +266,61 @@ const CustomCalendar = () => {
           fixedWeekCount={false}
           showNonCurrentDates={false}
           dayHeaderFormat={{ weekday: "short" }}
-          eventClick={handleEventClick} // Add this line
+          eventTimeFormat={{
+            hour: "numeric",
+            minute: "2-digit",
+            meridiem: "short",
+          }}
         />
       )}
 
-      {/* Event Popup */}
+      {/* ✅ Event Modal */}
       {popupEvent && (
         <div
-          className="event-popup"
+          ref={modalRef}
+          className="event-modal"
           style={{
-            position: "fixed",
+            position: "absolute",
             top: popupEvent.position.top,
             left: popupEvent.position.left,
+            backgroundColor: "white",
+            padding: "15px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            borderRadius: "8px",
+            zIndex: 1000,
+            minWidth: "200px",
           }}
         >
-          <div className="popup-content">
-            <button className="close-icon" onClick={() => setPopupEvent(null)}>
-              ×
-            </button>
-            <h3>{popupEvent.event.title}</h3>
-            <p>{new Date(popupEvent.event.start).toLocaleString()}</p>
-            <p>{popupEvent.event.description}</p>
-          </div>
+          {/* Close Icon */}
+          <button
+            onClick={() => setPopupEvent(null)}
+            style={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              background: "none",
+              border: "none",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            ❌
+          </button>
+
+          <h3>
+            <strong>Title:</strong> {popupEvent.event.title}
+          </h3>
+          <p>
+            <strong>Time:</strong>{" "}
+            {new Date(popupEvent.event.start).toLocaleTimeString([], {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            })}
+          </p>
+          <p>
+            <strong>Description:</strong> {popupEvent.event.description}
+          </p>
         </div>
       )}
     </div>
