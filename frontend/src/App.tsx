@@ -1,8 +1,8 @@
-import Account from "./components/general_account";
+import MainGeneral from "./components/General/main_general";
 function App() {
   return (
     <>
-      <Account />
+      <MainGeneral />
     </>
   );
 }
