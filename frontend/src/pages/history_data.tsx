@@ -169,7 +169,6 @@ function HistoryScreen() {
                 No results found.
               </p>
             </div>
-          )}
         </div>
       </div>
     </>

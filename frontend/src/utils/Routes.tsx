@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import HistoryScreen from "../pages/history_data";
 import CalendarScreen from "../components/generate-schedule";
+import TermOfService from "../pages/termof_service";
+import PolicyScreen from "../pages/policy";
 
 const AppRoutes = () => {
   return (
