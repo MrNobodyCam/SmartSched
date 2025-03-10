@@ -16,9 +16,9 @@ const SessionManagement = () => {
   return (
     <div className=" min-h-screen">
       <div className=" relative">
-        <div className="space-y-6 -mt-1">
-          <h2 className="text-xl font-semibold mb-1">Sessions</h2>
-          <p className="text-gray-500 text-sm mb-6">
+        <div className="space-y-6 mt-5 ml-5">
+          <h2 className="text-[24px] font-bold mb-1">Sessions</h2>
+          <p className="text-gray-400 text-[18px] mb-6">
             Below are your recent sessions, revoke access to log out of the
             device
           </p>
@@ -27,7 +27,7 @@ const SessionManagement = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b">
+                <tr className="border-b text-gray-400 text-[18px]">
                   <th className="text-left font-medium pb-2">Platform</th>
                   <th className="text-left font-medium pb-2">Device</th>
                   <th className="text-left font-medium pb-2">Last Used</th>
@@ -36,7 +36,7 @@ const SessionManagement = () => {
               </thead>
               <tbody>
                 {sessions.map((session) => (
-                  <tr key={session.id} className="border-b hover:bg-gray-50">
+                  <tr key={session.id} className="border-b text-[18px]">
                     <td className="py-4">{session.platform}</td>
                     <td className="py-4">{session.device}</td>
                     <td className="py-4">{session.lastUsed}</td>
