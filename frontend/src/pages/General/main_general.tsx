@@ -3,7 +3,8 @@ import { Link, useLocation, Outlet } from "react-router-dom";
 
 const MainGeneral: React.FC = () => {
   const location = useLocation();
-  const currentTab = location.pathname.slice(1) || "account";
+  // Fix: Extract the last part of the path
+  const currentTab = location.pathname.split("/").pop() || "account";
 
   return (
     <div className="min-h-screen">
