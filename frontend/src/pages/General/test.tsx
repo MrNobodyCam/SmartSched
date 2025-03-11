@@ -114,12 +114,14 @@ const UserProfileSettings: React.FC = () => {
         <div className="p-6">
           <div className="space-y-6 -mt-5">
             {/* Profile Photo Section */}
-            <div>
-              <p className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-2 text-center lg:text-left">
+            <div className="space-y-4">
+              <p className="text-[20px] sm:text-[24px] font-bold text-center mb-6">
                 Profile Photo
               </p>
-              <div className="flex items-center space-x-4">
-                <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25 rounded-full bg-gray-200 overflow-hidden">
+
+              <div className="flex flex-col items-center gap-6">
+                {/* Profile Image Container */}
+                <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gray-200 overflow-hidden">
                   {profile.profilePhoto ? (
                     <img
                       src={profile.profilePhoto}
@@ -129,7 +131,7 @@ const UserProfileSettings: React.FC = () => {
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <svg
-                        className="w-10 h-10 text-gray-400"
+                        className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400"
                         viewBox="0 0 24 24"
                       >
                         <path
@@ -141,7 +143,8 @@ const UserProfileSettings: React.FC = () => {
                   )}
                 </div>
 
-                <div className="flex space-x-2">
+                {/* Buttons Container */}
+                <div className="flex flex-col sm:flex-row w-full sm:justify-center items-center gap-3">
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -149,40 +152,43 @@ const UserProfileSettings: React.FC = () => {
                     accept="image/*"
                     onChange={handleFileUpload}
                   />
-                  <div>
-                    {" "}
+                  <div className="flex gap-3 w-full sm:w-auto justify-center">
                     <PrimaryBtn onClick={triggerFileInput}>
                       Upload Image
                     </PrimaryBtn>
-                  </div>
-                  {profile.profilePhoto && (
-                    <button
-                      onClick={handleDeletePhoto}
-                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center text-[14px] md:text-[16px] lg:text-[18px] font-bold"
-                    >
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
+                    {profile.profilePhoto && (
+                      <button
+                        onClick={handleDeletePhoto}
+                        className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center justify-center text-[16px] sm:text-[18px] font-bold"
                       >
-                        <path d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                      Delete
-                    </button>
-                  )}
+                        <svg
+                          className="w-4 h-4 mr-1"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {/* Error Message */}
               {uploadError && (
-                <p className="text-red-500 text-sm mt-2">{uploadError}</p>
+                <p className="text-red-500 text-sm mt-2 text-center">
+                  {uploadError}
+                </p>
               )}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Form Fields */}
-              <div className="flex flex-col sm:flex-row gap-6">
-                <div className="flex flex-col gap-6 w-full sm:flex-row">
+              <div className="flex flex-col space-y-6">
+                <div className="flex flex-col sm:flex-row gap-6">
                   <input
                     type="text"
                     name="fullName"
@@ -192,97 +198,46 @@ const UserProfileSettings: React.FC = () => {
                     className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
                     required
                   />
-                  <div className="hidden sm:block">
-                    <select
-                      name="gender"
-                      value={profile.gender}
-                      onChange={handleInputChange}
-                      className="w-full sm:w-[208px] h-12 px-3 border rounded-md text-[18px] font-medium"
-                      required
-                    >
-                      <option value="">Select gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                      <option value="prefer-not-to-say">
-                        Prefer not to say
-                      </option>
-                    </select>
-                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    value={profile.email}
+                    onChange={handleInputChange}
+                    placeholder="Input your email"
+                    className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                    required
+                  />
                 </div>
-              </div>
-
-              <div className="sm:hidden">
-                <input
-                  type="email"
-                  name="email"
-                  value={profile.email}
-                  onChange={handleInputChange}
-                  placeholder="Input your email"
-                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
-                  required
-                />
-              </div>
-
-              <div className="sm:hidden">
-                <select
-                  name="gender"
-                  value={profile.gender}
-                  onChange={handleInputChange}
-                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
-                  required
-                >
-                  <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="prefer-not-to-say">Prefer not to say</option>
-                </select>
-              </div>
-
-              <div className="sm:hidden">
-                <select
-                  name="timezone"
-                  value={profile.timezone}
-                  onChange={handleInputChange}
-                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
-                  required
-                >
-                  <option value="">Select Timezone</option>
-                  <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
-                  <option value="Asia/Singapore">Singapore (+08:00)</option>
-                  <option value="America/New_York">New York (-05:00)</option>
-                  <option value="Europe/London">London (+00:00)</option>
-                  <option value="Europe/Paris">Paris (+01:00)</option>
-                  <option value="Australia/Sydney">Sydney (+10:00)</option>
-                </select>
-              </div>
-
-              <div className="hidden sm:flex gap-6">
-                <input
-                  type="email"
-                  name="email"
-                  value={profile.email}
-                  onChange={handleInputChange}
-                  placeholder="Input your email"
-                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
-                  required
-                />
-                <select
-                  name="timezone"
-                  value={profile.timezone}
-                  onChange={handleInputChange}
-                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
-                  required
-                >
-                  <option value="">Select Timezone</option>
-                  <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
-                  <option value="Asia/Singapore">Singapore (+08:00)</option>
-                  <option value="America/New_York">New York (-05:00)</option>
-                  <option value="Europe/London">London (+00:00)</option>
-                  <option value="Europe/Paris">Paris (+01:00)</option>
-                  <option value="Australia/Sydney">Sydney (+10:00)</option>
-                </select>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <select
+                    name="gender"
+                    value={profile.gender}
+                    onChange={handleInputChange}
+                    className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                    required
+                  >
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not-to-say">Prefer not to say</option>
+                  </select>
+                  <select
+                    name="timezone"
+                    value={profile.timezone}
+                    onChange={handleInputChange}
+                    className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                    required
+                  >
+                    <option value="">Select Timezone</option>
+                    <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
+                    <option value="Asia/Singapore">Singapore (+08:00)</option>
+                    <option value="America/New_York">New York (-05:00)</option>
+                    <option value="Europe/London">London (+00:00)</option>
+                    <option value="Europe/Paris">Paris (+01:00)</option>
+                    <option value="Australia/Sydney">Sydney (+10:00)</option>
+                  </select>
+                </div>
               </div>
 
               <div className="pt-4">

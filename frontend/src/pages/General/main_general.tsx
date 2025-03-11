@@ -7,9 +7,9 @@ const MainGeneral: React.FC = () => {
   const currentTab = location.pathname.split("/").pop() || "account";
 
   return (
-    <div className="min-h-screen">
+    <div className="  min-h-screen">
       <div className="p-6">
-        <h1 className="text-2xl lg:text-[36px] font-bold mb-6">General</h1>
+        <h1 className="text-2xl lg:text-[36px] md:txet-[32px] sm:text-[30px] font-bold mb-6">General</h1>
         <div className="flex gap-4 mb-6">
           {["account", "password", "session"].map((tab) => (
             <Link
