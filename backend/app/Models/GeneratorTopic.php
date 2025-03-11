@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class GeneratorTopic extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'generator_id',
-        'title',
-        'start_date',
-        'end_date',
+        'topic_id',
     ];
 
     public function generator()
@@ -22,8 +19,8 @@ class Schedule extends Model
         return $this->belongsTo(Generator::class);
     }
 
-    public function roadmaps()
+    public function topic()
     {
-        return $this->hasMany(Roadmap::class);
+        return $this->belongsTo(Topic::class);
     }
 }

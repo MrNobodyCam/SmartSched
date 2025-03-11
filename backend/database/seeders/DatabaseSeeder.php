@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Schedule::create([
             'user_id' => 2,
-            'generator_id' => 1,
+            'generator_id' => 2,
             'status' => 'end',
             'start_date' => '2025-03-01',
             'end_date' => '2025-03-31',
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Introduction to Logic involves understanding reasoning, argument structures, deductive and inductive reasoning, truth tables, logical fallacies, and how to evaluate statements for validity and soundness.',
             'start_time' => '11:20:09',
             'end_time' => '15:20:09',
-            'date' => '2025-03-06',
+            'date' => '2025-04-06',
         ]);
 
         Roadmap::create([
@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn React\'s component-based architecture, JSX, props, state, event handling, useState, useEffect, React Router for navigation, and Context API for state management to build dynamic and interactive applications.',
             'start_time' => '11:20:09',
             'end_time' => '15:20:09',
-            'date' => '2025-03-06',
+            'date' => '2025-04-06',
         ]);
 
         Roadmap::create([
@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn the basics of Laravel, including routing, controllers, views, Blade templating, Eloquent ORM, migrations, and middleware to build robust web applications.',
             'start_time' => '10:00:00',
             'end_time' => '12:00:00',
-            'date' => '2025-03-07',
+            'date' => '2025-04-07',
         ]);
 
         Roadmap::create([
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn Vue.js, a progressive JavaScript framework for building user interfaces, including Vue components, directives, Vue Router, Vuex for state management, and single-file components.',
             'start_time' => '13:00:00',
             'end_time' => '15:00:00',
-            'date' => '2025-03-07',
+            'date' => '2025-04-07',
         ]);
 
         Roadmap::create([
@@ -117,7 +117,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn Angular, a platform for building mobile and desktop web applications, including components, modules, services, dependency injection, and Angular CLI.',
             'start_time' => '09:00:00',
             'end_time' => '11:00:00',
-            'date' => '2025-03-08',
+            'date' => '2025-04-08',
         ]);
 
         Roadmap::create([
@@ -127,7 +127,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn Node.js, a JavaScript runtime built on Chrome\'s V8 JavaScript engine, including modules, event-driven architecture, Express.js, and building RESTful APIs.',
             'start_time' => '14:00:00',
             'end_time' => '16:00:00',
-            'date' => '2025-03-08',
+            'date' => '2025-04-08',
         ]);
 
         Roadmap::create([
@@ -137,7 +137,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn Python, a versatile programming language, including syntax, data structures, functions, modules, file handling, and libraries like NumPy and Pandas for data analysis.',
             'start_time' => '10:00:00',
             'end_time' => '12:00:00',
-            'date' => '2025-03-09',
+            'date' => '2025-04-09',
         ]);
 
         Roadmap::create([
@@ -147,7 +147,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn Java, a high-level programming language, including object-oriented programming, classes, inheritance, polymorphism, interfaces, and building applications with Java SE.',
             'start_time' => '13:00:00',
             'end_time' => '15:00:00',
-            'date' => '2025-03-09',
+            'date' => '2025-04-09',
         ]);
 
         Roadmap::create([
@@ -157,7 +157,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn C#, a modern programming language, including syntax, data types, control structures, object-oriented programming, LINQ, and building applications with .NET.',
             'start_time' => '09:00:00',
             'end_time' => '11:00:00',
-            'date' => '2025-03-10',
+            'date' => '2025-04-10',
         ]);
 
         Roadmap::create([
@@ -167,7 +167,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Learn PHP, a popular server-side scripting language, including syntax, variables, control structures, functions, form handling, sessions, and building dynamic web applications.',
             'start_time' => '14:00:00',
             'end_time' => '16:00:00',
-            'date' => '2025-03-10',
+            'date' => '2025-04-10',
         ]);
     }
 }

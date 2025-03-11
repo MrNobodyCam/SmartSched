@@ -10,8 +10,12 @@ class Answer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'multiple_choice',
-        'correct_answer',
-        'explanation',
+        'quiz_id',
+        'answer',
     ];
+
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class);
+    }
 }
