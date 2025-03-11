@@ -118,8 +118,8 @@ const UserProfileSettings: React.FC = () => {
               <p className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-2 text-center lg:text-left">
                 Profile Photo
               </p>
-              <div className="flex items-center space-x-4">
-                <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25 rounded-full bg-gray-200 overflow-hidden">
+              <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-4">
+                <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25  rounded-full bg-gray-200 overflow-hidden mb-4 md:mb-0">
                   {profile.profilePhoto ? (
                     <img
                       src={profile.profilePhoto}
@@ -129,7 +129,7 @@ const UserProfileSettings: React.FC = () => {
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <svg
-                        className="w-10 h-10 text-gray-400"
+                        className="w-12 h-12 md:w-10 md:h-10 text-gray-400"
                         viewBox="0 0 24 24"
                       >
                         <path
@@ -140,8 +140,7 @@ const UserProfileSettings: React.FC = () => {
                     </div>
                   )}
                 </div>
-
-                <div className="flex space-x-2">
+                <div className="flex justify-center md:justify-start space-x-2 lg:mt-6">
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -149,8 +148,7 @@ const UserProfileSettings: React.FC = () => {
                     accept="image/*"
                     onChange={handleFileUpload}
                   />
-                  <div>
-                    {" "}
+                  <div className="">
                     <PrimaryBtn onClick={triggerFileInput}>
                       Upload Image
                     </PrimaryBtn>
