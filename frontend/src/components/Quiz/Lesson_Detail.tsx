@@ -56,7 +56,11 @@ const PopupComponent = ({
           <div className="p-6">
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-red-400 rounded-lg" />
+              <div
+                className={`w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 ${
+                  quizData?.result == null ? "bg-[#EB5757]" : "bg-[#27AE60]"
+                } rounded-[5px] md:rounded-[10px] lg:rounded-[15px]`}
+              />
               <h2 className=" text-[24px] md:text-[26px] lg:text-[28px] font-bold">
                 {quizData?.title || "No title available"}
               </h2>
