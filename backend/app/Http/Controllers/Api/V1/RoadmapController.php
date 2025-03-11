@@ -12,7 +12,7 @@ class RoadmapController extends Controller
     {
         $roadmap = DB::table('roadmaps')
             ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
-            ->select('topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.time', 'roadmaps.date')
+            ->select('topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
             ->where('roadmaps.id', $roadmap_id)
             ->get();
 
