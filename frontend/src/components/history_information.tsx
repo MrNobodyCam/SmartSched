@@ -107,21 +107,11 @@ const CourseScheduleViewer = () => {
       style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
     >
       {/* Header - Original desktop layout with mobile responsiveness */}
-      <div className="flex sm:flex-row flex-col p-4 border-b">
-        <div className="flex items-center space-x-2 sm:mb-0 mb-4 sm:justify-start justify-center">
+      <div className="flex sm:flex-row flex-col p-4 border-b border-gray-200 justify-center">
+          <div className="flex items-center space-x-2 sm:mb-0 mb-4">
           <h1 className="text-2xl font-semibold">January 2022</h1>
           <button className="flex items-center text-blue-500 border border-blue-500 rounded px-2 py-1 text-sm">
             Month <ChevronDown size={16} className="ml-1" />
-          </button>
-        </div>
-        <div className="flex sm:ml-auto space-x-2 sm:justify-start justify-center sm:ml-0 ml-[180px]">
-          <button className="flex items-center justify-center bg-[#F2994A] text-white rounded-xl px-4 py-2 text-sm w-[200px] h-[45px] gap-2">
-            <span className="leading-none">Procrastinate Course</span>
-            <img src={PlayPauseIcon} alt="Procrastinate" className="w-5 h-5" />
-          </button>
-          <button className="flex items-center justify-center bg-[#EB5757] text-white rounded-xl px-4 py-2 text-sm w-[160px] h-[45px] gap-2">
-            <span className="leading-none">Leave Course</span>
-            <img src={PlayStopIcon} alt="Leave Course" className="w-5 h-5" />
           </button>
         </div>
       </div>
