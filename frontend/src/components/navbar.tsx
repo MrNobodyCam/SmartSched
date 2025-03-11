@@ -1,4 +1,3 @@
-import React from "react";
 import NotificationPopup from "./NotificationPopup";
 import profilePic from "../assets/images/profile.svg";
 

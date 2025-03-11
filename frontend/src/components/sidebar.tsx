@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import calendarIcon from "../assets/icons/calendar.svg";
 import history from "../assets/icons/history.svg";
 import service from "../assets/icons/service.svg";
@@ -58,15 +58,21 @@ const SideBar: React.FC<SideBarProps> = ({
   const [selectedItem, setSelectedItem] = React.useState(
     localStorage.getItem("selectedItem") || "calendar"
   );
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     localStorage.setItem("selectedItem", selectedItem);
   }, [selectedItem]);
 
   const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    onScreenChange(item);
-    if (isOpen) setTimeout(toggleSidebar, 300); // Delay closing the sidebar to match the animation duration
+    if (item === "logout") {
+      // Perform logout logic here (e.g., clearing tokens, etc.)
+      navigate("/landing"); // Redirect to the landing page
+    } else {
+      setSelectedItem(item);
+      onScreenChange(item);
+      if (isOpen) setTimeout(toggleSidebar, 300); // Delay closing the sidebar to match the animation duration
+    }
   };
 
   return (
