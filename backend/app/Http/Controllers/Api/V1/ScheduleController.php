@@ -161,6 +161,7 @@ class ScheduleController extends Controller
 
             // Create schedule with our calculated dates
             $schedule = Schedule::create([
+                'user_id' => $user->id,
                 'generator_id' => $generator->id,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
