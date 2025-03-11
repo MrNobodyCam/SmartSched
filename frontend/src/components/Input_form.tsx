@@ -66,6 +66,7 @@ const InputForm: React.FC = () => {
                   Input your data to generate a smart schedule
                 </h2>
               </div>
+              {/* form */}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="mb-4">
                   <label className="block font-medium mb-2 text-black text-[18px]">
@@ -80,7 +81,7 @@ const InputForm: React.FC = () => {
                       setFormData({ ...formData, title: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                    className="w-full lg:w-[678px] h-[48px] px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
                   />
                 </div>
                 <div className="mb-4">
@@ -96,7 +97,7 @@ const InputForm: React.FC = () => {
                       setFormData({ ...formData, subjects: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                    className="w-full lg:w-[678px] h-[48px] px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
                   />
                 </div>
                 <div className="mb-4">
