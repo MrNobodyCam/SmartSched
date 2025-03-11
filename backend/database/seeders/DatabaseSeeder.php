@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Roadmap;
+use App\Models\Schedule;
 use App\Models\Topic;
 use Illuminate\Database\Seeder;
 
@@ -55,7 +56,20 @@ class DatabaseSeeder extends Seeder
             'title' => 'PHP',
         ]);
 
-        // Insert roadmaps
+        Schedule::create([
+            'user_id' => 1,
+            'generator_id' => 1,
+            'status' => 'active',
+            'start_date' => '2025-03-01',
+            'end_date' => '2025-03-31',
+        ]);
+        Schedule::create([
+            'user_id' => 2,
+            'generator_id' => 1,
+            'status' => 'end',
+            'start_date' => '2025-03-01',
+            'end_date' => '2025-03-31',
+        ]);
         Roadmap::create([
             'topic_id' => $logicTopic->id,
             'schedule_id' => 1,
@@ -98,7 +112,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $angularTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to Angular',
             'description' => 'Learn Angular, a platform for building mobile and desktop web applications, including components, modules, services, dependency injection, and Angular CLI.',
             'start_time' => '09:00:00',
@@ -108,7 +122,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $nodeTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to Node JS',
             'description' => 'Learn Node.js, a JavaScript runtime built on Chrome\'s V8 JavaScript engine, including modules, event-driven architecture, Express.js, and building RESTful APIs.',
             'start_time' => '14:00:00',
@@ -118,7 +132,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $pythonTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to Python',
             'description' => 'Learn Python, a versatile programming language, including syntax, data structures, functions, modules, file handling, and libraries like NumPy and Pandas for data analysis.',
             'start_time' => '10:00:00',
@@ -128,7 +142,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $javaTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to Java',
             'description' => 'Learn Java, a high-level programming language, including object-oriented programming, classes, inheritance, polymorphism, interfaces, and building applications with Java SE.',
             'start_time' => '13:00:00',
@@ -138,7 +152,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $csharpTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to C#',
             'description' => 'Learn C#, a modern programming language, including syntax, data types, control structures, object-oriented programming, LINQ, and building applications with .NET.',
             'start_time' => '09:00:00',
@@ -148,7 +162,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $phpTopic->id,
-            'schedule_id' => 1,
+            'schedule_id' => 2,
             'lesson' => 'Introduction to PHP',
             'description' => 'Learn PHP, a popular server-side scripting language, including syntax, variables, control structures, functions, form handling, sessions, and building dynamic web applications.',
             'start_time' => '14:00:00',

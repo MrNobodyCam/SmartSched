@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('generator_id');
+            $table->enum('status', ['active', 'procrastinate', 'end'])->default('active');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
