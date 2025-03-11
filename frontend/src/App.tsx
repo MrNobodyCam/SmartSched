@@ -1,9 +1,11 @@
-import CallDetail from "./components/Quiz/Call_Detail";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./utils/Routes";
+
 function App() {
   return (
-    <>
-      <CallDetail RoadmapID={1} />
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 

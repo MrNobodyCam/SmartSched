@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('lesson');
             $table->text('description');
             $table->integer('result')->nullable();
-            $table->time('time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->date('date');
             $table->timestamps();
 

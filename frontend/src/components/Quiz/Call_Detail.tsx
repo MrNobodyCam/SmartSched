@@ -1,112 +1,136 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
 import Lesson_Detail from "./Lesson_Detail";
 import QuizPopup from "./Quiz";
 import Result from "./Result";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
-function CallDetail({ RoadmapID }: { RoadmapID: number }) {
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [RoadMapID, setRoadMapID] = useState(1);
+
+function CallDetail() {
+  const { RoadMapID } = useParams<{ RoadMapID: string }>();
+  const roadMapID = RoadMapID ? parseInt(RoadMapID) : null;
+  const navigate = useNavigate();
+
+  const [isDetailOpen, setIsDetailOpen] = useState(true);
   const [openQuiz, setopenQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
 
-  // const onShowResult = () => {
-  //   setopenQuiz(false);
-  //   setShowResult(true);
+  useEffect(() => {
+    if (roadMapID) {
+      setIsDetailOpen(true);
+    }
+  }, [roadMapID]);
+
+  // const togglePopup = () => {
+  //   setIsDetailOpen(!isDetailOpen);
   // };
-  const togglePopup = () => {
-    setRoadMapID(RoadmapID);
-    setIsDetailOpen(!isDetailOpen);
-  };
+
   const onOpenQuiz = () => {
     setIsDetailOpen(false);
     setopenQuiz(true);
   };
+
   const onSubmit = (result: any) => {
     setQuizResult(result);
   };
+
   const onPopupResult = () => {
     setopenQuiz(false);
     setShowResult(true);
   };
+
+  const initialData = [
+    {
+      id: 1,
+      title: "Introduction to Logic",
+      freeTime: "7:00PM - 11:00PM",
+    },
+    {
+      id: 2,
+      title: "Introduction to Laravel",
+      freeTime: "7:00PM - 11:00PM",
+    },
+  ];
+
+  if (roadMapID) {
+    return (
+      <>
+        {isDetailOpen && (
+          <Lesson_Detail
+            openQuiz={onOpenQuiz}
+            onClose={() => {
+              setIsDetailOpen(false);
+              navigate("/generate-schedule");
+            }}
+            RoadMapID={roadMapID}
+          />
+        )}
+        {openQuiz && (
+          <QuizPopup
+            RoadMapID={roadMapID}
+            onPopupResult={onPopupResult}
+            onSubmit={onSubmit}
+            onClose={() => {
+              setopenQuiz(true);
+              setLeftQuiz(true);
+            }}
+          />
+        )}
+        {showResult && (
+          <Result
+            quizResult={quizResult}
+            onClose={() => {
+              setShowResult(false);
+              setIsDetailOpen(true);
+            }}
+          />
+        )}
+        {LeftQuiz && (
+          <WarningAlert
+            title="You left the quiz"
+            message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
+            toastNotify={() =>
+              toast.warning(
+                "You have left the quiz. Your progress may be lost!"
+              )
+            }
+            onClose={() => {
+              setLeftQuiz(false);
+              setopenQuiz(true);
+            }}
+            onConfirm={() => {
+              setLeftQuiz(false);
+              setopenQuiz(false);
+              setIsDetailOpen(true);
+            }}
+          />
+        )}
+        <ToastContainer />
+      </>
+    );
+  }
+
   return (
     <>
-      <button
-        onClick={() => {
-          togglePopup();
-        }}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
-      >
-        Open Popup
-      </button>{" "}
-      <br />
-      <br />
-      {/* <Result quizResult={}></Result> */}
-      {/* <button
-        onClick={onLoading}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors cursor-pointer"
-      >
-        Loading
-      </button> */}
-      {isDetailOpen && (
-        <Lesson_Detail
-          openQuiz={() => {
-            onOpenQuiz();
-          }}
-          onClose={() => {
-            setIsDetailOpen(false);
-          }}
-          RoadMapID={RoadMapID}
-        />
-      )}
-      {openQuiz && (
-        <QuizPopup
-          RoadMapID={RoadMapID}
-          onPopupResult={() => {
-            onPopupResult();
-          }}
-          onSubmit={(result) => {
-            onSubmit(result);
-          }}
-          // Question={() => {
-          //   return "What is the capital of India?";
-          // }}
-          onClose={() => {
-            setopenQuiz(true);
-            setLeftQuiz(true);
-          }}
-        />
-      )}
-      {showResult && (
-        <Result
-          quizResult={quizResult}
-          onClose={() => {
-            setShowResult(false);
-            setIsDetailOpen(true);
-          }}
-        />
-      )}
-      {LeftQuiz && (
-        <WarningAlert
-          title="You left the quiz"
-          message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
-          toastNotify={() =>
-            toast.warning("You have left the quiz. Your progress may be lost!")
-          }
-          onClose={() => {
-            setLeftQuiz(false);
-            setopenQuiz(true);
-          }}
-          onConfirm={() => {
-            setLeftQuiz(false);
-            setopenQuiz(false);
-            setIsDetailOpen(true);
-          }}
-        />
-      )}
-      <ToastContainer />
+      {initialData.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col items-center justify-center gap-2 mb-3"
+        >
+          <div className="bg-red-300 w-[20%] h-[20%] rounded-lg p-3">
+            <h1 className="text-2xl font-bold text-black">{item.title}</h1>
+            <p className="text-lg text-black">{item.freeTime}</p>
+            <button
+              onClick={() => navigate(`/generate-schedule/roadmap/${item.id}`)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer"
+            >
+              See more
+            </button>
+          </div>
+        </div>
+      ))}
     </>
   );
 }

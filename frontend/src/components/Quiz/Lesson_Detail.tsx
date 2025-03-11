@@ -70,7 +70,8 @@ const PopupComponent = ({
                   {quizData?.date || "00/00/0000"}
                 </span>
                 <span className="text-gray-500 text-[12px] sm:text-[14px] lg:text-[16px]">
-                  {quizData?.time || "00:00PM"} - {quizData?.time || "00:00PM"}
+                  {quizData?.start_time || "00:00PM"} -{" "}
+                  {quizData?.end_time || "00:00PM"}
                 </span>
               </div>
             </div>
