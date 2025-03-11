@@ -1,5 +1,5 @@
 
-import Schedule_Create from './components/sechulde_create';
+import Schedule_Create from './components/Sechulde_create/sechulde_create';
 function App() {
   return (
     <>
