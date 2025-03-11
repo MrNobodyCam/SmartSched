@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::post('/generatequizz', [QuizController::class, 'generateQuiz']);
     Route::get('/quizz/{id}', [QuizController::class, 'getQuizzes']);
-    Route::get('/roadmap/{roadmap_id}', [RoadmapController::class, 'getRoadmap']);
+    Route::get('/roadmap/{roadmap_id}', [RoadmapController::class, 'getRoadMapDetail']);
     Route::put('/roadmap/score/{roadmap_id}', [RoadmapController::class, 'updateRoadmapScore']);
+    Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
 });

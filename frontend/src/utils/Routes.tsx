@@ -1,14 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import CallDetail from "../components/Quiz/Call_Detail";
+import ScheduleListview from "../components/Schedule_create/schedule_create";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/generate-schedule" element={<CallDetail />} />
-      {/* <Route
-        path="/generate-schedule/roadmap/:RoadMapID"
-        element={<CallDetail />}
-      /> */}
+      <Route path="/generate-schedule" element={<ScheduleListview />} />
     </Routes>
   );
 };

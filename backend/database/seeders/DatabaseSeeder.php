@@ -112,7 +112,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $angularTopic->id,
-            'schedule_id' => 2,
+            'schedule_id' => 1,
             'lesson' => 'Introduction to Angular',
             'description' => 'Learn Angular, a platform for building mobile and desktop web applications, including components, modules, services, dependency injection, and Angular CLI.',
             'start_time' => '09:00:00',
@@ -122,7 +122,7 @@ class DatabaseSeeder extends Seeder
 
         Roadmap::create([
             'topic_id' => $nodeTopic->id,
-            'schedule_id' => 2,
+            'schedule_id' => 1,
             'lesson' => 'Introduction to Node JS',
             'description' => 'Learn Node.js, a JavaScript runtime built on Chrome\'s V8 JavaScript engine, including modules, event-driven architecture, Express.js, and building RESTful APIs.',
             'start_time' => '14:00:00',
