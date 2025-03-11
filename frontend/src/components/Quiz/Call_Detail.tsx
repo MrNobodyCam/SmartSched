@@ -45,12 +45,52 @@ function CallDetail() {
     {
       id: 1,
       title: "Introduction to Logic",
-      freeTime: "7:00PM - 11:00PM",
+      freeTime: "11:20AM - 03:20PM",
     },
     {
       id: 2,
+      title: "Introduction to React Js",
+      freeTime: "11:20AM - 03:20PM",
+    },
+    {
+      id: 3,
       title: "Introduction to Laravel",
-      freeTime: "7:00PM - 11:00PM",
+      freeTime: "10:00AM - 12:00PM",
+    },
+    {
+      id: 4,
+      title: "Introduction to Vue JS",
+      freeTime: "01:00PM - 03:00PM",
+    },
+    {
+      id: 5,
+      title: "Introduction to Angular",
+      freeTime: "09:00AM - 11:00AM",
+    },
+    {
+      id: 6,
+      title: "Introduction to Node JS",
+      freeTime: "02:00PM - 04:00PM",
+    },
+    {
+      id: 7,
+      title: "Introduction to Python",
+      freeTime: "10:00AM - 12:00PM",
+    },
+    {
+      id: 8,
+      title: "Introduction to Java",
+      freeTime: "01:00PM - 03:00PM",
+    },
+    {
+      id: 9,
+      title: "Introduction to C#",
+      freeTime: "09:00AM - 11:00AM",
+    },
+    {
+      id: 10,
+      title: "Introduction to PHP",
+      freeTime: "02:00PM - 04:00PM",
     },
   ];
 
