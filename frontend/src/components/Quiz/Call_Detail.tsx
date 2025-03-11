@@ -1,46 +1,26 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
+import { useEffect, useState } from "react";
 import Lesson_Detail from "./Lesson_Detail";
 import QuizPopup from "./Quiz";
 import Result from "./Result";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
-
 function CallDetail() {
-  const { RoadMapID } = useParams<{ RoadMapID: string }>();
-  const roadMapID = RoadMapID ? parseInt(RoadMapID) : null;
-  const navigate = useNavigate();
-
-  const [isDetailOpen, setIsDetailOpen] = useState(true);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [RoadMapID, setRoadMapID] = useState<number>(1);
   const [openQuiz, setopenQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
-
   useEffect(() => {
-    if (roadMapID) {
-      setIsDetailOpen(true);
+    if (isDetailOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
-  }, [roadMapID]);
-
-  // const togglePopup = () => {
-  //   setIsDetailOpen(!isDetailOpen);
-  // };
-
-  const onOpenQuiz = () => {
-    setIsDetailOpen(false);
-    setopenQuiz(true);
-  };
-
-  const onSubmit = (result: any) => {
-    setQuizResult(result);
-  };
-
-  const onPopupResult = () => {
-    setopenQuiz(false);
-    setShowResult(true);
-  };
-
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isDetailOpen]);
   const initialData = [
     {
       id: 1,
@@ -93,25 +73,33 @@ function CallDetail() {
       freeTime: "02:00PM - 04:00PM",
     },
   ];
+  const togglePopup = () => {
+    setIsDetailOpen(!isDetailOpen);
+  };
+  const onOpenQuiz = () => {
+    setIsDetailOpen(false);
+    setopenQuiz(true);
+  };
+  const onSubmit = (result: any) => {
+    setQuizResult(result);
+  };
+  const onPopupResult = () => {
+    setopenQuiz(false);
+    setShowResult(true);
+  };
 
-  if (roadMapID) {
+  if (RoadMapID === null) {
     return (
       <>
-        {isDetailOpen && (
-          <Lesson_Detail
-            openQuiz={onOpenQuiz}
-            onClose={() => {
-              setIsDetailOpen(false);
-              navigate("/generate-schedule");
-            }}
-            RoadMapID={roadMapID}
-          />
-        )}
         {openQuiz && (
           <QuizPopup
-            RoadMapID={roadMapID}
-            onPopupResult={onPopupResult}
-            onSubmit={onSubmit}
+            RoadMapID={RoadMapID}
+            onPopupResult={() => {
+              onPopupResult();
+            }}
+            onSubmit={(result) => {
+              onSubmit(result);
+            }}
             onClose={() => {
               setopenQuiz(true);
               setLeftQuiz(true);
@@ -151,7 +139,6 @@ function CallDetail() {
       </>
     );
   }
-
   return (
     <>
       {initialData.map((item) => (
@@ -163,7 +150,10 @@ function CallDetail() {
             <h1 className="text-2xl font-bold text-black">{item.title}</h1>
             <p className="text-lg text-black">{item.freeTime}</p>
             <button
-              onClick={() => navigate(`/generate-schedule/roadmap/${item.id}`)}
+              onClick={() => {
+                setRoadMapID(item.id);
+                togglePopup();
+              }}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer"
             >
               See more
@@ -171,6 +161,17 @@ function CallDetail() {
           </div>
         </div>
       ))}
+      {isDetailOpen && (
+        <Lesson_Detail
+          openQuiz={() => {
+            onOpenQuiz();
+          }}
+          onClose={() => {
+            setIsDetailOpen(false);
+          }}
+          RoadMapID={RoadMapID}
+        />
+      )}
     </>
   );
 }

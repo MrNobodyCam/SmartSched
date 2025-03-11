@@ -38,6 +38,42 @@ const PopupComponent = ({
   if (loading) {
     return <Loading text="Wait For Detail... Stay focused! 📚⏳" />;
   }
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("en-US", options);
+  };
+
+  const formatTime = (timeString: string) => {
+    const [hours, minutes] = timeString.split(":");
+    const date = new Date();
+    date.setHours(parseInt(hours), parseInt(minutes));
+    const options: Intl.DateTimeFormatOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    return date.toLocaleTimeString("en-US", options);
+  };
+
+  let formattedDate = "Invalid date";
+  if (quizData?.date) {
+    formattedDate = formatDate(quizData.date);
+  }
+
+  let formattedStartTime = "Invalid time";
+  if (quizData?.start_time) {
+    formattedStartTime = formatTime(quizData.start_time);
+  }
+  let formattedEndTime = "Invalid time";
+  if (quizData?.end_time) {
+    formattedEndTime = formatTime(quizData.end_time);
+  }
 
   return (
     <div className="p-4">
@@ -71,11 +107,11 @@ const PopupComponent = ({
               <Clock className="w-[14px] md:w-[16px] lg:w-[18px]" />
               <div className="flex flex-col">
                 <span className=" text-[14px] md:text-[16px] lg:text-[18px]">
-                  {quizData?.date || "00/00/0000"}
+                  {formattedDate || "00/00/0000"}
                 </span>
                 <span className="text-gray-500 text-[12px] sm:text-[14px] lg:text-[16px]">
-                  {quizData?.start_time || "00:00PM"} -{" "}
-                  {quizData?.end_time || "00:00PM"}
+                  {formattedStartTime || "00:00PM"} -{" "}
+                  {formattedEndTime || "00:00PM"}
                 </span>
               </div>
             </div>

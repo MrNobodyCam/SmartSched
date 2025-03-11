@@ -5,10 +5,10 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/generate-schedule" element={<CallDetail />} />
-      <Route
+      {/* <Route
         path="/generate-schedule/roadmap/:RoadMapID"
         element={<CallDetail />}
-      />
+      /> */}
     </Routes>
   );
 };
