@@ -4,6 +4,7 @@ import QuizPopup from "./Quiz";
 import Result from "./Result";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
+
 function CallDetail() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [RoadMapID, setRoadMapID] = useState<number>(1);
@@ -11,8 +12,9 @@ function CallDetail() {
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
+
   useEffect(() => {
-    if (isDetailOpen) {
+    if (isDetailOpen || openQuiz) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -20,7 +22,8 @@ function CallDetail() {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isDetailOpen]);
+  }, [isDetailOpen, openQuiz]);
+
   const initialData = [
     {
       id: 1,
@@ -73,72 +76,25 @@ function CallDetail() {
       freeTime: "02:00PM - 04:00PM",
     },
   ];
+
   const togglePopup = () => {
     setIsDetailOpen(!isDetailOpen);
   };
+
   const onOpenQuiz = () => {
     setIsDetailOpen(false);
     setopenQuiz(true);
   };
+
   const onSubmit = (result: any) => {
     setQuizResult(result);
   };
+
   const onPopupResult = () => {
     setopenQuiz(false);
     setShowResult(true);
   };
 
-  if (RoadMapID === null) {
-    return (
-      <>
-        {openQuiz && (
-          <QuizPopup
-            RoadMapID={RoadMapID}
-            onPopupResult={() => {
-              onPopupResult();
-            }}
-            onSubmit={(result) => {
-              onSubmit(result);
-            }}
-            onClose={() => {
-              setopenQuiz(true);
-              setLeftQuiz(true);
-            }}
-          />
-        )}
-        {showResult && (
-          <Result
-            quizResult={quizResult}
-            onClose={() => {
-              setShowResult(false);
-              setIsDetailOpen(true);
-            }}
-          />
-        )}
-        {LeftQuiz && (
-          <WarningAlert
-            title="You left the quiz"
-            message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
-            toastNotify={() =>
-              toast.warning(
-                "You have left the quiz. Your progress may be lost!"
-              )
-            }
-            onClose={() => {
-              setLeftQuiz(false);
-              setopenQuiz(true);
-            }}
-            onConfirm={() => {
-              setLeftQuiz(false);
-              setopenQuiz(false);
-              setIsDetailOpen(true);
-            }}
-          />
-        )}
-        <ToastContainer />
-      </>
-    );
-  }
   return (
     <>
       {initialData.map((item) => (
@@ -172,6 +128,45 @@ function CallDetail() {
           RoadMapID={RoadMapID}
         />
       )}
+      {openQuiz && (
+        <QuizPopup
+          RoadMapID={RoadMapID}
+          onPopupResult={onPopupResult}
+          onSubmit={onSubmit}
+          onClose={() => {
+            setopenQuiz(true);
+            setLeftQuiz(true);
+          }}
+        />
+      )}
+      {showResult && (
+        <Result
+          quizResult={quizResult}
+          onClose={() => {
+            setShowResult(false);
+            setIsDetailOpen(true);
+          }}
+        />
+      )}
+      {LeftQuiz && (
+        <WarningAlert
+          title="You left the quiz"
+          message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
+          toastNotify={() =>
+            toast.warning("You have left the quiz. Your progress may be lost!")
+          }
+          onClose={() => {
+            setLeftQuiz(false);
+            setopenQuiz(true);
+          }}
+          onConfirm={() => {
+            setLeftQuiz(false);
+            setopenQuiz(false);
+            setIsDetailOpen(true);
+          }}
+        />
+      )}
+      <ToastContainer />
     </>
   );
 }
