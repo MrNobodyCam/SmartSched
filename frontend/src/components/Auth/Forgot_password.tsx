@@ -2,6 +2,7 @@ import "../Components-styles/login_signup_animation.css";
 import { X } from "react-feather";
 import PrimaryBtn from "../PrimaryBtn";
 import Email from "../../assets/icons/email-1-svgrepo-com.svg";
+import { useState } from "react";
 
 const ForgotPassword = ({
   onClose,
@@ -10,10 +11,39 @@ const ForgotPassword = ({
   onClose: () => void;
   openVerifyEmail: () => void;
 }) => {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    let valid = true;
+
+    if (!email) {
+      setEmailError("Email is required");
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (valid) {
+      console.log("Email:", email);
+      onClose();
+      openVerifyEmail();
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div
-        className="relative flex bg-white h-[70%] w-[90%] sm:w-[80%] md:w-[60%] lg:w-[42%] md:h-[70%] lg:h-[60%] rounded-l-[12px] overflow-hidden rounded-[12px]"
+        className="relative flex bg-white w-[90%] sm:w-[80%] md:w-[60%] lg:w-[42%] rounded-l-[12px] overflow-hidden rounded-[12px] py-6"
         onClick={(e) => e.stopPropagation()}
       >
         <X
@@ -38,22 +68,23 @@ const ForgotPassword = ({
               a one-time code.
             </p>
             <form
-              action=""
+              onSubmit={handleSubmit}
               className="flex flex-col items-center w-[80%] sm:w-[70%] md:w-[60%] lg:w-[60%]"
             >
               <input
                 type="email"
                 placeholder="Email"
-                className="text-[14px] mb-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
               />
-              <PrimaryBtn
-                py="py-1"
-                px="px-8"
-                onClick={() => {
-                  onClose();
-                  openVerifyEmail();
-                }}
-              >
+              {emailError && (
+                <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                  {emailError}
+                </p>
+              )}
+              <PrimaryBtn py="py-1 mt-[20px]" px="px-8" type="submit">
                 Confirm Email
               </PrimaryBtn>
             </form>

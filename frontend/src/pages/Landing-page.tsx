@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import SecondaryBtn from "../components/SecondaryBtn";
 import arrow from "../assets/icons/majesticons_arrow-up.svg";
@@ -16,6 +16,29 @@ function Landingpage() {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [fromResetPassword, setFromResetPassword] = useState(false);
+
+  useEffect(() => {
+    if (
+      isLoginOpen ||
+      isSignupOpen ||
+      isVerifyOpen ||
+      isForgotPasswordOpen ||
+      isResetPasswordOpen
+    ) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [
+    isLoginOpen,
+    isSignupOpen,
+    isVerifyOpen,
+    isForgotPasswordOpen,
+    isResetPasswordOpen,
+  ]);
   const openSignup = () => {
     setIsLoginOpen(false);
     setIsSignupOpen(true);
