@@ -66,7 +66,7 @@ const CourseScheduleViewer = () => {
       date: "2025-06-14",
       start_time: "10:30:00",
       end_time: "12:30:00",
-      result: 10,
+      result: 1,
     },
     {
       id: 7,
