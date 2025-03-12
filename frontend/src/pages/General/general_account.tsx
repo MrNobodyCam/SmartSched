@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, } from "react";
+import React, { useState, ChangeEvent, useRef } from "react";
 import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes component
 import PrimaryBtn from "../../components/PrimaryBtn";
 import SecondaryBtn from "../../components/SecondaryBtn";
@@ -22,6 +22,10 @@ const UserProfileSettings: React.FC = () => {
   });
   const [confirmEmail, setConfirmEmail] = useState("");
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     setUploadError(null);
@@ -31,13 +35,19 @@ const UserProfileSettings: React.FC = () => {
 
     // Check file size (limit to 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setUploadError("File is too large. Maximum size is 5MB.");
+      setAlertMessage({
+        type: "error",
+        message: "File is too large. Maximum size is 5MB.",
+      });
       return;
     }
 
     // Check file type
     if (!file.type.startsWith("image/")) {
-      setUploadError("Only image files are allowed.");
+      setAlertMessage({
+        type: "error",
+        message: "Only image files are allowed.",
+      });
       return;
     }
 
@@ -47,9 +57,16 @@ const UserProfileSettings: React.FC = () => {
         ...prev,
         profilePhoto: reader.result as string,
       }));
+      setAlertMessage({
+        type: "success",
+        message: "Image uploaded successfully!",
+      });
     };
     reader.onerror = () => {
-      setUploadError("Error reading file. Please try again.");
+      setAlertMessage({
+        type: "error",
+        message: "Error reading file. Please try again.",
+      });
     };
     reader.readAsDataURL(file);
 
@@ -74,26 +91,54 @@ const UserProfileSettings: React.FC = () => {
   };
 
   const handleUpdateProfile = () => {
-    // Implement API call to update profile
-    console.log("Updating profile:", profile);
-    alert("Profile updated successfully!");
+    // Log all profile data being updated
+    console.log("=== Profile Update Operation ===");
+    console.log("Full Name:", profile.fullName);
+    console.log("Gender:", profile.gender);
+    console.log("Email:", profile.email);
+    console.log("Timezone:", profile.timezone);
+    console.log("Has Profile Photo:", !!profile.profilePhoto);
+    console.log("================================");
+
+    setAlertMessage({
+      type: "success",
+      message: "Profile updated successfully!",
+    });
   };
 
   const handleDeletePhoto = () => {
-    setProfile((prev) => ({
-      ...prev,
-      profilePhoto: null,
-    }));
+    console.log("=== Deleting Profile Photo ===");
+    setProfile((prev) => {
+      console.log("Removing photo from profile");
+      return {
+        ...prev,
+        profilePhoto: null,
+      };
+    });
+    console.log("Profile photo deleted successfully");
   };
 
   const handleDeleteAccount = () => {
-    // Implement account deletion logic
     if (confirmEmail !== profile.email) {
-      alert("Email confirmation does not match your account email");
+      console.log("Delete account failed: Email confirmation mismatch");
+      console.log("Provided email:", confirmEmail);
+      console.log("Account email:", profile.email);
+      setAlertMessage({
+        type: "error",
+        message: "Email confirmation does not match your account email",
+      });
       return;
     }
-    console.log("Deleting account. Confirmation email:", confirmEmail);
-    alert("Account deletion request submitted");
+
+    console.log("=== Account Deletion Request ===");
+    console.log("Account email:", confirmEmail);
+    console.log("Account data to be deleted:", profile);
+    console.log("==============================");
+
+    setAlertMessage({
+      type: "success",
+      message: "Account deletion request submitted",
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -112,6 +157,23 @@ const UserProfileSettings: React.FC = () => {
 
   return (
     <div className="min-h-screen">
+      {alertMessage && (
+        <div
+          className={`fixed top-4 right-4 p-4 rounded-md ${
+            alertMessage.type === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {alertMessage.message}
+          <button
+            onClick={() => setAlertMessage(null)}
+            className="ml-4 text-sm font-bold"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       <div className="relative">
         <div className="p-6">
           <div className="space-y-6 -mt-5">
@@ -142,7 +204,7 @@ const UserProfileSettings: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex justify-center md:justify-start space-x-2 lg:mt-6">
+                <div className="flex justify-center md:justify-start space-x-2 lg:mt-8">
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -310,7 +372,17 @@ const UserProfileSettings: React.FC = () => {
                     required
                   />
                 </div>
-                <PrimaryBtn py="py-1">Delete Account</PrimaryBtn>
+                <PrimaryBtn
+                  py="py-1"
+                  style={{
+                    backgroundColor: confirmEmail
+                      ? "#EB5757"
+                      : "rgba(235, 87, 87, 0.4)",
+                    cursor: confirmEmail ? "pointer" : "default",
+                  }}
+                >
+                  Delete Account
+                </PrimaryBtn>
               </form>
             </div>
           </div>

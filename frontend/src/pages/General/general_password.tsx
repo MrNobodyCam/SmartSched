@@ -18,14 +18,14 @@ const PasswordChangeForm = () => {
   const validatePassword = (password: string) => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    const hasHash = /#/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
     const hasMinLength = password.length >= 6;
 
     if (!hasMinLength) return "Password must be at least 6 characters long";
     if (!hasUpperCase)
       return "Password must contain at least one uppercase letter";
     if (!hasNumber) return "Password must contain at least one number";
-    if (!hasHash) return "Password must contain a # symbol";
+    if (!hasSpecialChar) return "Password must contain a spicafic symbol";
     return "";
   };
 
@@ -75,7 +75,8 @@ const PasswordChangeForm = () => {
               Change Password
             </h2>
             <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-4">
-              Password must contain: uppercase letter, number, and # symbol
+              Your password must include at least one special character from
+              !@#$%^&*(). Please update your password to meet this requirement.{" "}
             </p>
 
             <div className="mb-4">
