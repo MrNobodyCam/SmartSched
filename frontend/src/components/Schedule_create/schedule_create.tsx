@@ -16,6 +16,7 @@ const CourseScheduleViewer = () => {
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
+
   useEffect(() => {
     if (isDetailOpen || openQuiz) {
       document.body.style.overflow = "hidden";
@@ -26,6 +27,7 @@ const CourseScheduleViewer = () => {
       document.body.style.overflow = "auto";
     };
   }, [isDetailOpen, openQuiz]);
+
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -55,7 +57,12 @@ const CourseScheduleViewer = () => {
     lessons: Lesson[];
   }[];
 
-  const scheduleData: ScheduleData = roadmapData.reduce<ScheduleData>(
+  const now = new Date();
+  const filteredRoadmapData = roadmapData.filter(
+    (lesson) => new Date(lesson.date) > now
+  );
+
+  const scheduleData: ScheduleData = filteredRoadmapData.reduce<ScheduleData>(
     (acc, lesson) => {
       const existingDate = acc.find((entry) => entry.date === lesson.date);
       if (existingDate) {
@@ -78,6 +85,7 @@ const CourseScheduleViewer = () => {
     };
     return date.toLocaleDateString("en-US", options);
   };
+
   const formatTime = (timeString: string) => {
     const [hours, minutes] = timeString.split(":");
     const date = new Date();
@@ -121,7 +129,7 @@ const CourseScheduleViewer = () => {
       >
         <div className="bg-[#FFFFFF] flex-1 overflow-hidden rounded-xl">
           <div className="overflow-y-auto h-full">
-            {roadmapData.length > 0 ? (
+            {filteredRoadmapData.length > 0 ? (
               scheduleData.map((day, index) => (
                 <div key={index} className="bg-gray-100 p-4 rounded-xl mb-8">
                   <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold py-2 border-b border-gray-300 mb-4">
