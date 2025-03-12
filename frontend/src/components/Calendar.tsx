@@ -28,130 +28,93 @@ const CustomCalendar: React.FC = () => {
     {
       id: "1",
       title: "Reading a Book",
-      start: "2025-03-02T08:00:00",
-      color: "#4CAF50",
-      allDay: false,
-      extendedProps: { description: "Lecture session on literature." },
+      date: "2025-03-02",
+      start_time: "10:00:00",
+      description: "Lecture session on literature.",
     },
     {
       id: "2",
       title: "Meeting with Team",
-      start: "2025-03-03T10:30:00",
-      color: "#2196F3",
-      allDay: false,
-      extendedProps: { description: "Weekly sprint meeting." },
+      date: "2025-03-03",
+      start_time: "14:00:00",
+      description: "Weekly sprint meeting.",
     },
     {
       id: "3",
       title: "Gym Session",
-      start: "2025-03-04T18:00:00",
-      color: "#FF5252",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-04",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "4",
       title: "Jivava Pingiling",
-      start: "2025-03-12T18:00:00",
-      color: "#FF5252",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "18:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "5",
       title: "Ping chiling",
-      start: "2025-03-12T19:00:00",
-      color: "#FF5252",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "19:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "6",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "7",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "8",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "9",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "10",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "11",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "12",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
     {
       id: "13",
       title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
-    },
-    {
-      id: "14",
-      title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
-    },
-    {
-      id: "15",
-      title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
-    },
-    {
-      id: "16",
-      title: "Hello kon papa",
-      start: "2025-03-12T20:00:00",
-      color: "#4a5568",
-      allDay: false,
-      extendedProps: { description: "Fitness routine and cardio session." },
+      date: "2025-03-12",
+      start_time: "20:00:00",
+      description: "Fitness routine and cardio session.",
     },
   ]);
 
@@ -159,10 +122,9 @@ const CustomCalendar: React.FC = () => {
     const newEvent = {
       id: String(events.length + 1),
       title: "Go to Kikilu",
-      start: "2025-03-10T21:00:00",
-      color: "#FF5252",
-      allDay: false,
-      extendedProps: { description: "Dinner at Kikilu restaurant." },
+      date: "2025-03-10",
+      start_time: "21:00:00",
+      description: "Dinner at Kikilu restaurant.",
     };
 
     setEvents((prevEvents) => {
@@ -228,7 +190,10 @@ const CustomCalendar: React.FC = () => {
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
   };
-
+  const formattedEvents = events.map((event) => ({
+    ...event,
+    start: event.date ? `${event.date}T${event.start_time}` : event.date,
+  }));
   const handleEventClick = useCallback(
     ({ event, jsEvent }: { event: any; jsEvent: MouseEvent }) => {
       let left = jsEvent.pageX + 10;
@@ -280,48 +245,66 @@ const CustomCalendar: React.FC = () => {
   return (
     <div className="calendar-container">
       <div className="calendar-header">
-        <div className="calendar-title-container">
-          <h1 className="calendar-title">{currentMonth}</h1>
+        {!showTodoList ? (
+          <>
+            <div className="calendar-title-container">
+              <h1 className="calendar-title">{currentMonth}</h1>
 
-          <div className="dropdown" ref={dropdownRef}>
-            <button
-              className="dropdown-button"
-              onClick={() => setIsDropdownOpen((prev) => !prev)}
-            >
-              {view === "dayGridMonth"
-                ? "Month"
-                : view === "timeGridWeek"
-                ? "Week"
-                : "Day"}
-            </button>
-            {isDropdownOpen && (
-              <div className="dropdown-content">
-                <button onClick={() => handleViewChange("dayGridMonth")}>
-                  Month
+              <div className="dropdown" ref={dropdownRef}>
+                <button
+                  className="dropdown-button"
+                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                >
+                  {view === "dayGridMonth"
+                    ? "Month"
+                    : view === "timeGridWeek"
+                    ? "Week"
+                    : "Day"}
                 </button>
-                <button onClick={() => handleViewChange("timeGridWeek")}>
-                  Week
-                </button>
-                <button onClick={() => handleViewChange("timeGridDay")}>
-                  Day
-                </button>
+                {isDropdownOpen && (
+                  <div className="dropdown-content">
+                    <button onClick={() => handleViewChange("dayGridMonth")}>
+                      Month
+                    </button>
+                    <button onClick={() => handleViewChange("timeGridWeek")}>
+                      Week
+                    </button>
+                    <button onClick={() => handleViewChange("timeGridDay")}>
+                      Day
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        <div className="calendar-navigation">
-          <button className="calendar-navigation-btn" onClick={handlePrevMonth}>
-            <img src={LeftArrowIcon} alt="back button" />
-          </button>
-          <CustomDatePicker
-            selectedDate={selectedDate}
-            onDateChange={handleDateChange}
-          />
-          <button className="calendar-navigation-btn" onClick={handleNextMonth}>
-            <img src={RightArrowIcon} alt="next button" />
-          </button>
-        </div>
+            <div className="calendar-navigation">
+              <button
+                className="calendar-navigation-btn"
+                onClick={handlePrevMonth}
+              >
+                <img src={LeftArrowIcon} alt="back button" />
+              </button>
+              <CustomDatePicker
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+              />
+              <button
+                className="calendar-navigation-btn"
+                onClick={handleNextMonth}
+              >
+                <img src={RightArrowIcon} alt="next button" />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="flex">
+            <div className="calendar-navigation">
+              <button className="calendar-navigation-btn">
+                <div className="text-[22px] text-white">none</div>
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="calendar-actions">
           <button className="action-button bg-amber-500" onClick={addEvent}>
@@ -352,7 +335,9 @@ const CustomCalendar: React.FC = () => {
                 <li key={event.id}>
                   <span>{event.title}</span>
                   <span className="event-time">
-                    {new Date(event.start).toLocaleTimeString()}
+                    {event.start_time
+                      ? new Date(event.start_time).toLocaleTimeString()
+                      : "No time specified"}
                   </span>
                 </li>
               ))}
@@ -360,12 +345,12 @@ const CustomCalendar: React.FC = () => {
           </div>
         ) : (
           <FullCalendar
-            key={events.length}
+            key={formattedEvents.length}
             ref={calendarRef}
             plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
             initialView={view}
             headerToolbar={false}
-            events={events}
+            events={formattedEvents}
             eventClick={handleEventClick}
             datesSet={handleDatesSet}
             dayMaxEventRows={2}
