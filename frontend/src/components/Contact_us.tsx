@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const FullScreenContactForm = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    message: '',
-    agreedToPolicy: false
+    title: "",
+    message: "",
+    agreedToPolicy: false,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      agreedToPolicy: e.target.checked
+      agreedToPolicy: e.target.checked,
     });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     // Form submission logic would go here
   };
 
   return (
-    <div className="flex items-start justify-start p-4 sm:p-12 w-full h-full">
-      <div className="w-[876px] h-full p-6 rounded-md">
+    <div
+      className="flex items-start justify-start w-full h-full"
+      style={{ position: "absolute" }}
+    >
+      <div className="w-[876px] h-full rounded-md">
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <h1 className="text-2xl sm:text-4xl font-medium mb-1">
