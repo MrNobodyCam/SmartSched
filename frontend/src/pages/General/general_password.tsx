@@ -141,7 +141,7 @@ const PasswordChangeForm = () => {
               )}
             </div>
             <div>
-              <PrimaryBtn py-1> Update </PrimaryBtn>
+              <PrimaryBtn py="py-1"> Update </PrimaryBtn>
             </div>
           </form>
         </div>

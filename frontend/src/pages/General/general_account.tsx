@@ -1,5 +1,7 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, } from "react";
+import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes component
 import PrimaryBtn from "../../components/PrimaryBtn";
+import SecondaryBtn from "../../components/SecondaryBtn";
 
 interface UserProfile {
   fullName: string;
@@ -149,26 +151,22 @@ const UserProfileSettings: React.FC = () => {
                     onChange={handleFileUpload}
                   />
                   <div className="">
-                    <PrimaryBtn onClick={triggerFileInput}>
+                    <PrimaryBtn onClick={triggerFileInput} py="py-1">
                       Upload Image
                     </PrimaryBtn>
                   </div>
                   {profile.profilePhoto && (
-                    <button
+                    <SecondaryBtn
+                      py="py-1"
+                      borderColor="#A5A5A5"
+                      color="#A5A5A5"
+                      extraContent={
+                        <FaTimes className="w-[16px] md:w-[18px] lg:w-[20px]" />
+                      }
                       onClick={handleDeletePhoto}
-                      className="px-4 py-2 border border-gray-300 text-gray-600 rounded-xl hover:bg-gray-50 flex items-center text-[14px] md:text-[16px] lg:text-[18px] font-bold"
                     >
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path d="M6 18L18 6M6 6l12 12" />
-                      </svg>
                       Delete
-                    </button>
+                    </SecondaryBtn>
                   )}
                 </div>
               </div>
@@ -284,7 +282,7 @@ const UserProfileSettings: React.FC = () => {
               </div>
 
               <div className="pt-4">
-                <PrimaryBtn> Update </PrimaryBtn>
+                <PrimaryBtn py="py-1"> Update </PrimaryBtn>
               </div>
             </form>
 
@@ -312,7 +310,7 @@ const UserProfileSettings: React.FC = () => {
                     required
                   />
                 </div>
-                <PrimaryBtn>Delete Account</PrimaryBtn>
+                <PrimaryBtn py="py-1">Delete Account</PrimaryBtn>
               </form>
             </div>
           </div>
