@@ -18,14 +18,16 @@ class RoadmapController extends Controller
             ->where('schedule_id', $schedule_id)
             ->get();
 
-        $now = Carbon::now();
-        //get only roadmap that has date and end time greater than now
-        $filteredRoadmap = $roadmap->filter(function ($item) use ($now) {
-            $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
-            return $endDateTime->greaterThan($now);
+        // $now = Carbon::now();
+        // //get only roadmap that has date and end time greater than now
+        // $filteredRoadmap = $roadmap->filter(function ($item) use ($now) {
+        //     $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
+        //     return $endDateTime->greaterThan($now);
+        // });
+        $sortedRoadmap = $roadmap->sortBy(function ($item) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
         });
-
-        return response()->json($filteredRoadmap->values());
+        return response()->json($sortedRoadmap->values());
     }
     public function getRoadMapDetail($roadmap_id)
     {
