@@ -343,45 +343,47 @@ const CustomCalendar: React.FC = () => {
         <span className="view-label">Calendar</span>
       </div>
 
-      {showTodoList ? (
-        <div className="todo-list">
-          <h2>To-Do List</h2>
-          <ul>
-            {events.map((event) => (
-              <li key={event.id}>
-                <span>{event.title}</span>
-                <span className="event-time">
-                  {new Date(event.start).toLocaleTimeString()}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <FullCalendar
-          key={events.length}
-          ref={calendarRef}
-          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-          initialView={view}
-          headerToolbar={false}
-          events={events}
-          eventClick={handleEventClick}
-          datesSet={handleDatesSet}
-          dayMaxEventRows={2}
-          moreLinkContent={({ num }) => `+${num} More`}
-          height="auto"
-          contentHeight="auto"
-          aspectRatio={3}
-          fixedWeekCount={false}
-          showNonCurrentDates={false}
-          dayHeaderFormat={{ weekday: "short" }}
-          eventTimeFormat={{
-            hour: "numeric",
-            minute: "2-digit",
-            meridiem: "short",
-          }}
-        />
-      )}
+      <div className="scrollable-content overflow-auto">
+        {showTodoList ? (
+          <div className="todo-list">
+            <h2>To-Do List</h2>
+            <ul>
+              {events.map((event) => (
+                <li key={event.id}>
+                  <span>{event.title}</span>
+                  <span className="event-time">
+                    {new Date(event.start).toLocaleTimeString()}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <FullCalendar
+            key={events.length}
+            ref={calendarRef}
+            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+            initialView={view}
+            headerToolbar={false}
+            events={events}
+            eventClick={handleEventClick}
+            datesSet={handleDatesSet}
+            dayMaxEventRows={2}
+            moreLinkContent={({ num }) => `+${num} More`}
+            height="auto"
+            contentHeight="auto"
+            aspectRatio={3}
+            fixedWeekCount={false}
+            showNonCurrentDates={false}
+            dayHeaderFormat={{ weekday: "short" }}
+            eventTimeFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              meridiem: "short",
+            }}
+          />
+        )}
+      </div>
 
       {popupEvent && (
         <div
