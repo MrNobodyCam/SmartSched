@@ -123,10 +123,7 @@ const CourseScheduleViewer = () => {
   };
   return (
     <>
-      <div
-        className="bg-white font-sans w-full h-screen max-w-full mx-auto flex flex-col overflow-hidden"
-        style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
-      >
+      <div className="bg-white font-sans w-full h-full max-w-full mx-auto flex flex-col overflow-hidden">
         <div className="bg-[#FFFFFF] flex-1 overflow-hidden rounded-xl">
           <div className="overflow-y-auto h-full">
             {filteredRoadmapData.length > 0 ? (
@@ -198,7 +195,7 @@ const CourseScheduleViewer = () => {
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            window.location.reload();
+            // window.location.reload();
           }}
           RoadMapID={RoadMapID}
         />

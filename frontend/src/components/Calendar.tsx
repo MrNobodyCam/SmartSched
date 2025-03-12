@@ -1,89 +1,368 @@
-// // ...existing code...
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { fetchGetData } from "../service/api";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+import "./Components-styles/CalendarStyles.css";
+import CustomDatePicker from "./CustomDatePicker";
+import LeftArrowIcon from "../assets/icons/left_arrow.png";
+import RightArrowIcon from "../assets/icons/right_arrow.png";
+import ScheduleListview from "./Schedule_create/schedule_create";
+import WarningAlert from "./Alert/WarningAlert";
+import { toast, ToastContainer } from "react-toastify";
+import Result from "./Quiz/Result";
+import QuizPopup from "./Quiz/Quiz";
+import Lesson_Detail from "./Quiz/Lesson_Detail";
 
-//   const CustomToolbar = (toolbar) => {
-//     const goToBack = () => {
-//       toolbar.onNavigate("PREV");
-//     };
+const CustomCalendar: React.FC = () => {
+  const [view, setView] = useState("dayGridMonth");
+  const [currentMonth, setCurrentMonth] = useState("January 2025");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showTodoList, setShowTodoList] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [RoadMapID, setRoadMapID] = useState<number>(1);
+  const [openQuiz, setopenQuiz] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [quizResult, setQuizResult] = useState<any>(null);
+  const [LeftQuiz, setLeftQuiz] = useState(false);
+  const calendarRef = useRef<FullCalendar | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const [events, setEvents] = useState<any[]>([]);
 
-//     const goToNext = () => {
-//       toolbar.onNavigate("NEXT");
-//     };
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await fetchGetData(`generate-schedule/roadmaps`);
+        setEvents(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-//     const goToToday = () => {
-//       toolbar.onNavigate("TODAY");
-//     };
+    fetch();
+  }, []);
 
-//     const handleMonthSelect = (month) => {
-//       const newDate = new Date(toolbar.date);
-//       newDate.setMonth(month);
-//       toolbar.onNavigate('DATE', newDate);
-//     };
+  const onOpenQuiz = () => {
+    setIsDetailOpen(false);
+    setopenQuiz(true);
+  };
 
-//     const months = [
-//       "January", "February", "March", "April", "May", "June",
-//       "July", "August", "September", "October", "November", "December"
-//     ];
+  const onSubmit = (result: any) => {
+    setQuizResult(result);
+  };
 
-//     return (
-//       <div className="flex items-center justify-between p-2 bg-white border-b shadow-sm">
-//         <div className="flex items-center space-x-1">
-//           <button
-//             className="px-3 py-1.5 bg-blue-500 text-white rounded-l hover:bg-blue-600 transition"
-//             onClick={goToBack}
-//           >
-//             ←
-//           </button>
-//           <button
-//             className="px-3 py-1.5 bg-blue-500 text-white hover:bg-blue-600 transition"
-//             onClick={goToToday}
-//           >
-//             Today
-//           </button>
-//           <button
-//             className="px-3 py-1.5 bg-blue-500 text-white rounded-r hover:bg-blue-600 transition"
-//             onClick={goToNext}
-//           >
-//             →
-//           </button>
-//           <div className="relative ml-2">
-//             <select
-//               className="appearance-none bg-white border border-blue-500 text-blue-500 px-3 py-1.5 pr-8 rounded cursor-pointer hover:border-blue-600 transition"
-//               onChange={(e) => handleMonthSelect(parseInt(e.target.value))}
-//               value={toolbar.date.getMonth()}
-//             >
-//               {months.map((month, index) => (
-//                 <option key={month} value={index}>
-//                   {month}
-//                 </option>
-//               ))}
-//             </select>
-//             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-500">
-//               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-//                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-//               </svg>
-//             </div>
-//           </div>
-//         </div>
-//         <h2 className="text-lg font-semibold text-gray-800 hidden sm:block">
-//           {toolbar.label}
-//         </h2>
-//         <div className="flex space-x-1">
-//           {["month", "week", "day", "agenda"].map((view) => (
-//             <button
-//               key={view}
-//               className={`px-3 py-1.5 rounded text-sm transition ${
-//                 toolbar.view === view
-//                   ? "bg-blue-500 text-white"
-//                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-//               }`}
-//               onClick={() => toolbar.onView(view)}
-//             >
-//               {view.charAt(0).toUpperCase() + view.slice(1, 3)}
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-//     );
-//   };
+  const onPopupResult = () => {
+    setopenQuiz(false);
+    setShowResult(true);
+  };
 
-// // ...existing code...
+  const addEvent = () => {
+    const newEvent = {
+      id: String(events.length + 1),
+      title: "Go to Kikilu",
+      date: "2025-03-10",
+      start_time: "21:00:00",
+      description: "Dinner at Kikilu restaurant.",
+    };
+
+    setEvents((prevEvents) => {
+      const updatedEvents = [...prevEvents, newEvent];
+
+      if (calendarRef.current) {
+        calendarRef.current.getApi().refetchEvents();
+      }
+
+      return updatedEvents;
+    });
+  };
+
+  const handleDatesSet = useCallback(
+    ({ view }: { view: { currentStart: Date } }) => {
+      const date = view.currentStart;
+      setCurrentMonth(
+        `${date.toLocaleString("default", {
+          month: "long",
+        })} ${date.getFullYear()}`
+      );
+
+      if (
+        !selectedDate ||
+        selectedDate.getMonth() !== date.getMonth() ||
+        selectedDate.getFullYear() !== date.getFullYear()
+      ) {
+        setSelectedDate(new Date(date));
+      }
+    },
+    [selectedDate]
+  );
+
+  const handleDateChange = (date: Date | null) => {
+    if (date && calendarRef.current) {
+      calendarRef.current.getApi().gotoDate(date); // Navigate to the selected date
+      calendarRef.current.getApi().select(date); // Highlight the selected date
+      setSelectedDate(date);
+    }
+  };
+
+  const handlePrevMonth = () => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().prev();
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().next();
+    }
+  };
+
+  const handleViewChange = (newView: string) => {
+    setView(newView);
+    setIsDropdownOpen(false);
+    if (calendarRef.current) {
+      calendarRef.current.getApi().changeView(newView);
+    }
+  };
+
+  const toggleTodoList = () => {
+    setShowTodoList((prev) => !prev);
+  };
+
+  const formattedEvents = events.map((event) => ({
+    ...event,
+    start: event.date ? `${event.date}T${event.start_time}` : event.date,
+  }));
+
+  const handleEventClick = useCallback(
+    ({ event }: { event: any; jsEvent: MouseEvent }) => {
+      setIsDetailOpen(true);
+      setRoadMapID(event.id);
+    },
+    []
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsDetailOpen(false);
+      }
+    };
+
+    if (isDetailOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDetailOpen]);
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().updateSize();
+    }
+  }, [selectedDate]);
+
+  const renderEventContent = (eventInfo: any) => {
+    const backgroundColor =
+      eventInfo.event.extendedProps.result !== null ? "#27AE60" : "#EB5757";
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <span
+          style={{
+            backgroundColor,
+            borderRadius: "50%",
+            width: "10px",
+            height: "10px",
+            marginRight: "5px",
+          }}
+        ></span>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </div>
+    );
+  };
+
+  return (
+    <div className="calendar-container">
+      <div className="calendar-header">
+        {!showTodoList ? (
+          <>
+            <div className="calendar-title-container">
+              <h1 className="calendar-title">{currentMonth}</h1>
+
+              <div className="dropdown" ref={dropdownRef}>
+                <button
+                  className="dropdown-button"
+                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                >
+                  {view === "dayGridMonth"
+                    ? "Month"
+                    : view === "timeGridWeek"
+                    ? "Week"
+                    : "Day"}
+                </button>
+                {isDropdownOpen && (
+                  <div className="dropdown-content">
+                    <button onClick={() => handleViewChange("dayGridMonth")}>
+                      Month
+                    </button>
+                    <button onClick={() => handleViewChange("timeGridWeek")}>
+                      Week
+                    </button>
+                    <button onClick={() => handleViewChange("timeGridDay")}>
+                      Day
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="calendar-navigation">
+              <button
+                className="calendar-navigation-btn"
+                onClick={handlePrevMonth}
+              >
+                <img src={LeftArrowIcon} alt="back button" />
+              </button>
+              <CustomDatePicker
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+              />
+              <button
+                className="calendar-navigation-btn"
+                onClick={handleNextMonth}
+              >
+                <img src={RightArrowIcon} alt="next button" />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="flex">
+            <div className="calendar-navigation">
+              <button className="calendar-navigation-btn">
+                <div className="text-[22px] text-white">none</div>
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="calendar-actions">
+          <button className="action-button bg-amber-500" onClick={addEvent}>
+            Add Event
+          </button>
+        </div>
+      </div>
+
+      <div className="view-toggle-container">
+        <span className="view-label">To-Do List</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={!showTodoList}
+            onChange={toggleTodoList}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span className="view-label">Calendar</span>
+      </div>
+
+      <div className="scrollable-content overflow-auto">
+        {showTodoList ? (
+          <div className="todo-list">
+            <ScheduleListview />
+          </div>
+        ) : (
+          <FullCalendar
+            key={formattedEvents.length}
+            ref={calendarRef}
+            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+            initialView={view}
+            headerToolbar={false}
+            events={formattedEvents}
+            eventClick={handleEventClick}
+            datesSet={handleDatesSet}
+            eventContent={renderEventContent}
+            dayMaxEventRows={2}
+            moreLinkContent={({ num }) => `+${num} More`}
+            height="auto"
+            contentHeight="auto"
+            aspectRatio={3}
+            fixedWeekCount={false}
+            showNonCurrentDates={false}
+            dayHeaderFormat={{ weekday: "short" }}
+            eventTimeFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              meridiem: "short",
+            }}
+          />
+        )}
+      </div>
+      {isDetailOpen && (
+        <Lesson_Detail
+          openQuiz={() => {
+            onOpenQuiz();
+          }}
+          onClose={() => {
+            setIsDetailOpen(false);
+            // window.location.reload();
+          }}
+          RoadMapID={RoadMapID}
+        />
+      )}
+      {openQuiz && (
+        <QuizPopup
+          RoadMapID={RoadMapID}
+          onPopupResult={onPopupResult}
+          onSubmit={onSubmit}
+          onClose={() => {
+            setopenQuiz(true);
+            setLeftQuiz(true);
+          }}
+        />
+      )}
+      {showResult && (
+        <Result
+          quizResult={quizResult}
+          onClose={() => {
+            setShowResult(false);
+            setIsDetailOpen(true);
+          }}
+        />
+      )}
+      {LeftQuiz && (
+        <WarningAlert
+          title="You left the quiz"
+          message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
+          toastNotify={() =>
+            toast.warning("You have left the quiz. Your progress may be lost!")
+          }
+          onClose={() => {
+            setLeftQuiz(false);
+            setopenQuiz(true);
+          }}
+          onConfirm={() => {
+            setLeftQuiz(false);
+            setopenQuiz(false);
+            setIsDetailOpen(true);
+          }}
+        />
+      )}
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default CustomCalendar;
