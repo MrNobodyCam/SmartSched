@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import TimePicker from "./TimePicker";
+import PrimaryBtn from "./PrimaryBtn";
+import SecondaryBtn from "./SecondaryBtn";
 
 interface FormData {
   title: string;
@@ -8,7 +10,13 @@ interface FormData {
   freeDays: string[];
   startTime: string;
   endTime: string;
+  duration: string;
 }
+
+// Remove RequiredIndicator component and keep only ValidationMessage
+const ValidationMessage = ({ message }: { message: string }) => (
+  <p className="text-red-500 text-sm mt-1">{message}</p>
+);
 
 const InputForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -18,8 +26,10 @@ const InputForm: React.FC = () => {
     freeDays: [],
     startTime: "",
     endTime: "",
+    duration: "",
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const weekDays: string[] = [
     "Monday",
@@ -31,9 +41,74 @@ const InputForm: React.FC = () => {
     "Sunday",
   ];
 
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required";
+    }
+    if (!formData.subjects.trim()) {
+      newErrors.subjects = "Subjects are required";
+    }
+    if (formData.freeDays.length === 0) {
+      newErrors.freeDays = "Please select at least one free day";
+    }
+    if (!formData.startTime) {
+      newErrors.startTime = "Start time is required";
+    }
+    if (!formData.endTime) {
+      newErrors.endTime = "End time is required";
+    }
+    if (!formData.duration) {
+      newErrors.duration = "Duration is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    if (validateForm()) {
+      console.log("=== Schedule Generation Data ===");
+      console.log("Title:", formData.title);
+      console.log("Subjects:", formData.subjects);
+      console.log("Free Days:", formData.freeDays);
+      console.log("Start Time:", formData.startTime);
+      console.log("End Time:", formData.endTime);
+      console.log("Duration (Weeks):", formData.duration);
+      console.log("================================");
+
+      // Reset form data to initial state
+      setFormData({
+        title: "",
+        subjects: "",
+        freeDays: [],
+        startTime: "",
+        endTime: "",
+        duration: "",
+      });
+
+      // Clear any existing errors
+      setErrors({});
+
+      setIsOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    // Reset form data to initial state
+    setFormData({
+      title: "",
+      subjects: "",
+      freeDays: [],
+      startTime: "",
+      endTime: "",
+      duration: "",
+    });
+    // Clear any existing errors
+    setErrors({});
+    // Close the form
     setIsOpen(false);
   };
 
@@ -48,61 +123,63 @@ const InputForm: React.FC = () => {
 
   return (
     <div className="relative">
-      <button
-        onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-600 text-[18px]"
-      >
+      <PrimaryBtn onClick={() => setIsOpen(true)} py="py-2">
         Generate Schedule
-      </button>
+      </PrimaryBtn>
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-3xl mx-4">
             <div className="p-8">
               <div className="flex items-center gap-2 mb-6">
-                <h2
-                  className="text-2xl font-bold text-black"
-                  style={{ fontSize: "20px" }}
-                >
+                <h2 className=" text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
                   Input your data to generate a smart schedule
                 </h2>
               </div>
+              {/* form */}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="mb-4">
-                  <label className="block font-medium mb-2 text-black text-[18px]">
-                    <span>Title</span>
-                    <span className="text-red-500">*</span>
+                  <label className="block font-bold mb-2 text-black text-[14px] md:text-[16px] lg:text-[18px]">
+                    Title
                   </label>
                   <input
                     type="text"
                     placeholder="Enter your schedule title..."
                     value={formData.title}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, title: e.target.value });
+                      setErrors({ ...errors, title: "" });
+                    }}
                     required
-                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                    className={`w-full h-[48px] px-4 py-2 bg-gray-100 border ${
+                      errors.title ? "border-red-500" : "border-gray-300"
+                    } rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px] md:text-[16px] lg:text-[18px]`}
                   />
+                  {errors.title && <ValidationMessage message={errors.title} />}
                 </div>
                 <div className="mb-4">
-                  <label className="block font-medium mb-2 text-black text-[18px]">
-                    <span>Subjects</span>
-                    <span className="text-red-500">*</span>
+                  <label className="block font-bold mb-2 text-black text-[14px] md:text-[16px] lg:text-[18px]">
+                    Subjects
                   </label>
                   <input
                     type="text"
                     placeholder="e.g., React, Laravel, Java, Python, or more..."
                     value={formData.subjects}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subjects: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, subjects: e.target.value });
+                      setErrors({ ...errors, subjects: "" });
+                    }}
                     required
-                    className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                    className={`w-full h-[48px] px-4 py-2 bg-gray-100 border ${
+                      errors.subjects ? "border-red-500" : "border-gray-300"
+                    } rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px] md:text-[16px] lg:text-[18px]`}
                   />
+                  {errors.subjects && (
+                    <ValidationMessage message={errors.subjects} />
+                  )}
                 </div>
                 <div className="mb-4">
-                  <label className="block font-medium mb-2 text-black text-[18px]">
-                    <span>Free Days</span>
-                    <span className="text-red-500">*</span>
+                  <label className="block font-bold mb-2 text-black text-[14px] md:text-[16px] lg:text-[18px]">
+                    Free Days
                   </label>
 
                   {/* Desktop View: Checkbox Grid */}
@@ -111,7 +188,7 @@ const InputForm: React.FC = () => {
                       {weekDays.map((day) => (
                         <label
                           key={day}
-                          className="flex items-center gap-2 text-black text-[14px]"
+                          className="flex items-center gap-2 text-black text-[14px] md:text-[16px] lg:text-[18px]"
                         >
                           <input
                             type="checkbox"
@@ -131,7 +208,7 @@ const InputForm: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px]"
+                        className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-[14px] md:text-[16px] lg:text-[18px]"
                       >
                         {formData.freeDays.length > 0
                           ? formData.freeDays.join(", ")
@@ -142,7 +219,7 @@ const InputForm: React.FC = () => {
                           {weekDays.map((day) => (
                             <label
                               key={day}
-                              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-black text-[14px]"
+                              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer text-black text-[14px] md:text-[16px] lg:text-[18px]"
                             >
                               <input
                                 type="checkbox"
@@ -157,47 +234,94 @@ const InputForm: React.FC = () => {
                       )}
                     </div>
                   </div>
+                  {errors.freeDays && (
+                    <ValidationMessage message={errors.freeDays} />
+                  )}
                 </div>
 
                 <div className="mb-4">
-                  <label className="block font-medium mb-2 text-black text-[18px]">
-                    <span>Free Time</span>
-                    <span className="text-red-500">*</span>
+                  <label className="block font-bold mb-2 text-[14px] md:text-[16px] lg:text-[18px]">
+                    Free Time
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     <TimePicker
                       value={formData.startTime}
-                      onChange={(time) =>
-                        setFormData({ ...formData, startTime: time })
-                      }
-                      className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black"
+                      onChange={(time) => {
+                        setFormData({ ...formData, startTime: time });
+                        setErrors({ ...errors, startTime: "" });
+                      }}
+                      className={`w-full h-[48px] px-4 py-2 bg-gray-100 border ${
+                        errors.startTime ? "border-red-500" : "border-gray-300"
+                      } rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black cursor-pointer`}
                       isStartTime={true}
                     />
                     <TimePicker
                       value={formData.endTime}
-                      onChange={(time) =>
-                        setFormData({ ...formData, endTime: time })
-                      }
-                      className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black"
+                      onChange={(time) => {
+                        setFormData({ ...formData, endTime: time });
+                        setErrors({ ...errors, endTime: "" });
+                      }}
+                      className={`w-full h-[48px] px-4 py-2 bg-gray-100 border ${
+                        errors.endTime ? "border-red-500" : "border-gray-300"
+                      } rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black cursor-pointer`}
                       isStartTime={false}
                     />
                   </div>
+                  {errors.startTime && (
+                    <ValidationMessage message={errors.startTime} />
+                  )}
+                  {errors.endTime && (
+                    <ValidationMessage message={errors.endTime} />
+                  )}
                 </div>
+                <div className="mb-4">
+                  <label className="block font-bold mb-2 text-black text-[14px] md:text-[16px] lg:text-[18px]">
+                    Duration (Weeks)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="52"
+                    placeholder="e.g., 12, 14, 16, or more..."
+                    value={formData.duration}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (
+                        value === "" ||
+                        (/^\d+$/.test(value) && parseInt(value) > 0)
+                      ) {
+                        setFormData({ ...formData, duration: value });
+                        setErrors({ ...errors, duration: "" });
+                      }
+                    }}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    required
+                    className={`w-full lg:w-[266px] h-[48px] px-4 py-2 bg-gray-100 border ${
+                      errors.duration ? "border-red-500" : "border-gray-300"
+                    } rounded-lg outline-none transition-all duration-300 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black text-[14px] md:text-[16px] lg:text-[18px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  />
+                  {errors.duration && (
+                    <ValidationMessage message={errors.duration} />
+                  )}
+                </div>
+
                 <div className="flex justify-end gap-4 mt-6">
-                  <button
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-1 px-4 py-2 text-[#A5A5A5] transition-colors duration-300 ease-in-out bg-[#FDFDFD] border border-[#A5A5A5] rounded-xl hover:text-black"
+                  <SecondaryBtn
+                    py="py-1"
+                    borderColor="#A5A5A5"
+                    color="#A5A5A5"
+                    extraContent={
+                      <X className="w-[16px] md:w-[18px] lg:w-[20px]" />
+                    }
+                    onClick={handleCancel}
                   >
-                    <X size={16} />
                     Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-[#2D9CDB] text-white transition-all duration-300 ease-in-out hover:bg-blue-600 rounded-xl"
-                  >
-                    Generate
-                  </button>
+                  </SecondaryBtn>
+                  <PrimaryBtn py="py-1">Generate</PrimaryBtn>
                 </div>
               </form>
             </div>
