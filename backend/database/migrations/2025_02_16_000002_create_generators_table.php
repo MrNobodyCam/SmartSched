@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('schedule_title');
-            $table->string('free_time');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->string('free_day');
+            $table->string('start_time');
+            $table->string('end_time');
             $table->timestamps();
 
 

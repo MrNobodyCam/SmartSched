@@ -3,6 +3,7 @@ import Google from "../../assets/icons/Google.svg";
 import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
+import { useState } from "react";
 
 const Card: React.FC<{
   icon?: string;
@@ -31,7 +32,8 @@ const Card: React.FC<{
     {label}
   </div>
 );
-const Signup = ({
+
+const SignIn = ({
   onClose,
   openSignUp,
   openForgotPassword,
@@ -40,15 +42,44 @@ const Signup = ({
   openSignUp: () => void;
   openForgotPassword: () => void;
 }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    let valid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 6 characters");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (valid) {
+      console.log("Email:", email);
+      console.log("Password:", password);
+      alert("Sign In Successful");
+    }
+  };
+
   return (
-    <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      // onClick={onClose}
-    >
-      <div
-        className="relative flex bg-white h-[80%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
-        // onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="relative flex py-[40px] sm:py-0 bg-white w-[80%] md:w-[80%] lg:w-[80%] rounded-l-[12px] overflow-hidden rounded-[12px]">
         <X
           className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-white lg:text-white"
           size={28}
@@ -81,43 +112,51 @@ const Signup = ({
             or use your email password
           </p>
           <form
-            action="#"
+            onSubmit={handleSubmit}
             className="w-[75%] my-[20px] md:w-[55%] flex flex-col items-center"
           >
             <input
+              required
               type="email"
               placeholder="Email"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
             />
+            {emailError && (
+              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                {emailError}
+              </p>
+            )}
             <input
+              required
               type="password"
               placeholder="Password"
               name="password"
-              className="text-[14px] mt-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="text-[14px] mt-[10px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
             />
+            {passwordError && (
+              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                {passwordError}
+              </p>
+            )}
             <a
-              href="#"
               onClick={openForgotPassword}
-              className="w-[100%] text-end my-3 font-semibold text-[14px] md:text-[16px] lg:text-[18px] text-[blue]"
+              className="cursor-pointer w-[100%] text-end my-3 font-semibold text-[14px] md:text-[16px] lg:text-[18px] text-[blue]"
             >
               Forgot Password
             </a>
-            <PrimaryBtn
-              px="px-15 md:px-15"
-              py="py-1"
-              onClick={() => {
-                alert("Sign In Successful");
-              }}
-            >
+            <PrimaryBtn px="px-15 md:px-15" py="py-1" type="submit">
               SIGN IN
             </PrimaryBtn>
           </form>
           <p className="text-[14px] md:text-[16px] lg:text-[18px] flex sm:hidden">
             Don't have account?
             <a
-              href="#"
-              className="ml-2 text-[blue] underline font-semibold"
+              className="cursor-pointer ml-2 text-[blue] underline font-semibold"
               onClick={() => {
                 onClose();
                 openSignUp();
@@ -127,7 +166,7 @@ const Signup = ({
             </a>
           </p>
         </div>
-        <div className="slideInFromRight w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-l-[130px]">
+        <div className="slideInFromRight w-[100%] md:w-[45%] lg:w-[45%] py-[190px] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center rounded-l-[130px]">
           <h1 className="text-[36px] md:text-[30px] sm:text-[28px] font-bold text-white">
             Hello Friend!
           </h1>
@@ -152,44 +191,4 @@ const Signup = ({
   );
 };
 
-export default Signup;
-
-// const [isLoginOpen, setIsLoginOpen] = useState(false);
-//   const [isSignupOpen, setIsSignupOpen] = useState(false);
-
-//   const openSignup = () => {
-//     setIsLoginOpen(false);
-//     setIsSignupOpen(true);
-//   };
-
-//   const openLogin = () => {
-//     setIsSignupOpen(false);
-//     setIsLoginOpen(true);
-//   };
-
-//   return (
-//     <>
-//       <PrimaryBtn
-//         px="px-10 md:px-12 lg:px-4"
-//         py="py-1"
-//         onClick={() => setIsLoginOpen(true)}
-//       >
-//         Login
-//       </PrimaryBtn>
-//       <br />
-//       <PrimaryBtn
-//         px="px-10 md:px-12 lg:px-4"
-//         py="py-1"
-//         onClick={() => setIsSignupOpen(true)}
-//       >
-//         Sign Up
-//       </PrimaryBtn>
-
-//       {isLoginOpen && (
-//         <Login onClose={() => setIsLoginOpen(false)} openSignUp={openSignup} />
-//       )}
-//       {isSignupOpen && (
-//         <Signup onClose={() => setIsSignupOpen(false)} openSignIn={openLogin} />
-//       )}
-//     </>
-//   );
+export default SignIn;

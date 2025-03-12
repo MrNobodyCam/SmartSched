@@ -7,6 +7,7 @@ interface Props {
   extraContent?: React.ReactNode;
   extraContent_Right?: React.ReactNode;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset";
   px?: string;
   py?: string;
 }
@@ -18,11 +19,13 @@ const SecondaryBtn = ({
   extraContent,
   extraContent_Right,
   onClick,
+  type = "button",
   px = "px-4 md:px-6 lg:px-8",
   py = "py-2 md:py-3 lg:py-3",
 }: Props) => {
   return (
     <button
+      type={type}
       className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${px} ${py} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
       style={
         {

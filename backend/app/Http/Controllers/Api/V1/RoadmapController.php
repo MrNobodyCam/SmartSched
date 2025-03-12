@@ -5,14 +5,33 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class RoadmapController extends Controller
 {
-    public function getRoadMap($roadmap_id)
+    public function getRoadMap()
+    {
+        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
+        $roadmap = DB::table('roadmaps')
+            ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
+            ->select('roadmaps.id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
+            ->where('schedule_id', $schedule_id)
+            ->get();
+
+        $now = Carbon::now();
+        //get only roadmap that has date and end time greater than now
+        $filteredRoadmap = $roadmap->filter(function ($item) use ($now) {
+            $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
+            return $endDateTime->greaterThan($now);
+        });
+
+        return response()->json($filteredRoadmap->values());
+    }
+    public function getRoadMapDetail($roadmap_id)
     {
         $roadmap = DB::table('roadmaps')
             ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
-            ->select('topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.time', 'roadmaps.date')
+            ->select('topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
             ->where('roadmaps.id', $roadmap_id)
             ->get();
 

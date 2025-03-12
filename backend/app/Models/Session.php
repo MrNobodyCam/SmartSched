@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Topic extends Model
+class Session extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'user_id',
+        'session_token',
+        'created_at',
+        'updated_at',
     ];
 
-    public function generators()
+    public function user()
     {
-        return $this->belongsToMany(Generator::class, 'generator_topics');
+        return $this->belongsTo(User::class);
     }
 }
