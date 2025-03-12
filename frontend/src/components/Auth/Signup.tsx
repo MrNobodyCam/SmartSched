@@ -47,7 +47,6 @@ const Signup = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -61,37 +60,21 @@ const Signup = ({
     event.preventDefault();
     let valid = true;
 
-    if (!name) {
-      setNameError("Full name is required");
-      valid = false;
-    } else {
-      setNameError("");
-    }
-
-    if (!email) {
-      setEmailError("Email is required");
-      valid = false;
-    } else if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setEmailError("Invalid email address");
       valid = false;
     } else {
       setEmailError("");
     }
 
-    if (!password) {
-      setPasswordError("Password is required");
-      valid = false;
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters");
       valid = false;
     } else {
       setPasswordError("");
     }
 
-    if (!confirmPassword) {
-      setConfirmPasswordError("Confirm password is required");
-      valid = false;
-    } else if (confirmPassword !== password) {
+    if (confirmPassword !== password) {
       setConfirmPasswordError("Passwords do not match");
       valid = false;
     } else {
@@ -167,6 +150,7 @@ const Signup = ({
             className="w-[75%] md:w-[55%] flex flex-col items-center"
           >
             <input
+              required
               type="text"
               placeholder="Full Name"
               name="name"
@@ -174,12 +158,8 @@ const Signup = ({
               onChange={(e) => setName(e.target.value)}
               className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px] mt-[10px]"
             />
-            {nameError && (
-              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
-                {nameError}
-              </p>
-            )}
             <input
+              required
               type="email"
               placeholder="Email"
               name="email"
@@ -193,6 +173,7 @@ const Signup = ({
               </p>
             )}
             <input
+              required
               type="password"
               placeholder="Password"
               name="password"
@@ -206,6 +187,7 @@ const Signup = ({
               </p>
             )}
             <input
+              required
               type="password"
               name="cf_password"
               placeholder="Confirm Password"

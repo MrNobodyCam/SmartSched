@@ -23,10 +23,7 @@ const ForgotPassword = ({
     event.preventDefault();
     let valid = true;
 
-    if (!email) {
-      setEmailError("Email is required");
-      valid = false;
-    } else if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setEmailError("Invalid email address");
       valid = false;
     } else {
@@ -72,6 +69,7 @@ const ForgotPassword = ({
               className="flex flex-col items-center w-[80%] sm:w-[70%] md:w-[60%] lg:w-[60%]"
             >
               <input
+                required
                 type="email"
                 placeholder="Email"
                 name="email"

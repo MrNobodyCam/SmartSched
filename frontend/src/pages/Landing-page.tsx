@@ -134,7 +134,10 @@ function Landingpage() {
       <header className="bg-white shadow-md p-4 w-[100%] fixed z-50">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
-          <h1 className="text-[28px] md:text-[32px] lg-[36px] font-bold text-[#2D9CDB]">
+          <h1
+            className="text-[28px] md:text-[32px] lg-[36px] font-bold text-[#2D9CDB] cursor-pointer"
+            onClick={() => window.location.reload()}
+          >
             SmartSched
           </h1>
 

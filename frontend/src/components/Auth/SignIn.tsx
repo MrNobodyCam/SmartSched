@@ -56,20 +56,14 @@ const SignIn = ({
     event.preventDefault();
     let valid = true;
 
-    if (!email) {
-      setEmailError("Email is required");
-      valid = false;
-    } else if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setEmailError("Invalid email address");
       valid = false;
     } else {
       setEmailError("");
     }
 
-    if (!password) {
-      setPasswordError("Password is required");
-      valid = false;
-    } else if (password.length < 6) {
+    if (password.length < 8) {
       setPasswordError("Password must be at least 6 characters");
       valid = false;
     } else {
@@ -122,6 +116,7 @@ const SignIn = ({
             className="w-[75%] my-[20px] md:w-[55%] flex flex-col items-center"
           >
             <input
+              required
               type="email"
               placeholder="Email"
               name="email"
@@ -135,6 +130,7 @@ const SignIn = ({
               </p>
             )}
             <input
+              required
               type="password"
               placeholder="Password"
               name="password"

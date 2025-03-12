@@ -20,20 +20,14 @@ const ResetPassword = ({
     event.preventDefault();
     let valid = true;
 
-    if (!password) {
-      setPasswordError("Password is required");
-      valid = false;
-    } else if (password.length < 8) {
+    if (password.length < 8) {
       setPasswordError("Password must be at least 8 characters");
       valid = false;
     } else {
       setPasswordError("");
     }
 
-    if (!confirmPassword) {
-      setConfirmPasswordError("Confirm password is required");
-      valid = false;
-    } else if (confirmPassword !== password) {
+    if (confirmPassword !== password) {
       setConfirmPasswordError("Passwords do not match");
       valid = false;
     } else {
@@ -79,6 +73,7 @@ const ResetPassword = ({
               className="flex flex-col items-center w-[80%] sm:w-[70%] md:w-[60%] lg:w-[60%]"
             >
               <input
+                required
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -92,6 +87,7 @@ const ResetPassword = ({
                 </p>
               )}
               <input
+                required
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
