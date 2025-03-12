@@ -7,6 +7,7 @@ import NavBar from "../components/navbar";
 import SideBar from "../components/sidebar";
 import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
+import CourseScheduleViewer from "../components/Schedule_create/schedule_create";
 // import ResetPassScreen from "../components/Auth/Reset_password";
 // import ForgetPassScreen from "../components/Auth/Forgot_password";
 // import Signinscreen from "../components/Auth/SignIn";
@@ -62,6 +63,7 @@ const AppRoutes = () => {
       // when not yet login or signup
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/landing" element={<Landingscreen />} />
+      <Route path="/generate" element={<CourseScheduleViewer />} />
       {/* <Route path="/reset-password" element={<ResetPassScreen />} />
       <Route path="/forget-password" element={<ForgetPassScreen />} />
       <Route path="/signin" element={<Signinscreen />} />
