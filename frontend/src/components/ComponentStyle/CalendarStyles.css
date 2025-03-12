@@ -212,6 +212,14 @@ input:checked + .slider:before {
 
 .fc td.fc-day-today {
   background-color: #2195f34f !important;
+  border-radius: 5px;
+}
+
+/* Highlight the selected date */
+.fc-highlight {
+  border: 2px solid #2196f3 !important; /* Blue border */
+  border-radius: 5px;
+  background-color: transparent !important;
 }
 
 /* More link styling */
@@ -247,12 +255,26 @@ input:checked + .slider:before {
   height: 1.5em;
 }
 
-/* Ensure scrollbar more visually appealing */
+/* Event list styling */
+.fc-popover {
+  border-radius: 5px;
+}
+
+/* .fc-popover-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px 4px;
+  background-color: #ffffff !important;
+} */
+
 .fc-popover-body {
-  max-height: 270px; /* Set fixed height */
+  max-height: 270px !important; /* Set fixed height */
   overflow-y: auto; /* Enable vertical scrolling when content overflows */
 }
 
+/* Ensure event list scrollbar more visually appealing */
 .fc-popover-body::-webkit-scrollbar {
   width: 6px; /* Adjust scrollbar width */
 }
@@ -376,13 +398,19 @@ input:checked + .slider:before {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
   margin: 1rem 0;
+  width: 477px;
 }
 
-.calendar-navigation button {
-  padding: 0.5rem 1rem;
-  background-color: #2196f3;
+.calendar-navigation-btn {
+  padding: 0.5rem 0.5rem;
+  transition: all 0.5s;
+}
+
+.calendar-navigation-btn img {
+  width: 40px;
+  height: 32px;
   color: white;
   border: none;
   border-radius: 4px;
@@ -390,7 +418,8 @@ input:checked + .slider:before {
 }
 
 .calendar-navigation button:hover {
-  background-color: #1976d2;
+  background-color: #a5a5a566;
+  border-radius: 100%;
 }
 
 .month-selector {

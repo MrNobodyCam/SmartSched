@@ -3,40 +3,32 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import "./ComponentStyle/DatePicker.css";
 
 // Define Props Interface for CustomDatePicker
 interface CustomDatePickerProps {
   selectedDate: Date | null;
-  onDateChange: (date: Date | null) => void; // Fix: Ensure it allows null
+  onDateChange: (date: Date | null) => void;
 }
 
 // Custom Input Component
 const CustomInput = React.forwardRef<
-  HTMLDivElement,
+  HTMLLabelElement,
   { value?: string; onClick?: () => void }
 >(({ value = "Select Date", onClick }, ref) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-        padding: "8px 12px",
-        cursor: "pointer",
-        width: "200px",
-        backgroundColor: "#f9f9f9",
-      }}
-      onClick={onClick}
-      ref={ref}
-    >
-      <FontAwesomeIcon icon={faCalendarAlt} style={{ marginRight: "8px" }} />
-      <span>{value}</span>
-    </div>
+    <label className="custom-datepicker-label" ref={ref} onClick={onClick}>
+      <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+      <input
+        type="text"
+        value={value}
+        readOnly
+        className="custom-date-input"
+      />
+    </label>
   );
 });
-CustomInput.displayName = "CustomInput"; // Fix React warning for forwardRef
+CustomInput.displayName = "CustomInput";
 
 // CustomDatePicker Component
 const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
@@ -46,8 +38,9 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
   return (
     <DatePicker
       selected={selectedDate}
-      onChange={onDateChange}
+      onChange={onDateChange} // Updates both DatePicker & Calendar
       dateFormat="yyyy-MM-dd"
+      className="custom-datepicker"
       customInput={
         <CustomInput
           value={

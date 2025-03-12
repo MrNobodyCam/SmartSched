@@ -5,6 +5,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import "./ComponentStyle/CalendarStyles.css";
 import CustomDatePicker from "./CustomDatePicker";
+import CloseIcon from "../assets/icons/close.png";
+import LeftArrowIcon from "../assets/icons/left_arrow.png";
+import RightArrowIcon from "../assets/icons/right_arrow.png";
 
 const CustomCalendar: React.FC = () => {
   const [view, setView] = useState("dayGridMonth");
@@ -21,7 +24,6 @@ const CustomCalendar: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  // ✅ Store events in state
   const [events, setEvents] = useState([
     {
       id: "1",
@@ -50,14 +52,109 @@ const CustomCalendar: React.FC = () => {
     {
       id: "4",
       title: "Jivava Pingiling",
-      start: "2025-03-10T18:00:00",
+      start: "2025-03-12T18:00:00",
       color: "#FF5252",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "5",
+      title: "Ping chiling",
+      start: "2025-03-12T19:00:00",
+      color: "#FF5252",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "6",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "7",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "8",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "9",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "10",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "11",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "12",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "13",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "14",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "15",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
+      allDay: false,
+      extendedProps: { description: "Fitness routine and cardio session." },
+    },
+    {
+      id: "16",
+      title: "Hello kon papa",
+      start: "2025-03-12T20:00:00",
+      color: "#4a5568",
       allDay: false,
       extendedProps: { description: "Fitness routine and cardio session." },
     },
   ]);
 
-  // ✅ Function to add a new event dynamically
   const addEvent = () => {
     const newEvent = {
       id: String(events.length + 1),
@@ -71,7 +168,6 @@ const CustomCalendar: React.FC = () => {
     setEvents((prevEvents) => {
       const updatedEvents = [...prevEvents, newEvent];
 
-      // ✅ Ensure FullCalendar updates by refetching events
       if (calendarRef.current) {
         calendarRef.current.getApi().refetchEvents();
       }
@@ -80,7 +176,6 @@ const CustomCalendar: React.FC = () => {
     });
   };
 
-  // ✅ Sync DatePicker label with FullCalendar when the view changes
   const handleDatesSet = useCallback(
     ({ view }: { view: { currentStart: Date } }) => {
       const date = view.currentStart;
@@ -89,12 +184,27 @@ const CustomCalendar: React.FC = () => {
           month: "long",
         })} ${date.getFullYear()}`
       );
-      setSelectedDate(new Date(date));
+
+      if (
+        !selectedDate ||
+        selectedDate.getMonth() !== date.getMonth() ||
+        selectedDate.getFullYear() !== date.getFullYear()
+      ) {
+        setSelectedDate(new Date(date));
+      }
     },
-    []
+    [selectedDate]
   );
 
-  // ✅ Handle Previous & Next buttons properly
+  const handleDateChange = (date: Date | null) => {
+    if (date && calendarRef.current) {
+      // setSelectedDate(date);
+      calendarRef.current.getApi().gotoDate(date); // Navigate to the selected date
+      calendarRef.current.getApi().select(date); // Highlight the selected date
+      setSelectedDate(date);
+    }
+  };
+
   const handlePrevMonth = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().prev();
@@ -107,7 +217,6 @@ const CustomCalendar: React.FC = () => {
     }
   };
 
-  // ✅ Handle switching calendar view
   const handleViewChange = (newView: string) => {
     setView(newView);
     setIsDropdownOpen(false);
@@ -116,20 +225,17 @@ const CustomCalendar: React.FC = () => {
     }
   };
 
-  // ✅ Toggle Between Calendar & To-Do List
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
   };
 
-  // ✅ Handle event clicks
   const handleEventClick = useCallback(
     ({ event, jsEvent }: { event: any; jsEvent: MouseEvent }) => {
-      let left = jsEvent.pageX + 10; // Default to the right of the event
-      let top = jsEvent.pageY - 20; // Adjust for better positioning
+      let left = jsEvent.pageX + 10;
+      let top = jsEvent.pageY - 20;
 
-      // Ensure the modal stays within the screen bounds
       if (window.innerWidth - jsEvent.pageX < 250) {
-        left = jsEvent.pageX - 220; // Move left if no space on the right
+        left = jsEvent.pageX - 220;
       }
 
       setPopupEvent({
@@ -146,7 +252,6 @@ const CustomCalendar: React.FC = () => {
     []
   );
 
-  //✅ Close modal when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -166,14 +271,18 @@ const CustomCalendar: React.FC = () => {
     };
   }, [popupEvent]);
 
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().updateSize();
+    }
+  }, [selectedDate]);
+
   return (
     <div className="calendar-container">
-      {/* Calendar Header */}
       <div className="calendar-header">
         <div className="calendar-title-container">
           <h1 className="calendar-title">{currentMonth}</h1>
 
-          {/* Dropdown for Switching Views */}
           <div className="dropdown" ref={dropdownRef}>
             <button
               className="dropdown-button"
@@ -201,17 +310,19 @@ const CustomCalendar: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Buttons & Date Picker */}
         <div className="calendar-navigation">
-          <button onClick={handlePrevMonth}>Previous</button>
+          <button className="calendar-navigation-btn" onClick={handlePrevMonth}>
+            <img src={LeftArrowIcon} alt="back button" />
+          </button>
           <CustomDatePicker
             selectedDate={selectedDate}
-            onDateChange={setSelectedDate}
+            onDateChange={handleDateChange}
           />
-          <button onClick={handleNextMonth}>Next</button>
+          <button className="calendar-navigation-btn" onClick={handleNextMonth}>
+            <img src={RightArrowIcon} alt="next button" />
+          </button>
         </div>
 
-        {/* ✅ Add Event Button */}
         <div className="calendar-actions">
           <button className="action-button bg-amber-500" onClick={addEvent}>
             Add Event
@@ -219,7 +330,6 @@ const CustomCalendar: React.FC = () => {
         </div>
       </div>
 
-      {/* ✅ Toggle Button to Switch Between Calendar & To-Do List */}
       <div className="view-toggle-container">
         <span className="view-label">To-Do List</span>
         <label className="switch">
@@ -233,7 +343,6 @@ const CustomCalendar: React.FC = () => {
         <span className="view-label">Calendar</span>
       </div>
 
-      {/* ✅ Show Calendar or To-Do List Based on Toggle */}
       {showTodoList ? (
         <div className="todo-list">
           <h2>To-Do List</h2>
@@ -250,14 +359,14 @@ const CustomCalendar: React.FC = () => {
         </div>
       ) : (
         <FullCalendar
-          key={events.length} // ✅ Forces re-render when events change
+          key={events.length}
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView={view}
           headerToolbar={false}
           events={events}
           eventClick={handleEventClick}
-          datesSet={handleDatesSet} // ✅ DatePicker now updates automatically
+          datesSet={handleDatesSet}
           dayMaxEventRows={2}
           moreLinkContent={({ num }) => `+${num} More`}
           height="auto"
@@ -274,7 +383,6 @@ const CustomCalendar: React.FC = () => {
         />
       )}
 
-      {/* ✅ Event Modal */}
       {popupEvent && (
         <div
           ref={modalRef}
@@ -291,7 +399,6 @@ const CustomCalendar: React.FC = () => {
             minWidth: "200px",
           }}
         >
-          {/* Close Icon */}
           <button
             onClick={() => setPopupEvent(null)}
             style={{
@@ -304,7 +411,7 @@ const CustomCalendar: React.FC = () => {
               cursor: "pointer",
             }}
           >
-            ❌
+            <img src={CloseIcon} alt="close button" />
           </button>
 
           <h3>
