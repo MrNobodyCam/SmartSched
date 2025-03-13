@@ -18,7 +18,7 @@
 /* Header styling */
 .calendar-header {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid #eaeaea !important;
@@ -26,13 +26,11 @@
 }
 
 .calendar-title-container {
-  width: 350px;
   display: flex;
   align-items: center;
 }
 
 .calendar-title {
-  font-size: 1.8rem;
   font-weight: 500;
   margin: 0;
   color: #333;
@@ -290,10 +288,8 @@ input:checked + .slider:before {
 
 /* To-do list style */
 .todo-list {
-  padding: 1rem;
   background-color: #f9f9f9;
   border-radius: 8px;
-  margin-top: 1rem;
 }
 
 .todo-list h2 {
@@ -400,7 +396,6 @@ input:checked + .slider:before {
   align-items: center;
   /* gap: 1rem; */
   margin: 1rem 0;
-  width: 477px;
 }
 
 .calendar-navigation-btn {
@@ -464,4 +459,8 @@ input:checked + .slider:before {
   overflow-y: auto;
   z-index: 0;
   position: relative;
+}
+
+.todolist-container{
+  height: calc(100vh - 170px);
 }

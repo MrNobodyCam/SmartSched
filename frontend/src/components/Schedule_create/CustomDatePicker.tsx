@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import "./Components-styles/CalendarStyles.css";
+import "../Components-styles/CalendarStyles.css";
 
 // Define Props Interface for CustomDatePicker
 interface CustomDatePickerProps {

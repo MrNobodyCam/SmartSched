@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { fetchGetData } from "../service/api";
+import { fetchGetData } from "../../service/api";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-import "./Components-styles/CalendarStyles.css";
+import "../Components-styles/CalendarStyles.css";
 import CustomDatePicker from "./CustomDatePicker";
-import LeftArrowIcon from "../assets/icons/left_arrow.png";
-import RightArrowIcon from "../assets/icons/right_arrow.png";
-import ScheduleListview from "./Schedule_create/schedule_create";
-import WarningAlert from "./Alert/WarningAlert";
+import LeftArrowIcon from "../../assets/icons/left_arrow.png";
+import RightArrowIcon from "../../assets/icons/right_arrow.png";
+import ScheduleListview from "./schedule_create";
+import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
-import Result from "./Quiz/Result";
-import QuizPopup from "./Quiz/Quiz";
-import Lesson_Detail from "./Quiz/Lesson_Detail";
+import Result from "../Quiz/Result";
+import QuizPopup from "../Quiz/Quiz";
+import Lesson_Detail from "../Quiz/Lesson_Detail";
+import PrimaryBtn from "../PrimaryBtn";
+import PlusCircle from "../../assets/icons/plus-circle.svg";
+import Pause from "../../assets/icons/play-pause-o.svg";
+import End from "../../assets/icons/play-stop-o.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CustomCalendar: React.FC = () => {
   const [view, setView] = useState("dayGridMonth");
@@ -31,6 +36,8 @@ const CustomCalendar: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [events, setEvents] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetch = async () => {
@@ -44,6 +51,16 @@ const CustomCalendar: React.FC = () => {
 
     fetch();
   }, []);
+
+  useEffect(() => {
+    if (location.pathname === "/generate-schedule/calendar") {
+      setShowTodoList(false);
+    } else if (location.pathname === "/generate-schedule/listview") {
+      setShowTodoList(true);
+    }
+  }, [location.pathname]);
+
+  const checkSchedule = events.length > 0 ? false : true;
 
   const onOpenQuiz = () => {
     setIsDetailOpen(false);
@@ -129,6 +146,11 @@ const CustomCalendar: React.FC = () => {
 
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
+    navigate(
+      showTodoList
+        ? "/generate-schedule/calendar"
+        : "/generate-schedule/listview"
+    );
   };
 
   const formattedEvents = events.map((event) => ({
@@ -196,11 +218,17 @@ const CustomCalendar: React.FC = () => {
 
   return (
     <div className="calendar-container">
-      <div className="calendar-header">
+      <div
+        className={`calendar-header ${
+          showTodoList ? " justify-end" : "justify-between"
+        }`}
+      >
         {!showTodoList ? (
           <>
             <div className="calendar-title-container">
-              <h1 className="calendar-title">{currentMonth}</h1>
+              <h1 className="calendar-title text-[30px] md:text-[32px] lg:text-[36px]">
+                {currentMonth}
+              </h1>
 
               <div className="dropdown" ref={dropdownRef}>
                 <button
@@ -249,20 +277,64 @@ const CustomCalendar: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="flex">
+          <div className="flex justify-center">
             <div className="calendar-navigation">
               <button className="calendar-navigation-btn">
-                <div className="text-[22px] text-white">none</div>
+                <div className="text-[21.5px] text-white">none</div>
               </button>
             </div>
           </div>
         )}
 
-        <div className="calendar-actions">
+        {checkSchedule ? (
+          <PrimaryBtn
+            onClick={addEvent}
+            py="py-1"
+            extraContent={
+              <img
+                src={PlusCircle}
+                className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+              />
+            }
+          >
+            Generate Schedule
+          </PrimaryBtn>
+        ) : (
+          <div className="flex justify-between">
+            <PrimaryBtn
+              background="#F2994A"
+              onClick={addEvent}
+              py="py-1"
+              extraContent={
+                <img
+                  src={Pause}
+                  className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                />
+              }
+            >
+              Progress
+            </PrimaryBtn>
+            <div className="p-2 md:p-3 lg:p-4"></div>
+            <PrimaryBtn
+              background="#EB5757"
+              onClick={addEvent}
+              py="py-1"
+              extraContent={
+                <img
+                  src={End}
+                  className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                />
+              }
+            >
+              Generate Schedule
+            </PrimaryBtn>
+          </div>
+        )}
+        {/* <div className="calendar-actions">
           <button className="action-button bg-amber-500" onClick={addEvent}>
             Add Event
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="view-toggle-container">
@@ -278,36 +350,38 @@ const CustomCalendar: React.FC = () => {
         <span className="view-label">Calendar</span>
       </div>
 
-      <div className="scrollable-content overflow-auto">
+      <div className=" overflow-auto">
         {showTodoList ? (
-          <div className="todo-list">
+          <div className="todo-list todolist-container">
             <ScheduleListview />
           </div>
         ) : (
-          <FullCalendar
-            key={formattedEvents.length}
-            ref={calendarRef}
-            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-            initialView={view}
-            headerToolbar={false}
-            events={formattedEvents}
-            eventClick={handleEventClick}
-            datesSet={handleDatesSet}
-            eventContent={renderEventContent}
-            dayMaxEventRows={2}
-            moreLinkContent={({ num }) => `+${num} More`}
-            height="auto"
-            contentHeight="auto"
-            aspectRatio={3}
-            fixedWeekCount={false}
-            showNonCurrentDates={false}
-            dayHeaderFormat={{ weekday: "short" }}
-            eventTimeFormat={{
-              hour: "numeric",
-              minute: "2-digit",
-              meridiem: "short",
-            }}
-          />
+          <div className="scrollable-content">
+            <FullCalendar
+              key={formattedEvents.length}
+              ref={calendarRef}
+              plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+              initialView={view}
+              headerToolbar={false}
+              events={formattedEvents}
+              eventClick={handleEventClick}
+              datesSet={handleDatesSet}
+              eventContent={renderEventContent}
+              dayMaxEventRows={2}
+              moreLinkContent={({ num }) => `+${num} More`}
+              height="auto"
+              contentHeight="auto"
+              aspectRatio={3}
+              fixedWeekCount={false}
+              showNonCurrentDates={false}
+              dayHeaderFormat={{ weekday: "short" }}
+              eventTimeFormat={{
+                hour: "numeric",
+                minute: "2-digit",
+                meridiem: "short",
+              }}
+            />
+          </div>
         )}
       </div>
       {isDetailOpen && (
