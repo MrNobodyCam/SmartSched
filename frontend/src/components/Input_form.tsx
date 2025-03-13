@@ -4,6 +4,8 @@ import TimePicker from "./TimePicker";
 import PrimaryBtn from "./PrimaryBtn";
 import SecondaryBtn from "./SecondaryBtn";
 import PlusCircle from "../assets/icons/plus-circle.svg";
+import { fetchPostData } from "../service/api";
+import Loading from "./Alert/Loading";
 
 interface FormData {
   title: string;
@@ -14,13 +16,14 @@ interface FormData {
   duration: string;
 }
 
-// Remove RequiredIndicator component and keep only ValidationMessage
 const ValidationMessage = ({ message }: { message: string }) => (
   <p className="text-red-500 text-sm mt-1">{message}</p>
 );
 
 const InputForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
     title: "",
     subjects: "",
@@ -71,14 +74,28 @@ const InputForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("=== Schedule Generation Data ===");
-      console.log("Title:", formData.title);
-      console.log("Subjects:", formData.subjects);
-      console.log("Free Days:", formData.freeDays);
-      console.log("Start Time:", formData.startTime);
-      console.log("End Time:", formData.endTime);
-      console.log("Duration (Weeks):", formData.duration);
-      console.log("================================");
+      const fetch = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          await fetchPostData(`schedule`, {
+            schedule_title: formData.title,
+            subject: formData.subjects.split(",").map((s) => s.trim()),
+            free_day: formData.freeDays,
+            start_time: formData.startTime,
+            end_time: formData.endTime,
+            duration: `${formData.duration} Weeks`,
+          });
+          window.location.reload();
+          // console.log(data.quiz); // Log the correct data
+        } catch (error) {
+          setError((error as any).message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetch();
 
       // Reset form data to initial state
       setFormData({
@@ -121,7 +138,12 @@ const InputForm: React.FC = () => {
         : [...prev.freeDays, day],
     }));
   };
-
+  if (loading) {
+    return <Loading text="Generating your quiz... Please wait ⏳" />;
+  }
+  if (error) {
+    console.log(error);
+  }
   return (
     <div className="relative">
       <PrimaryBtn
@@ -327,11 +349,15 @@ const InputForm: React.FC = () => {
                     extraContent={
                       <X className="w-[16px] md:w-[18px] lg:w-[20px]" />
                     }
-                    onClick={handleCancel}
+                    onClick={() => {
+                      handleCancel();
+                    }}
                   >
                     Cancel
                   </SecondaryBtn>
-                  <PrimaryBtn py="py-1">Generate</PrimaryBtn>
+                  <PrimaryBtn type="submit" py="py-1">
+                    Generate
+                  </PrimaryBtn>
                 </div>
               </form>
             </div>

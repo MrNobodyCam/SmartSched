@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import "../Components-styles/CalendarStyles.css";
+import "../Components-styles/DatePicker.css";
 
 // Define Props Interface for CustomDatePicker
 interface CustomDatePickerProps {
@@ -19,7 +19,12 @@ const CustomInput = React.forwardRef<
   return (
     <label className="custom-datepicker-label" ref={ref} onClick={onClick}>
       <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-      <input type="text" value={value} readOnly className="custom-date-input" />
+      <input
+        type="text"
+        value={value}
+        readOnly
+        className="custom-date-input  cursor-pointer"
+      />
     </label>
   );
 });

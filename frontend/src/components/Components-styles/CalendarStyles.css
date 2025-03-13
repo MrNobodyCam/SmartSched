@@ -26,7 +26,6 @@
 }
 
 .calendar-title-container {
-  display: flex;
   align-items: center;
 }
 
@@ -126,7 +125,6 @@
 }
 
 .view-label {
-  font-size: 0.85rem;
   color: #555;
   margin: 0 0.5rem;
 }
@@ -391,26 +389,24 @@ input:checked + .slider:before {
 
 /* CSS for Month Selector and Navigation Buttons */
 .calendar-navigation {
-  display: flex;
   justify-content: center;
   align-items: center;
   /* gap: 1rem; */
-  margin: 1rem 0;
+  margin-bottom: 8px;
 }
 
 .calendar-navigation-btn {
-  padding: 0.5rem 0.5rem;
+  /* padding: 0.5rem 0.5rem; */
   transition: all 0.5s;
 }
 
-.calendar-navigation-btn img {
-  width: 40px;
+/* .calendar-navigation-btn img {
   height: 32px;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
+} */
 
 .calendar-navigation button:hover {
   background-color: #a5a5a566;

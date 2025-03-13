@@ -76,24 +76,17 @@ const CustomCalendar: React.FC = () => {
     setShowResult(true);
   };
 
-  const addEvent = () => {
-    const newEvent = {
-      id: String(events.length + 1),
-      title: "Go to Kikilu",
-      date: "2025-03-10",
-      start_time: "21:00:00",
-      description: "Dinner at Kikilu restaurant.",
-    };
-
-    setEvents((prevEvents) => {
-      const updatedEvents = [...prevEvents, newEvent];
-
-      if (calendarRef.current) {
-        calendarRef.current.getApi().refetchEvents();
+  const endCourse = () => {
+    const fetch = async () => {
+      try {
+        const data = await fetchGetData(`generate-schedule/end`);
+        setEvents(data);
+      } catch (error) {
+        console.log(error);
       }
-
-      return updatedEvents;
-    });
+    };
+    fetch();
+    window.location.reload();
   };
 
   const handleDatesSet = useCallback(
@@ -220,12 +213,12 @@ const CustomCalendar: React.FC = () => {
     <div className="calendar-container">
       <div
         className={`calendar-header ${
-          showTodoList ? " justify-end" : "justify-between"
+          showTodoList ? " justify-end" : "justify-center md:justify-between"
         }`}
       >
         {!showTodoList ? (
           <>
-            <div className="calendar-title-container">
+            <div className="calendar-title-container hidden md:flex lg:flex">
               <h1 className="calendar-title text-[30px] md:text-[32px] lg:text-[36px]">
                 {currentMonth}
               </h1>
@@ -257,9 +250,9 @@ const CustomCalendar: React.FC = () => {
               </div>
             </div>
 
-            <div className="calendar-navigation">
+            <div className="calendar-navigation hidden md:flex lg:flex">
               <button
-                className="calendar-navigation-btn"
+                className="calendar-navigation-btn w-[30px] cursor-pointer"
                 onClick={handlePrevMonth}
               >
                 <img src={LeftArrowIcon} alt="back button" />
@@ -269,7 +262,7 @@ const CustomCalendar: React.FC = () => {
                 onDateChange={handleDateChange}
               />
               <button
-                className="calendar-navigation-btn"
+                className="calendar-navigation-btn w-[30px]  cursor-pointer"
                 onClick={handleNextMonth}
               >
                 <img src={RightArrowIcon} alt="next button" />
@@ -279,68 +272,99 @@ const CustomCalendar: React.FC = () => {
         ) : (
           <div className="flex justify-center">
             <div className="calendar-navigation">
-              <button className="calendar-navigation-btn">
-                <div className="text-[21.5px] text-white">none</div>
-              </button>
+              <div className="text-[21.5px] text-white py-2 cursor-default">
+                none
+              </div>
             </div>
           </div>
         )}
 
         {checkSchedule ? (
-          // <PrimaryBtn
-          //   onClick={addEvent}
-          //   py="py-1"
-          //   extraContent={
-          //     <img
-          //       src={PlusCircle}
-          //       className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
-          //     />
-          //   }
-          // >
-          //   Generate Schedule
-          // </PrimaryBtn>
-          <Input_form />
+          <div className="flex flex-col justify-center">
+            {showTodoList ? null : (
+              <div className="calendar-navigation flex md:hidden">
+                <button
+                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  onClick={handlePrevMonth}
+                >
+                  <img src={LeftArrowIcon} alt="back button" />
+                </button>
+                <CustomDatePicker
+                  selectedDate={selectedDate}
+                  onDateChange={handleDateChange}
+                />
+                <button
+                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  onClick={handleNextMonth}
+                >
+                  <img src={RightArrowIcon} alt="next button" />
+                </button>
+              </div>
+            )}
+            <div className="flex justify-center">
+              <Input_form />
+            </div>
+          </div>
         ) : (
-          <div className="flex justify-between">
-            <PrimaryBtn
-              background="#F2994A"
-              onClick={addEvent}
-              py="py-1"
-              extraContent={
-                <img
-                  src={Pause}
-                  className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+          <div className="flex flex-col justify-center">
+            {showTodoList ? null : (
+              <div className="calendar-navigation flex md:hidden">
+                <button
+                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  onClick={handlePrevMonth}
+                >
+                  <img src={LeftArrowIcon} alt="back button" />
+                </button>
+                <CustomDatePicker
+                  selectedDate={selectedDate}
+                  onDateChange={handleDateChange}
                 />
-              }
-            >
-              Progress
-            </PrimaryBtn>
-            <div className="p-2 md:p-3 lg:p-4"></div>
-            <PrimaryBtn
-              background="#EB5757"
-              onClick={addEvent}
-              py="py-1"
-              extraContent={
-                <img
-                  src={End}
-                  className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
-                />
-              }
-            >
-              Generate Schedule
-            </PrimaryBtn>
+                <button
+                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  onClick={handleNextMonth}
+                >
+                  <img src={RightArrowIcon} alt="next button" />
+                </button>
+              </div>
+            )}
+            <div className="flex justify-between">
+              <PrimaryBtn
+                background="#F2994A"
+                // onClick={addEvent}
+                py="py-1"
+                extraContent={
+                  <img
+                    src={Pause}
+                    className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                  />
+                }
+              >
+                Procrastinate Course
+              </PrimaryBtn>
+              <div className="p-2 md:p-3 lg:p-4"></div>
+              <PrimaryBtn
+                background="#EB5757"
+                onClick={endCourse}
+                py="py-1"
+                extraContent={
+                  <img
+                    src={End}
+                    className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                  />
+                }
+              >
+                Leave Course
+              </PrimaryBtn>
+            </div>
           </div>
         )}
-        {/* <div className="calendar-actions">
-          <button className="action-button bg-amber-500" onClick={addEvent}>
-            Add Event
-          </button>
-        </div> */}
       </div>
 
       <div className="view-toggle-container">
-        <span className="view-label">To-Do List</span>
-        <label className="switch">
+        <span className="view-label text-[14px] md:text-[16px] lg:text-[18px]">
+          To-Do List
+        </span>
+        <label className="switch mx-2">
           <input
             type="checkbox"
             checked={!showTodoList}
@@ -348,7 +372,9 @@ const CustomCalendar: React.FC = () => {
           />
           <span className="slider round"></span>
         </label>
-        <span className="view-label">Calendar</span>
+        <span className="view-labe text-[14px] md:text-[16px] lg:text-[18px]l">
+          Calendar
+        </span>
       </div>
 
       <div className=" overflow-auto">

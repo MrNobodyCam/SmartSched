@@ -56,12 +56,10 @@ const CourseScheduleViewer = () => {
     date: string;
     lessons: Lesson[];
   }[];
-  console.log(roadmapData);
   const now = new Date();
   const filteredRoadmapData = roadmapData.filter(
     (lesson) => new Date(lesson.date) >= now
   );
-  console.log(filteredRoadmapData);
   const scheduleData: ScheduleData = filteredRoadmapData.reduce<ScheduleData>(
     (acc, lesson) => {
       const existingDate = acc.find((entry) => entry.date === lesson.date);
