@@ -16,6 +16,7 @@ const VerifyEmail = ({
   fromResetPassword?: boolean;
 }) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
+  const [codeError, setCodeError] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (value: string, index: number) => {
@@ -46,10 +47,32 @@ const VerifyEmail = ({
     }
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    let valid = true;
+
+    if (code.includes("")) {
+      setCodeError("All fields are required");
+      valid = false;
+    } else {
+      setCodeError("");
+    }
+
+    if (valid) {
+      console.log("Verification Code:", code.join(""));
+      onClose();
+      if (fromResetPassword) {
+        openResetPasswordOpen();
+      } else {
+        openSignIn();
+      }
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div
-        className="relative flex bg-white h-[70%] w-[90%] sm:w-[80%] md:w-[60%] lg:w-[45%] md:h-[70%] lg:h-[70%] rounded-l-[12px] overflow-hidden rounded-[12px]"
+        className="relative flex bg-white w-[90%] sm:w-[80%] md:w-[60%] lg:w-[45%] rounded-l-[12px] overflow-hidden rounded-[12px] py-5"
         onClick={(e) => e.stopPropagation()}
       >
         <X
@@ -65,7 +88,10 @@ const VerifyEmail = ({
               alt="email"
               className="w-[80px] h-[80px] md:w-[100px] md:h-[100px]"
             />
-            <form action="" className="flex flex-col items-center">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center"
+            >
               <div className="flex space-x-2 mt-[20px] lg:mt-[30px]">
                 {code.map((digit, index) => (
                   <input
@@ -80,7 +106,12 @@ const VerifyEmail = ({
                   />
                 ))}
               </div>
-              <h1 className="text-[24px] md:text-[30px] lg:text-[32px] font-bold text-center mt-[20px] lg:mt-[30px]">
+              {codeError && (
+                <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px] mt-[10px]">
+                  {codeError}
+                </p>
+              )}
+              <h1 className="text-[24px] md:text-[30px] lg:text-[32px] font-bold text-center mt-[10px]">
                 Verification Code
               </h1>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-center mt-[10px] lg:mt-[15px] mb-[20px]">
@@ -91,18 +122,7 @@ const VerifyEmail = ({
                   Resend Code
                 </a>
               </p>
-              <PrimaryBtn
-                py="py-1"
-                onClick={() => {
-                  console.log(code.join(""));
-                  onClose();
-                  if (fromResetPassword) {
-                    openResetPasswordOpen();
-                  } else {
-                    openSignIn();
-                  }
-                }}
-              >
+              <PrimaryBtn py="py-1" px="px-8" type="submit">
                 Confirm Code
               </PrimaryBtn>
             </form>

@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import TimePicker from "./TimePicker";
 import PrimaryBtn from "./PrimaryBtn";
 import SecondaryBtn from "./SecondaryBtn";
+import PlusCircle from "../assets/icons/plus-circle.svg";
 
 interface FormData {
   title: string;
@@ -123,7 +124,16 @@ const InputForm: React.FC = () => {
 
   return (
     <div className="relative">
-      <PrimaryBtn onClick={() => setIsOpen(true)} py="py-2">
+      <PrimaryBtn
+        onClick={() => setIsOpen(true)}
+        py="py-1"
+        extraContent={
+          <img
+            src={PlusCircle}
+            className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+          />
+        }
+      >
         Generate Schedule
       </PrimaryBtn>
       {isOpen && (

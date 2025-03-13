@@ -10,7 +10,11 @@ class Topic extends Model
     use HasFactory;
 
     protected $fillable = [
-        'lesson',
-        'description',
+        'title',
     ];
+
+    public function generators()
+    {
+        return $this->belongsToMany(Generator::class, 'generator_topics');
+    }
 }

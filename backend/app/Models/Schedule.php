@@ -10,16 +10,20 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'generator_id',
+        'title',
         'start_date',
         'end_date',
-        'roadmap_id',
     ];
 
-    /**
-     * Get the roadmap that owns the schedule.
-     */
-    public function roadmap()
+    public function generator()
     {
-        return $this->belongsTo(Roadmap::class);
+        return $this->belongsTo(Generator::class);
+    }
+
+    public function roadmaps()
+    {
+        return $this->hasMany(Roadmap::class);
     }
 }

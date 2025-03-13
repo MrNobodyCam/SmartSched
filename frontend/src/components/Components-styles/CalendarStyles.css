@@ -1,0 +1,466 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+/* * {
+  border: none !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+.calendar-container {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header styling */
+.calendar-header {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eaeaea !important;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-title-container {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-title {
+  font-weight: 500;
+  margin: 0;
+  color: #333;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 1.5rem;
+}
+
+.dropdown-button {
+  background-color: transparent;
+  border: 2px solid #2196f3 !important;
+  padding: 0.35rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-button::after {
+  content: "";
+  display: inline-block;
+  margin-left: 0.5rem;
+  border-top: 5px solid #2196f3;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 100;
+  min-width: 120px;
+  margin-top: 0.5rem;
+}
+
+.dropdown-content button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.calendar-actions {
+  width: 350px;
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 500;
+}
+
+.procrastinate {
+  background-color: #f9a826;
+}
+
+.leave {
+  background-color: #f54748;
+}
+
+/* View toggle styling */
+.view-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.view-label {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0.5rem;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Calendar styling */
+.fc-theme-standard .fc-scrollgrid {
+  border: none !important;
+  border-right: none !important;
+}
+
+.fc .fc-scrollgrid-section-header > * {
+  border-top: none !important;
+}
+
+.fc td.fc-day {
+  border: 1px solid #eaeaea !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  padding: 10px 4px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fc .fc-daygrid-day-number {
+  padding: 8px;
+  color: #333;
+}
+
+.fc td.fc-day-today {
+  background-color: #2195f34f !important;
+  border-radius: 5px;
+}
+
+/* Highlight the selected date */
+.fc-highlight {
+  border: 2px solid #2196f3 !important; /* Blue border */
+  border-radius: 5px;
+  background-color: transparent !important;
+}
+
+/* More link styling */
+.fc-daygrid-more-link {
+  color: #2196f3 !important;
+  font-size: 0.75rem;
+  padding: 2px 5px;
+}
+
+/* Day cells styling */
+/* .fc-day-sat,
+.fc-day-sun {
+  background-color: #f8f9fa;
+} */
+
+.fc .fc-day-other .fc-daygrid-day-top {
+  opacity: 0.5;
+}
+
+/* Background for date cells */
+.fc-daygrid-day {
+  background-color: white;
+}
+
+.fc .fc-daygrid-day-top {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 35px !important;
+}
+
+.fc .fc-timegrid-slot {
+  border-bottom: 1px solid #a5a5a5 !important;
+  height: 1.5em;
+}
+
+/* Event list styling */
+.fc-popover {
+  border-radius: 5px;
+}
+
+/* .fc-popover-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px 4px;
+  background-color: #ffffff !important;
+} */
+
+.fc-popover-body {
+  max-height: 270px !important; /* Set fixed height */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+}
+
+/* Ensure event list scrollbar more visually appealing */
+.fc-popover-body::-webkit-scrollbar {
+  width: 6px; /* Adjust scrollbar width */
+}
+
+.fc-popover-body::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar color */
+  border-radius: 4px; /* Rounded edges */
+}
+
+.fc-popover-body::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker shade on hover */
+}
+
+/* To-do list style */
+.todo-list {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.todo-list h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.todo-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Event styling */
+.custom-event {
+  display: flex;
+  align-items: center;
+  padding: 3px 5px;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.event-title {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+}
+
+.event-time {
+  margin-left: 3rem;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* Event popup */
+.event-popup {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 1000;
+  width: 400px;
+  height: 300px;
+  overflow: auto;
+}
+
+.popup-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.popup-content p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.close-icon {
+  position: absolute;
+  top: 0rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-icon:hover {
+  color: #333;
+}
+
+/* CSS for Month Selector and Navigation Buttons */
+.calendar-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* gap: 1rem; */
+  margin: 1rem 0;
+}
+
+.calendar-navigation-btn {
+  padding: 0.5rem 0.5rem;
+  transition: all 0.5s;
+}
+
+.calendar-navigation-btn img {
+  width: 40px;
+  height: 32px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar-navigation button:hover {
+  background-color: #a5a5a566;
+  border-radius: 100%;
+}
+
+.month-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.month-selector select {
+  background-color: transparent;
+  border: 2px solid #2196f3 !important;
+  padding: 0.35rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none; /* Remove default arrow for Safari */
+  -moz-appearance: none; /* Remove default arrow for Firefox */
+  padding-right: 2rem; /* Add space for custom arrow */
+}
+.fc-event{
+  cursor: pointer;
+}
+/* Custom arrow for the select dropdown */
+.month-selector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  border-top: 5px solid #2196f3;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  pointer-events: none; /* Ensure the arrow doesn't block clicks */
+}
+
+.month-selector select:focus {
+  outline: none;
+}
+.scrollable-content {
+  height: calc(100vh - 170px);
+  overflow-y: auto;
+  z-index: 0;
+  position: relative;
+}
+
+.todolist-container{
+  height: calc(100vh - 170px);
+}

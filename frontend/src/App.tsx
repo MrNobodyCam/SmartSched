@@ -1,12 +1,14 @@
-import Input_form from "./components/Input_form";
-import "./App.css";
-
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./utils/Routes";
 
 function App() {
-
-
   return (
-   <Input_form/>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+    // <>
+    //   <CustomCalendar />
+    // </>
   );
 }
 

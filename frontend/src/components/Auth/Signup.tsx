@@ -4,6 +4,7 @@ import Google from "../../assets/icons/Google.svg";
 import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
+import { useState } from "react";
 
 const Card: React.FC<{
   icon?: string;
@@ -33,7 +34,7 @@ const Card: React.FC<{
   </div>
 );
 
-const Login = ({
+const Signup = ({
   onClose,
   openSignIn,
   openVerifyEmail,
@@ -42,22 +43,64 @@ const Login = ({
   openSignIn: () => void;
   openVerifyEmail: () => void;
 }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    let valid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (confirmPassword !== password) {
+      setConfirmPasswordError("Passwords do not match");
+      valid = false;
+    } else {
+      setConfirmPasswordError("");
+    }
+
+    if (valid) {
+      console.log("Name:", name);
+      console.log("Email:", email);
+      console.log("Password:", password);
+      alert("Sign Up Successful");
+      onClose();
+      openVerifyEmail();
+    }
+  };
+
   return (
-    <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      // onClick={onClose}
-    >
-      <div
-        className="relative flex bg-white h-[85%] w-[80%] md:w-[80%] lg:w-[80%] lg:h-[90%] rounded-l-[12px] overflow-hidden rounded-[12px]"
-        // onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="relative flex bg-white py-[40px] sm:py-0 w-[80%] md:w-[80%] lg:w-[80%] rounded-l-[12px] overflow-hidden rounded-[12px]">
         <X
           className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-black lg:text-black"
           size={28}
           strokeWidth={3}
           onClick={onClose}
         />
-        <div className="slideInFromLeft z-10 w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center p-6 rounded-r-[130px]">
+        <div className="slideInFromLeft z-10 py-[189px] w-[100%] md:w-[45%] lg:w-[45%] bg-[#2D9CDB] hidden sm:flex flex-col items-center justify-center text-center rounded-r-[130px]">
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-white text-center">
             Welcome Back!
           </h1>
@@ -103,49 +146,68 @@ const Login = ({
             or use your email for registration
           </p>
           <form
-            action="#"
+            onSubmit={handleSubmit}
             className="w-[75%] md:w-[55%] flex flex-col items-center"
           >
             <input
+              required
               type="text"
               placeholder="Full Name"
               name="name"
-              className="text-[14px] my-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px] mt-[10px]"
             />
             <input
+              required
               type="email"
               placeholder="Email"
               name="email"
-              className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px] mt-[10px]"
             />
+            {emailError && (
+              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                {emailError}
+              </p>
+            )}
             <input
+              required
               type="password"
               placeholder="Password"
               name="password"
-              className="text-[14px] my-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px] mt-[10px]"
             />
+            {passwordError && (
+              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                {passwordError}
+              </p>
+            )}
             <input
+              required
               type="password"
               name="cf_password"
               placeholder="Confirm Password"
-              className="text-[14px] mb-[20px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px]"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="text-[14px] md:text-[16px] lg:text-[18px] w-[100%] px-3 h-[35px] md:h-[40px] bg-[#e3e3e3] font-[600] rounded-[12px] mt-[10px]"
             />
-            <PrimaryBtn
-              px="px-15 md:px-15"
-              py="py-1"
-              onClick={() => {
-                onClose();
-                openVerifyEmail();
-              }}
-            >
+            {confirmPasswordError && (
+              <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+                {confirmPasswordError}
+              </p>
+            )}
+            <PrimaryBtn px="px-15 md:px-15 mt-[10px]" py="py-1" type="submit">
               SIGN UP
             </PrimaryBtn>
           </form>
           <p className="my-2 flex sm:hidden text-[14px] md:text-[16px] lg:text-[18px]">
             Already have account?
             <a
-              href="#"
-              className="text-[blue] underline font-semibold ml-2"
+              className="cursor-pointer text-[blue] underline font-semibold ml-2"
               onClick={() => {
                 onClose();
                 openSignIn();
@@ -160,4 +222,4 @@ const Login = ({
   );
 };
 
-export default Login;
+export default Signup;

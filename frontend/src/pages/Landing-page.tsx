@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import SecondaryBtn from "../components/SecondaryBtn";
 import arrow from "../assets/icons/majesticons_arrow-up.svg";
@@ -16,6 +16,29 @@ function Landingpage() {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [fromResetPassword, setFromResetPassword] = useState(false);
+
+  useEffect(() => {
+    if (
+      isLoginOpen ||
+      isSignupOpen ||
+      isVerifyOpen ||
+      isForgotPasswordOpen ||
+      isResetPasswordOpen
+    ) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [
+    isLoginOpen,
+    isSignupOpen,
+    isVerifyOpen,
+    isForgotPasswordOpen,
+    isResetPasswordOpen,
+  ]);
   const openSignup = () => {
     setIsLoginOpen(false);
     setIsSignupOpen(true);
@@ -111,7 +134,10 @@ function Landingpage() {
       <header className="bg-white shadow-md p-4 w-[100%] fixed z-50">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
-          <h1 className="text-[28px] md:text-[32px] lg-[36px] font-bold text-[#2D9CDB]">
+          <h1
+            className="text-[28px] md:text-[32px] lg-[36px] font-bold text-[#2D9CDB] cursor-pointer"
+            onClick={() => window.location.reload()}
+          >
             SmartSched
           </h1>
 
