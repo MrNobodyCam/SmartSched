@@ -6,8 +6,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import "../Components-styles/CalendarStyles.css";
 import CustomDatePicker from "./CustomDatePicker";
-import LeftArrowIcon from "../../assets/icons/left_arrow.png";
-import RightArrowIcon from "../../assets/icons/right_arrow.png";
+import LeftArrowIcon from "../../assets/icons/left_arrow.svg";
+import RightArrowIcon from "../../assets/icons/right_arrow.svg";
 import ScheduleListview from "./schedule_create";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
@@ -203,8 +203,8 @@ const CustomCalendar: React.FC = () => {
             marginRight: "5px",
           }}
         ></span>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
+        <p style={{ marginRight: "5px" }}>{eventInfo.timeText}</p>
+        <b>{eventInfo.event.title}</b>
       </div>
     );
   };
