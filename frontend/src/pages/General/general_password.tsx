@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PrimaryBtn from "../../components/PrimaryBtn";
 
-
 const PasswordChangeForm = () => {
   const [errors, setErrors] = useState({
     currentPassword: "",
@@ -67,11 +66,11 @@ const PasswordChangeForm = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className=" relative ">
-        <div className="space-y-6 lg:mt-5 lg:ml-5">
+    <div className="w-full max-w-[500px]">
+      <div className="relative">
+        <div className="space-y-6">
           <form onSubmit={handleSubmit}>
-            <h2 className=" text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-1">
+            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-1">
               Change Password
             </h2>
             <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-4">

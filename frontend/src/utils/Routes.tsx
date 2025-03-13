@@ -8,12 +8,12 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/setting" element={<MainGeneral />}>
-        <Route index element={<AccountSettings />} />
+        <Route index element={<Navigate to="/setting/account" replace />} />
         <Route path="account" element={<AccountSettings />} />
         <Route path="password" element={<PasswordSettings />} />
         <Route path="session" element={<SessionSettings />} />
       </Route>
-      <Route path="*" element={<Navigate to="/setting" replace />} />
+      <Route path="*" element={<Navigate to="/setting/account" replace />} />
     </Routes>
   );
 };

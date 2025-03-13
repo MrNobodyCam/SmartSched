@@ -156,7 +156,7 @@ const UserProfileSettings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full max-w-[800px]">
       {alertMessage && (
         <div
           className={`fixed top-4 right-4 p-4 rounded-md ${
