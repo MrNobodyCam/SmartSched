@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) 
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'full_name'      => 'required|string|max:255',
-                'email'     => 'required|string|max:255|unique:users',
-                'hash_password'  => 'required|string',
-                'gender'    => 'required|string',
-              ]);
+            'full_name'      => 'required|string|max:255',
+            'email'     => 'required|string|max:255|unique:users',
+            'hash_password'  => 'required|string',
+            'gender'    => 'required|string',
+        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -39,12 +39,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request) 
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'email' => 'required|string|max:255',
-                'hash_password' => 'required|string'
-            ]);
+            'email' => 'required|string|max:255',
+            'hash_password' => 'required|string'
+        ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
@@ -74,7 +74,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::user()->tokens()->delete();
         return response()->json([
             'message' => 'Logout successfull'
