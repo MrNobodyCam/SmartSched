@@ -6,8 +6,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import "../Components-styles/CalendarStyles.css";
 import CustomDatePicker from "./CustomDatePicker";
-import LeftArrowIcon from "../../assets/icons/left_arrow.png";
-import RightArrowIcon from "../../assets/icons/right_arrow.png";
+import LeftArrowIcon from "../../assets/icons/left_arrow.svg";
+import RightArrowIcon from "../../assets/icons/right_arrow.svg";
 import ScheduleListview from "./schedule_create";
 import WarningAlert from "../Alert/WarningAlert";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,11 +19,11 @@ import Pause from "../../assets/icons/play-pause-o.svg";
 import End from "../../assets/icons/play-stop-o.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input_form from "../Input_form";
+import SecondaryBtn from "../SecondaryBtn";
 
 const CustomCalendar: React.FC = () => {
-  const [view, setView] = useState("dayGridMonth");
+  const view = "dayGridMonth";
   const [currentMonth, setCurrentMonth] = useState("January 2025");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showTodoList, setShowTodoList] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -33,7 +33,6 @@ const CustomCalendar: React.FC = () => {
   const [quizResult, setQuizResult] = useState<any>(null);
   const [LeftQuiz, setLeftQuiz] = useState(false);
   const calendarRef = useRef<FullCalendar | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [events, setEvents] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -117,6 +116,13 @@ const CustomCalendar: React.FC = () => {
     }
   };
 
+  // Handle moveing the FullCalendar to the current date when clicked
+  const handleToday = () => {
+    if (calendarRef.current) {
+      calendarRef.current.getApi().today();
+    }
+  };
+
   const handlePrevMonth = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().prev();
@@ -126,14 +132,6 @@ const CustomCalendar: React.FC = () => {
   const handleNextMonth = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().next();
-    }
-  };
-
-  const handleViewChange = (newView: string) => {
-    setView(newView);
-    setIsDropdownOpen(false);
-    if (calendarRef.current) {
-      calendarRef.current.getApi().changeView(newView);
     }
   };
 
@@ -203,8 +201,8 @@ const CustomCalendar: React.FC = () => {
             marginRight: "5px",
           }}
         ></span>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
+        <p style={{ marginRight: "5px" }}>{eventInfo.timeText}</p>
+        <b>{eventInfo.event.title}</b>
       </div>
     );
   };
@@ -218,55 +216,71 @@ const CustomCalendar: React.FC = () => {
       >
         {!showTodoList ? (
           <>
-            <div className="calendar-title-container hidden md:flex lg:flex">
-              <h1 className="calendar-title text-[30px] md:text-[32px] lg:text-[36px]">
+            <div className="calendar-title-container hidden sm:flex md:flex">
+              <h1
+                className="calendar-title text-[20px] sm:text-[28px] md:text-[30px]"
+                style={{ marginRight: "15px" }}
+              >
                 {currentMonth}
               </h1>
 
-              <div className="dropdown" ref={dropdownRef}>
+              <SecondaryBtn
+                borderColor="#2196f3"
+                color="#2196f3"
+                onClick={handleToday}
+                children="Today"
+                px="px-4"
+                py="py-1"
+              />
+
+              <div className="hidden md:flex lg:flex">
                 <button
-                  className="dropdown-button"
-                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                  className="calendar-navigation-btn w-[30px] mx-4 cursor-pointer"
+                  onClick={handlePrevMonth}
                 >
-                  {view === "dayGridMonth"
-                    ? "Month"
-                    : view === "timeGridWeek"
-                    ? "Week"
-                    : "Day"}
+                  <img src={LeftArrowIcon} alt="back button" />
                 </button>
-                {isDropdownOpen && (
-                  <div className="dropdown-content">
-                    <button onClick={() => handleViewChange("dayGridMonth")}>
-                      Month
-                    </button>
-                    <button onClick={() => handleViewChange("timeGridWeek")}>
-                      Week
-                    </button>
-                    <button onClick={() => handleViewChange("timeGridDay")}>
-                      Day
-                    </button>
-                  </div>
-                )}
+                <button
+                  className="calendar-navigation-btn w-[30px] mr-4 cursor-pointer"
+                  onClick={handleNextMonth}
+                >
+                  <img src={RightArrowIcon} alt="next button" />
+                </button>
               </div>
             </div>
 
-            <div className="calendar-navigation hidden md:flex lg:flex">
+            {/* <div className="hidden md:flex lg:flex">
               <button
-                className="calendar-navigation-btn w-[30px] cursor-pointer"
+                className="calendar-navigation-btn w-[30px] mx-4 cursor-pointer"
                 onClick={handlePrevMonth}
               >
                 <img src={LeftArrowIcon} alt="back button" />
               </button>
-              <CustomDatePicker
-                selectedDate={selectedDate}
-                onDateChange={handleDateChange}
-              />
               <button
-                className="calendar-navigation-btn w-[30px]  cursor-pointer"
+                className="calendar-navigation-btn w-[30px] mr-[15px] cursor-pointer"
                 onClick={handleNextMonth}
               >
                 <img src={RightArrowIcon} alt="next button" />
               </button>
+            </div> */}
+
+            <div className="calendar-navigation hidden md:flex lg:flex">
+              {/* <button
+                className="calendar-navigation-btn w-[30px] mr-[15px] cursor-pointer"
+                onClick={handlePrevMonth}
+              >
+                <img src={LeftArrowIcon} alt="back button" />
+              </button>
+              <button
+                className="calendar-navigation-btn w-[30px] mr-[15px] cursor-pointer"
+                onClick={handleNextMonth}
+              >
+                <img src={RightArrowIcon} alt="next button" />
+              </button> */}
+              <CustomDatePicker
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+              />
             </div>
           </>
         ) : (
@@ -284,21 +298,31 @@ const CustomCalendar: React.FC = () => {
             {showTodoList ? null : (
               <div className="calendar-navigation flex md:hidden">
                 <button
-                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  className="calendar-navigation-btn w-[30px] mr-4 cursor-pointer"
                   onClick={handlePrevMonth}
                 >
                   <img src={LeftArrowIcon} alt="back button" />
+                </button>
+
+                <button
+                  className="calendar-navigation-btn w-[30px] mr-8 cursor-pointer"
+                  onClick={handleNextMonth}
+                >
+                  <img src={RightArrowIcon} alt="next button" />
                 </button>
                 <CustomDatePicker
                   selectedDate={selectedDate}
                   onDateChange={handleDateChange}
                 />
-                <button
-                  className="calendar-navigation-btn w-[30px] cursor-pointer"
-                  onClick={handleNextMonth}
-                >
-                  <img src={RightArrowIcon} alt="next button" />
-                </button>
+                <SecondaryBtn
+                  borderColor="#2196f3"
+                  color="#2196f3"
+                  onClick={handleToday}
+                  children="Today"
+                  px="px-4"
+                  py="py-1"
+                  style="flex sm:hidden"
+                />
               </div>
             )}
             <div className="flex justify-center">
@@ -310,27 +334,37 @@ const CustomCalendar: React.FC = () => {
             {showTodoList ? null : (
               <div className="calendar-navigation flex md:hidden">
                 <button
-                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  className="calendar-navigation-btn w-[30px] mr-4 cursor-pointer"
                   onClick={handlePrevMonth}
                 >
                   <img src={LeftArrowIcon} alt="back button" />
                 </button>
-                <CustomDatePicker
-                  selectedDate={selectedDate}
-                  onDateChange={handleDateChange}
-                />
+
                 <button
-                  className="calendar-navigation-btn w-[30px] cursor-pointer"
+                  className="calendar-navigation-btn w-[30px] mr-8 cursor-pointer"
                   onClick={handleNextMonth}
                 >
                   <img src={RightArrowIcon} alt="next button" />
                 </button>
+
+                <CustomDatePicker
+                  selectedDate={selectedDate}
+                  onDateChange={handleDateChange}
+                />
+                <SecondaryBtn
+                  borderColor="#2196f3"
+                  color="#2196f3"
+                  onClick={handleToday}
+                  children="Today"
+                  px="px-4"
+                  py="py-1"
+                  style="flex sm:hidden"
+                />
               </div>
             )}
             <div className="flex justify-between">
               <PrimaryBtn
                 background="#F2994A"
-                // onClick={addEvent}
                 py="py-1"
                 extraContent={
                   <img
@@ -341,7 +375,7 @@ const CustomCalendar: React.FC = () => {
               >
                 Procrastinate Course
               </PrimaryBtn>
-              <div className="p-2 md:p-3 lg:p-4"></div>
+              <div className="p-1 md:p-2 lg:p-3"></div>
               <PrimaryBtn
                 background="#EB5757"
                 onClick={endCourse}

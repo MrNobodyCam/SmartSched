@@ -45,6 +45,17 @@ const InputForm: React.FC = () => {
     "Sunday",
   ];
 
+  const parseTime = (time: string) => {
+    const [hoursMinutes, period] = time.split(" ");
+    let [hours, minutes] = hoursMinutes.split(":").map(Number);
+    if (period === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (period === "AM" && hours === 12) {
+      hours = 0;
+    }
+    return hours + minutes / 60;
+  };
+
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
@@ -62,6 +73,12 @@ const InputForm: React.FC = () => {
     }
     if (!formData.endTime) {
       newErrors.endTime = "End time is required";
+    } else {
+      const startTime = parseTime(formData.startTime);
+      const endTime = parseTime(formData.endTime);
+      if (endTime - startTime < 1.5) {
+        newErrors.endTime = "The time difference should be at least 1.5 hours";
+      }
     }
     if (!formData.duration) {
       newErrors.duration = "Duration is required";
@@ -138,8 +155,9 @@ const InputForm: React.FC = () => {
         : [...prev.freeDays, day],
     }));
   };
+
   if (loading) {
-    return <Loading text="Generating your quiz... Please wait ⏳" />;
+    return <Loading text="Generating your schedule... Please wait ⏳" />;
   }
   if (error) {
     console.log(error);
