@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 
 interface TimePickerProps {
@@ -27,16 +27,30 @@ const TimePicker: React.FC<TimePickerProps> = ({
   );
   const periods = ["AM", "PM"];
 
+  useEffect(() => {
+    if (selectedHour === "12") {
+      setSelectedPeriod("PM");
+    } else if (selectedHour === "00") {
+      setSelectedPeriod("AM");
+    }
+  }, [selectedHour]);
+
   const handleTimeSelection = (
     hour: string,
     minute: string,
     period: string
   ) => {
-    const timeString = `${hour}:${minute} ${period}`;
+    let newPeriod = period;
+    if (hour === "12") {
+      newPeriod = "PM";
+    } else if (hour === "00") {
+      newPeriod = "AM";
+    }
+    const timeString = `${hour}:${minute} ${newPeriod}`;
     onChange(timeString);
     setSelectedHour(hour);
     setSelectedMinute(minute);
-    setSelectedPeriod(period);
+    setSelectedPeriod(newPeriod);
   };
 
   return (
@@ -121,6 +135,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                     onClick={() =>
                       handleTimeSelection(selectedHour, selectedMinute, period)
                     }
+                    disabled={selectedHour === "12" || selectedHour === "00"}
                   >
                     {period}
                   </button>
