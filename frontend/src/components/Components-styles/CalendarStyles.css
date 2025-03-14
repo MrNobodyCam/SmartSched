@@ -451,12 +451,12 @@ input:checked + .slider:before {
   outline: none;
 }
 .scrollable-content {
-  height: calc(100vh - 170px);
+  height: calc(100vh - 230px);
   overflow-y: auto;
   z-index: 0;
   position: relative;
 }
 
 .todolist-container{
-  height: calc(100vh - 170px);
+  height: calc(100vh - 200px);
 }

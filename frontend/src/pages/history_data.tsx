@@ -63,7 +63,7 @@ function HistoryScreen() {
   return (
     <>
       {/* Container */}
-      <div className="relative w-full min-h-screen p-4 sm:p-6">
+      <div className="relative w-full h-[calc(100vh-100px)] p-4 sm:p-6">
         {/* Title */}
         <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold text-black">
           History Schedule
@@ -87,7 +87,7 @@ function HistoryScreen() {
         </div>
 
         {/* Cards Container */}
-        <div className="mt-4 h-[calc(100vh-200px)] overflow-y-auto pb-5">
+        <div className="mt-4 h-[calc(100vh-250px)] overflow-y-auto pb-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {historyData.length > 0 ? (
               historyData.map((item) => (
