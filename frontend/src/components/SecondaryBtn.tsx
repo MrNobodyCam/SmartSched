@@ -10,6 +10,7 @@ interface Props {
   type?: "button" | "submit" | "reset";
   px?: string;
   py?: string;
+  style?: string;
 }
 
 const SecondaryBtn = ({
@@ -19,6 +20,7 @@ const SecondaryBtn = ({
   extraContent,
   extraContent_Right,
   onClick,
+  style,
   type = "button",
   px = "px-4 md:px-6 lg:px-8",
   py = "py-2 md:py-3 lg:py-3",
@@ -26,7 +28,7 @@ const SecondaryBtn = ({
   return (
     <button
       type={type}
-      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${px} ${py} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
+      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${px} ${py} ${style} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
       style={
         {
           color: color || "#27AE60",
