@@ -157,7 +157,7 @@ const InputForm: React.FC = () => {
   };
 
   if (loading) {
-    return <Loading text="Generating your quiz... Please wait ⏳" />;
+    return <Loading text="Generating your schedule... Please wait ⏳" />;
   }
   if (error) {
     console.log(error);
