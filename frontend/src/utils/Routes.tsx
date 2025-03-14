@@ -58,6 +58,10 @@ const AppRoutes = () => {
       // when not yet login or signup
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/landing" element={<Landingscreen />} />
+      {/* <Route path="/generate-schedule" element={<ScheduleListview />} /> */}
+      <Route path="/generate-schedule/calendar" element={<CustomCalendar />} />
+      <Route path="/generate-schedule/listview" element={<CustomCalendar />} />
+      <Route path="/" element={<Landingpage />} />
     </Routes>
   );
 };

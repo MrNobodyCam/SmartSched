@@ -18,14 +18,16 @@ class RoadmapController extends Controller
             ->where('schedule_id', $schedule_id)
             ->get();
 
-        $now = Carbon::now();
-        //get only roadmap that has date and end time greater than now
-        $filteredRoadmap = $roadmap->filter(function ($item) use ($now) {
-            $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
-            return $endDateTime->greaterThan($now);
+        // $now = Carbon::now();
+        // //get only roadmap that has date and end time greater than now
+        // $filteredRoadmap = $roadmap->filter(function ($item) use ($now) {
+        //     $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
+        //     return $endDateTime->greaterThan($now);
+        // });
+        $sortedRoadmap = $roadmap->sortBy(function ($item) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
         });
-
-        return response()->json($filteredRoadmap->values());
+        return response()->json($sortedRoadmap->values());
     }
     public function getRoadMapDetail($roadmap_id)
     {
@@ -54,5 +56,13 @@ class RoadmapController extends Controller
             'result' => $result,
         ]);
         return response()->json(['message' => 'result updated successfully']);
+    }
+    public function endSchedule()
+    {
+        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
+        DB::table('schedules')->where('id', $schedule_id)->update([
+            'status' => 'end',
+        ]);
+        return response()->json(['message' => 'Schedule end successfully']);
     }
 }
