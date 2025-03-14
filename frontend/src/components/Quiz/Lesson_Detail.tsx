@@ -77,7 +77,7 @@ const PopupComponent = ({
 
   return (
     <div className="p-4">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className=" z-100 fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         {/* Popup Content */}
         <div className="bg-white rounded-lg shadow-lg w-[90%] md:w-[60%] lg:w-[40%] relative">
           {/* Close Button */}

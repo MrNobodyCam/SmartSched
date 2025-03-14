@@ -45,6 +45,7 @@ class ScheduleController extends Controller
             'free_day' => $freeDays,
             'start_time' => $startTime,
             'end_time' => $endTime,
+            'duration' => $duration,
         ]);
 
         // Get subjects and free days as arrays for our algorithm

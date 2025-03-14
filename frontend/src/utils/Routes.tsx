@@ -57,8 +57,14 @@ const AppRoutes = () => {
           path="/generate-schedule/listview"
           element={<CustomCalendar />}
         />
-        <Route path="/history/calendar" element={<HistoryCustomCalendar />} />
-        <Route path="/history/listview" element={<HistoryCustomCalendar />} />
+        <Route
+          path="/history/calendar/:id"
+          element={<HistoryCustomCalendar />}
+        />
+        <Route
+          path="/history/listview/:id"
+          element={<HistoryCustomCalendar />}
+        />
         <Route path="/history" element={<HistoryScreen />} />
         <Route path="/service" element={<TermOfService />} />
         <Route path="/privacy" element={<PolicyScreen />} />

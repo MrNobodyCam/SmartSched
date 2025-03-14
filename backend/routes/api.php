@@ -17,6 +17,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
     Route::get('/generate-schedule/end', [RoadmapController::class, 'endSchedule']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);
+    Route::get('/history-schedule', [RoadmapController::class, 'getHistorySchedule']);
 });
 // // Group routes with prefix 'v1'
 // Route::group(['prefix' => 'v1'], function () {

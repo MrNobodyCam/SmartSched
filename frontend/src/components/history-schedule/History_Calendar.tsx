@@ -16,8 +16,10 @@ import Lesson_Detail from "../Quiz/Lesson_Detail";
 import { useNavigate, useLocation } from "react-router-dom";
 import SecondaryBtn from "../SecondaryBtn";
 import HistoryCourseScheduleViewer from "./History_schedule_create";
+import { useParams } from "react-router-dom";
 
 const HistoryCustomCalendar: React.FC = () => {
+  const { id } = useParams();
   const view = "dayGridMonth";
   const [currentMonth, setCurrentMonth] = useState("January 2025");
   const [showTodoList, setShowTodoList] = useState(false);
@@ -33,12 +35,11 @@ const HistoryCustomCalendar: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const ScheduleId = 1;
   useEffect(() => {
     const fetch = async () => {
       try {
         const data = await fetchPostData(`history`, {
-          schedule_id: ScheduleId,
+          schedule_id: id,
         });
         setEvents(data);
       } catch (error) {
@@ -50,9 +51,9 @@ const HistoryCustomCalendar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname === "/history/calendar") {
+    if (location.pathname === "/history/calendar/" + id) {
       setShowTodoList(false);
-    } else if (location.pathname === "/history/listview") {
+    } else if (location.pathname === "/history/listview/" + id) {
       setShowTodoList(true);
     }
   }, [location.pathname]);
@@ -122,7 +123,9 @@ const HistoryCustomCalendar: React.FC = () => {
 
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
-    navigate(showTodoList ? "/history/calendar" : "/history/listview");
+    navigate(
+      showTodoList ? "/history/calendar/" + id : "/history/listview/" + id
+    );
   };
 
   const formattedEvents = events.map((event) => ({
@@ -364,7 +367,7 @@ const HistoryCustomCalendar: React.FC = () => {
       <div className=" overflow-auto">
         {showTodoList ? (
           <div className="todo-list todolist-container">
-            <HistoryCourseScheduleViewer ScheduleId={ScheduleId} />
+            <HistoryCourseScheduleViewer ScheduleId={id || ""} />
           </div>
         ) : (
           <div className="scrollable-content">
