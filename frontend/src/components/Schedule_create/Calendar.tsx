@@ -283,15 +283,7 @@ const CustomCalendar: React.FC = () => {
               />
             </div>
           </>
-        ) : (
-          <div className="flex justify-center">
-            <div className="calendar-navigation">
-              <div className="text-[21.5px] text-white py-2 cursor-default">
-                none
-              </div>
-            </div>
-          </div>
-        )}
+        ) : null}
 
         {checkSchedule ? (
           <div className="flex flex-col justify-center">
@@ -325,7 +317,7 @@ const CustomCalendar: React.FC = () => {
                 />
               </div>
             )}
-            <div className="flex justify-center">
+            <div className="flex justify-center pt-1">
               <Input_form />
             </div>
           </div>
@@ -362,7 +354,7 @@ const CustomCalendar: React.FC = () => {
                 />
               </div>
             )}
-            <div className="flex justify-between">
+            <div className="flex justify-between pt-1">
               <PrimaryBtn
                 background="#F2994A"
                 py="py-1"
@@ -406,7 +398,7 @@ const CustomCalendar: React.FC = () => {
           />
           <span className="slider round"></span>
         </label>
-        <span className="view-labe text-[14px] md:text-[16px] lg:text-[18px]l">
+        <span className="view-label text-[14px] md:text-[16px] lg:text-[18px]">
           Calendar
         </span>
       </div>
@@ -428,7 +420,7 @@ const CustomCalendar: React.FC = () => {
               eventClick={handleEventClick}
               datesSet={handleDatesSet}
               eventContent={renderEventContent}
-              dayMaxEventRows={2}
+              dayMaxEventRows={3}
               moreLinkContent={({ num }) => `+${num} More`}
               height="auto"
               contentHeight="auto"

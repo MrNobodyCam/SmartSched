@@ -356,7 +356,7 @@ const HistoryCustomCalendar: React.FC = () => {
           />
           <span className="slider round"></span>
         </label>
-        <span className="view-labe text-[14px] md:text-[16px] lg:text-[18px]l">
+        <span className="view-label text-[14px] md:text-[16px] lg:text-[18px]">
           Calendar
         </span>
       </div>
@@ -378,7 +378,7 @@ const HistoryCustomCalendar: React.FC = () => {
               eventClick={handleEventClick}
               datesSet={handleDatesSet}
               eventContent={renderEventContent}
-              dayMaxEventRows={2}
+              dayMaxEventRows={3}
               moreLinkContent={({ num }) => `+${num} More`}
               height="auto"
               contentHeight="auto"
