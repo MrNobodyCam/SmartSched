@@ -374,12 +374,7 @@ const UserProfileSettings: React.FC = () => {
                 </div>
                 <PrimaryBtn
                   py="py-1"
-                  style={{
-                    backgroundColor: confirmEmail
-                      ? "#EB5757"
-                      : "rgba(235, 87, 87, 0.4)",
-                    cursor: confirmEmail ? "pointer" : "default",
-                  }}
+                  background={confirmEmail ? "#EB5757" : "#FFAFAF"}
                 >
                   Delete Account
                 </PrimaryBtn>
