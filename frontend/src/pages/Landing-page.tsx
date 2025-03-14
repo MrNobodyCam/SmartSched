@@ -182,12 +182,9 @@ function Landingpage() {
                 >
                   Team
                 </a>
-                <button
-                  className="bg-[#2D9CDB] rounded-[12px] text-white block w-full text-left px-4 py-2 cursor-pointer duration-75 hover:opacity-50 hover:text-gray-700 "
-                  onClick={() => setIsLoginOpen(true)}
-                >
+                <PrimaryBtn onClick={() => setIsLoginOpen(true)}>
                   Login
-                </button>
+                </PrimaryBtn>
               </motion.div>
             )}
           </div>
