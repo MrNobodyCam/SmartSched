@@ -1,28 +1,44 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 
-interface PrimaryBtnProps {
-  children: React.ReactNode;
+interface Props {
+  children: string;
+  color?: string;
+  background?: string;
+  extraContent?: React.ReactNode;
+  extraContent_Right?: React.ReactNode;
   onClick?: () => void;
+  px?: string;
   py?: string;
   type?: "button" | "submit" | "reset";
-  style?: CSSProperties;
 }
 
-const PrimaryBtn: React.FC<PrimaryBtnProps> = ({
+const PrimaryBtn = ({
   children,
+  color,
+  background,
+  extraContent,
+  extraContent_Right,
   onClick,
-  py = "py-2",
-  type = "submit",
-  style,
-}) => {
+  type = "button",
+  px = "px-4 md:px-6 lg:px-8",
+  py = "py-2 md:py-3 lg:py-3",
+}: Props) => {
   return (
     <button
       type={type}
+      className={`flex items-center font-medium text-sm md:text-base lg:text-lg ${py} ${px} rounded-lg shadow-md transition ease-out duration-300 cursor-pointer border-3 hover:opacity-50 hover:shadow-lg`}
+      style={
+        {
+          color: color || "#ffffff",
+          backgroundColor: background || "#2D9CDB",
+          borderColor: background || "#2D9CDB",
+        } as React.CSSProperties
+      }
       onClick={onClick}
-      style={style}
-      className={`${py} px-4 bg-[#2D9CDB] text-white rounded-md text-[16px] md:text-[18px] lg:text-[20px]`}
     >
+      {extraContent && <span className="mr-2">{extraContent}</span>}
       {children}
+      {extraContent_Right && <span className="ml-2">{extraContent_Right}</span>}
     </button>
   );
 };
