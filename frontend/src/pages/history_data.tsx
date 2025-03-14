@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
 import PrimaryBtn from "../components/PrimaryBtn";
@@ -6,6 +7,7 @@ import duration from "../assets/icons/timelapse.svg";
 // import search from "../assets/icons/search.svg";
 
 function HistoryScreen() {
+  const navigate = useNavigate();
   // Example data fetched from a database (could be replaced with API call)
   const initialData = [
     {
@@ -138,7 +140,11 @@ function HistoryScreen() {
                     </div>
                   </div>
                   <div className="mt-4 ml-auto flex justify-end">
-                    <PrimaryBtn py="py-1" px="px-8 md:px-6 lg:px-6">
+                    <PrimaryBtn
+                      py="py-1"
+                      px="px-8 md:px-6 lg:px-6"
+                      onClick={() => navigate("/history/listview")}
+                    >
                       See more
                     </PrimaryBtn>
                   </div>

@@ -1,6 +1,5 @@
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import HistoryScreen from "../pages/history_data";
-import CalendarScreen from "../components/generate-schedule";
 import TermOfService from "../pages/termof_service";
 import PolicyScreen from "../pages/policy";
 import NavBar from "../components/navbar";
@@ -10,6 +9,7 @@ import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
 import { useState } from "react";
 import CustomCalendar from "../components/Schedule_create/Calendar";
+import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -57,6 +57,8 @@ const AppRoutes = () => {
           path="/generate-schedule/listview"
           element={<CustomCalendar />}
         />
+        <Route path="/history/calendar" element={<HistoryCustomCalendar />} />
+        <Route path="/history/listview" element={<HistoryCustomCalendar />} />
         <Route path="/history" element={<HistoryScreen />} />
         <Route path="/service" element={<TermOfService />} />
         <Route path="/privacy" element={<PolicyScreen />} />

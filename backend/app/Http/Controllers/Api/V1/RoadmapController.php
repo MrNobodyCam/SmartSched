@@ -29,6 +29,22 @@ class RoadmapController extends Controller
         });
         return response()->json($sortedRoadmap->values());
     }
+    public function getHistoryRoadMap(Request $request)
+    {
+        $request->validate(
+            ['schedule_id' => 'required|integer'],
+        );
+        $schedule_id = $request->input('schedule_id');
+        $roadmap = DB::table('roadmaps')
+            ->join('topics', 'roadmaps.topic_id', '=', second: 'topics.id')
+            ->select('roadmaps.id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
+            ->where('schedule_id', operator: $schedule_id)
+            ->get();
+        $sortedRoadmap = $roadmap->sortBy(function ($item) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
+        });
+        return response()->json($sortedRoadmap->values());
+    }
     public function getRoadMapDetail($roadmap_id)
     {
         $roadmap = DB::table('roadmaps')
