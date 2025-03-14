@@ -86,7 +86,7 @@ const SideBar: React.FC<SideBarProps> = ({
         <div>
           <p className="font-bold uppercase text-gray-500 text-xs mb-4">MENU</p>
           <ul>
-            <Link to="/calendar">
+            <Link to="/generate-schedule/listview">
               <MenuItem
                 icon={calendarIcon}
                 label="Calendar"

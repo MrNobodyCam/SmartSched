@@ -9,6 +9,7 @@ import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
 import { useState } from "react";
+import CustomCalendar from "../components/Schedule_create/Calendar";
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -45,10 +46,17 @@ const MainLayout = () => {
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/landing" />} />
+      <Route path="/" element={<Navigate to="/generate-schedule/listview" />} />
       // main screen
       <Route element={<MainLayout />}>
-        <Route path="/calendar" element={<CalendarScreen />} />
+        <Route
+          path="/generate-schedule/calendar"
+          element={<CustomCalendar />}
+        />
+        <Route
+          path="/generate-schedule/listview"
+          element={<CustomCalendar />}
+        />
         <Route path="/history" element={<HistoryScreen />} />
         <Route path="/service" element={<TermOfService />} />
         <Route path="/privacy" element={<PolicyScreen />} />
@@ -58,10 +66,6 @@ const AppRoutes = () => {
       // when not yet login or signup
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/landing" element={<Landingscreen />} />
-      {/* <Route path="/generate-schedule" element={<ScheduleListview />} /> */}
-      <Route path="/generate-schedule/calendar" element={<CustomCalendar />} />
-      <Route path="/generate-schedule/listview" element={<CustomCalendar />} />
-      <Route path="/" element={<Landingpage />} />
     </Routes>
   );
 };
