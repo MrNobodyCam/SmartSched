@@ -5,6 +5,7 @@ import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
+import { signup } from "../../service/api";
 
 const Card: React.FC<{
   icon?: string;
@@ -56,7 +57,7 @@ const Signup = ({
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -82,6 +83,18 @@ const Signup = ({
     }
 
     if (valid) {
+      try {
+        const response = await signup({
+          full_name: name,
+          email: email,
+          hash_password: password,
+        });
+        console.log("Signup response:", response);
+        localStorage.setItem("token", response.access_token);
+      } catch (error) {
+        console.error("Signup error:", error);
+      }
+      
       console.log("Name:", name);
       console.log("Email:", email);
       console.log("Password:", password);

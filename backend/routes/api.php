@@ -15,11 +15,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/v1/auth/logout', [AuthController::class, 'logout']);
 });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+/* Auth Routes */
+Route::prefix('v1/auth')->group(function () {
+    Route::post('/signup', [AuthController::class, 'signup']);
+    Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
+});
 
 Route::prefix('v1')->group(function () {
     Route::post('/generatequizz', [QuizController::class, 'generateQuiz']);
