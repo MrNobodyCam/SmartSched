@@ -4,6 +4,7 @@ import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
+import { signin } from "../../service/api";
 
 const Card: React.FC<{
   icon?: string;
@@ -52,7 +53,7 @@ const SignIn = ({
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -71,6 +72,20 @@ const SignIn = ({
     }
 
     if (valid) {
+
+      try {
+        const response = await signin({
+          email,
+          hash_password: password,
+        });
+        console.log("Sign In Response:", response);
+
+        // set Access Token
+        localStorage.setItem("access_token", response.access_token);
+      } catch (error) {
+        console.error("Sign In Error:", error);
+      }
+
       console.log("Email:", email);
       console.log("Password:", password);
       alert("Sign In Successful");

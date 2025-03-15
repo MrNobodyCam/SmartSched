@@ -30,3 +30,49 @@ export const fetchUpdateData = async (url: string, data: any) => {
 };
 
 // Add more API functions as needed
+
+/* Auth API */
+const AUTH_BASE_URL = `${API_BASE_URL}/auth`;
+
+export const setAuthToken = (token: string) => {
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
+};
+
+export const signup = async (userData: {
+  full_name: string;
+  email: string;
+  hash_password: string;
+}) => {
+  try {
+    const response = await axios.post(`${AUTH_BASE_URL}/signup`, userData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const signin = async (credentials: {
+  email: string;
+  hash_password: string;
+}) => {
+  try {
+    const response = await axios.post(`${AUTH_BASE_URL}/signin`, credentials);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${AUTH_BASE_URL}/logout`);
+    setAuthToken("");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
