@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PrimaryBtn from "./PrimaryBtn";
 
 const FullScreenContactForm = () => {
   const [formData, setFormData] = useState({
@@ -6,6 +7,11 @@ const FullScreenContactForm = () => {
     message: "",
     agreedToPolicy: false,
   });
+
+  const [alertMessage, setAlertMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -26,8 +32,34 @@ const FullScreenContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Form submission logic would go here
+
+    // Log form data immediately after submission
+    console.log("=== Form Data ===");
+    console.log({
+      title: formData.title,
+      message: formData.message,
+      agreedToPolicy: formData.agreedToPolicy,
+      submittedAt: new Date().toLocaleString(),
+    });
+    console.log("================");
+
+    // Show success message
+    setAlertMessage({
+      type: "success",
+      message: "Message sent successfully!",
+    });
+
+    // Reset form after successful submission
+    setFormData({
+      title: "",
+      message: "",
+      agreedToPolicy: false,
+    });
+
+    // Hide alert after 3 seconds
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 3000);
   };
 
   return (
@@ -35,20 +67,37 @@ const FullScreenContactForm = () => {
       className="flex items-start justify-start w-full h-full"
       style={{ position: "absolute" }}
     >
+      {alertMessage && (
+        <div
+          className={`fixed top-4 right-4 p-4 rounded-md ${
+            alertMessage.type === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {alertMessage.message}
+          <button
+            onClick={() => setAlertMessage(null)}
+            className="ml-4 text-sm font-bold"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       <div className="w-[876px] h-full rounded-md">
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <h1 className="text-2xl sm:text-4xl font-medium mb-1">
+            <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold mb-1">
               Contact us
             </h1>
-            <p className="text-base sm:text-lg text-gray-400 mb-6">
+            <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-400 mb-6">
               Reach out and we'll get in touch within 24 hours.
             </p>
           </div>
           <div className="mb-5">
             <label
               htmlFor="title"
-              className="block text-base sm:text-lg font-bold text-black mb-1"
+              className="block text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black mb-1"
             >
               Title
             </label>
@@ -59,14 +108,14 @@ const FullScreenContactForm = () => {
               placeholder="Enter your schedule title..."
               value={formData.title}
               onChange={handleChange}
-              className="w-full h-[48px] sm:h-[60px] md:h-[78px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-base sm:placeholder:text-lg transition-all duration-200"
+              className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
               required
             />
           </div>
           <div className="mb-5">
             <label
               htmlFor="message"
-              className="mb-3 block text-base sm:text-lg font-bold text-black"
+              className="mb-3 text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black "
             >
               Message
             </label>
@@ -77,7 +126,7 @@ const FullScreenContactForm = () => {
               placeholder="Type your message"
               value={formData.message}
               onChange={handleChange}
-              className="w-full min-h-[150px] sm:min-h-[200px] md:min-h-[230px] resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-base sm:placeholder:text-lg"
+              className="w-full min-h-[150px] sm:min-h-[200px] md:min-h-[230px] resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px]"
               required
             />
           </div>
@@ -94,7 +143,7 @@ const FullScreenContactForm = () => {
             />
             <label
               htmlFor="policy"
-              className="text-base sm:text-lg text-gray-600 mt-2 sm:mt-0"
+              className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0"
             >
               You agree to our friendly{" "}
               <a
@@ -107,13 +156,9 @@ const FullScreenContactForm = () => {
             </label>
           </div>
           <div>
-            <button
-              type="submit"
-              className="hover:shadow-form rounded-md bg-[#2D9CDB] py-3 px-8 text-base sm:text-lg font-bold text-white outline-none"
-              style={{ borderRadius: "12px" }}
-            >
-              Sent Message
-            </button>
+            <PrimaryBtn type="submit" py="py-1" px="px-8">
+              Send Message
+            </PrimaryBtn>
           </div>
         </form>
       </div>
