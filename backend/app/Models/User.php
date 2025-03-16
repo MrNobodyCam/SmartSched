@@ -18,6 +18,7 @@ class User extends Authenticatable
         'email',
         'time_zone',
         'hash_password',
+        'is_verified',
     ];
 
     public function sessions()
