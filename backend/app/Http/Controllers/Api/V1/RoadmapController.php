@@ -45,27 +45,7 @@ class RoadmapController extends Controller
         });
         return response()->json($sortedRoadmap->values());
     }
-    public function getHistorySchedule()
-    {
-        $user_id = 1;
-        $schedules = DB::table('schedules')
-            ->join('generators', 'schedules.generator_id', '=', 'generators.id')
-            ->join('generator_topics', 'generators.id', '=', 'generator_topics.generator_id')
-            ->join('topics', 'generator_topics.topic_id', '=', 'topics.id')
-            ->select(
-                'schedules.id',
-                'generators.schedule_title As title',
-                DB::raw("GROUP_CONCAT(topics.title SEPARATOR ' / ') AS topic"),
-                DB::raw("CONCAT(generators.start_time, ' - ', generators.end_time) AS freetime"),
-                'generators.duration'
-            )
-            ->where('schedules.user_id', $user_id)
-            ->where('schedules.status', 'end')
-            ->groupBy('schedules.id', 'generators.schedule_title', 'generators.start_time', 'generators.end_time', 'generators.duration')
-            ->get();
 
-        return response()->json($schedules);
-    }
     public function getRoadMapDetail($roadmap_id)
     {
         $roadmap = DB::table('roadmaps')
@@ -93,13 +73,5 @@ class RoadmapController extends Controller
             'result' => $result,
         ]);
         return response()->json(['message' => 'result updated successfully']);
-    }
-    public function endSchedule()
-    {
-        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
-        DB::table('schedules')->where('id', $schedule_id)->update([
-            'status' => 'end',
-        ]);
-        return response()->json(['message' => 'Schedule end successfully']);
     }
 }

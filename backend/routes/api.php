@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\QuizController;
 use App\Http\Controllers\Api\V1\RoadmapController;
+use App\Http\Controllers\Api\V1\ScheduleController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,9 +16,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/roadmap/{roadmap_id}', [RoadmapController::class, 'getRoadMapDetail']);
     Route::put('/roadmap/score/{roadmap_id}', [RoadmapController::class, 'updateRoadmapScore']);
     Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
-    Route::get('/generate-schedule/end', [RoadmapController::class, 'endSchedule']);
+    Route::get('/generate-schedule/end', [ScheduleController::class, 'endSchedule']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);
-    Route::get('/history-schedule', [RoadmapController::class, 'getHistorySchedule']);
+    Route::get('/history-schedule', [ScheduleController::class, 'getHistorySchedule']);
 });
 // // Group routes with prefix 'v1'
 // Route::group(['prefix' => 'v1'], function () {
@@ -27,5 +28,5 @@ Route::prefix('v1')->group(function () {
 // });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
-    Route::apiResource('schedule', 'ScheduleController');
+    Route::apiResource('schedule', 'GenerateScheduleController');
 });

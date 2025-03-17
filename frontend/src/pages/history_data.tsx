@@ -111,7 +111,7 @@ function HistoryScreen() {
                       />
                       <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                         <span className="font-semibold">Free Time:</span>{" "}
-                        {item.freeTime}
+                        {item.freetime || "N/A"}
                       </p>
                     </div>
                     {/* Duration */}
@@ -131,7 +131,7 @@ function HistoryScreen() {
                     <PrimaryBtn
                       py="py-1"
                       px="px-8 md:px-6 lg:px-6"
-                      onClick={() => navigate("/history/listview/" + item.id)}
+                      onClick={() => navigate("/history/calendar/" + item.id)}
                     >
                       See more
                     </PrimaryBtn>

@@ -33,6 +33,7 @@ const HistoryCustomCalendar: React.FC = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [events, setEvents] = useState<any[]>([]);
+  const [startRoadmapDate, setStartRoadmapDate] = useState<Date | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -42,13 +43,17 @@ const HistoryCustomCalendar: React.FC = () => {
           schedule_id: id,
         });
         setEvents(data);
+        if (data.length > 0) {
+          const firstRoadmapDate = new Date(data[0].date);
+          setStartRoadmapDate(firstRoadmapDate);
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
     fetch();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (location.pathname === "/history/calendar/" + id) {
@@ -376,6 +381,11 @@ const HistoryCustomCalendar: React.FC = () => {
               ref={calendarRef}
               plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
               initialView={view}
+              initialDate={
+                startRoadmapDate
+                  ? startRoadmapDate.toISOString().split("T")[0]
+                  : new Date().toISOString().split("T")[0]
+              }
               headerToolbar={false}
               events={formattedEvents}
               eventClick={handleEventClick}
