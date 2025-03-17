@@ -21,7 +21,7 @@ function HistoryScreen() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`history-schedules`);
+        const data = await fetchGetData(`history-schedule`);
         setHistoryScheduleData(data);
         setHistoryData(data); // Update historyData with fetched data
       } catch (error) {
