@@ -55,6 +55,26 @@ export const signup = async (userData: {
   }
 };
 
+export const verifyEmail = async (otpData: { email: string; otp: string }) => {
+  try {
+    const response = await axios.post(`${AUTH_BASE_URL}/verified`, otpData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resendOtp = async (email: string) => {
+  try {
+    const response = await axios.get(`${AUTH_BASE_URL}/resend-otp`, {
+      params: { email },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const signin = async (credentials: {
   email: string;
   hash_password: string;

@@ -12,7 +12,7 @@ class OtpController extends Controller
 {
     public function sendOtp($user)
     {
-        $otp = rand(100000, 999999);
+        $otp = rand(10000, 99999);
         $time = time();
 
         EmailVerification::updateOrCreate(

@@ -3,6 +3,7 @@ import { X } from "react-feather";
 import PrimaryBtn from "../PrimaryBtn";
 import Email from "../../assets/icons/email.svg";
 import { useState, useRef } from "react";
+import { verifyEmail, resendOtp } from "../../service/api";
 
 const VerifyEmail = ({
   onClose,
@@ -60,6 +61,15 @@ const VerifyEmail = ({
 
     if (valid) {
       console.log("Verification Code:", code.join(""));
+
+      // Call verification API
+      const response = verifyEmail({
+        email: "email@example.com",
+        otp: code.join(""),
+      });
+
+      console.log("Verification response:", response);
+
       onClose();
       if (fromResetPassword) {
         openResetPasswordOpen();
@@ -118,7 +128,15 @@ const VerifyEmail = ({
                 For your security, we’ve sent a one-time verification code to
                 your email. It will expire in 10 minutes, so enter it now to
                 continue.{" "}
-                <a href="" className="text-[blue] underline font-bold">
+                <a
+                  href="#"
+                  className="text-[blue] underline font-bold"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const response = resendOtp("email@example.com");
+                    console.log("Resend OTP response:", response);
+                  }}
+                >
                   Resend Code
                 </a>
               </p>

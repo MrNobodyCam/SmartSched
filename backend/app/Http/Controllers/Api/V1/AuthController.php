@@ -29,12 +29,15 @@ class AuthController extends Controller
             'hash_password'  => Hash::make($request->hash_password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json([
-            'data'          => $user,
-            'access_token'  => $token,
-            'token_type'    => 'Bearer'
-        ]);
+        // Redirect to Verify OTP
+        return redirect()->route('verification', ['id' => $user->id]);
+
+        // $token = $user->createToken('auth_token')->plainTextToken;
+        // return response()->json([
+        //     'data'          => $user,
+        //     'access_token'  => $token,
+        //     'token_type'    => 'Bearer'
+        // ]);
     }
 
     public function signin(Request $request) 
