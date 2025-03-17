@@ -207,7 +207,7 @@ const HistoryCustomCalendar: React.FC = () => {
           <>
             <div className="calendar-title-container hidden sm:flex md:flex">
               <h1
-                className="calendar-title text-[20px] sm:text-[28px] md:text-[30px]"
+                className="calendar-title text-[20px] sm:text-[28px] md:text-[30px]  w-60 md:w-70 lg:w-60"
                 style={{ marginRight: "15px" }}
               >
                 {currentMonth}

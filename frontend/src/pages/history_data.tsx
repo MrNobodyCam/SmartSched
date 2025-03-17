@@ -4,6 +4,7 @@ import { fetchGetData } from "../service/api";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
 import PrimaryBtn from "../components/PrimaryBtn";
+import Empty from "../assets/icons/box.svg";
 import duration from "../assets/icons/timelapse.svg";
 // import search from "../assets/icons/search.svg";
 
@@ -20,7 +21,7 @@ function HistoryScreen() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`history-schedule`);
+        const data = await fetchGetData(`history-schedules`);
         setHistoryScheduleData(data);
         setHistoryData(data); // Update historyData with fetched data
       } catch (error) {
@@ -139,9 +140,10 @@ function HistoryScreen() {
                 </div>
               ))
             ) : (
-              <div className="col-span-full flex items-center justify-center min-h-[50vh]">
-                <p className="text-[20px] md:text-[22px] lg:text-[24px] text-black text-center">
-                  No results found.
+              <div className="col-span-full flex flex-col items-center justify-center min-h-[50vh]">
+                <img src={Empty} alt="Empty Box" className="mb-2 w-14 md" />
+                <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5] text-center">
+                  No results found
                 </p>
               </div>
             )}
