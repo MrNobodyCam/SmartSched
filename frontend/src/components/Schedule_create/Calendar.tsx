@@ -302,10 +302,12 @@ const CustomCalendar: React.FC = () => {
                 >
                   <img src={RightArrowIcon} alt="next button" />
                 </button>
-                <CustomDatePicker
-                  selectedDate={selectedDate}
-                  onDateChange={handleDateChange}
-                />
+                <div>
+                  <CustomDatePicker
+                    selectedDate={selectedDate}
+                    onDateChange={handleDateChange}
+                  />
+                </div>
                 <SecondaryBtn
                   borderColor="#2196f3"
                   color="#2196f3"

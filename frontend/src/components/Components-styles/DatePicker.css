@@ -37,7 +37,6 @@
 /* Custom Label (acts as the input container) */
 .custom-datepicker-label {
   display: flex;
-  align-items: center;
   justify-content: center;
   text-align: center;
   width: 140px;
@@ -52,7 +51,6 @@
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 1rem;
   color: #4a5568;
 }
 

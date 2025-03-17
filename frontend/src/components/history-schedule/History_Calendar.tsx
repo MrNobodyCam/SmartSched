@@ -270,7 +270,7 @@ const HistoryCustomCalendar: React.FC = () => {
         ) : (
           <div className="flex justify-center">
             <div className="calendar-navigation">
-              <div className="text-[14px] text-white py-2 cursor-default">
+              <div className=" text-white py-[5.5px] sm:py-[10.5px] cursor-default">
                 none
               </div>
             </div>

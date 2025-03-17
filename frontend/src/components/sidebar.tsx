@@ -22,10 +22,10 @@ const MenuItem: React.FC<{
   isOpen: boolean;
 }> = ({ icon, label, isSelected, onClick, isOpen }) => (
   <li
-    className={`flex items-center p-2 mb-2 rounded-lg cursor-pointer ${
+    className={`flex items-center p-3 mb-2 rounded-lg cursor-pointer ${
       isSelected
-        ? "bg-[rgb(45,156,219)] text-white"
-        : "hover:bg-[rgb(45,156,219)] hover:text-white"
+        ? "bg-[rgb(45,156,219)] text-white h-12 font-bold"
+        : "hover:bg-[rgb(45,156,219)] hover:text-white h-12"
     } transition-all duration-300 ease-in-out`}
     onClick={onClick}
   >
@@ -37,7 +37,7 @@ const MenuItem: React.FC<{
     />
     {/* Label */}
     <span
-      className={`ml-2 text-sm truncate ${
+      className={`ml-2 text-[14px] md:text-[16px] lg:text-[18px] truncate ${
         isOpen
           ? "inline opacity-100"
           : "hidden md:group-hover:inline opacity-0 md:group-hover:opacity-100"
@@ -78,13 +78,15 @@ const SideBar: React.FC<SideBarProps> = ({
   return (
     <div
       className={`fixed left-0 top-16 h-[calc(100vh-4rem)] ${
-        isOpen ? "w-64" : "w-0 md:w-16"
+        isOpen ? "w-64" : "w-0 md:w-19"
       } bg-[#D5F0FF] duration-300 overflow-hidden group z-50 md:hover:w-64`}
     >
       <nav className="p-3 h-full flex flex-col justify-between">
         {/* Main Menu */}
         <div>
-          <p className="font-bold uppercase text-gray-500 text-xs mb-4">MENU</p>
+          <p className="font-bold uppercase text-gray-500 text-[14px] md:text-[16px] lg:text-[18px] mb-4">
+            MENU
+          </p>
           <ul>
             <Link to="/generate-schedule/listview">
               <MenuItem
