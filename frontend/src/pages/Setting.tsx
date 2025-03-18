@@ -200,6 +200,36 @@ function SettingsPage() {
               )}
             </div>
           </div>
+          {/* Terms of Service */}
+          <div
+            className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4"
+            onClick={() => navigate("/service")}
+          >
+            <div>
+              <p className="text-[20px] md:text-[22px] lg:text-[24px]">
+                Terms of Service
+              </p>
+              <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
+                Read our terms of service
+              </p>
+            </div>
+            <ChevronRight className="text-gray-400" />
+          </div>
+          {/* Privacy Policy */}
+          <div
+            className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4"
+            onClick={() => navigate("/policy")}
+          >
+            <div>
+              <p className="text-[20px] md:text-[22px] lg:text-[24px]">
+                Privacy Policy
+              </p>
+              <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
+                Read our privacy policy
+              </p>
+            </div>
+            <ChevronRight className="text-gray-400" />
+          </div>
         </main>
       </div>
     </div>

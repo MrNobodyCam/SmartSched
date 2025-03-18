@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import calendarIcon from "../assets/icons/calendar.svg";
 import history from "../assets/icons/history.svg";
-import service from "../assets/icons/service.svg";
-import privacy from "../assets/icons/privacy.svg";
 import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
@@ -109,25 +107,7 @@ const SideBar: React.FC<SideBarProps> = ({
         {/* Secondary Menu */}
         <div>
           <ul>
-            <Link to="/service">
-              <MenuItem
-                icon={service}
-                label="Terms of Service"
-                isSelected={selectedItem === "service"}
-                onClick={() => handleItemClick("service")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/privacy">
-              <MenuItem
-                icon={privacy}
-                label="Privacy Policy"
-                isSelected={selectedItem === "privacy"}
-                onClick={() => handleItemClick("privacy")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/contact">
+            <Link to="/contactus">
               <MenuItem
                 icon={contact}
                 label="Contact Us"

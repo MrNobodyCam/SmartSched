@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, useRef } from "react";
 import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes component
 import PrimaryBtn from "../../components/PrimaryBtn";
 import SecondaryBtn from "../../components/SecondaryBtn";
+import { useNavigate } from "react-router-dom";
 
 interface UserProfile {
   fullName: string;
@@ -12,6 +13,7 @@ interface UserProfile {
 }
 
 const UserProfileSettings: React.FC = () => {
+  const navigator = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profile, setProfile] = useState<UserProfile>({
     fullName: "",
@@ -183,7 +185,7 @@ const UserProfileSettings: React.FC = () => {
                 Profile Photo
               </p>
               <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-4">
-                <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25  rounded-full bg-gray-200 overflow-hidden mb-4 md:mb-0">
+                <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25  rounded-full bg-gray-300 overflow-hidden mb-4 md:mb-0">
                   {profile.profilePhoto ? (
                     <img
                       src={profile.profilePhoto}
@@ -237,17 +239,17 @@ const UserProfileSettings: React.FC = () => {
               )}
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 ">
               {/* Form Fields */}
-              <div className="flex flex-col sm:flex-row gap-6">
-                <div className="flex flex-col gap-6 w-full sm:flex-row">
+              <div className="flex flex-col sm:flex-row gap-6 ">
+                <div className="flex flex-col gap-6 w-full sm:flex-row ">
                   <input
                     type="text"
                     name="fullName"
                     value={profile.fullName}
                     onChange={handleInputChange}
                     placeholder="Full Name"
-                    className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                    className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium "
                     required
                   />
                   <div className="hidden sm:block">
@@ -262,9 +264,6 @@ const UserProfileSettings: React.FC = () => {
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="other">Other</option>
-                      <option value="prefer-not-to-say">
-                        Prefer not to say
-                      </option>
                     </select>
                   </div>
                 </div>
@@ -379,6 +378,11 @@ const UserProfileSettings: React.FC = () => {
                   Delete Account
                 </PrimaryBtn>
               </form>
+            </div>
+            <div className="pt-4 ">
+              <PrimaryBtn py="py-1" onClick={() => navigator("/setting")}>
+                Back
+              </PrimaryBtn>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import SideBar from "../components/sidebar";
 import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
+import ContactScreen from "../pages/Contact_us";
 import GeneralScreen from "../pages/General/main_general";
 import AccountScreen from "../pages/General/general_account";
 import PasswordScreen from "../pages/General/general_password";
@@ -37,7 +38,7 @@ const MainLayout = () => {
           className={`flex-1 overflow-auto ${
             isSidebarOpen
               ? "pt-[50px] sm:pt-[50px] md:pt-[20px] lg:pt-[20px] xl:pt-[20px] 2xl:pt-[50px] ml-[-5px] md:ml-[58px] lg:ml-[58px] xl:ml-[78px] 2xl:ml-[78px]"
-              : "pt-[65px] sm:pt-[65px] md:pt-[58px] lg:pt-[58px] xl:pt-[60px] 2xl:pt-[60px] ml-[10px] sm:ml[10px] md:ml-[78px] lg:ml-[78px] xl:ml-[75px] 2xl:ml-[75px]"
+              : "pt-[65px] sm:pt-[65px] md:pt-[58px] lg:pt-[58px] xl:pt-[60px] 2xl:pt-[60px] ml-[10px] sm:ml-[10px] md:ml-[78px] lg:ml-[78px] xl:ml-[80px] 2xl:ml-[80px]"
           }`}
         >
           <Outlet />
@@ -71,8 +72,8 @@ const AppRoutes = () => {
         />
         <Route path="/history" element={<HistoryScreen />} />
         <Route path="/service" element={<TermOfService />} />
-        <Route path="/privacy" element={<PolicyScreen />} />
-        <Route path="/contact" element={<h1>Contact Screen</h1>} />
+        <Route path="/policy" element={<PolicyScreen />} />
+        <Route path="/contactus" element={<ContactScreen />} />
         <Route path="/setting" element={<SettingsScreen />} />
 
         <Route path="/general" element={<GeneralScreen />}>

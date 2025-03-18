@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import PrimaryBtn from "../components/PrimaryBtn";
+
 function TermOfService() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Container */}
@@ -56,6 +61,12 @@ function TermOfService() {
               may result in account suspension or termination.
             </p>
           </div>
+        </div>
+
+        <div className="pt-10">
+          <PrimaryBtn py="py-1" onClick={() => navigate("/setting")}>
+            Back
+          </PrimaryBtn>
         </div>
       </div>
     </>

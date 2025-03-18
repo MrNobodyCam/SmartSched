@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import PrimaryBtn from "../components/PrimaryBtn";
+
 function Policy() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Container */}
@@ -9,7 +14,7 @@ function Policy() {
         </h1>
 
         {/* Privacy Policy Content */}
-        <div className=" space-y-4 pt-3">
+        <div className="space-y-4 pt-3">
           {/* Information We Collect Section */}
           <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
@@ -76,6 +81,13 @@ function Policy() {
               information.
             </p>
           </div>
+        </div>
+
+        {/* Back to Settings Button */}
+        <div className="pt-10">
+          <PrimaryBtn py="py-1" onClick={() => navigate("/setting")}>
+            Back
+          </PrimaryBtn>
         </div>
       </div>
     </>
