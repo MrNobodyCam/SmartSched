@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Clock, Menu, FileText } from "lucide-react";
 import { fetchGetData } from "../../service/api";
-import Pen from "../../assets/icons/pen.svg";
+// import Pen from "../../assets/icons/pen.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import SecondaryBtn from "../SecondaryBtn";
 import Loading from "../Alert/Loading";
@@ -144,7 +144,7 @@ const PopupComponent = ({
                   <img src={Pen} alt="" />
                   Edit
                 </button> */}
-              <PrimaryBtn
+              {/* <PrimaryBtn
                 extraContent={
                   <img
                     src={Pen}
@@ -156,7 +156,7 @@ const PopupComponent = ({
                 color="#F2994A"
               >
                 Edit
-              </PrimaryBtn>
+              </PrimaryBtn> */}
               {/* <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                   Make Quiz
                 </button> */}

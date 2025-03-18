@@ -121,6 +121,7 @@ const CustomCalendar: React.FC = () => {
   const handleToday = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().today();
+      setSelectedDate(new Date());
     }
   };
 

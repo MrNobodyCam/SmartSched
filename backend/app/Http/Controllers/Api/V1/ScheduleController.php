@@ -19,7 +19,7 @@ class ScheduleController extends Controller
             ->select(
                 'schedules.id',
                 'generators.schedule_title as title',
-                DB::raw("GROUP_CONCAT(topics.title SEPARATOR ' / ') AS topic"),
+                DB::raw("GROUP_CONCAT(DISTINCT topics.title SEPARATOR ' / ') AS topic"),
                 DB::raw("CONCAT(generators.start_time, ' - ', generators.end_time) AS freetime"),
                 'generators.duration'
             )
