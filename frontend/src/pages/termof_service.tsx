@@ -9,9 +9,9 @@ function TermOfService() {
         </h1>
 
         {/* Terms Content */}
-        <div className="space-y-4">
+        <div className="space-y-4 pt-3">
           {/* Acceptance of Terms Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Acceptance of Terms
             </h2>
@@ -26,7 +26,7 @@ function TermOfService() {
           </div>
 
           {/* Description of Services Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Description of Services
             </h2>
@@ -42,7 +42,7 @@ function TermOfService() {
           </div>
 
           {/* User Conduct Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               User Conduct
             </h2>

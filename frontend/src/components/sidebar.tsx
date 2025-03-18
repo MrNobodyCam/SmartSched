@@ -84,7 +84,6 @@ const SideBar: React.FC<SideBarProps> = ({
       <nav className="p-3 h-full flex flex-col justify-between">
         {/* Main Menu */}
         <div>
-          <p className="font-bold uppercase text-gray-500 text-xs mb-4">MENU</p>
           <ul>
             <Link to="/generate-schedule/listview">
               <MenuItem
