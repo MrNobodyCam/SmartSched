@@ -18,9 +18,15 @@ const PasswordChangeForm = () => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
     const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+<<<<<<< HEAD
     const hasMinLength = password.length >= 8;
 
     if (!hasMinLength) return "Password must be at least 8 characters long";
+=======
+    const hasMinLength = password.length >= 6;
+
+    if (!hasMinLength) return "Password must be at least 6 characters long";
+>>>>>>> frontend/feature/contact_us
     if (!hasUpperCase)
       return "Password must contain at least one uppercase letter";
     if (!hasNumber) return "Password must contain at least one number";
