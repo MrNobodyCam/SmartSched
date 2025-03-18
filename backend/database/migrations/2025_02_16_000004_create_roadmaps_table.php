@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('roadmaps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('topic_id');
+            $table->unsignedBigInteger('roadmap_number')->default(1);
+            $table->unsignedBigInteger('schedule_number')->default(1);
             $table->unsignedBigInteger('schedule_id');
+            $table->unsignedBigInteger('topic_id');
             $table->string('lesson');
             $table->text('description');
             $table->integer('result')->nullable();

@@ -31,8 +31,8 @@ class ScheduleController extends Controller
     }
     public function endSchedule()
     {
-        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
-        DB::table('schedules')->where('id', $schedule_id)->update([
+        // $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
+        DB::table('schedules')->where('status', "active")->update([
             'status' => 'end',
         ]);
         return response()->json(['message' => 'Schedule end successfully']);

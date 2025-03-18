@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('generator_id');
+            $table->unsignedBigInteger('schedule_number')->default(1);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('generator_number')->default(1);
             $table->enum('status', ['active', 'procrastinate', 'end'])->default('active');
             $table->date('start_date');
             $table->date('end_date');

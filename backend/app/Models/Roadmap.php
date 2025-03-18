@@ -10,7 +10,9 @@ class Roadmap extends Model
     use HasFactory;
 
     protected $fillable = [
+        'roadmap_number',
         'schedule_id',
+        'schedule_number',
         'topic_id',
         'lesson',
         'description',
