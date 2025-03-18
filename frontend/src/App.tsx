@@ -1,14 +1,13 @@
-import { BrowserRouter } from "react-router-dom";
-import AppRoutes from "./utils/Routes";
+
+
+import Music from '../src/components/music_screen';
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
-    // <>
-    //   <CustomCalendar />
-    // </>
+
+    <>
+      <Music />
+    </>
   );
 }
 
