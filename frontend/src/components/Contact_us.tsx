@@ -4,6 +4,7 @@ import PrimaryBtn from "./PrimaryBtn";
 const FullScreenContactForm = () => {
   const [formData, setFormData] = useState({
     title: "",
+    email: "", // Add email to state
     message: "",
     agreedToPolicy: false,
   });
@@ -37,6 +38,7 @@ const FullScreenContactForm = () => {
     console.log("=== Form Data ===");
     console.log({
       title: formData.title,
+      email: formData.email,
       message: formData.message,
       agreedToPolicy: formData.agreedToPolicy,
       submittedAt: new Date().toLocaleString(),
@@ -52,6 +54,7 @@ const FullScreenContactForm = () => {
     // Reset form after successful submission
     setFormData({
       title: "",
+      email: "",
       message: "",
       agreedToPolicy: false,
     });
@@ -105,8 +108,26 @@ const FullScreenContactForm = () => {
               type="title"
               name="title"
               id="title"
-              placeholder="Enter your schedule title..."
+              placeholder="Enter your title..."
               value={formData.title}
+              onChange={handleChange}
+              className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="email"
+              className="block text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black mb-1"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your email address..."
+              value={formData.email}
               onChange={handleChange}
               className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
               required
@@ -123,7 +144,7 @@ const FullScreenContactForm = () => {
               rows={4}
               name="message"
               id="message"
-              placeholder="Type your message"
+              placeholder="Enter your message"
               value={formData.message}
               onChange={handleChange}
               className="w-full min-h-[150px] sm:min-h-[200px] md:min-h-[230px] resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px]"
@@ -157,7 +178,7 @@ const FullScreenContactForm = () => {
           </div>
           <div>
             <PrimaryBtn type="submit" py="py-1" px="px-8">
-              Send Message
+              Send Messages
             </PrimaryBtn>
           </div>
         </form>
