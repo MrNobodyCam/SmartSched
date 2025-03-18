@@ -7,11 +7,13 @@ import SecondaryBtn from "../SecondaryBtn";
 import Loading from "../Alert/Loading";
 
 const PopupComponent = ({
-  RoadMapID,
+  RoadMapNumber,
+  ScheduleID,
   onClose,
   openQuiz,
 }: {
-  RoadMapID: number;
+  ScheduleID: number;
+  RoadMapNumber: number;
   onClose(): void;
   openQuiz(): void;
 }) => {
@@ -19,11 +21,15 @@ const PopupComponent = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
+    console.log(RoadMapNumber, ScheduleID);
+
     const fetch = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`roadmap/${RoadMapID}`);
+        const data = await fetchGetData(
+          `roadmap/detail?roadmap_number=${RoadMapNumber}&schedule_id=${ScheduleID}`
+        );
         setQuizData(data[0]);
       } catch (error) {
         setError((error as any).message);
@@ -34,7 +40,7 @@ const PopupComponent = ({
     };
 
     fetch();
-  }, [RoadMapID]);
+  }, [RoadMapNumber, ScheduleID]);
   if (loading) {
     return <Loading text="Wait For Detail... Stay focused! 📚⏳" />;
   }

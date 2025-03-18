@@ -13,8 +13,8 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::post('/generatequizz', [QuizController::class, 'generateQuiz']);
     Route::get('/quizz/{id}', [QuizController::class, 'getQuizzes']);
-    Route::get('/roadmap/{roadmap_id}', [RoadmapController::class, 'getRoadMapDetail']);
-    Route::put('/roadmap/score/{roadmap_id}', [RoadmapController::class, 'updateRoadmapScore']);
+    Route::get('/roadmap/detail', [RoadmapController::class, 'getRoadMapDetail']);
+    Route::put('/roadmap/score', [RoadmapController::class, 'updateRoadmapScore']);
     Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
     Route::get('/generate-schedule/end', [ScheduleController::class, 'endSchedule']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);

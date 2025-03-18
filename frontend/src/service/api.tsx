@@ -10,6 +10,14 @@ export const fetchGetData = async (url: string) => {
     throw new Error((error as any).message);
   }
 };
+export const fetchGetRequestData = async (url: string, data: any) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${url}`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error((error as any).message);
+  }
+};
 
 export const fetchPostData = async (url: string, data: any) => {
   try {

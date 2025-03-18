@@ -23,9 +23,10 @@ const HistoryCustomCalendar: React.FC = () => {
   const view = "dayGridMonth";
   const [currentMonth, setCurrentMonth] = useState("January 2025");
   const [showTodoList, setShowTodoList] = useState(false);
+  const [ScheduleID, setScheduleID] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [RoadMapID, setRoadMapID] = useState<number>(1);
+  const [RoadMapNumber, setRoadMapNumber] = useState<number>(1);
   const [openQuiz, setopenQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
@@ -40,7 +41,7 @@ const HistoryCustomCalendar: React.FC = () => {
     const fetch = async () => {
       try {
         const data = await fetchPostData(`history`, {
-          schedule_id: id,
+          schedule_number: id,
         });
         setEvents(data);
         if (data.length > 0) {
@@ -48,7 +49,7 @@ const HistoryCustomCalendar: React.FC = () => {
           setStartRoadmapDate(firstRoadmapDate);
         }
       } catch (error) {
-        console.log(error);
+        navigate("notfound");
       }
     };
 
@@ -134,14 +135,26 @@ const HistoryCustomCalendar: React.FC = () => {
   };
 
   const formattedEvents = events.map((event) => ({
-    ...event,
+    title: event.title,
     start: event.date ? `${event.date}T${event.start_time}` : event.date,
+    end: event.date ? `${event.date}T${event.end_time}` : undefined,
+    extendedProps: {
+      roadmap_number: event.roadmap_number, // Include roadmap_number here
+      schedule_id: event.schedule_id, // Include schedule_id here
+      description: event.description,
+      result: event.result,
+    },
   }));
 
   const handleEventClick = useCallback(
     ({ event }: { event: any; jsEvent: MouseEvent }) => {
       setIsDetailOpen(true);
-      setRoadMapID(event.id);
+
+      const roadmapNumber = event.extendedProps.roadmap_number;
+      const scheduleID = event.extendedProps.schedule_id;
+
+      setRoadMapNumber(roadmapNumber);
+      setScheduleID(scheduleID);
     },
     []
   );
@@ -174,24 +187,43 @@ const HistoryCustomCalendar: React.FC = () => {
   const renderEventContent = (eventInfo: any) => {
     const backgroundColor =
       eventInfo.event.extendedProps.result !== null ? "#27AE60" : "#EB5757";
+
     return (
       <div
         style={{
           display: "flex",
           alignItems: "center",
+          overflow: "hidden", // Ensure the container doesn't overflow
         }}
       >
+        {/* Status Indicator */}
         <span
           style={{
             backgroundColor,
             borderRadius: "50%",
-            width: "10px",
-            height: "10px",
+            width: "10px", // Fixed width
+            height: "10px", // Fixed height
+            flexShrink: 0, // Prevent shrinking
             marginRight: "5px",
           }}
         ></span>
-        <p style={{ marginRight: "5px" }}>{eventInfo.timeText}</p>
-        <b>{eventInfo.event.title}</b>
+
+        {/* Event Time */}
+        <p style={{ marginRight: "5px", whiteSpace: "nowrap" }}>
+          {eventInfo.timeText}
+        </p>
+
+        {/* Event Title */}
+        <b
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "150px", // Limit the width of the title
+          }}
+        >
+          {eventInfo.event.title}
+        </b>
       </div>
     );
   };
@@ -415,14 +447,16 @@ const HistoryCustomCalendar: React.FC = () => {
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            // window.location.reload();
+            window.location.reload();
           }}
-          RoadMapID={RoadMapID}
+          RoadMapNumber={RoadMapNumber}
+          ScheduleID={ScheduleID}
         />
       )}
       {openQuiz && (
         <QuizPopup
-          RoadMapID={RoadMapID}
+          RoadMapNumber={RoadMapNumber}
+          ScheduleID={ScheduleID}
           onPopupResult={onPopupResult}
           onSubmit={onSubmit}
           onClose={() => {

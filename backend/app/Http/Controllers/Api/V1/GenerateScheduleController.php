@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class GenerateScheduleController extends Controller
 {
+
     public function store(Request $request)
     {
         $apiKey = env('GOOGLE_API_KEY');
@@ -31,7 +32,7 @@ class GenerateScheduleController extends Controller
 
         // Ensure the user exists
         $user = User::updateOrCreate(
-            ['email' => 'vichet@gmail.com'],
+            ['email' => 'visal@gmail.com'],
             [
                 'full_name' => 'John Doe',
                 'gender' => 'male',
@@ -72,7 +73,7 @@ class GenerateScheduleController extends Controller
             "Duration: " . $duration . " weeks\n\n" .
             "Guidelines:\n" .
             "- Each lesson should be the title of the subject being studied.\n" .
-            "- The description should be a brief overview of the lesson in minimum 50 words.\n" .
+            "- The description should be a brief overview of the lesson in minimum 30 words maximum 50 words.\n" .
             "- Provide a structured weekly breakdown for effective learning.\n" .
             "- Ensure each study session fits within the allocated time slots.\n";
 
@@ -166,9 +167,9 @@ class GenerateScheduleController extends Controller
 
             // Create schedule with our calculated dates
             $schedule = Schedule::create([
-                'schedule_number' => $countUserSchedule + 1,
                 'user_id' => $user->id,
-                'generator_id' => $generator->id,
+                'schedule_number' => $countUserSchedule + 1,
+                // 'generator_id' => $generator->id,
                 'generator_number' => $countUserSchedule + 1,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
@@ -298,10 +299,11 @@ class GenerateScheduleController extends Controller
 
                 // Create roadmap entry with fixed 1h30m duration
                 Roadmap::create([
-                    'roadmap_number' => $roadmapId,
-                    'schedule_id' => $schedule->id,
-                    'schedule_number' => $schedule->schedule_number,
                     'topic_id' => $topicMap[$subject],
+                    'schedule_id' => $schedule->id,
+                    'roadmap_number' => $roadmapId,
+                    // 'user_id' => $schedule->user_id,
+                    // 'schedule_number' => $schedule->schedule_number,
                     'lesson' => $subject,
                     'description' => $sessionContent['description'],
                     'date' => clone $currentDate,
