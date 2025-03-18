@@ -7,6 +7,10 @@ import SideBar from "../components/sidebar";
 import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
+import GeneralScreen from "../pages/General/main_general";
+import AccountScreen from "../pages/General/general_account";
+import PasswordScreen from "../pages/General/general_password";
+import SessionScreen from "../pages/General/general_sessions";
 import { useState } from "react";
 import CustomCalendar from "../components/Schedule_create/Calendar";
 import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
@@ -47,7 +51,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/generate-schedule/listview" />} />
-      // main screen
+      {/* Main screen */}
       <Route element={<MainLayout />}>
         <Route
           path="/generate-schedule/calendar"
@@ -57,15 +61,27 @@ const AppRoutes = () => {
           path="/generate-schedule/listview"
           element={<CustomCalendar />}
         />
-        <Route path="/history/calendar" element={<HistoryCustomCalendar />} />
-        <Route path="/history/listview" element={<HistoryCustomCalendar />} />
+        <Route
+          path="/history/calendar/:id"
+          element={<HistoryCustomCalendar />}
+        />
+        <Route
+          path="/history/listview/:id"
+          element={<HistoryCustomCalendar />}
+        />
         <Route path="/history" element={<HistoryScreen />} />
         <Route path="/service" element={<TermOfService />} />
         <Route path="/privacy" element={<PolicyScreen />} />
         <Route path="/contact" element={<h1>Contact Screen</h1>} />
         <Route path="/setting" element={<SettingsScreen />} />
+
+        <Route path="/general" element={<GeneralScreen />}>
+          <Route path="account" element={<AccountScreen />} />
+          <Route path="password" element={<PasswordScreen />} />
+          <Route path="session" element={<SessionScreen />} />
+        </Route>
       </Route>
-      // when not yet login or signup
+      {/* When not yet login or signup */}
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/landing" element={<Landingscreen />} />
     </Routes>

@@ -45,6 +45,7 @@ class RoadmapController extends Controller
         });
         return response()->json($sortedRoadmap->values());
     }
+
     public function getRoadMapDetail($roadmap_id)
     {
         $roadmap = DB::table('roadmaps')
@@ -72,13 +73,5 @@ class RoadmapController extends Controller
             'result' => $result,
         ]);
         return response()->json(['message' => 'result updated successfully']);
-    }
-    public function endSchedule()
-    {
-        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
-        DB::table('schedules')->where('id', $schedule_id)->update([
-            'status' => 'end',
-        ]);
-        return response()->json(['message' => 'Schedule end successfully']);
     }
 }

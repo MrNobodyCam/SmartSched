@@ -11,7 +11,7 @@ import Box from "../../assets/icons/box.svg";
 const HistoryCourseScheduleViewer = ({
   ScheduleId,
 }: {
-  ScheduleId: number;
+  ScheduleId: string;
 }) => {
   const [roadmapData, setRoadmapData] = useState<any[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);

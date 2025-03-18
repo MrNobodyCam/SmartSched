@@ -1,7 +1,9 @@
 import { SetStateAction, useState } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function SettingsPage() {
+  const navigate = useNavigate();
   const [desktopNotifications, setDesktopNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [ThemeMode, setThemeMode] = useState(true);
@@ -49,7 +51,10 @@ function SettingsPage() {
           {/* Account */}
 
           <div>
-            <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
+            <div
+              className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4"
+              onClick={() => navigate("/general/account")}
+            >
               <div>
                 <p className="text-[20px] md:text-[22px] lg:text-[24px]">
                   Account

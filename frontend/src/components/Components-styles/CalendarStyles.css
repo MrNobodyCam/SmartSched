@@ -212,7 +212,6 @@ input:checked + .slider:before {
 .calendar-navigation {
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .calendar-navigation-btn {
@@ -285,14 +284,14 @@ input:checked + .slider:before {
   outline: none;
 }
 .scrollable-content {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 200px);
   overflow-y: auto;
   z-index: 0;
   position: relative;
 }
 
 .todolist-container {
-  height: calc(100vh - 170px);
+  height: calc(100vh - 190px);
 }
 
 /* Responsive */
@@ -306,7 +305,6 @@ input:checked + .slider:before {
   }
 
   .calendar-title {
-    width: 30%;
     margin-right: 5px;
   }
 }

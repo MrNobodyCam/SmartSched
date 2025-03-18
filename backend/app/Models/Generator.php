@@ -15,6 +15,7 @@ class Generator extends Model
         'free_day',
         'start_time',
         'end_time',
+        'duration'
     ];
 
     public function user()

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('free_day');
             $table->string('start_time');
             $table->string('end_time');
+            $table->string('duration');
             $table->timestamps();
 
 

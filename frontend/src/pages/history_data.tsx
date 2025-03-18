@@ -1,62 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchGetData } from "../service/api";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
 import PrimaryBtn from "../components/PrimaryBtn";
+import Empty from "../assets/icons/box.svg";
 import duration from "../assets/icons/timelapse.svg";
 // import search from "../assets/icons/search.svg";
 
 function HistoryScreen() {
   const navigate = useNavigate();
-  // Example data fetched from a database (could be replaced with API call)
-  const initialData = [
-    {
-      id: 1,
-      title: "Learn Vue JS/React JS",
-      topic: "React JS / Vue JS",
-      freeTime: "7:00PM - 11:00PM",
-      duration: "30 Days",
-    },
-    {
-      id: 2,
-      title: "Master JavaScript",
-      topic: "JavaScript",
-      freeTime: "8:00AM - 10:00AM",
-      duration: "15 Days",
-    },
-    {
-      id: 3,
-      title: "Build APIs with Node.js",
-      topic: "Node.js",
-      freeTime: "6:00PM - 9:00PM",
-      duration: "20 Days",
-    },
-    {
-      id: 4,
-      title: "Explore Python",
-      topic: "Python",
-      freeTime: "9:00AM - 12:00PM",
-      duration: "25 Days",
-    },
-    {
-      id: 5,
-      title: "Explore Python",
-      topic: "Python",
-      freeTime: "9:00AM - 12:00PM",
-      duration: "25 Days",
-    },
-  ];
-
-  // State for search input and filtered data
+  const [historyScheduleData, setHistoryScheduleData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [historyData, setHistoryData] = useState(initialData);
+  const [historyData, setHistoryData] = useState<any[]>([]);
 
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchGetData(`history-schedule`);
+        setHistoryScheduleData(data);
+        setHistoryData(data); // Update historyData with fetched data
+      } catch (error) {
+        setError((error as any).message);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetch();
+  }, []);
+  if (error) {
+    console.log(error);
+  }
+  if (loading) {
+    console.log(loading);
+  }
   // Live search function
   const handleSearch = (e: { target: { value: string } }) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     // Filter data based on the search term
-    const filtered = initialData.filter((item) =>
+    const filtered = historyScheduleData.filter((item: any) =>
       item.title.toLowerCase().includes(term)
     );
     setHistoryData(filtered);
@@ -92,7 +81,7 @@ function HistoryScreen() {
         <div className="mt-4 h-[calc(100vh-250px)] overflow-y-auto pb-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {historyData.length > 0 ? (
-              historyData.map((item) => (
+              historyData.map((item: any) => (
                 <div
                   key={item.id}
                   className="relative bg-green-100 rounded-lg shadow-lg p-4 sm:p-6"
@@ -123,7 +112,7 @@ function HistoryScreen() {
                       />
                       <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                         <span className="font-semibold">Free Time:</span>{" "}
-                        {item.freeTime}
+                        {item.freetime || "N/A"}
                       </p>
                     </div>
                     {/* Duration */}
@@ -143,7 +132,7 @@ function HistoryScreen() {
                     <PrimaryBtn
                       py="py-1"
                       px="px-8 md:px-6 lg:px-6"
-                      onClick={() => navigate("/history/listview")}
+                      onClick={() => navigate("/history/calendar/" + item.id)}
                     >
                       See more
                     </PrimaryBtn>
@@ -151,9 +140,10 @@ function HistoryScreen() {
                 </div>
               ))
             ) : (
-              <div className="col-span-full flex items-center justify-center min-h-[50vh]">
-                <p className="text-[20px] md:text-[22px] lg:text-[24px] text-black text-center">
-                  No results found.
+              <div className="col-span-full flex flex-col items-center justify-center min-h-[50vh]">
+                <img src={Empty} alt="Empty Box" className="mb-2 w-14 md" />
+                <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5] text-center">
+                  No results found
                 </p>
               </div>
             )}

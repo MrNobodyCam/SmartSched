@@ -16,8 +16,10 @@ import Lesson_Detail from "../Quiz/Lesson_Detail";
 import { useNavigate, useLocation } from "react-router-dom";
 import SecondaryBtn from "../SecondaryBtn";
 import HistoryCourseScheduleViewer from "./History_schedule_create";
+import { useParams } from "react-router-dom";
 
 const HistoryCustomCalendar: React.FC = () => {
+  const { id } = useParams();
   const view = "dayGridMonth";
   const [currentMonth, setCurrentMonth] = useState("January 2025");
   const [showTodoList, setShowTodoList] = useState(false);
@@ -31,28 +33,32 @@ const HistoryCustomCalendar: React.FC = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [events, setEvents] = useState<any[]>([]);
+  const [startRoadmapDate, setStartRoadmapDate] = useState<Date | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const ScheduleId = 1;
   useEffect(() => {
     const fetch = async () => {
       try {
         const data = await fetchPostData(`history`, {
-          schedule_id: ScheduleId,
+          schedule_id: id,
         });
         setEvents(data);
+        if (data.length > 0) {
+          const firstRoadmapDate = new Date(data[0].date);
+          setStartRoadmapDate(firstRoadmapDate);
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
     fetch();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    if (location.pathname === "/history/calendar") {
+    if (location.pathname === "/history/calendar/" + id) {
       setShowTodoList(false);
-    } else if (location.pathname === "/history/listview") {
+    } else if (location.pathname === "/history/listview/" + id) {
       setShowTodoList(true);
     }
   }, [location.pathname]);
@@ -122,7 +128,9 @@ const HistoryCustomCalendar: React.FC = () => {
 
   const toggleTodoList = () => {
     setShowTodoList((prev) => !prev);
-    navigate(showTodoList ? "/history/calendar" : "/history/listview");
+    navigate(
+      showTodoList ? "/history/calendar/" + id : "/history/listview/" + id
+    );
   };
 
   const formattedEvents = events.map((event) => ({
@@ -199,7 +207,7 @@ const HistoryCustomCalendar: React.FC = () => {
           <>
             <div className="calendar-title-container hidden sm:flex md:flex">
               <h1
-                className="calendar-title text-[20px] sm:text-[28px] md:text-[30px]"
+                className="calendar-title text-[20px] sm:text-[28px] md:text-[30px]  w-60 md:w-70 lg:w-60"
                 style={{ marginRight: "15px" }}
               >
                 {currentMonth}
@@ -267,7 +275,7 @@ const HistoryCustomCalendar: React.FC = () => {
         ) : (
           <div className="flex justify-center">
             <div className="calendar-navigation">
-              <div className="text-[14px] text-white py-2 cursor-default">
+              <div className=" text-white py-[5.5px] sm:py-[10.5px] cursor-default">
                 none
               </div>
             </div>
@@ -356,7 +364,7 @@ const HistoryCustomCalendar: React.FC = () => {
           />
           <span className="slider round"></span>
         </label>
-        <span className="view-labe text-[14px] md:text-[16px] lg:text-[18px]l">
+        <span className="view-label text-[14px] md:text-[16px] lg:text-[18px]">
           Calendar
         </span>
       </div>
@@ -364,7 +372,7 @@ const HistoryCustomCalendar: React.FC = () => {
       <div className=" overflow-auto">
         {showTodoList ? (
           <div className="todo-list todolist-container">
-            <HistoryCourseScheduleViewer ScheduleId={ScheduleId} />
+            <HistoryCourseScheduleViewer ScheduleId={id || ""} />
           </div>
         ) : (
           <div className="scrollable-content">
@@ -373,12 +381,17 @@ const HistoryCustomCalendar: React.FC = () => {
               ref={calendarRef}
               plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
               initialView={view}
+              initialDate={
+                startRoadmapDate
+                  ? startRoadmapDate.toISOString().split("T")[0]
+                  : new Date().toISOString().split("T")[0]
+              }
               headerToolbar={false}
               events={formattedEvents}
               eventClick={handleEventClick}
               datesSet={handleDatesSet}
               eventContent={renderEventContent}
-              dayMaxEventRows={2}
+              dayMaxEventRows={3}
               moreLinkContent={({ num }) => `+${num} More`}
               height="auto"
               contentHeight="auto"

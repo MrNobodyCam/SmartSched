@@ -17,7 +17,11 @@ const CustomInput = React.forwardRef<
   { value?: string; onClick?: () => void }
 >(({ value = "Select Date", onClick }, ref) => {
   return (
-    <label className="custom-datepicker-label" ref={ref} onClick={onClick}>
+    <label
+      className="custom-datepicker-label text-[14px] md:text-[16px] lg:text-[18px] cursor-pointer"
+      ref={ref}
+      onClick={onClick}
+    >
       <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
       <input
         type="text"
