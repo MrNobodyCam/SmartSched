@@ -43,7 +43,7 @@ class ScheduleController extends Controller
         $user_id = 1;
 
         $activeSchedule = DB::table('schedules')
-            ->where('status', 'active')
+            ->where('status', '!=', 'end')
             ->where('user_id', $user_id)
             ->first();
 
@@ -58,18 +58,25 @@ class ScheduleController extends Controller
         $schedule_title = DB::table('generators')
             ->where('id', $activeSchedule->generator_number)
             ->value('schedule_title');
-
-        DB::table('schedule_notifications')->insert([
-            'user_id' => $user_id,
-            'schedule_number' => $activeSchedule->schedule_number,
-            'roadmap_number' => null,
-            'title' => 'Schedule Completed: ' . $schedule_title,
-            'message' => 'Your schedule "' . $schedule_title . '" has been successfully completed. Well done!',
-            'type' => 'success',
-            'is_read' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $exists = DB::table('schedule_notifications')
+            ->where('user_id', $user_id)
+            ->where('schedule_number', $activeSchedule->schedule_number)
+            ->where('roadmap_number', null)
+            ->exists();
+        if (!$exists) {
+            DB::table('schedule_notifications')->insert([
+                'user_id' => $user_id,
+                'schedule_number' => $activeSchedule->schedule_number,
+                'roadmap_number' => null,
+                'notification_type' => 'schedule_end',
+                'title' => 'Schedule Completed: ' . $schedule_title,
+                'message' => 'Your schedule "' . $schedule_title . '" has been successfully completed. Well done!',
+                'type' => 'success',
+                'is_read' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         return response()->json(['message' => 'Schedule ended successfully']);
     }

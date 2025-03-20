@@ -20,7 +20,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/generate-schedule/end', [ScheduleController::class, 'endSchedule']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);
     Route::get('/history-schedule', [ScheduleController::class, 'getHistorySchedule']);
-    Route::get('/notification', [NotificationController::class, 'studyRoadmapTime']);
+    Route::get('/notification', [NotificationController::class, 'getNotification']);
+    Route::put('/notification/markAsRead', [NotificationController::class, 'markAsRead']);
+    Route::get('/notification/markAllAsRead', [NotificationController::class, 'markAllAsRead']);
 });
 // // Group routes with prefix 'v1' 
 // Route::group(['prefix' => 'v1'], function () {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('schedule_number')->nullable();
             $table->unsignedBigInteger('roadmap_number')->nullable();
+            $table->enum('notification_type', ['schedule_end', 'schedule_procrastinate', 'time_study'])->default('schedule_end');
             $table->string('title');
             $table->text('message');
             $table->enum('type', ['error', 'info', 'success'])->default('success');

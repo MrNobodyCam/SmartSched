@@ -7,17 +7,34 @@ import SideBar from "../components/sidebar";
 import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
-import { useState } from "react";
 import CustomCalendar from "../components/Schedule_create/Calendar";
 import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
-
+import { fetchGetData } from "../service/api";
+import { useEffect, useState } from "react";
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetchGetData("notification");
 
+        if (response) {
+          setNotifications(response.notifications || []);
+          setUnreadCount(response.unread_count || 0);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
   return (
     <div className="flex h-screen">
       <SideBar
@@ -28,7 +45,11 @@ const MainLayout = () => {
         }}
       />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <NavBar toggleSidebar={toggleSidebar} />
+        <NavBar
+          notifications={notifications}
+          unreadCount={unreadCount}
+          toggleSidebar={toggleSidebar}
+        />
         <main
           className={`flex-1 overflow-auto ${
             isSidebarOpen

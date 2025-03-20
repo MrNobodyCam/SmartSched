@@ -13,6 +13,7 @@ class ScheduleNotification extends Model
         'user_id',
         'schedule_number',
         'roadmap_number',
+        'notification_type',
         'type',
         'title',
         'message',
