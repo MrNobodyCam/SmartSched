@@ -101,6 +101,15 @@ const SideBar: React.FC<SideBarProps> = ({
                 isOpen={isOpen}
               />
             </Link>
+            <Link to="/music">
+              <MenuItem
+                icon={history}
+                label="History Schedule"
+                isSelected={selectedItem === "history"}
+                onClick={() => handleItemClick("history")}
+                isOpen={isOpen}
+              />
+            </Link>
           </ul>
         </div>
 
