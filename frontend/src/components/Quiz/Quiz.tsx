@@ -18,13 +18,13 @@ const QuizPopup = ({
   onSubmit(result: any): void;
   // Question(): String;
 }) => {
-  // const [isOpen, setIsOpen] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [QuizzID, setQuizzID] = useState(1);
   const [score, setScore] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Array<string>>([]);
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
@@ -35,7 +35,6 @@ const QuizPopup = ({
           roadmap_id: RoadMapID,
         });
         setQuizData(data.quiz);
-        // console.log(data.quiz); // Log the correct data
       } catch (error) {
         setError((error as any).message);
       } finally {
@@ -45,6 +44,7 @@ const QuizPopup = ({
 
     fetch();
   }, []);
+
   const currentQuiz = quizData ? quizData[QuizzID - 1] : null;
   const option = currentQuiz?.["multi-answer"] || [];
   const correctAnswer = () => {
@@ -55,17 +55,26 @@ const QuizPopup = ({
     }
     return "No correct answer found";
   };
+
+  const handleAnswerSelection = (answer: string) => {
+    console.log("Selected answer:", answer);
+    setSelectedAnswer(answer);
+  };
+
   const onClickNext = () => {
+    setSelectedAnswers((prev) => {
+      const updatedAnswers = [...prev, selectedAnswer || "No answer selected"];
+      console.log("Updated selectedAnswers:", updatedAnswers); // Debugging log
+      return updatedAnswers;
+    });
+
     if (selectedAnswer === correctAnswer()) {
-      setScore((prev) => {
-        const newScore = prev + 1;
-        console.log(newScore);
-        return newScore;
-      });
+      setScore((prev) => prev + 1);
     }
     setQuizzID((prev) => Math.min(prev + 1, 10));
     setSelectedAnswer(null);
   };
+
   const updateScore = async () => {
     setLoading(true);
     setError(null);
@@ -81,13 +90,44 @@ const QuizPopup = ({
       setLoading(false);
     }
   };
+
   const onShowResult = () => {
-    onSubmit({ quizData, score });
+    console.log("🚀 Submitting result to CallDetail.tsx...");
+    console.log("🚀 Final Selected Answers:", selectedAnswers);
+    onSubmit({ quizData, score, selectedAnswers });
   };
 
-  // const onClickPrevious = () => {
-  //   setQuizzID((prev) => Math.max(prev - 1, 1));
-  // };
+  const onsubmitQuiz = () => {
+    setSelectedAnswers((prev) => {
+      const updatedAnswers = [...prev, selectedAnswer || "No answer selected"];
+      console.log(
+        "✅ Updated selectedAnswers before setting state:",
+        updatedAnswers
+      );
+      return updatedAnswers;
+    });
+
+    if (selectedAnswer === correctAnswer()) {
+      setScore((prev) => prev + 1);
+    }
+
+    setQuizzID(10);
+    setSelectedAnswer(null);
+    updateScore();
+  };
+
+  // ✅ `useEffect` ensures `onShowResult` runs after `selectedAnswers` updates
+  useEffect(() => {
+    if (selectedAnswers.length === 10) {
+      console.log(
+        "🚀 Running onShowResult AFTER selectedAnswers updates:",
+        selectedAnswers
+      );
+      onShowResult();
+      onPopupResult();
+    }
+  }, [selectedAnswers]); // Runs when `selectedAnswers` updates
+
   const options = [
     {
       text: option[0]?.answer || "Fail Load Data",
@@ -149,7 +189,7 @@ const QuizPopup = ({
               {options.map((option, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedAnswer(option.text)}
+                  onClick={() => handleAnswerSelection(option.text)}
                   className={`${
                     option.bgColor
                   } cursor-pointer text-white p-4 rounded-xl text-center transition-all transform hover:-translate-y-0.5 hover:shadow-lg text-[14px] md:text-[16px] lg:text-[18px] ${
@@ -163,40 +203,11 @@ const QuizPopup = ({
               ))}
             </div>
             <div className="flex justify-end mt-10">
-              {/* <PrimaryBtn py="py-1">Submit Quiz</PrimaryBtn> */}
-              {/* {QuizzID > 1 && (
-                <SecondaryBtn
-                  onClick={onClickPrevious}
-                  py="py-1 mr-2"
-                  borderColor="#A5A5A5"
-                  color="#A5A5A5"
-                  extraContent={
-                    <svg
-                      className="w-[18px] md:w-[20px] lg:w-[22px] h-[18px] md:h-[20px] lg:h-[22px]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                  }
-                >
-                  Previous Question
-                </SecondaryBtn>
-              )} */}
               {QuizzID >= 10 && (
                 <PrimaryBtn
                   py="py-1"
                   onClick={() => {
-                    onClickNext();
-                    updateScore();
-                    onShowResult();
-                    onPopupResult();
+                    onsubmitQuiz();
                   }}
                 >
                   Submit Quiz
