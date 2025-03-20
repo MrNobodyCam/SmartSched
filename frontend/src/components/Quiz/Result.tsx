@@ -55,6 +55,9 @@ const Result = ({
                     (answer: any) => answer.is_correct === true
                   )?.answer || "No correct answer found";
 
+                const isCorrect =
+                  quizResult.selectedAnswers?.[index]?.trim() === correctAnswer;
+
                 return (
                   <div key={index} className="mt-4">
                     <p className="text-[14px] md:text-[16px] lg:text-[18px]">
@@ -65,16 +68,19 @@ const Result = ({
                     </p>
                     <p
                       className={`text-[14px] md:text-[16px] lg:text-[18px] ${
-                        quizResult.selectedAnswers?.[index]?.trim() ===
-                        correctAnswer
-                          ? "text-green-500"
-                          : "text-red-500"
+                        isCorrect ? "text-green-500" : "text-red-500"
                       }`}
                     >
                       <span className="font-bold">Your Answer</span>:{" "}
                       {quizResult.selectedAnswers?.[index] ??
                         "No answer selected"}
                     </p>
+                    {!isCorrect && (
+                      <p className="text-[14px] md:text-[16px] lg:text-[18px] text-green-500">
+                        <span className="font-bold">Correct Answer</span>:{" "}
+                        {correctAnswer}
+                      </p>
+                    )}
                   </div>
                 );
               })
