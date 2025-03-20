@@ -38,12 +38,13 @@ class RoadmapController extends Controller
         $request->validate(
             ['schedule_number' => 'required|integer'],
         );
-        $schedule_number = $request->input('schedule_number');
+        $schedule_id = $request->input('schedule_number');
+        $schedule_number = DB::table('schedules')->select('schedule_number')->where('user_id', $user_id)->where('id', $schedule_id)->value('schedule_number');
         $roadmap = DB::table('schedules')
             ->join('roadmaps', 'schedules.id', '=', 'roadmaps.schedule_id')
             ->join('topics', 'roadmaps.topic_id', '=', second: 'topics.id')
             ->select('roadmaps.roadmap_number', 'roadmaps.schedule_id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
-            ->where('schedule_id', operator: $schedule_number)
+            ->where('schedule_number', operator: $schedule_number)
             ->where('schedules.user_id', operator: $user_id)
             ->where('schedules.status', operator: 'end')
             ->get();

@@ -73,7 +73,7 @@ class GenerateScheduleController extends Controller
             "Duration: " . $duration . " weeks\n\n" .
             "Guidelines:\n" .
             "- Each lesson should be the title of the subject being studied.\n" .
-            "- The description should be a brief overview of the lesson in minimum 30 words maximum 50 words.\n" .
+            "- The description should be a brief overview of the lesson in minimum 50 words.\n" .
             "- Provide a structured weekly breakdown for effective learning.\n" .
             "- Ensure each study session fits within the allocated time slots.\n";
 

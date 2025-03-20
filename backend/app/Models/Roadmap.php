@@ -31,4 +31,8 @@ class Roadmap extends Model
     {
         return $this->belongsTo(Schedule::class, 'schedule_id', 'id');
     }
+    public function schedule_notification()
+    {
+        return $this->belongsTo(ScheduleNotification::class);
+    }
 }
