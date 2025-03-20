@@ -1,6 +1,6 @@
 
 
-import Music from '../src/components/music_screen';
+import Music from '../src/components/Music/music';
 
 function App() {
   return (
