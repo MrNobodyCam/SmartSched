@@ -5,7 +5,7 @@ import lofi1 from "../../assets/images/lofi_image/lofi_1.jpg";
 import lofi2 from "../../assets/images/lofi_image/lofi_2.jpg";
 import lofi3 from "../../assets/images/lofi_image/lofi_3.jpg";
 import lofi4 from "../../assets/images/lofi_image/lofi_4.jpg";
-import springGif from "../../assets/images/gif_lofi/spring.gif";
+import springGif from "../../assets/images/gif_lofi/Autumn.gif";
 import rainGif from "../../assets/images/gif_lofi/rain.gif";
 import winterGif from "../../assets/images/gif_lofi/winter.gif";
 import summerGif from "../../assets/images/gif_lofi/summer.gif";
@@ -33,7 +33,7 @@ const MusicPlayer = () => {
   const tracks = [
     {
       id: 1,
-      title: "Spring Season",
+      title: "Fall Season",
       image: lofi1,
       url: "https://www.youtube.com/live/zhDwjnYZiCo?si=rXziRA3ULZ60fTDI",
     },
