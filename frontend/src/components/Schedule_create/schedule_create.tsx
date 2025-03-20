@@ -196,7 +196,7 @@ const CourseScheduleViewer = () => {
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            // window.location.reload();
+            window.location.reload();
           }}
           RoadMapNumber={RoadMapNumber}
           ScheduleID={ScheduleID}

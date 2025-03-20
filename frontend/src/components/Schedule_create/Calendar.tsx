@@ -414,7 +414,7 @@ const CustomCalendar: React.FC = () => {
                   />
                 }
               >
-                Leave Course
+                End Course
               </PrimaryBtn>
             </div>
           </div>

@@ -18,6 +18,7 @@ const NotificationPopup = () => {
       title: "This is an error message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: false,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -26,6 +27,7 @@ const NotificationPopup = () => {
       title: "This is an error message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: true,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -34,6 +36,7 @@ const NotificationPopup = () => {
       title: "This is an info message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: true,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -42,6 +45,7 @@ const NotificationPopup = () => {
       title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: false,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -50,6 +54,7 @@ const NotificationPopup = () => {
       title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: false,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -58,6 +63,7 @@ const NotificationPopup = () => {
       title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: true,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
     {
@@ -66,6 +72,7 @@ const NotificationPopup = () => {
       title: "This is a success message",
       message:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      is_read: false,
       timestamp: "12 Feb 2025 at 9:25 pm",
     },
   ];
@@ -112,7 +119,7 @@ const NotificationPopup = () => {
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-full hover:bg-gray-200 focus:outline-none"
+        className="relative p-2 rounded-full hover:bg-gray-200 focus:outline-none cursor-pointer"
       >
         <img
           src={BellIcon}
@@ -138,7 +145,7 @@ const NotificationPopup = () => {
               <h4 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold">
                 Notifications
               </h4>
-              <button className="font-medium text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 hover:text-gray-700 hover:font-semibold">
+              <button className="cursor-pointer font-medium text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 hover:text-gray-700 hover:font-semibold">
                 Mark All As Read
               </button>
             </div>
@@ -146,16 +153,21 @@ const NotificationPopup = () => {
               {notifications.map((notification) => (
                 <li
                   key={notification.id}
-                  className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px]"
+                  className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px] cursor-pointer"
                 >
                   <div className="flex space-x-2">
                     <div className="w-[36px] h-[36px] sm:w-[36px] sm:h-[36px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
                       {getIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[14px] md:text-[16px] lg:text-[18px] font-medium text-gray-900">
-                        {notification.title}
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-[14px] md:text-[16px] lg:text-[18px] font-medium text-gray-900">
+                          {notification.title}
+                        </p>
+                        {!notification.is_read && (
+                          <div className="w-2 h-2 rounded-[50%] bg-red-500 mr-2"></div>
+                        )}
+                      </div>
                       <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mt-1 line-clamp-2">
                         {notification.message}
                       </p>

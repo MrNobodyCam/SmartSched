@@ -132,7 +132,9 @@ function HistoryScreen() {
                     <PrimaryBtn
                       py="py-1"
                       px="px-8 md:px-6 lg:px-6"
-                      onClick={() => navigate("/history/calendar/" + item.id)}
+                      onClick={() =>
+                        navigate("/history/calendar/" + item.schedule_id)
+                      }
                     >
                       See more
                     </PrimaryBtn>

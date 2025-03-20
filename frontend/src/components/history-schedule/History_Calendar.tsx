@@ -44,6 +44,8 @@ const HistoryCustomCalendar: React.FC = () => {
           schedule_number: id,
         });
         setEvents(data);
+        console.log(data);
+
         if (data.length > 0) {
           const firstRoadmapDate = new Date(data[0].date);
           setStartRoadmapDate(firstRoadmapDate);
