@@ -80,7 +80,7 @@ const SignIn = ({
         console.log("Sign In Response:", response);
         console.log("Email:", email);
         console.log("Password:", password);
-        alert("Sign In Successful");
+
         // set Access Token
         localStorage.setItem("access_token", response.access_token);
       } catch (error) {

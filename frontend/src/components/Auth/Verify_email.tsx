@@ -63,14 +63,30 @@ const VerifyEmail = ({
       console.log("Verification Code:", code.join(""));
 
       // Call verification API
-      const response = verifyEmail({
-        email: "email@example.com",
-        otp: code.join(""),
-      });
+      const email = localStorage.getItem("email");
 
-      console.log("Verification response:", response);
+      if (email) {
+        const response = verifyEmail({
+          email: email,
+          otp: code.join(""),
+        });
+        console.log("Verification response:", response);
+        response.then((res) => {
+          console.log("Verification response:", res);
+          if (res.success) {
+            console.log("Verification successful");
+            onClose();
+          } else {
+            setCodeError(res.message || "Verification failed");
+          }
+        }).catch((error) => {
+          console.error("Verification error:", error);
+          setCodeError("An error occurred during verification. Please try again.");
+        });
+      } else {
+        setCodeError("Email not found. Please try again.");
+      }
 
-      onClose();
       if (fromResetPassword) {
         openResetPasswordOpen();
       } else {
@@ -133,8 +149,13 @@ const VerifyEmail = ({
                   className="text-[blue] underline font-bold"
                   onClick={(e) => {
                     e.preventDefault();
-                    const response = resendOtp("email@example.com");
-                    console.log("Resend OTP response:", response);
+                    const email = localStorage.getItem("email");
+                    if (email) {
+                      const response = resendOtp(email);
+                      console.log("Resend OTP response:", response);
+                    } else {
+                      console.error("Email not found. Cannot resend OTP.");
+                    }
                   }}
                 >
                   Resend Code

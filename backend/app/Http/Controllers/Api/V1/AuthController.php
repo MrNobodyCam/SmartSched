@@ -23,6 +23,14 @@ class AuthController extends Controller
             return response()->json($validator->errors());
         }
 
+        // Check if email already exists
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email already exists'
+            ], 409);
+        }
+
         $user = User::create([
             'full_name'      => $request->full_name,
             'email'     => $request->email,
