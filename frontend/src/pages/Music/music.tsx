@@ -10,8 +10,6 @@ import rainGif from "../../assets/images/gif_lofi/rain.gif";
 import winterGif from "../../assets/images/gif_lofi/winter.gif";
 import summerGif from "../../assets/images/gif_lofi/summer.gif";
 
-
-
 const scrollbarHideStyles = `
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -124,51 +122,57 @@ const MusicPlayer = () => {
           />
         )}
       </div>
-      <div className="relative w-full h-90 overflow-hidden bg-gradient-to-b from-gray-100 scrollbar-hide">
+      <div className="relative w-full h-[50vh] md:h-90 overflow-hidden bg-gradient-to-b from-gray-100 scrollbar-hide">
         <img
           src={getCurrentBannerGif()}
           alt="Season Banner"
           className="absolute w-full h-full object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-100/1 to-white"></div>
-        <div className="absolute inset-0 flex items-center px-8">
+        <div className="absolute inset-0 flex items-center px-4 md:px-8">
           <div className="z-10">
-            <h1 className="text-4xl font-bold text-gray-800">Focus Flow</h1>
-            <h2 className="text-5xl font-bold italic text-gray-800">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
+              Focus Flow
+            </h1>
+            <h2 className="text-3xl md:text-5xl font-bold italic text-gray-800">
               Your Study Soundtrack
             </h2>
-            <p className="mt-2 text-sm text-gray-800">
+            <p className="mt-2 text-xs md:text-sm text-gray-800">
               Study with the beats that sharpen your mind.
             </p>
             <button
-              className="bg-gray-200 text-black px-6 py-2 rounded-full hover:bg-gray-200 flex items-center gap-2 mt-4"
+              className="bg-gray-200 text-black px-4 md:px-6 py-2 rounded-full hover:bg-gray-200 flex items-center gap-2 mt-4 text-sm md:text-base"
               onClick={togglePlay}
             >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+              {isPlaying ? (
+                <Pause size={16} className="md:w-5 md:h-5" />
+              ) : (
+                <Play size={16} className="md:w-5 md:h-5" />
+              )}
               {isPlaying ? "Pause" : "Play"} Mix
             </button>
           </div>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-white to-gray-50 scrollbar-hide">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">
+      <div className="flex-1 overflow-y-auto p-3 md:p-4 bg-gradient-to-b from-white to-gray-50 scrollbar-hide">
+        <div className="w-8xl mx-auto px-2 md:px-4">
+          <div className="mb-4 md:mb-8">
+            <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-gray-800">
               Playlist Tracks
             </h3>
             <div className="space-y-2">
               {tracks.map((track, index) => (
                 <div
                   key={track.id}
-                  className={`flex items-center p-2 rounded-md cursor-pointer ${
+                  className={`flex items-center p-3 rounded-md cursor-pointer ${
                     currentTrack === index ? "bg-gray-200" : "hover:bg-gray-100"
                   }`}
                   onClick={() => handleTrackClick(index)}
                 >
-                  <div className="w-8 text-center text-gray-600">
+                  <div className="w-8 md:w-10 text-center text-gray-600 text-sm md:text-base">
                     {track.id}
                   </div>
-                  <div className="w-12 h-12 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 mr-4">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 mr-4 md:mr-6">
                     <img
                       src={track.image || "https://via.placeholder.com/48"}
                       alt={track.title}
@@ -180,10 +184,12 @@ const MusicPlayer = () => {
                   </div>
                   <div className="flex-1 flex justify-between items-center">
                     <div>
-                      <div className="font-semibold text-gray-800">
+                      <div className="font-semibold text-gray-800 text-sm md:text-base">
                         {track.title}
                       </div>
-                      <div className="text-sm text-gray-500">Lofi Music</div>
+                      <div className="text-xs md:text-sm text-gray-500">
+                        Lofi Music
+                      </div>
                     </div>
                   </div>
                 </div>

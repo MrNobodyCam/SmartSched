@@ -1,10 +1,7 @@
-
-
-import Music from '../src/components/Music/music';
+import Music from "./pages/Music/music";
 
 function App() {
   return (
-
     <>
       <Music />
     </>
