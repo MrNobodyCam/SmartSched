@@ -5,6 +5,7 @@ import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
 import { signin } from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
 // const Card: React.FC<{
 //   icon?: string;
@@ -48,7 +49,7 @@ const SignIn = ({
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loginInvalid, setloginInvalid] = useState("");
-
+  const navigate = useNavigate();
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
@@ -84,6 +85,7 @@ const SignIn = ({
 
         // set Access Token
         localStorage.setItem("access_token", response.access_token);
+        navigate("/generate-schedule/listview");
       } catch (error) {
         setloginInvalid("Invalid email or password");
       }
