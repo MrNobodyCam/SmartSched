@@ -10,6 +10,7 @@ import SettingsScreen from "../pages/Setting";
 import { useState } from "react";
 import CustomCalendar from "../components/Schedule_create/Calendar";
 import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
+import Music from "../pages/Music/music";
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -57,6 +58,7 @@ const AppRoutes = () => {
           path="/generate-schedule/listview"
           element={<CustomCalendar />}
         />
+        <Route path="/music" element={<Music />}></Route>
         <Route
           path="/history/calendar/:id"
           element={<HistoryCustomCalendar />}
