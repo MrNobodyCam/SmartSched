@@ -62,7 +62,6 @@ const VerifyEmail = ({
     if (valid) {
       console.log("Verification Code:", code.join(""));
 
-      // Call verification API
       const email = localStorage.getItem("email");
 
       if (email) {
@@ -76,7 +75,9 @@ const VerifyEmail = ({
             console.log("Verification response:", res);
             if (res.success) {
               console.log("Verification successful");
+              localStorage.clear();
               onClose();
+              openSignIn();
             } else {
               setCodeError(res.message || "Verification failed");
             }
@@ -93,9 +94,10 @@ const VerifyEmail = ({
 
       if (fromResetPassword) {
         openResetPasswordOpen();
-      } else {
-        openSignIn();
       }
+      //  else {
+      //   openSignIn();
+      // }
     }
   };
 
@@ -109,7 +111,10 @@ const VerifyEmail = ({
           className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-black lg:text-black"
           size={28}
           strokeWidth={3}
-          onClick={onClose}
+          onClick={() => {
+            localStorage.clear();
+            onClose();
+          }}
         />
         <div className="w-[100%] flex justify-center items-center">
           <div className="w-[90%] md:w-[80%] lg:w-[80%] flex flex-col justify-center items-center">
@@ -146,7 +151,7 @@ const VerifyEmail = ({
               </h1>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-center mt-[10px] lg:mt-[15px] mb-[20px]">
                 For your security, we’ve sent a one-time verification code to
-                your email. It will expire in 10 minutes, so enter it now to
+                your email. It will expire in 90 second, so enter it now to
                 continue.{" "}
                 <a
                   href="#"

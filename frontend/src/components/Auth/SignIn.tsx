@@ -79,9 +79,9 @@ const SignIn = ({
           email,
           hash_password: password,
         });
-        console.log("Sign In Response:", response);
-        console.log("Email:", email);
-        console.log("Password:", password);
+        // console.log("Sign In Response:", response);
+        // console.log("Email:", email);
+        // console.log("Password:", password);
 
         // set Access Token
         localStorage.setItem("access_token", response.access_token);

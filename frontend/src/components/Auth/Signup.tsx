@@ -6,6 +6,7 @@ import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
 import { signup } from "../../service/api";
+import Loading from "../Alert/Loading";
 
 // const Card: React.FC<{
 //   icon?: string;
@@ -51,7 +52,7 @@ const Signup = ({
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
@@ -84,6 +85,7 @@ const Signup = ({
 
     if (valid) {
       try {
+        setLoading(true);
         const response = await signup({
           full_name: name,
           email: email,
@@ -106,10 +108,14 @@ const Signup = ({
         }
       } catch (error) {
         console.error("Signup Error:", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
-
+  if (loading) {
+    return <Loading text="Creating your account... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="relative flex bg-white py-[40px] sm:py-0 w-[80%] md:w-[80%] lg:w-[80%] rounded-l-[12px] overflow-hidden rounded-[12px]">
