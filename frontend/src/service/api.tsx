@@ -89,8 +89,13 @@ export const signin = async (credentials: {
 
 export const logout = async () => {
   try {
-    const response = await axios.post(`${AUTH_BASE_URL}/logout`);
-    setAuthToken("");
+    const response = await axios.post(`${AUTH_BASE_URL}/logout`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    console.log("Logout response:", response);
+    localStorage.clear();
     return response.data;
   } catch (error) {
     throw error;
