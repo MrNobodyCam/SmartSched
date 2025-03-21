@@ -1,38 +1,39 @@
 import SecondaryBtn from "../SecondaryBtn";
 import "../Components-styles/login_signup_animation.css";
-import Google from "../../assets/icons/Google.svg";
-import Facebook from "../../assets/icons/Facebook.svg";
+// import Google from "../../assets/icons/Google.svg";
+// import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
+import { signup } from "../../service/api";
 
-const Card: React.FC<{
-  icon?: string;
-  label?: string;
-  onClick?: () => void;
-  background?: string;
-  img_width?: string;
-  py?: string;
-  pl?: string;
-  pr?: string;
-}> = ({
-  icon,
-  label,
-  onClick,
-  py = "py-[16px]",
-  pr = "pr-[16px]",
-  pl = "pl-[16px]",
-  img_width = "w-[28px]",
-  background = "bg-white",
-}) => (
-  <div
-    onClick={onClick}
-    className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
-  >
-    <img src={icon} alt="icon" className={`${img_width}`} />
-    {label}
-  </div>
-);
+// const Card: React.FC<{
+//   icon?: string;
+//   label?: string;
+//   onClick?: () => void;
+//   background?: string;
+//   img_width?: string;
+//   py?: string;
+//   pl?: string;
+//   pr?: string;
+// }> = ({
+//   icon,
+//   label,
+//   onClick,
+//   py = "py-[16px]",
+//   pr = "pr-[16px]",
+//   pl = "pl-[16px]",
+//   img_width = "w-[28px]",
+//   background = "bg-white",
+// }) => (
+//   <div
+//     onClick={onClick}
+//     className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
+//   >
+//     <img src={icon} alt="icon" className={`${img_width}`} />
+//     {label}
+//   </div>
+// );
 
 const Signup = ({
   onClose,
@@ -56,7 +57,7 @@ const Signup = ({
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -82,12 +83,30 @@ const Signup = ({
     }
 
     if (valid) {
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      alert("Sign Up Successful");
-      onClose();
-      openVerifyEmail();
+      try {
+        const response = await signup({
+          full_name: name,
+          email: email,
+          hash_password: password,
+        });
+
+        console.log("status", response.status);
+        console.log("Signup response:", response);
+        console.log("Name:", name);
+        console.log("Email:", email);
+        console.log("Password:", password);
+
+        if (response.success) {
+          console.log("Verification successful");
+          localStorage.setItem("email", email);
+          onClose();
+          openVerifyEmail();
+        } else if (response.email) {
+          setEmailError("The email has already been taken.");
+        }
+      } catch (error) {
+        console.error("Signup Error:", error);
+      }
     }
   };
 
@@ -124,7 +143,7 @@ const Signup = ({
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold">
             Create Account
           </h1>
-          <div className="flex my-[20px]">
+          {/* <div className="flex my-[20px]">
             <Card
               icon={Google}
               py="py-[14px] md:py-[16px]"
@@ -141,7 +160,7 @@ const Signup = ({
               img_width="w-[22px] md:w-[28px]"
               icon={Facebook}
             />
-          </div>
+          </div> */}
           <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5]">
             or use your email for registration
           </p>

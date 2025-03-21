@@ -1,37 +1,38 @@
 import SecondaryBtn from "../SecondaryBtn";
-import Google from "../../assets/icons/Google.svg";
-import Facebook from "../../assets/icons/Facebook.svg";
+// import Google from "../../assets/icons/Google.svg";
+// import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
+import { signin } from "../../service/api";
 
-const Card: React.FC<{
-  icon?: string;
-  label?: string;
-  onClick?: () => void;
-  background?: string;
-  img_width?: string;
-  py?: string;
-  pl?: string;
-  pr?: string;
-}> = ({
-  icon,
-  label,
-  onClick,
-  py = "py-[16px]",
-  pr = "pr-[16px]",
-  pl = "pl-[16px]",
-  img_width = "w-[28px]",
-  background = "bg-white",
-}) => (
-  <div
-    onClick={onClick}
-    className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
-  >
-    <img src={icon} alt="icon" className={`${img_width}`} />
-    {label}
-  </div>
-);
+// const Card: React.FC<{
+//   icon?: string;
+//   label?: string;
+//   onClick?: () => void;
+//   background?: string;
+//   img_width?: string;
+//   py?: string;
+//   pl?: string;
+//   pr?: string;
+// }> = ({
+//   icon,
+//   label,
+//   onClick,
+//   py = "py-[16px]",
+//   pr = "pr-[16px]",
+//   pl = "pl-[16px]",
+//   img_width = "w-[28px]",
+//   background = "bg-white",
+// }) => (
+//   <div
+//     onClick={onClick}
+//     className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
+//   >
+//     <img src={icon} alt="icon" className={`${img_width}`} />
+//     {label}
+//   </div>
+// );
 
 const SignIn = ({
   onClose,
@@ -46,13 +47,14 @@ const SignIn = ({
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loginInvalid, setloginInvalid] = useState("");
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -64,16 +66,27 @@ const SignIn = ({
     }
 
     if (password.length < 8) {
-      setPasswordError("Password must be at least 6 characters");
+      setPasswordError("Password must be at least 8 characters");
       valid = false;
     } else {
       setPasswordError("");
     }
 
     if (valid) {
-      console.log("Email:", email);
-      console.log("Password:", password);
-      alert("Sign In Successful");
+      try {
+        const response = await signin({
+          email,
+          hash_password: password,
+        });
+        console.log("Sign In Response:", response);
+        console.log("Email:", email);
+        console.log("Password:", password);
+
+        // set Access Token
+        localStorage.setItem("access_token", response.access_token);
+      } catch (error) {
+        setloginInvalid("Invalid email or password");
+      }
     }
   };
 
@@ -90,7 +103,7 @@ const SignIn = ({
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold text-center">
             Access Your Account
           </h1>
-          <div className="flex my-[20px]">
+          {/* <div className="flex my-[20px]">
             <Card
               icon={Google}
               py="py-[14px] md:py-[16px]"
@@ -107,10 +120,15 @@ const SignIn = ({
               img_width="w-[22px] md:w-[28px]"
               icon={Facebook}
             />
-          </div>
+          </div> */}
           <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5]">
-            or use your email password
+            use your email password
           </p>
+          {loginInvalid && (
+            <p className="text-red-500 text-[12px] md:text-[14px] lg:text-[16px]">
+              {loginInvalid}
+            </p>
+          )}
           <form
             onSubmit={handleSubmit}
             className="w-[75%] my-[20px] md:w-[55%] flex flex-col items-center"

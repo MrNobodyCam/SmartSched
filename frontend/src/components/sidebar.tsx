@@ -7,6 +7,7 @@ import privacy from "../assets/icons/privacy.svg";
 import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
+import { logout as apiLogout } from "../service/api";
 
 interface SideBarProps {
   isOpen: boolean; // Controls whether the sidebar is open or closed
@@ -149,8 +150,11 @@ const SideBar: React.FC<SideBarProps> = ({
 
           {/* Custom Logout Button */}
           <button
-            className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out h-12"
-            onClick={() => handleItemClick("logout")}
+            className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out"
+            onClick={() => {
+              handleItemClick("logout");
+              apiLogout();
+            }}
           >
             {/* Icon */}
             <img src={logout} alt="logout" className="w-6 h-6 flex-shrink-0" />
