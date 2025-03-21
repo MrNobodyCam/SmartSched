@@ -1,9 +1,9 @@
-import Music from "./pages/Music/music";
+import AppRoutes from "./utils/Routes";
 
 function App() {
   return (
     <>
-      <Music />
+      <AppRoutes />
     </>
   );
 }
