@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import PrimaryBtn from "./PrimaryBtn";
+import PrimaryBtn from "../components/PrimaryBtn";
 
-const FullScreenContactForm = () => {
+function FullScreenContactForm() {
   const [formData, setFormData] = useState({
     title: "",
-    email: "", // Add email to state
+    email: "",
     message: "",
     agreedToPolicy: false,
   });
@@ -66,10 +66,7 @@ const FullScreenContactForm = () => {
   };
 
   return (
-    <div
-      className="flex items-start justify-start w-full h-full"
-      style={{ position: "absolute" }}
-    >
+    <div className="relative w-full min-h-screen p-4 sm:p-6">
       {alertMessage && (
         <div
           className={`fixed top-4 right-4 p-4 rounded-md ${
@@ -87,7 +84,7 @@ const FullScreenContactForm = () => {
           </button>
         </div>
       )}
-      <div className="w-[876px] h-full rounded-md">
+      <div className="w-full h-full rounded-md">
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold mb-1">
@@ -96,24 +93,6 @@ const FullScreenContactForm = () => {
             <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-400 mb-6">
               Reach out and we'll get in touch within 24 hours.
             </p>
-          </div>
-          <div className="mb-5">
-            <label
-              htmlFor="title"
-              className="block text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black mb-1"
-            >
-              Title
-            </label>
-            <input
-              type="title"
-              name="title"
-              id="title"
-              placeholder="Enter your title..."
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
-              required
-            />
           </div>
           <div className="mb-5">
             <label
@@ -167,13 +146,7 @@ const FullScreenContactForm = () => {
               className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0"
             >
               You agree to our friendly{" "}
-              <a
-                href="/privacy-policy"
-                className="text-blue-500 hover:underline"
-              >
-                privacy policy
-              </a>
-              .
+              <a className="text-blue-500 hover:underline">privacy policy</a>.
             </label>
           </div>
           <div>
@@ -185,6 +158,6 @@ const FullScreenContactForm = () => {
       </div>
     </div>
   );
-};
+}
 
 export default FullScreenContactForm;

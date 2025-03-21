@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import calendarIcon from "../assets/icons/calendar.svg";
 import history from "../assets/icons/history.svg";
-import service from "../assets/icons/service.svg";
-import privacy from "../assets/icons/privacy.svg";
 import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
+import music from "../assets/icons/music.svg";
 
 interface SideBarProps {
   isOpen: boolean; // Controls whether the sidebar is open or closed
@@ -103,31 +102,22 @@ const SideBar: React.FC<SideBarProps> = ({
                 isOpen={isOpen}
               />
             </Link>
+            <Link to="/music">
+              <MenuItem
+                icon={music}
+                label="Music Playlist"
+                isSelected={selectedItem === "music"}
+                onClick={() => handleItemClick("music")}
+                isOpen={isOpen}
+              />
+            </Link>
           </ul>
         </div>
 
         {/* Secondary Menu */}
         <div>
           <ul>
-            <Link to="/service">
-              <MenuItem
-                icon={service}
-                label="Terms of Service"
-                isSelected={selectedItem === "service"}
-                onClick={() => handleItemClick("service")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/privacy">
-              <MenuItem
-                icon={privacy}
-                label="Privacy Policy"
-                isSelected={selectedItem === "privacy"}
-                onClick={() => handleItemClick("privacy")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/contact">
+            <Link to="/contactus">
               <MenuItem
                 icon={contact}
                 label="Contact Us"

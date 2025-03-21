@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Play, Pause } from "lucide-react";
-import YouTubePlayer from "../Music/YouTubePlayer";
+import { useMusicContext } from "../../context/MusicContext";
 import lofi1 from "../../assets/images/lofi_image/lofi_1.jpg";
 import lofi2 from "../../assets/images/lofi_image/lofi_2.jpg";
 import lofi3 from "../../assets/images/lofi_image/lofi_3.jpg";
@@ -27,8 +27,8 @@ if (typeof document !== "undefined") {
 }
 
 const MusicPlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(0);
+  const { isPlaying, currentTrack, setIsPlaying, setCurrentTrack } =
+    useMusicContext();
 
   const tracks = [
     {
@@ -72,16 +72,6 @@ const MusicPlayer = () => {
     }
   };
 
-  const handleTrackEnd = () => {
-    console.log("Track ended, switching to next track");
-    const nextTrackIndex = (currentTrack + 1) % tracks.length;
-    console.log("Next track index:", nextTrackIndex);
-    setCurrentTrack(nextTrackIndex);
-    // Ensure the next track starts playing
-    setTimeout(() => {
-      setIsPlaying(true);
-    }, 100);
-  };
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -92,36 +82,9 @@ const MusicPlayer = () => {
     setIsPlaying(true);
   };
 
-  const getCurrentVideoId = () => {
-    const url = tracks[currentTrack]?.url || "";
-    console.log("Current URL:", url);
-    let videoId = "";
-
-    if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("youtube.com/live/")) {
-      videoId = url.split("youtube.com/live/")[1].split("?")[0];
-    } else if (url.includes("youtube.com")) {
-      const match = url.match(/[?&]v=([^&]+)/);
-      videoId = match ? match[1] : "";
-    }
-    console.log("Extracted Video ID:", videoId);
-    return videoId;
-  };
 
   return (
-    <div className="flex flex-col h-screen bg-white text-gray-800">
-      <div style={{ position: "fixed", top: 0, left: 0, zIndex: 0 }}>
-        {getCurrentVideoId() && (
-          <YouTubePlayer
-            videoId={getCurrentVideoId()}
-            isPlaying={isPlaying}
-            onEnded={handleTrackEnd}
-            volume={50}
-            autoplay={true}
-          />
-        )}
-      </div>
+    <div className="flex flex-col h-[calc(100vh-70px)] bg-white text-gray-800">
       <div className="relative w-full h-[50vh] md:h-90 overflow-hidden bg-gradient-to-b from-gray-100 scrollbar-hide">
         <img
           src={getCurrentBannerGif()}
@@ -172,7 +135,7 @@ const MusicPlayer = () => {
                   <div className="w-8 md:w-10 text-center text-gray-600 text-sm md:text-base">
                     {track.id}
                   </div>
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 mr-4 md:mr-6">
+                  <div className="w-14 h-14 md:w-20 md:h-20 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 mr-4 md:mr-6">
                     <img
                       src={track.image || "https://via.placeholder.com/48"}
                       alt={track.title}
