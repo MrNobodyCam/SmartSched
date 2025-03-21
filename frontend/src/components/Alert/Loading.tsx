@@ -31,7 +31,7 @@ const Loading = ({ text }: { text: string }) => {
                   />
                 </svg>
               </div>
-              <p className="text-[14px] md:text-[16px] lg:text-[18px]">
+              <p className="text-[14px] md:text-[16px] lg:text-[18px] text-center">
                 {text}
               </p>
             </div>
