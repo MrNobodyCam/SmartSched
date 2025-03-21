@@ -58,6 +58,8 @@ export const signup = async (userData: {
 export const verifyEmail = async (otpData: { email: string; otp: string }) => {
   try {
     const response = await axios.post(`${AUTH_BASE_URL}/verified`, otpData);
+    console.log("Verification response:", response);
+    localStorage.setItem("id", response.data.id);
     return response.data;
   } catch (error) {
     throw error;
@@ -81,6 +83,8 @@ export const signin = async (credentials: {
 }) => {
   try {
     const response = await axios.post(`${AUTH_BASE_URL}/signin`, credentials);
+    localStorage.setItem("id", response.data.$user.id.toString());
+    localStorage.setItem("access_token", response.data.access_token);
     return response.data;
   } catch (error) {
     throw error;

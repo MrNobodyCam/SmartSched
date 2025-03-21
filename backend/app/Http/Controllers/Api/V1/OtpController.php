@@ -56,7 +56,8 @@ class OtpController extends Controller
         if ($emailSent) {
             return response()->json([
                 'success' => true,
-                'message' => 'OTP has been sent'
+                'message' => 'OTP has been sent',
+                'id' => $user->id
             ]);
         } else {
             return response()->json([
