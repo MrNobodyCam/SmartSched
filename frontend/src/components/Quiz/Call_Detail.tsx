@@ -87,6 +87,11 @@
 //   };
 
 //   const onSubmit = (result: any) => {
+//     console.log("🚀 Received quiz result in CallDetail.tsx:", result);
+//     console.log(
+//       "🚀 Selected answers before setting state:",
+//       result?.selectedAnswers
+//     );
 //     setQuizResult(result);
 //   };
 
@@ -97,6 +102,7 @@
 
 //   return (
 //     <>
+//     console.log("🔄 CallDetail.tsx is rendering...");
 //       {initialData.map((item) => (
 //         <div
 //           key={item.id}
@@ -132,22 +138,51 @@
 //         <QuizPopup
 //           RoadMapID={RoadMapID}
 //           onPopupResult={onPopupResult}
-//           onSubmit={onSubmit}
+//           // onSubmit={onSubmit}
+//           onSubmit={(result) => {
+//             console.log("✅ Received quiz result in CallDetail.tsx:", result);
+//             console.log(
+//               "✅ Selected answers before setting state:",
+//               result?.selectedAnswers
+//             );
+//             setQuizResult(result);
+//           }}
 //           onClose={() => {
 //             setopenQuiz(true);
 //             setLeftQuiz(true);
 //           }}
 //         />
 //       )}
-//       {showResult && (
+//       {/* {showResult && (
+
 //         <Result
 //           quizResult={quizResult}
+//           selectedAnswers={quizResult?.selectedAnswers || []}
 //           onClose={() => {
 //             setShowResult(false);
 //             setIsDetailOpen(true);
 //           }}
 //         />
+//       )} */}
+//       {showResult && (
+//         <>
+//           {console.log("✅ quizResult before passing to Result:", quizResult)}
+//           {console.log(
+//             "✅ selectedAnswers before passing to Result:",
+//             quizResult?.selectedAnswers
+//           )}
+
+//           <Result
+//             quizResult={quizResult}
+//             selectedAnswers={quizResult?.selectedAnswers || []}
+//             onClose={() => {
+//               setShowResult(false);
+//               setIsDetailOpen(true);
+//             }}
+//           />
+//         </>
 //       )}
+
 //       {LeftQuiz && (
 //         <WarningAlert
 //           title="You left the quiz"

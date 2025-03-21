@@ -29,17 +29,12 @@ class GenerateScheduleController extends Controller
         $startTime = $request->input('start_time');
         $endTime = $request->input('end_time');
         $duration = $request->input('duration');
-
+        $user_id = $request->input('id');
         // Ensure the user exists
-        $user = User::updateOrCreate(
-            ['email' => 'visal@gmail.com'],
-            [
-                'full_name' => 'John Doe',
-                'gender' => 'male',
-                'time_zone' => 'UTC',
-                'hash_password' => bcrypt('password')
-            ]
-        );
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
         $countUserSchedule = DB::table('schedules')->where('user_id', $user->id)->count('id');
 

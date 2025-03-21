@@ -3,6 +3,7 @@ import { X } from "react-feather";
 import PrimaryBtn from "../PrimaryBtn";
 import Email from "../../assets/icons/email.svg";
 import { useState, useRef } from "react";
+import { verifyEmail, resendOtp } from "../../service/api";
 
 const VerifyEmail = ({
   onClose,
@@ -60,12 +61,43 @@ const VerifyEmail = ({
 
     if (valid) {
       console.log("Verification Code:", code.join(""));
-      onClose();
+
+      const email = localStorage.getItem("email");
+
+      if (email) {
+        const response = verifyEmail({
+          email: email,
+          otp: code.join(""),
+        });
+        console.log("Verification response:", response);
+        response
+          .then((res) => {
+            console.log("Verification response:", res);
+            if (res.success) {
+              console.log("Verification successful");
+              localStorage.clear();
+              onClose();
+              openSignIn();
+            } else {
+              setCodeError(res.message || "Verification failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Verification error:", error);
+            setCodeError(
+              "An error occurred during verification. Please try again."
+            );
+          });
+      } else {
+        setCodeError("Email not found. Please try again.");
+      }
+
       if (fromResetPassword) {
         openResetPasswordOpen();
-      } else {
-        openSignIn();
       }
+      //  else {
+      //   openSignIn();
+      // }
     }
   };
 
@@ -79,7 +111,10 @@ const VerifyEmail = ({
           className="absolute top-0 right-0 m-3 z-[100] cursor-pointer text-black md:text-black lg:text-black"
           size={28}
           strokeWidth={3}
-          onClick={onClose}
+          onClick={() => {
+            localStorage.clear();
+            onClose();
+          }}
         />
         <div className="w-[100%] flex justify-center items-center">
           <div className="w-[90%] md:w-[80%] lg:w-[80%] flex flex-col justify-center items-center">
@@ -116,9 +151,22 @@ const VerifyEmail = ({
               </h1>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-center mt-[10px] lg:mt-[15px] mb-[20px]">
                 For your security, we’ve sent a one-time verification code to
-                your email. It will expire in 10 minutes, so enter it now to
+                your email. It will expire in 90 second, so enter it now to
                 continue.{" "}
-                <a href="" className="text-[blue] underline font-bold">
+                <a
+                  href="#"
+                  className="text-[blue] underline font-bold"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const email = localStorage.getItem("email");
+                    if (email) {
+                      const response = resendOtp(email);
+                      console.log("Resend OTP response:", response);
+                    } else {
+                      console.error("Email not found. Cannot resend OTP.");
+                    }
+                  }}
+                >
                   Resend Code
                 </a>
               </p>

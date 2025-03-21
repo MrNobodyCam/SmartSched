@@ -9,9 +9,12 @@ use Carbon\Carbon;
 
 class RoadmapController extends Controller
 {
-    public function getRoadMap()
+    public function getRoadMap(Request $request)
     {
-        $user_id = 1;
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
         $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->where('user_id', $user_id)->value('id');
         $roadmap = DB::table('roadmaps')
             ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
@@ -34,10 +37,11 @@ class RoadmapController extends Controller
     }
     public function getHistoryRoadMap(Request $request)
     {
-        $user_id = 1;
         $request->validate(
-            ['schedule_number' => 'required|integer'],
+
+            ['schedule_number' => 'required|integer', 'id' => 'required|integer',],
         );
+        $user_id = $request->id;
         $schedule_id = $request->input('schedule_number');
         $schedule_number = DB::table('schedules')->select('schedule_number')->where('user_id', $user_id)->where('id', $schedule_id)->value('schedule_number');
         $roadmap = DB::table('schedules')

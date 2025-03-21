@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class ScheduleController extends Controller
 {
 
-    public function getHistorySchedule()
+    public function getHistorySchedule(Request $request)
     {
-        $user_id = 1;
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
         $schedules = DB::table('schedules')
             ->join('generators', 'schedules.generator_number', '=', 'generators.generator_number')
             ->join('generator_topics', 'generators.id', '=', 'generator_topics.generator_id')
@@ -38,10 +41,12 @@ class ScheduleController extends Controller
 
         return response()->json($schedules);
     }
-    public function endSchedule()
+    public function endSchedule(Request $request)
     {
-        $user_id = 1;
-
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
         $activeSchedule = DB::table('schedules')
             ->where('status', '!=', 'end')
             ->where('user_id', $user_id)

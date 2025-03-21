@@ -9,9 +9,12 @@ use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
-    function getNotification()
+    function getNotification(Request $request)
     {
-        $user_id = 1;
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
         $now = Carbon::now();
 
         $activeSchedule = DB::table('schedules')
@@ -94,10 +97,11 @@ class NotificationController extends Controller
     }
     function markAsRead(Request $request)
     {
-        $user_id = 1;
         $request->validate([
+            'id' => 'required|integer',
             'notification_id' => 'required|integer',
         ]);
+        $user_id = $request->id;
         $notification_id = $request->input('notification_id');
 
         $notification = DB::table('schedule_notifications')
@@ -116,9 +120,12 @@ class NotificationController extends Controller
 
         return response()->json(['message' => 'Notification marked as read successfully']);
     }
-    function markAllAsRead()
+    function markAllAsRead(Request $request)
     {
-        $user_id = 1;
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
 
         DB::table('schedule_notifications')
             ->where('user_id', $user_id)

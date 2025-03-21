@@ -4,7 +4,7 @@ import InfoIcon from "../assets/icons/info-icon.svg";
 import SuccessIcon from "../assets/icons/success-icon.svg";
 import BellIcon from "../assets/icons/bell-icon.svg";
 import "./Components-styles/scrollbar.css";
-import { fetchUpdateData, fetchGetData } from "../service/api";
+import { fetchUpdateData, fetchGetRequestData } from "../service/api";
 const NotificationPopup = ({
   NotificationData,
   UnreadCount,
@@ -26,6 +26,7 @@ const NotificationPopup = ({
   const onMarkAsRead = async (notificationID: number) => {
     try {
       await fetchUpdateData("notification/markAsRead", {
+        id: localStorage.getItem("id"),
         notification_id: notificationID,
       });
       console.log(`Notification ${notificationID} marked as read.`);
@@ -35,7 +36,9 @@ const NotificationPopup = ({
   };
   const onMarkAllAsRead = async () => {
     try {
-      await fetchGetData("notification/markAllAsRead");
+      await fetchGetRequestData("notification/markAllAsRead", {
+        id: localStorage.getItem("id"),
+      });
       console.log(`All notification are marked as read.`);
     } catch (error) {
       console.error("Error marking notification as read:", error);

@@ -1,38 +1,40 @@
 import SecondaryBtn from "../SecondaryBtn";
 import "../Components-styles/login_signup_animation.css";
-import Google from "../../assets/icons/Google.svg";
-import Facebook from "../../assets/icons/Facebook.svg";
+// import Google from "../../assets/icons/Google.svg";
+// import Facebook from "../../assets/icons/Facebook.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import { X } from "react-feather";
 import { useState } from "react";
+import { signup } from "../../service/api";
+import Loading from "../Alert/Loading";
 
-const Card: React.FC<{
-  icon?: string;
-  label?: string;
-  onClick?: () => void;
-  background?: string;
-  img_width?: string;
-  py?: string;
-  pl?: string;
-  pr?: string;
-}> = ({
-  icon,
-  label,
-  onClick,
-  py = "py-[16px]",
-  pr = "pr-[16px]",
-  pl = "pl-[16px]",
-  img_width = "w-[28px]",
-  background = "bg-white",
-}) => (
-  <div
-    onClick={onClick}
-    className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
-  >
-    <img src={icon} alt="icon" className={`${img_width}`} />
-    {label}
-  </div>
-);
+// const Card: React.FC<{
+//   icon?: string;
+//   label?: string;
+//   onClick?: () => void;
+//   background?: string;
+//   img_width?: string;
+//   py?: string;
+//   pl?: string;
+//   pr?: string;
+// }> = ({
+//   icon,
+//   label,
+//   onClick,
+//   py = "py-[16px]",
+//   pr = "pr-[16px]",
+//   pl = "pl-[16px]",
+//   img_width = "w-[28px]",
+//   background = "bg-white",
+// }) => (
+//   <div
+//     onClick={onClick}
+//     className={`border-[3px] border-[#A5A5A5] ${pr} ${pl} ${py} rounded-[12px] ${background} cursor-pointer`}
+//   >
+//     <img src={icon} alt="icon" className={`${img_width}`} />
+//     {label}
+//   </div>
+// );
 
 const Signup = ({
   onClose,
@@ -50,13 +52,13 @@ const Signup = ({
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -82,15 +84,38 @@ const Signup = ({
     }
 
     if (valid) {
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      alert("Sign Up Successful");
-      onClose();
-      openVerifyEmail();
+      try {
+        setLoading(true);
+        const response = await signup({
+          full_name: name,
+          email: email,
+          hash_password: password,
+        });
+
+        console.log("status", response.status);
+        console.log("Signup response:", response);
+        console.log("Name:", name);
+        console.log("Email:", email);
+        console.log("Password:", password);
+
+        if (response.success) {
+          console.log("Verification successful");
+          localStorage.setItem("email", email);
+          onClose();
+          openVerifyEmail();
+        } else if (response.email) {
+          setEmailError("The email has already been taken.");
+        }
+      } catch (error) {
+        console.error("Signup Error:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
-
+  if (loading) {
+    return <Loading text="Creating your account... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="relative flex bg-white py-[40px] sm:py-0 w-[80%] md:w-[80%] lg:w-[80%] rounded-l-[12px] overflow-hidden rounded-[12px]">
@@ -124,7 +149,7 @@ const Signup = ({
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold">
             Create Account
           </h1>
-          <div className="flex my-[20px]">
+          {/* <div className="flex my-[20px]">
             <Card
               icon={Google}
               py="py-[14px] md:py-[16px]"
@@ -141,7 +166,7 @@ const Signup = ({
               img_width="w-[22px] md:w-[28px]"
               icon={Facebook}
             />
-          </div>
+          </div> */}
           <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5]">
             or use your email for registration
           </p>

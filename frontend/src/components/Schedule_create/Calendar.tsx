@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { fetchGetData } from "../../service/api";
+import { fetchGetRequestData } from "../../service/api";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -42,7 +42,9 @@ const CustomCalendar: React.FC = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await fetchGetData(`generate-schedule/roadmaps`);
+        const data = await fetchGetRequestData(`generate-schedule/roadmaps`, {
+          id: localStorage.getItem("id"),
+        });
         setEvents(data);
       } catch (error) {
         console.log(error);
@@ -79,7 +81,9 @@ const CustomCalendar: React.FC = () => {
   const endCourse = () => {
     const fetch = async () => {
       try {
-        const data = await fetchGetData(`generate-schedule/end`);
+        const data = await fetchGetRequestData(`generate-schedule/end`, {
+          id: localStorage.getItem("id"),
+        });
         setEvents(data);
       } catch (error) {
         console.log(error);

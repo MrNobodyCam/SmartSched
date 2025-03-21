@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchGetData } from "../service/api";
+import { fetchGetRequestData } from "../service/api";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
 import PrimaryBtn from "../components/PrimaryBtn";
@@ -21,12 +21,14 @@ function HistoryScreen() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`history-schedule`);
+        const data = await fetchGetRequestData(`history-schedule`, {
+          id: localStorage.getItem("id"),
+        });
         setHistoryScheduleData(data);
-        setHistoryData(data); // Update historyData with fetched data
+        setHistoryData(data);
       } catch (error) {
         setError((error as any).message);
-        console.log(error);
+        console.error("Error fetching history schedule:", error);
       } finally {
         setLoading(false);
       }
@@ -83,7 +85,7 @@ function HistoryScreen() {
             {historyData.length > 0 ? (
               historyData.map((item: any) => (
                 <div
-                  key={item.id}
+                  key={item.schedule_id}
                   className="relative bg-green-100 rounded-lg shadow-lg p-4 sm:p-6"
                 >
                   {/* Title */}

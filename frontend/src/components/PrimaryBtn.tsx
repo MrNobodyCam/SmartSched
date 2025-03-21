@@ -44,5 +44,3 @@ const PrimaryBtn = ({
 };
 
 export default PrimaryBtn;
-
-//add width and height props
