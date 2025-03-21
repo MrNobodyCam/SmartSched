@@ -74,17 +74,20 @@ class AuthController extends Controller
         // }
         if (!$user || !Hash::check($request->hash_password, $user->hash_password)) {
             return response()->json([
+                'success' => false,
                 'message' => 'Invalid credentials'
-            ], 401);
+            ]);
         }
         // Login was successful, generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            'success' => true,
             'message' => 'Login success',
             'access_token' => $token,
-            'token_type' => 'Bearer'
-        ]);
+            'token_type' => 'Bearer',
+            '$user' => $user
+        ], 200);
     }
 
     public function logout()
