@@ -5,6 +5,7 @@ import history from "../assets/icons/history.svg";
 import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
+import music from "../assets/icons/music.svg";
 
 interface SideBarProps {
   isOpen: boolean; // Controls whether the sidebar is open or closed
@@ -103,10 +104,10 @@ const SideBar: React.FC<SideBarProps> = ({
             </Link>
             <Link to="/music">
               <MenuItem
-                icon={history}
-                label="History Schedule"
-                isSelected={selectedItem === "history"}
-                onClick={() => handleItemClick("history")}
+                icon={music}
+                label="Music Playlist"
+                isSelected={selectedItem === "music"}
+                onClick={() => handleItemClick("music")}
                 isOpen={isOpen}
               />
             </Link>
