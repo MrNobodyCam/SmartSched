@@ -72,23 +72,20 @@ const SignIn = ({
     }
 
     if (valid) {
-
       try {
         const response = await signin({
           email,
           hash_password: password,
         });
         console.log("Sign In Response:", response);
+        console.log("Email:", email);
+        console.log("Password:", password);
 
         // set Access Token
         localStorage.setItem("access_token", response.access_token);
       } catch (error) {
         console.error("Sign In Error:", error);
       }
-
-      console.log("Email:", email);
-      console.log("Password:", password);
-      alert("Sign In Successful");
     }
   };
 

@@ -27,7 +27,7 @@ Route::prefix('v1/auth')->group(function () {
 
 /* Otp Routes */
 Route::prefix('v1/auth')->group(function () {
-    Route::get('/verification/{id}',[OtpController::class,'verification']);
+    Route::get('/verification/{id}',[OtpController::class,'verification'])->name('verification');
     Route::post('/verified',[OtpController::class,'verifiedOtp'])->name('verifiedOtp');
     Route::get('/resend-otp',[OtpController::class,'resendOtp'])->name('resendOtp');
 });

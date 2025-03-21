@@ -89,18 +89,24 @@ const Signup = ({
           email: email,
           hash_password: password,
         });
+
+        console.log("status", response.status);
         console.log("Signup response:", response);
-        localStorage.setItem("token", response.access_token);
+        console.log("Name:", name);
+        console.log("Email:", email);
+        console.log("Password:", password);
+
+        if (response.success) {
+          console.log("Verification successful");
+          localStorage.setItem("email", email);
+          onClose();
+          openVerifyEmail();
+        } else if (response.email) {
+          setEmailError("The email has already been taken.");
+        }
       } catch (error) {
-        console.error("Signup error:", error);
+        console.error("Signup Error:", error);
       }
-      
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      alert("Sign Up Successful");
-      onClose();
-      openVerifyEmail();
     }
   };
 
