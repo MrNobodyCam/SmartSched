@@ -71,18 +71,22 @@ const VerifyEmail = ({
           otp: code.join(""),
         });
         console.log("Verification response:", response);
-        response.then((res) => {
-          console.log("Verification response:", res);
-          if (res.success) {
-            console.log("Verification successful");
-            onClose();
-          } else {
-            setCodeError(res.message || "Verification failed");
-          }
-        }).catch((error) => {
-          console.error("Verification error:", error);
-          setCodeError("An error occurred during verification. Please try again.");
-        });
+        response
+          .then((res) => {
+            console.log("Verification response:", res);
+            if (res.success) {
+              console.log("Verification successful");
+              onClose();
+            } else {
+              setCodeError(res.message || "Verification failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Verification error:", error);
+            setCodeError(
+              "An error occurred during verification. Please try again."
+            );
+          });
       } else {
         setCodeError("Email not found. Please try again.");
       }

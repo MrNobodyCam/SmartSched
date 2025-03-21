@@ -27,13 +27,13 @@ class OtpController extends Controller
         // Send email via raw mail instead of using a view
         $subject = 'Mail Verification';
         $message = "Your OTP is: $otp";
-        
+
         try {
             Mail::raw($message, function ($mail) use ($user, $subject) {
                 $mail->to($user->email)
-                     ->subject($subject);
+                    ->subject($subject);
             });
-            
+
             return true;
         } catch (\Exception $e) {
             \Log::error('Failed to send OTP email: ' . $e->getMessage());
@@ -69,18 +69,18 @@ class OtpController extends Controller
     public function verifiedOtp(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found'
             ], 404);
         }
-        
+
         $otpData = EmailVerification::where('email', $request->email)
-                                    ->where('otp', $request->otp)
-                                    ->first();
-                                    
+            ->where('otp', $request->otp)
+            ->first();
+
         if (!$otpData) {
             return response()->json([
                 'success' => false,
@@ -94,10 +94,10 @@ class OtpController extends Controller
                 User::where('id', $user->id)->update([
                     'is_verified' => 1
                 ]);
-                
+
                 // Clean up the used OTP
                 $otpData->delete();
-                
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Email has been verified'
@@ -114,14 +114,14 @@ class OtpController extends Controller
     public function resendOtp(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found'
             ], 404);
         }
-        
+
         $otpData = EmailVerification::where('email', $request->email)->first();
 
         if ($otpData) {
@@ -135,9 +135,9 @@ class OtpController extends Controller
                 ]);
             }
         }
-        
-        $emailSent = $this->sendOtp($user); // OTP SEND
-        
+
+        $emailSent = $this->sendOtp($user);
+
         if ($emailSent) {
             return response()->json([
                 'success' => true,

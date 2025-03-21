@@ -60,19 +60,23 @@ class AuthController extends Controller
 
         // Find the user first to debug
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
+        // if (!$user) {
+        //     return response()->json([
+        //         'message' => 'User with this email not found'
+        //     ], 401);
+        // }
+
+        // // Manually verify password
+        // if (!Hash::check($request->hash_password, $user->hash_password)) {
+        //     return response()->json([
+        //         'message' => 'Invalid password'
+        //     ], 401);
+        // }
+        if (!$user || !Hash::check($request->hash_password, $user->hash_password)) {
             return response()->json([
-                'message' => 'User with this email not found'
+                'message' => 'Invalid credentials'
             ], 401);
         }
-
-        // Manually verify password
-        if (!Hash::check($request->hash_password, $user->hash_password)) {
-            return response()->json([
-                'message' => 'Invalid password'
-            ], 401);
-        }
-
         // Login was successful, generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 
