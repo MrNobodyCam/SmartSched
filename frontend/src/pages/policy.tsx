@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import PrimaryBtn from "../components/PrimaryBtn";
+
 function Policy() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Container */}
@@ -9,9 +14,9 @@ function Policy() {
         </h1>
 
         {/* Privacy Policy Content */}
-        <div className=" space-y-4">
+        <div className="space-y-4 pt-3">
           {/* Information We Collect Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Information We Collect
             </h2>
@@ -29,7 +34,7 @@ function Policy() {
           </div>
 
           {/* Privacy and Data Security Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Privacy and Data Security
             </h2>
@@ -45,7 +50,7 @@ function Policy() {
           </div>
 
           {/* How We Use Your Information Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className="">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               How We Use Your Information
             </h2>
@@ -61,7 +66,7 @@ function Policy() {
           </div>
 
           {/* Information Sharing Section */}
-          <div className="rounded-lg shadow-lg p-3 sm:p-4">
+          <div className=" ">
             <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black">
               Information Sharing
             </h2>
@@ -76,6 +81,13 @@ function Policy() {
               information.
             </p>
           </div>
+        </div>
+
+        {/* Back to Settings Button */}
+        <div className="pt-10">
+          <PrimaryBtn py="py-1" onClick={() => navigate("/setting")}>
+            Back
+          </PrimaryBtn>
         </div>
       </div>
     </>

@@ -229,7 +229,7 @@ const InputForm: React.FC = () => {
                 </div>
                 <div className="mb-4">
                   <label className="block font-bold mb-2 text-black text-[14px] md:text-[16px] lg:text-[18px]">
-                    Free Days
+                    Study Days
                   </label>
 
                   {/* Desktop View: Checkbox Grid */}

@@ -59,9 +59,6 @@ function HistoryScreen() {
         <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold text-black">
           History Schedule
         </h1>
-        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-4">
-          Showing your all histories with a clear view
-        </p>
 
         {/* Search Bar */}
         <div className="flex justify-end w-full max-w-full mt-4">
@@ -140,7 +137,7 @@ function HistoryScreen() {
                 </div>
               ))
             ) : (
-              <div className="col-span-full flex flex-col items-center justify-center min-h-[50vh]">
+              <div className="col-span-full flex flex-col items-center justify-center h-full min-h-[50vh] pt-20">
                 <img src={Empty} alt="Empty Box" className="mb-2 w-14 md" />
                 <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5] text-center">
                   No results found

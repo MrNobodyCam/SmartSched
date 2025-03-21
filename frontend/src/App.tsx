@@ -6,9 +6,6 @@ function App() {
     <BrowserRouter>
       <AppRoutes />
     </BrowserRouter>
-    // <>
-    //   <CustomCalendar />
-    // </>
   );
 }
 

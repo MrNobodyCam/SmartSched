@@ -2,12 +2,10 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import calendarIcon from "../assets/icons/calendar.svg";
 import history from "../assets/icons/history.svg";
-import service from "../assets/icons/service.svg";
-import privacy from "../assets/icons/privacy.svg";
 import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
-import { logout as apiLogout } from "../service/api";
+import music from "../assets/icons/music.svg";
 
 interface SideBarProps {
   isOpen: boolean; // Controls whether the sidebar is open or closed
@@ -104,31 +102,22 @@ const SideBar: React.FC<SideBarProps> = ({
                 isOpen={isOpen}
               />
             </Link>
+            <Link to="/music">
+              <MenuItem
+                icon={music}
+                label="Music Playlist"
+                isSelected={selectedItem === "music"}
+                onClick={() => handleItemClick("music")}
+                isOpen={isOpen}
+              />
+            </Link>
           </ul>
         </div>
 
         {/* Secondary Menu */}
         <div>
           <ul>
-            <Link to="/service">
-              <MenuItem
-                icon={service}
-                label="Terms of Service"
-                isSelected={selectedItem === "service"}
-                onClick={() => handleItemClick("service")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/privacy">
-              <MenuItem
-                icon={privacy}
-                label="Privacy Policy"
-                isSelected={selectedItem === "privacy"}
-                onClick={() => handleItemClick("privacy")}
-                isOpen={isOpen}
-              />
-            </Link>
-            <Link to="/contact">
+            <Link to="/contactus">
               <MenuItem
                 icon={contact}
                 label="Contact Us"
@@ -150,17 +139,14 @@ const SideBar: React.FC<SideBarProps> = ({
 
           {/* Custom Logout Button */}
           <button
-            className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out"
-            onClick={() => {
-              handleItemClick("logout");
-              apiLogout();
-            }}
+            className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out h-12"
+            onClick={() => handleItemClick("logout")}
           >
             {/* Icon */}
             <img src={logout} alt="logout" className="w-6 h-6 flex-shrink-0" />
             {/* Label */}
             <span
-              className={`pl-30 ml-2 text-[14px] md:text-[16px] lg:text-[18px] truncate h-6 ${
+              className={`pl-30 ml-2 text-[14px] md:text-[16px] lg:text-[18px] truncate ${
                 isOpen
                   ? "inline opacity-100"
                   : "hidden md:group-hover:inline opacity-0 md:group-hover:opacity-100"
