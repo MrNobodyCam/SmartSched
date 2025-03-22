@@ -141,10 +141,13 @@ function FullScreenContactForm() {
             />
             <label
               htmlFor="policy"
-              className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0"
+              className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0 cursor-pointer "
             >
               You agree to our friendly{" "}
-              <a className="text-blue-500 hover:underline">privacy policy</a>.
+              <a className="text-blue-500 hover:underline font-bold">
+                privacy policy
+              </a>
+              .
             </label>
           </div>
           <div>

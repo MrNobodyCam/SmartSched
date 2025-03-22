@@ -1,6 +1,6 @@
 import NotificationPopup from "./NotificationPopup";
 import profilePic from "../assets/images/profile.svg";
-
+import { useNavigate } from "react-router-dom";
 function NavBar({
   toggleSidebar,
   notifications,
@@ -10,6 +10,7 @@ function NavBar({
   notifications: any[];
   unreadCount: number;
 }) {
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 w-full h-16 bg-[#D5F0FF] z-50 flex items-center justify-between px-4 md:px-8">
       <div className="flex items-center space-x-4">
@@ -51,6 +52,7 @@ function NavBar({
         {/* Profile Picture */}
         <div className="profile">
           <img
+            onClick={() => navigate("/setting/account")}
             src={profilePic}
             alt="Profile"
             className="w-10 h-10 rounded-full cursor-pointer"

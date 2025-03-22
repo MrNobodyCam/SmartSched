@@ -102,7 +102,7 @@ const AppRoutes = () => {
         <Route path="/contactus" element={<ContactScreen />} />
         <Route path="/setting" element={<SettingsScreen />} />
 
-        <Route path="/general" element={<GeneralScreen />}>
+        <Route path="/setting" element={<GeneralScreen />}>
           <Route path="account" element={<AccountScreen />} />
           <Route path="password" element={<PasswordScreen />} />
           <Route path="session" element={<SessionScreen />} />

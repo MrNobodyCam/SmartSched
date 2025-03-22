@@ -257,7 +257,7 @@ const UserProfileSettings: React.FC = () => {
                       name="gender"
                       value={profile.gender}
                       onChange={handleInputChange}
-                      className="w-full sm:w-[208px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                      className="w-full sm:w-[208px] h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                       required
                     >
                       <option value="">Select gender</option>
@@ -286,7 +286,7 @@ const UserProfileSettings: React.FC = () => {
                   name="gender"
                   value={profile.gender}
                   onChange={handleInputChange}
-                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
+                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
                   <option value="">Select gender</option>
@@ -302,7 +302,7 @@ const UserProfileSettings: React.FC = () => {
                   name="timezone"
                   value={profile.timezone}
                   onChange={handleInputChange}
-                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
+                  className="w-full h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
                   <option value="">Select Timezone</option>
@@ -329,7 +329,7 @@ const UserProfileSettings: React.FC = () => {
                   name="timezone"
                   value={profile.timezone}
                   onChange={handleInputChange}
-                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
+                  className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
                   <option value="">Select Timezone</option>
