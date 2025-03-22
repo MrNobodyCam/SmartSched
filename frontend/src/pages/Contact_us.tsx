@@ -63,7 +63,7 @@ function FullScreenContactForm() {
   };
 
   return (
-    <div className="relative w-full min-h-screen p-4 sm:p-6">
+    <div className="relative w-full h-[calc(100vh-100px)] p-4 sm:p-6">
       {alertMessage && (
         <div
           className={`fixed top-4 right-4 p-4 rounded-md ${

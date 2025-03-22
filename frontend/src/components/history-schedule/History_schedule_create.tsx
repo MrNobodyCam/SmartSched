@@ -37,6 +37,7 @@ const HistoryCourseScheduleViewer = ({
     const fetch = async () => {
       try {
         const data = await fetchPostData(`history`, {
+          id: localStorage.getItem("id"),
           schedule_number: ScheduleId,
         });
         setRoadmapData(data);
