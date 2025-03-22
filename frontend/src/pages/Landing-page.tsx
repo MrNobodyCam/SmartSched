@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import SecondaryBtn from "../components/SecondaryBtn";
 import arrow from "../assets/icons/majesticons_arrow-up.svg";
@@ -16,7 +16,7 @@ function Landingpage() {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [fromResetPassword, setFromResetPassword] = useState(false);
-
+  const dropdownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (
       isLoginOpen ||
@@ -63,7 +63,7 @@ function Landingpage() {
     setIsVerifyOpen(false);
     setIsResetPasswordOpen(true);
   };
-  const [isOpen, setIsOpen] = useState(false); // State to manage dropdown toggle
+  const [isOpen, setIsOpen] = useState(false);
   const teamMembers = [
     {
       name: "Kao Vichet",
@@ -123,12 +123,25 @@ function Landingpage() {
       bgColor: "#EB5757",
     },
   ];
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div
       id="home"
       className="text-gray-900 text-[14px] sm:text-[16px] lg:text-[18px] "
-      onClick={() => setIsOpen(!isOpen)}
     >
       {/* Header */}
       <header className="bg-white shadow-md p-4 w-[100%] fixed z-50">
@@ -142,7 +155,7 @@ function Landingpage() {
           </h1>
 
           {/* Dropdown Toggle (Visible on Small Screens) */}
-          <div className="sm:hidden relative">
+          <div className="sm:hidden relative" ref={dropdownRef}>
             <button
               className="text-gray-700 hover:text-blue-500 focus:outline-none cursor-pointer"
               onClick={() => setIsOpen(!isOpen)}
@@ -156,7 +169,7 @@ function Landingpage() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2"
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg"
               >
                 <a
                   href="#home"
@@ -182,7 +195,7 @@ function Landingpage() {
                 >
                   Team
                 </a>
-                <PrimaryBtn onClick={() => setIsLoginOpen(true)}>
+                <PrimaryBtn style="w-full" onClick={() => setIsLoginOpen(true)}>
                   Login
                 </PrimaryBtn>
               </motion.div>
