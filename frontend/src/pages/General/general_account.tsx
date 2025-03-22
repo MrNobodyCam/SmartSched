@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes component
 import PrimaryBtn from "../../components/PrimaryBtn";
 import SecondaryBtn from "../../components/SecondaryBtn";
 import { useNavigate } from "react-router-dom";
-
+import { fetchGetRequestData } from "../../service/api";
 interface UserProfile {
   fullName: string;
   gender: string;
@@ -14,6 +14,36 @@ interface UserProfile {
 
 const UserProfileSettings: React.FC = () => {
   const navigator = useNavigate();
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await fetchGetRequestData(`user`, {
+          id: localStorage.getItem("id"),
+        });
+
+        // Map backend data to match the profile state structure
+        setProfile({
+          fullName: data.full_name || "",
+          gender: data.gender || "",
+          email: data.email || "",
+          timezone: data.time_zone || "",
+          profilePhoto: null,
+        });
+
+        console.log("Mapped Profile Data:", {
+          fullName: data.full_name,
+          gender: data.gender,
+          email: data.email,
+          timezone: data.time_zone,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetch();
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profile, setProfile] = useState<UserProfile>({
     fullName: "",
@@ -306,7 +336,7 @@ const UserProfileSettings: React.FC = () => {
                   required
                 >
                   <option value="">Select Timezone</option>
-                  <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
+                  <option value="Asia/Bangkok">Bangkok (+07:00)</option>
                   <option value="Asia/Singapore">Singapore (+08:00)</option>
                   <option value="America/New_York">New York (-05:00)</option>
                   <option value="Europe/London">London (+00:00)</option>
@@ -333,7 +363,7 @@ const UserProfileSettings: React.FC = () => {
                   required
                 >
                   <option value="">Select Timezone</option>
-                  <option value="Asia/Phnom_Penh">Phnom Penh (+07:00)</option>
+                  <option value="Asia/Bangkok">Bangkok (+07:00)</option>
                   <option value="Asia/Singapore">Singapore (+08:00)</option>
                   <option value="America/New_York">New York (-05:00)</option>
                   <option value="Europe/London">London (+00:00)</option>

@@ -5,6 +5,7 @@ import SuccessIcon from "../assets/icons/success-icon.svg";
 import BellIcon from "../assets/icons/bell-icon.svg";
 import "./Components-styles/scrollbar.css";
 import { fetchUpdateData, fetchGetRequestData } from "../service/api";
+import Box from "../assets/icons/box.svg";
 const NotificationPopup = ({
   NotificationData,
   UnreadCount,
@@ -103,7 +104,7 @@ const NotificationPopup = ({
       {open && (
         <div
           ref={popupRef}
-          className="absolute right-0 mt-2 w-[80vw] sm:w-[70vh] max-h-[85vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
+          className="absolute right-0 mt-2 w-[80vw] sm:w-[70vh] h-[85vh] bg-white border border-gray-200 rounded-[12px] shadow-lg z-50 overflow-y-auto scrollbar-thin"
         >
           <div className="p-4">
             <div className="flex justify-between items-center">
@@ -123,47 +124,60 @@ const NotificationPopup = ({
                 Mark All As Read
               </button>
             </div>
-            <ul className="mt-2 space-y-2">
-              {NotificationData.map((notification) => (
-                <li
-                  onClick={() => {
-                    onMarkAsRead(notification.id);
-                    console.log("Notification ID:", notification.id);
-                    localStorage.setItem("notificationPopupOpen", "true"); // Save state to localStorage
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 100);
-                  }}
-                  key={notification.id}
-                  className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px] cursor-pointer"
-                >
-                  <div className="flex space-x-2">
-                    <div className="w-[36px] h-[36px] sm:w-[36px] sm:h-[36px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
-                      {getIcon(notification.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <p className="text-[14px] md:text-[16px] lg:text-[18px] font-medium text-gray-900">
-                          {notification.title}
-                        </p>
-                        {!notification.is_read && (
-                          <div className="w-2 h-2 rounded-[50%] bg-red-500 mr-2"></div>
-                        )}
+            {NotificationData.length === 0 ? (
+              <div className="h-[70vh] overflow-hidden flex flex-col items-center justify-center">
+                <img
+                  src={Box}
+                  alt="notification empty"
+                  className="w-10 lg:w-15"
+                />
+                <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mt-2">
+                  No new notifications.
+                </p>
+              </div>
+            ) : (
+              <ul className="mt-2 space-y-2">
+                {NotificationData.map((notification) => (
+                  <li
+                    onClick={() => {
+                      onMarkAsRead(notification.id);
+                      console.log("Notification ID:", notification.id);
+                      localStorage.setItem("notificationPopupOpen", "true");
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 100);
+                    }}
+                    key={notification.id}
+                    className="p-2 bg-gray-50 hover:bg-gray-100 rounded-[12px] cursor-pointer"
+                  >
+                    <div className="flex space-x-2">
+                      <div className="w-[36px] h-[36px] sm:w-[36px] sm:h-[36px] rounded-full bg-white p-[4px] border-2 border-[#E2E2E2] shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] flex items-center justify-center">
+                        {getIcon(notification.type)}
                       </div>
-                      <p
-                        id={`notification-message-${notification.id}`}
-                        className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mt-1"
-                      >
-                        {notification.message}
-                      </p>
-                      <p className="text-[12px] md:text-[14px] lg:text-[16px] text-gray-400 mt-2">
-                        {notification.timestamp}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <p className="text-[14px] md:text-[16px] lg:text-[18px] font-medium text-gray-900">
+                            {notification.title}
+                          </p>
+                          {!notification.is_read && (
+                            <div className="w-2 h-2 rounded-[50%] bg-red-500 mr-2"></div>
+                          )}
+                        </div>
+                        <p
+                          id={`notification-message-${notification.id}`}
+                          className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500 mt-1"
+                        >
+                          {notification.message}
+                        </p>
+                        <p className="text-[12px] md:text-[14px] lg:text-[16px] text-gray-400 mt-2">
+                          {notification.timestamp}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       )}

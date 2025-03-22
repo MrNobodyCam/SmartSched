@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchGetData } from "../../service/api";
+import { fetchGetRequestData } from "../../service/api";
 import Lesson_Detail from "../Quiz/Lesson_Detail";
 import QuizPopup from "../Quiz/Quiz";
 import Result from "../Quiz/Result";
@@ -32,7 +32,9 @@ const CourseScheduleViewer = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await fetchGetData(`generate-schedule/roadmaps`);
+        const data = await fetchGetRequestData(`generate-schedule/roadmaps`, {
+          id: localStorage.getItem("id"),
+        });
         setRoadmapData(data);
       } catch (error) {
         console.log(error);

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('gender')->nullable();
             $table->string('email')->unique();
-            $table->string('time_zone')->default('UTC');
+            $table->string('time_zone')->default('Asia/Bangkok');
             $table->string('hash_password');
             $table->boolean('is_verified')->default(0);
             $table->timestamps();
