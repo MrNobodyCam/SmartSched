@@ -9,10 +9,12 @@ const QuizPopup = ({
   onClose,
   onPopupResult,
   onSubmit,
-  RoadMapID,
+  RoadMapNumber,
+  ScheduleID,
 }: // Question,
 {
-  RoadMapID: number;
+  RoadMapNumber: number;
+  ScheduleID: number;
   onClose(): void;
   onPopupResult(): void;
   onSubmit(result: any): void;
@@ -32,7 +34,8 @@ const QuizPopup = ({
 
       try {
         const data = await fetchPostData(`generatequizz`, {
-          roadmap_id: RoadMapID,
+          roadmap_number: RoadMapNumber,
+          schedule_id: ScheduleID,
         });
         setQuizData(data.quiz);
       } catch (error) {
@@ -80,8 +83,10 @@ const QuizPopup = ({
     setError(null);
 
     try {
-      const data = await fetchUpdateData(`roadmap/score/${RoadMapID}`, {
+      const data = await fetchUpdateData(`roadmap/score`, {
         result: score,
+        roadmap_number: RoadMapNumber,
+        schedule_id: ScheduleID,
       });
       console.log(data);
     } catch (error) {

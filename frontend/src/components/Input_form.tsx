@@ -97,6 +97,7 @@ const InputForm: React.FC = () => {
 
         try {
           await fetchPostData(`schedule`, {
+            id: localStorage.getItem("id"),
             schedule_title: formData.title,
             subject: formData.subjects.split(",").map((s) => s.trim()),
             free_day: formData.freeDays,

@@ -2,6 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import "../Components-styles/DatePicker.css";
 
@@ -52,6 +53,44 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
           }
         />
       }
+      renderCustomHeader={({
+        date,
+        decreaseMonth,
+        increaseMonth,
+        prevMonthButtonDisabled,
+        nextMonthButtonDisabled,
+      }) => (
+        <div className="custom-header flex justify-between items-center px-1 py-3">
+          {/* Previous Button */}
+          <button
+            onClick={decreaseMonth}
+            disabled={prevMonthButtonDisabled}
+            className={`prev-button cursor-pointer p-1 ${
+              prevMonthButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />{" "}
+            {/* Replace with your icon */}
+          </button>
+
+          {/* Current Month and Year */}
+          <span className="current-month text-lg font-semibold">
+            {date.toLocaleString("default", { month: "long", year: "numeric" })}
+          </span>
+
+          {/* Next Button */}
+          <button
+            onClick={increaseMonth}
+            disabled={nextMonthButtonDisabled}
+            className={`next-button cursor-pointer  ${
+              nextMonthButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />{" "}
+            {/* Replace with your icon */}
+          </button>
+        </div>
+      )}
     />
   );
 };

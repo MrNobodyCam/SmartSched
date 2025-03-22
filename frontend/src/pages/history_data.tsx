@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchGetData } from "../service/api";
+import { fetchGetRequestData } from "../service/api";
 import topic from "../assets/icons/details-more.svg";
 import time from "../assets/icons/time.svg";
 import PrimaryBtn from "../components/PrimaryBtn";
@@ -21,12 +21,14 @@ function HistoryScreen() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`history-schedule`);
+        const data = await fetchGetRequestData(`history-schedule`, {
+          id: localStorage.getItem("id"),
+        });
         setHistoryScheduleData(data);
-        setHistoryData(data); // Update historyData with fetched data
+        setHistoryData(data);
       } catch (error) {
         setError((error as any).message);
-        console.log(error);
+        console.error("Error fetching history schedule:", error);
       } finally {
         setLoading(false);
       }
@@ -59,6 +61,9 @@ function HistoryScreen() {
         <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold text-black">
           History Schedule
         </h1>
+        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black mt-4">
+          Showing your all histories with a clear view
+        </p>
 
         {/* Search Bar */}
         <div className="flex justify-end w-full max-w-full mt-4">
@@ -80,7 +85,7 @@ function HistoryScreen() {
             {historyData.length > 0 ? (
               historyData.map((item: any) => (
                 <div
-                  key={item.id}
+                  key={item.schedule_id}
                   className="relative bg-green-100 rounded-lg shadow-lg p-4 sm:p-6"
                 >
                   {/* Title */}
@@ -129,7 +134,9 @@ function HistoryScreen() {
                     <PrimaryBtn
                       py="py-1"
                       px="px-8 md:px-6 lg:px-6"
-                      onClick={() => navigate("/history/calendar/" + item.id)}
+                      onClick={() =>
+                        navigate("/history/calendar/" + item.schedule_id)
+                      }
                     >
                       See more
                     </PrimaryBtn>
@@ -137,7 +144,7 @@ function HistoryScreen() {
                 </div>
               ))
             ) : (
-              <div className="col-span-full flex flex-col items-center justify-center h-full min-h-[50vh] pt-20">
+              <div className="col-span-full flex flex-col items-center justify-center min-h-[50vh]">
                 <img src={Empty} alt="Empty Box" className="mb-2 w-14 md" />
                 <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5] text-center">
                   No results found

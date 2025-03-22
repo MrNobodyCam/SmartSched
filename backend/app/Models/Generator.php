@@ -10,6 +10,7 @@ class Generator extends Model
     use HasFactory;
 
     protected $fillable = [
+        'generator_number',
         'user_id',
         'schedule_title',
         'free_day',

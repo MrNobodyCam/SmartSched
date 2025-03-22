@@ -9,13 +9,19 @@ use Carbon\Carbon;
 
 class RoadmapController extends Controller
 {
-    public function getRoadMap()
+    public function getRoadMap(Request $request)
     {
-        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->value('id');
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
+        $schedule_id = DB::table('schedules')->select('id')->where('status', 'active')->where('user_id', $user_id)->value('id');
         $roadmap = DB::table('roadmaps')
             ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
-            ->select('roadmaps.id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
-            ->where('schedule_id', $schedule_id)
+            ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+            ->join('users', 'schedules.user_id', '=', 'users.id')
+            ->select('roadmaps.roadmap_number', 'roadmaps.schedule_id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
+            ->where('schedules.id', $schedule_id)
             ->get();
 
         // $now = Carbon::now();
@@ -32,26 +38,42 @@ class RoadmapController extends Controller
     public function getHistoryRoadMap(Request $request)
     {
         $request->validate(
-            ['schedule_id' => 'required|integer'],
+
+            ['schedule_number' => 'required|integer', 'id' => 'required|integer',],
         );
-        $schedule_id = $request->input('schedule_id');
-        $roadmap = DB::table('roadmaps')
+        $user_id = $request->id;
+        $schedule_id = $request->input('schedule_number');
+        $schedule_number = DB::table('schedules')->select('schedule_number')->where('user_id', $user_id)->where('id', $schedule_id)->value('schedule_number');
+        $roadmap = DB::table('schedules')
+            ->join('roadmaps', 'schedules.id', '=', 'roadmaps.schedule_id')
             ->join('topics', 'roadmaps.topic_id', '=', second: 'topics.id')
-            ->select('roadmaps.id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
-            ->where('schedule_id', operator: $schedule_id)
+            ->select('roadmaps.roadmap_number', 'roadmaps.schedule_id', 'topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
+            ->where('schedule_number', operator: $schedule_number)
+            ->where('schedules.user_id', operator: $user_id)
+            ->where('schedules.status', operator: 'end')
             ->get();
         $sortedRoadmap = $roadmap->sortBy(function ($item) {
             return Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time);
         });
+        if ($roadmap->isEmpty()) {
+            return response()->json(['error' => 'Roadmap not found'], 404);
+        }
         return response()->json($sortedRoadmap->values());
     }
 
-    public function getRoadMapDetail($roadmap_id)
+    public function getRoadMapDetail(Request $request)
     {
+        $request->validate([
+            'roadmap_number' => 'required|integer',
+            'schedule_id' => 'required|integer',
+        ]);
+        $roadmap_number = $request->input('roadmap_number');
+        $schedule_id = $request->input('schedule_id');
         $roadmap = DB::table('roadmaps')
             ->join('topics', 'roadmaps.topic_id', '=', 'topics.id')
             ->select('topics.title', 'roadmaps.lesson', 'roadmaps.description', 'roadmaps.result', 'roadmaps.start_time', 'roadmaps.end_time', 'roadmaps.date')
-            ->where('roadmaps.id', $roadmap_id)
+            ->where('roadmaps.roadmap_number', $roadmap_number)
+            ->where('roadmaps.schedule_id', $schedule_id)
             ->get();
 
         if ($roadmap->isEmpty()) {
@@ -59,17 +81,21 @@ class RoadmapController extends Controller
         }
         return response()->json($roadmap);
     }
-    public function updateRoadmapScore(Request $request, $roadmap_id)
+    public function updateRoadmapScore(Request $request)
     {
         $request->validate([
             'result' => 'required|integer',
+            'roadmap_number' => 'required|integer',
+            'schedule_id' => 'required|integer',
         ]);
+        $roadmap_number = $request->input('roadmap_number');
+        $schedule_id = $request->input('schedule_id');
         $result = $request->input('result');
-        $roadmap = DB::table('roadmaps')->where('id', $roadmap_id)->get();
+        $roadmap = DB::table('roadmaps')->where('roadmap_number', $roadmap_number)->where('schedule_id', $schedule_id)->get();
         if ($roadmap->isEmpty()) {
             return response()->json(['error' => 'Roadmap not found'], 404);
         }
-        DB::table('roadmaps')->where('id', $roadmap_id)->update([
+        DB::table('roadmaps')->where('roadmap_number', $roadmap_number)->where('schedule_id', $schedule_id)->update([
             'result' => $result,
         ]);
         return response()->json(['message' => 'result updated successfully']);

@@ -10,8 +10,10 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
+        'schedule_number',
         'user_id',
-        'generator_id',
+        // 'generator_id',
+        'generator_number',
         'title',
         'start_date',
         'end_date',
@@ -19,8 +21,9 @@ class Schedule extends Model
 
     public function generator()
     {
-        return $this->belongsTo(Generator::class);
+        return $this->belongsTo(Generator::class, 'generator_number', 'generator_number');
     }
+
 
     public function roadmaps()
     {

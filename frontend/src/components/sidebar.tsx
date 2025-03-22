@@ -140,7 +140,10 @@ const SideBar: React.FC<SideBarProps> = ({
           {/* Custom Logout Button */}
           <button
             className="flex items-center p-2 mt-4 rounded-lg w-full bg-[rgb(45,156,219)] cursor-pointer text-white transition duration-300 ease-in-out h-12"
-            onClick={() => handleItemClick("logout")}
+            onClick={() => {
+              localStorage.clear();
+              handleItemClick("logout");
+            }}
           >
             {/* Icon */}
             <img src={logout} alt="logout" className="w-6 h-6 flex-shrink-0" />

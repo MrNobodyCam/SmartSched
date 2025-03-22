@@ -7,14 +7,15 @@ import SideBar from "../components/sidebar";
 import Landingscreen from "../pages/Landing-page";
 import NotFoundPage from "../pages/Notfound";
 import SettingsScreen from "../pages/Setting";
+import CustomCalendar from "../components/Schedule_create/Calendar";
+import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
+import { fetchGetRequestData } from "../service/api";
+import { useEffect, useState } from "react";
 import ContactScreen from "../pages/Contact_us";
 import GeneralScreen from "../pages/General/main_general";
 import AccountScreen from "../pages/General/general_account";
 import PasswordScreen from "../pages/General/general_password";
 import SessionScreen from "../pages/General/general_sessions";
-import { useState } from "react";
-import CustomCalendar from "../components/Schedule_create/Calendar";
-import HistoryCustomCalendar from "../components/history-schedule/History_Calendar";
 import Music from "../pages/Music/music";
 
 const MainLayout = () => {
@@ -23,7 +24,26 @@ const MainLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetchGetRequestData("notification", {
+          id: localStorage.getItem("id"),
+        });
 
+        if (response) {
+          setNotifications(response.notifications || []);
+          setUnreadCount(response.unread_count || 0);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
   return (
     <div className="flex h-screen">
       <SideBar
@@ -34,7 +54,11 @@ const MainLayout = () => {
         }}
       />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <NavBar toggleSidebar={toggleSidebar} />
+        <NavBar
+          notifications={notifications}
+          unreadCount={unreadCount}
+          toggleSidebar={toggleSidebar}
+        />
         <main
           className={`flex-1 overflow-auto ${
             isSidebarOpen
