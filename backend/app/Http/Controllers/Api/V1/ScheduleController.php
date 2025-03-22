@@ -9,6 +9,40 @@ use Illuminate\Http\Request;
 class ScheduleController extends Controller
 {
 
+    public function checkSchedule(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+
+        $user_id = $request->id;
+        $activeSchedule = DB::table('schedules')
+            ->where('status', '!=', 'end')
+            ->where('user_id', $user_id)
+            ->first();
+        if (!$activeSchedule) {
+            return response()->json([
+                'status' => 'end',
+                'success' => false,
+            ]);
+        }
+
+        $checkType = DB::table('schedules')
+            ->where('id', $activeSchedule->id)
+            ->value('status');
+
+        if ($checkType) {
+            return response()->json([
+                'status' => $checkType,
+                'success' => true,
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'Unable to determine schedule status',
+            'success' => false,
+        ], 500);
+    }
     public function getHistorySchedule(Request $request)
     {
         $request->validate([
@@ -53,7 +87,7 @@ class ScheduleController extends Controller
             ->first();
 
         if (!$activeSchedule) {
-            return response()->json(['error' => 'No active schedule found'], 404);
+            return response()->json(['error' => 'No active schedule found', "success" => false], 404);
         }
 
         DB::table('schedules')
@@ -83,6 +117,22 @@ class ScheduleController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Schedule ended successfully']);
+        return response()->json(['message' => 'Schedule ended successfully', "success" => true]);
+    }
+    public function scheduleProcrastinate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
+        $procrastinate = DB::table('schedules')
+            ->where('status', '=', 'active')
+            ->where('user_id', $user_id)
+            ->first();
+
+        DB::table('schedules')
+            ->where('id', $procrastinate->id)
+            ->update(['status' => 'procrastinate']);
+        return response()->json(['message' => 'Schedule procrastinated successfully', "success" => true]);
     }
 }

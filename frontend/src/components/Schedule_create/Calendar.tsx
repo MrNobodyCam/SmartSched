@@ -20,6 +20,7 @@ import End from "../../assets/icons/play-stop-o.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input_form from "../Input_form";
 import SecondaryBtn from "../SecondaryBtn";
+import Play from "../../assets/icons/play.svg";
 
 const CustomCalendar: React.FC = () => {
   const view = "dayGridMonth";
@@ -38,7 +39,22 @@ const CustomCalendar: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [procrastinate, setProcrastinate] = useState("active");
 
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await fetchGetRequestData(`check-schedule`, {
+          id: localStorage.getItem("id"),
+        });
+        setProcrastinate(data?.status);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetch();
+  }, []);
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -62,7 +78,7 @@ const CustomCalendar: React.FC = () => {
     }
   }, [location.pathname]);
 
-  const checkSchedule = events.length > 0 ? false : true;
+  // const checkSchedule = events.length > 0 ? false : true;
 
   const onOpenQuiz = () => {
     setIsDetailOpen(false);
@@ -85,6 +101,19 @@ const CustomCalendar: React.FC = () => {
           id: localStorage.getItem("id"),
         });
         setEvents(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+    window.location.reload();
+  };
+  const procrastinateCourse = () => {
+    const fetch = async () => {
+      try {
+        await fetchGetRequestData(`generate-schedule/procrastinate`, {
+          id: localStorage.getItem("id"),
+        });
       } catch (error) {
         console.log(error);
       }
@@ -322,7 +351,7 @@ const CustomCalendar: React.FC = () => {
           </>
         ) : null}
 
-        {checkSchedule ? (
+        {procrastinate == "end" ? (
           <div className="flex flex-col justify-center">
             {showTodoList ? null : (
               <div className="calendar-navigation flex md:hidden">
@@ -394,18 +423,66 @@ const CustomCalendar: React.FC = () => {
               </div>
             )}
             <div className="flex justify-between pt-1">
-              <PrimaryBtn
-                background="#F2994A"
-                py="py-1"
-                extraContent={
-                  <img
-                    src={Pause}
-                    className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
-                  />
-                }
-              >
-                Procrastinate Course
-              </PrimaryBtn>
+              {procrastinate == "procrastinate" ? (
+                <>
+                  <PrimaryBtn
+                    onClick={procrastinateCourse}
+                    background="#27AE60"
+                    py="py-1"
+                    extraContent={
+                      <img
+                        src={Play}
+                        className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                      />
+                    }
+                  >
+                    Continue Course
+                  </PrimaryBtn>
+                  {/* <PrimaryBtn
+                    onClick={procrastinateCourse}
+                    background="#F2994A"
+                    py="py-1"
+                    extraContent={
+                      <img
+                        src={Pause}
+                        className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                      />
+                    }
+                  >
+                    Procrastinate Course
+                  </PrimaryBtn> */}
+                </>
+              ) : (
+                <>
+                  {/* <PrimaryBtn
+                    onClick={procrastinateCourse}
+                    background="#27AE60"
+                    py="py-1"
+                    extraContent={
+                      <img
+                        src={Play}
+                        className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                      />
+                    }
+                  >
+                    Continue Course
+                  </PrimaryBtn> */}
+                  <PrimaryBtn
+                    onClick={procrastinateCourse}
+                    background="#F2994A"
+                    py="py-1"
+                    extraContent={
+                      <img
+                        src={Pause}
+                        className="w-[14px] h-[14px] md:w-[16px] md:h-[16px] lg:w-[18px] lg:h-[18px]"
+                      />
+                    }
+                  >
+                    Procrastinate Course
+                  </PrimaryBtn>
+                </>
+              )}
+
               <div className="p-1 md:p-2 lg:p-3"></div>
               <PrimaryBtn
                 background="#EB5757"
