@@ -10,8 +10,8 @@ interface MusicContextType {
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 export const MusicProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTrack, setCurrentTrack] = useState<number>(0);
 
   return (
     <MusicContext.Provider
