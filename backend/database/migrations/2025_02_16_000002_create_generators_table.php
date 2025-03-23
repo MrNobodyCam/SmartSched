@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('generators', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('generator_number')->default(1);
+            $table->unsignedBigInteger('generator_number');
             $table->unsignedBigInteger('user_id');
             $table->string('schedule_title');
             $table->string('free_day');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('duration');
             $table->timestamps();
 
-
+            $table->unique(['user_id', 'generator_number']);
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

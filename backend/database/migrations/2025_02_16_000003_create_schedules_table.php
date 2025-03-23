@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             // $table->unsignedBigInteger('generator_id');
-            $table->unsignedBigInteger('schedule_number')->default(1);
-            $table->unsignedBigInteger('generator_number')->default(1);
+            $table->unsignedBigInteger('schedule_number');
+            $table->unsignedBigInteger('generator_number');
             $table->enum('status', ['active', 'procrastinate', 'end'])->default('active');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
 
+            $table->unique(['user_id', 'schedule_number']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('generator_number')->references('generator_number')->on('generators')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign(['user_id', 'generator_number'])->references(['user_id', 'generator_number'])->on('generators')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
