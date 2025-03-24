@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchGetData } from "../../service/api";
+import { fetchGetRequestData } from "../../service/api";
 import Lesson_Detail from "../Quiz/Lesson_Detail";
 import QuizPopup from "../Quiz/Quiz";
 import Result from "../Quiz/Result";
@@ -11,7 +11,8 @@ import Box from "../../assets/icons/box.svg";
 const CourseScheduleViewer = () => {
   const [roadmapData, setRoadmapData] = useState<any[]>([]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [RoadMapID, setRoadMapID] = useState<number>(1);
+  const [RoadMapNumber, setRoadMapNumber] = useState<number>(1);
+  const [ScheduleID, setScheduleID] = useState<number>(1);
   const [openQuiz, setopenQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
@@ -31,7 +32,9 @@ const CourseScheduleViewer = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await fetchGetData(`generate-schedule/roadmaps`);
+        const data = await fetchGetRequestData(`generate-schedule/roadmaps`, {
+          id: localStorage.getItem("id"),
+        });
         setRoadmapData(data);
       } catch (error) {
         console.log(error);
@@ -42,7 +45,8 @@ const CourseScheduleViewer = () => {
   }, []);
 
   type Lesson = {
-    id: number;
+    roadmap_number: number;
+    schedule_id: number;
     title: string;
     lesson: string;
     description: string;
@@ -133,11 +137,12 @@ const CourseScheduleViewer = () => {
                   <div className="space-y-4 pt-5 pb-5">
                     {day.lessons.map((lesson) => (
                       <div
-                        key={lesson.id}
+                        key={lesson.roadmap_number}
                         className="bg-white rounded-lg shadow-md overflow-hidden relative hover:bg-gray-200 cursor-pointer"
                         onClick={() => {
                           togglePopup();
-                          setRoadMapID(lesson.id);
+                          setRoadMapNumber(lesson.roadmap_number);
+                          setScheduleID(lesson.schedule_id);
                         }}
                       >
                         <div className="flex">
@@ -193,14 +198,16 @@ const CourseScheduleViewer = () => {
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            // window.location.reload();
+            window.location.reload();
           }}
-          RoadMapID={RoadMapID}
+          RoadMapNumber={RoadMapNumber}
+          ScheduleID={ScheduleID}
         />
       )}
       {openQuiz && (
         <QuizPopup
-          RoadMapID={RoadMapID}
+          ScheduleID={ScheduleID}
+          RoadMapNumber={RoadMapNumber}
           onPopupResult={onPopupResult}
           onSubmit={onSubmit}
           onClose={() => {

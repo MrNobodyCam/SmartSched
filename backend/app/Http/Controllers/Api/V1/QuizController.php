@@ -11,10 +11,21 @@ class QuizController extends Controller
 {
     public function generateQuiz(Request $request)
     {
+        $user_id = 1;
         $request->validate(
-            ['roadmap_id' => 'required|integer'],
+            [
+                'roadmap_number' => 'required|integer',
+                'schedule_id' => 'required|integer',
+            ],
         );
-        $roadmap_id = $request->input('roadmap_id');
+        $roadmap_number = $request->input('roadmap_number');
+        $schedule_id = $request->input('schedule_id');
+        $roadmap_id = DB::table('roadmaps')
+            ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+            ->where('schedules.user_id', $user_id)
+            ->where('roadmap_number', $roadmap_number)
+            ->where('schedule_id', $schedule_id)
+            ->value('roadmaps.id');
         $lesson = DB::table('roadmaps')->where('id', operator: $roadmap_id)->value('description');
         if (!$lesson) {
             return response()->json(['error' => 'Lesson not found'], 404);

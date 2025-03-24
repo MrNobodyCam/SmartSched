@@ -15,7 +15,7 @@ const MainGeneral: React.FC = () => {
           {["account", "password", "session"].map((tab) => (
             <Link
               key={tab}
-              to={`/general/${tab}`}
+              to={`/setting/${tab}`}
               className={` py-2 px-4 rounded-full font-medium transition-colors
                 ${
                   currentTab === tab

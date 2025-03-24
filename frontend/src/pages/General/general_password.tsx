@@ -70,7 +70,7 @@ const PasswordChangeForm = () => {
       <div className="relative">
         <div className="space-y-6">
           <form onSubmit={handleSubmit}>
-            <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-1">
+            <h2 className="text-[18px] md:text-[20px] lg:text-[22px] font-bold mb-1">
               Change Password
             </h2>
             <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-4">
@@ -79,7 +79,7 @@ const PasswordChangeForm = () => {
             </p>
 
             <div className="mb-4">
-              <label className="block text-[20px] md:text-[22px] lg:text-[24px] mb-2 ">
+              <label className="block text-[18px] md:text-[20px] lg:text-[22px] mb-2 font-medium">
                 Current Password
               </label>
               <input
@@ -100,7 +100,7 @@ const PasswordChangeForm = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-[20px] md:text-[22px] lg:text-[24px] mb-2 ">
+              <label className="block text-[18px] md:text-[20px] lg:text-[22px] mb-2 font-medium">
                 New Password
               </label>
               <input
@@ -121,7 +121,7 @@ const PasswordChangeForm = () => {
             </div>
 
             <div className="mb-6">
-              <label className="block text-[20px] md:text-[22px] lg:text-[24px]  mb-2 ">
+              <label className="block text-[18px] md:text-[20px] lg:text-[22px]  mb-2 font-medium">
                 Confirm Password
               </label>
               <input

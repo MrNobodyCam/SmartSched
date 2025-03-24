@@ -1,16 +1,19 @@
 import NotificationPopup from "./NotificationPopup";
 import profilePic from "../assets/images/profile.svg";
-
-interface NavBarProps {
+import { useNavigate } from "react-router-dom";
+function NavBar({
+  toggleSidebar,
+  notifications,
+  unreadCount,
+}: {
   toggleSidebar: () => void;
-}
-
-function NavBar({ toggleSidebar }: NavBarProps) {
+  notifications: any[];
+  unreadCount: number;
+}) {
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 w-full h-16 bg-[#D5F0FF] z-50 flex items-center justify-between px-4 md:px-8">
-      {/* Navbar Left Section */}
       <div className="flex items-center space-x-4">
-        {/* Hamburger Menu Button */}
         <button
           className="btn btn-square btn-ghost p-1 md:hidden cursor-pointer"
           onClick={toggleSidebar}
@@ -40,12 +43,16 @@ function NavBar({ toggleSidebar }: NavBarProps) {
       <div className="flex items-center space-x-4">
         {/* Notifications */}
         <div className="relative">
-          <NotificationPopup />
+          <NotificationPopup
+            NotificationData={notifications}
+            UnreadCount={unreadCount}
+          />
         </div>
 
         {/* Profile Picture */}
         <div className="profile">
           <img
+            onClick={() => navigate("/setting/account")}
             src={profilePic}
             alt="Profile"
             className="w-10 h-10 rounded-full cursor-pointer"

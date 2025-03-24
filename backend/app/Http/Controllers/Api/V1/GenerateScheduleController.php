@@ -13,9 +13,11 @@ use App\Models\Generator;
 use App\Models\User;
 use App\Models\GeneratorTopic;
 use App\Http\Resources\ScheduleResource;
+use Illuminate\Support\Facades\DB;
 
 class GenerateScheduleController extends Controller
 {
+
     public function store(Request $request)
     {
         $apiKey = env('GOOGLE_API_KEY');
@@ -27,19 +29,17 @@ class GenerateScheduleController extends Controller
         $startTime = $request->input('start_time');
         $endTime = $request->input('end_time');
         $duration = $request->input('duration');
-
+        $user_id = $request->input('id');
         // Ensure the user exists
-        $user = User::updateOrCreate(
-            ['email' => 'example@gmail.com'],
-            [
-                'full_name' => 'John Doe',
-                'gender' => 'male',
-                'time_zone' => 'UTC',
-                'hash_password' => bcrypt('password')
-            ]
-        );
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $countUserSchedule = DB::table('schedules')->where('user_id', $user->id)->count('id');
 
         $generator = Generator::create([
+            'generator_number' => $countUserSchedule + 1,
             'user_id' => $user->id,
             'schedule_title' => $scheduleTitle,
             'free_day' => $freeDays,
@@ -163,7 +163,9 @@ class GenerateScheduleController extends Controller
             // Create schedule with our calculated dates
             $schedule = Schedule::create([
                 'user_id' => $user->id,
-                'generator_id' => $generator->id,
+                'schedule_number' => $countUserSchedule + 1,
+                // 'generator_id' => $generator->id,
+                'generator_number' => $countUserSchedule + 1,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
             ]);
@@ -248,7 +250,7 @@ class GenerateScheduleController extends Controller
         $dailyEndTime = Carbon::parse($endTime);
         $sessionDuration = 90; // Duration in minutes
         $breakDuration = 15; // Break duration in minutes
-
+        $roadmapId = 1;
         // Schedule creation
         $currentDate = clone $startDate;
         $endDateLimit = (clone $startDate)->addWeeks($durationWeeks);
@@ -292,8 +294,11 @@ class GenerateScheduleController extends Controller
 
                 // Create roadmap entry with fixed 1h30m duration
                 Roadmap::create([
-                    'schedule_id' => $schedule->id,
                     'topic_id' => $topicMap[$subject],
+                    'schedule_id' => $schedule->id,
+                    'roadmap_number' => $roadmapId,
+                    // 'user_id' => $schedule->user_id,
+                    // 'schedule_number' => $schedule->schedule_number,
                     'lesson' => $subject,
                     'description' => $sessionContent['description'],
                     'date' => clone $currentDate,
@@ -301,7 +306,7 @@ class GenerateScheduleController extends Controller
                     'end_time' => $currentSlotEnd,
                     'result' => null,
                 ]);
-
+                $roadmapId++;
                 // Move to next subject in rotation
                 $subjectIndex = ($subjectIndex + 1) % count($subjects);
 
