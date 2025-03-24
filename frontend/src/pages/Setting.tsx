@@ -1,27 +1,25 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useEffect } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function SettingsPage() {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [desktopNotifications, setDesktopNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [ThemeMode, setThemeMode] = useState(true);
-  const [language, setLanguage] = useState("English");
+  const [language, setLanguage] = useState(
+    i18n.language === "en" ? "English" : "Khmer"
+  );
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 
-  const languages = [
-    "English",
-    "Cambodia",
-    "Chinese",
-    "French",
-    "Japan",
-    "Korea",
-  ];
+  const languages = ["English", "Khmer"];
 
   const handleLanguageSelect = (language: SetStateAction<string>) => {
     setLanguage(language);
     setIsLanguageDropdownOpen(false);
+    i18n.changeLanguage(language === "English" ? "en" : "km");
   };
 
   const handleDesktopToggle = () => {
@@ -46,7 +44,7 @@ function SettingsPage() {
         <main className="p-4 md:p-6">
           {/* Header */}
           <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold mb-4 md:mb-6">
-            Setting
+            {t("Setting")}
           </h1>
           {/* Account */}
 
@@ -57,10 +55,10 @@ function SettingsPage() {
             >
               <div>
                 <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                  Account
+                  {t("Account")}
                 </p>
                 <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                  You can edit your profile
+                  {t("EditProfile")}
                 </p>
               </div>
               <ChevronRight className="text-gray-400" />
@@ -71,10 +69,10 @@ function SettingsPage() {
           <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                Desktop Notification
+                {t("DesktopNotification")}
               </p>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Customize how you themes look on your devices
+                {t("CustomizeDesktop")}
               </p>
             </div>
             <div
@@ -94,10 +92,10 @@ function SettingsPage() {
           <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                Email Notification
+                {t("EmailNotification")}
               </p>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Customize how you themes look on your devices
+                {t("CustomizeEmail")}
               </p>
             </div>
             <div
@@ -118,14 +116,14 @@ function SettingsPage() {
             <div>
               <div className="flex items-center gap-2">
                 <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                  Appearance
+                  {t("Appearance")}
                 </p>
                 <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
                   ({ThemeMode ? "White" : "Dark"})
                 </p>
               </div>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Customize how you themes look on your devices
+                {t("CustomizeAppearance")}
               </p>
             </div>
             <div
@@ -145,10 +143,10 @@ function SettingsPage() {
           <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                Language
+                {t("Language")}
               </p>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Customize how you themes look on your devices
+                {t("CustomizeAppearance")}
               </p>
             </div>
             <div className="relative">
@@ -207,10 +205,10 @@ function SettingsPage() {
           >
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                Terms of Service
+                {t("TermsOfService")}
               </p>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Read our terms of service
+                {t("ReadTerms")}
               </p>
             </div>
             <ChevronRight className="text-gray-400" />
@@ -222,10 +220,10 @@ function SettingsPage() {
           >
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
-                Privacy Policy
+                {t("PrivacyPolicy")}
               </p>
               <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-500">
-                Read our privacy policy
+                {t("ReadPrivacy")}
               </p>
             </div>
             <ChevronRight className="text-gray-400" />
