@@ -72,16 +72,20 @@ const MusicPlayer = () => {
     }
   };
 
-
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
   };
 
   const handleTrackClick = (index: number) => {
-    setCurrentTrack(index);
-    setIsPlaying(true);
+    if (currentTrack === index) {
+      // If clicking the same track, just toggle play/pause
+      togglePlay();
+    } else {
+      // If clicking a different track, switch to it but don't auto-play
+      setCurrentTrack(index);
+      setIsPlaying(false);
+    }
   };
-
 
   return (
     <div className="flex flex-col h-[calc(100vh-70px)] bg-white text-gray-800">
