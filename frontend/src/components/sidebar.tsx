@@ -6,6 +6,7 @@ import contact from "../assets/icons/contact.svg";
 import setting from "../assets/icons/setting.svg";
 import logout from "../assets/icons/logout.svg";
 import music from "../assets/icons/music.svg";
+import { useTranslation } from "react-i18next";
 
 interface SideBarProps {
   isOpen: boolean; // Controls whether the sidebar is open or closed
@@ -54,6 +55,7 @@ const SideBar: React.FC<SideBarProps> = ({
   onScreenChange,
   toggleSidebar,
 }) => {
+  const { t } = useTranslation();
   const [selectedItem, setSelectedItem] = React.useState(
     localStorage.getItem("selectedItem") || "calendar"
   );
@@ -87,7 +89,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <Link to="/generate-schedule/calendar">
               <MenuItem
                 icon={calendarIcon}
-                label="Calendar"
+                label={t("Calendar")}
                 isSelected={selectedItem === "calendar"}
                 onClick={() => handleItemClick("calendar")}
                 isOpen={isOpen}
@@ -96,7 +98,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <Link to="/history">
               <MenuItem
                 icon={history}
-                label="History Schedule"
+                label={t("HistorySchedule")}
                 isSelected={selectedItem === "history"}
                 onClick={() => handleItemClick("history")}
                 isOpen={isOpen}
@@ -105,7 +107,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <Link to="/music">
               <MenuItem
                 icon={music}
-                label="Music Playlist"
+                label={t("MusicPlaylists")}
                 isSelected={selectedItem === "music"}
                 onClick={() => handleItemClick("music")}
                 isOpen={isOpen}
@@ -120,7 +122,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <Link to="/contactus">
               <MenuItem
                 icon={contact}
-                label="Contact Us"
+                label={t("ContactUs")}
                 isSelected={selectedItem === "contact"}
                 onClick={() => handleItemClick("contact")}
                 isOpen={isOpen}
@@ -129,7 +131,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <Link to="/setting">
               <MenuItem
                 icon={setting}
-                label="Settings"
+                label={t("Settings")}
                 isSelected={selectedItem === "setting"}
                 onClick={() => handleItemClick("setting")}
                 isOpen={isOpen}
@@ -155,7 +157,7 @@ const SideBar: React.FC<SideBarProps> = ({
                   : "hidden md:group-hover:inline opacity-0 md:group-hover:opacity-100"
               } transition duration-300 ease-in-out delay-100 whitespace-nowrap overflow-hidden`}
             >
-              Logout
+              {t("Logout")}
             </span>
           </button>
         </div>

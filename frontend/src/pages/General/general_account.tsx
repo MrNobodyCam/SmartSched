@@ -1,9 +1,11 @@
 import React, { useState, ChangeEvent, useRef, useEffect } from "react";
-import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes component
+import { FaTimes } from "react-icons/fa";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import SecondaryBtn from "../../components/SecondaryBtn";
 import { useNavigate } from "react-router-dom";
 import { fetchGetRequestData } from "../../service/api";
+import { useTranslation } from "react-i18next";
+
 interface UserProfile {
   fullName: string;
   gender: string;
@@ -13,6 +15,7 @@ interface UserProfile {
 }
 
 const UserProfileSettings: React.FC = () => {
+  const { t } = useTranslation();
   const navigator = useNavigate();
   useEffect(() => {
     const fetch = async () => {
@@ -212,7 +215,7 @@ const UserProfileSettings: React.FC = () => {
             {/* Profile Photo Section */}
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-2 text-center lg:text-left">
-                Profile Photo
+                {t("ProfilePhoto")}
               </p>
               <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-4">
                 <div className="w-15 h-15 md:w-20 md:h-20 lg:w-25 lg:h-25  rounded-full bg-gray-300 overflow-hidden mb-4 md:mb-0">
@@ -246,7 +249,7 @@ const UserProfileSettings: React.FC = () => {
                   />
                   <div className="">
                     <PrimaryBtn onClick={triggerFileInput} py="py-1">
-                      Upload Image
+                      {t("UploadImage")}
                     </PrimaryBtn>
                   </div>
                   {profile.profilePhoto && (
@@ -259,7 +262,7 @@ const UserProfileSettings: React.FC = () => {
                       }
                       onClick={handleDeletePhoto}
                     >
-                      Delete
+                      {t("Delete")}
                     </SecondaryBtn>
                   )}
                 </div>
@@ -278,7 +281,7 @@ const UserProfileSettings: React.FC = () => {
                     name="fullName"
                     value={profile.fullName}
                     onChange={handleInputChange}
-                    placeholder="Full Name"
+                    placeholder={t("FullName")}
                     className="w-full sm:w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium "
                     required
                   />
@@ -290,10 +293,13 @@ const UserProfileSettings: React.FC = () => {
                       className="w-full sm:w-[208px] h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                       required
                     >
-                      <option value="">Select gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
+                      <option value="">{t("SelectGender")}</option>
+                      <option value="male">{t("Male")}</option>
+                      <option value="female">{t("Female")}</option>
+                      <option value="other">{t("Other")}</option>
+                      <option value="prefer-not-to-say">
+                        {t("PreferNotToSay")}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -305,7 +311,7 @@ const UserProfileSettings: React.FC = () => {
                   name="email"
                   value={profile.email}
                   onChange={handleInputChange}
-                  placeholder="Input your email"
+                  placeholder={t("InputYourEmail")}
                   className="w-full h-12 px-3 border rounded-md text-[18px] font-medium"
                   required
                 />
@@ -319,11 +325,13 @@ const UserProfileSettings: React.FC = () => {
                   className="w-full h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
-                  <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="prefer-not-to-say">Prefer not to say</option>
+                  <option value="">{t("SelectGender")}</option>
+                  <option value="male">{t("Male")}</option>
+                  <option value="female">{t("Female")}</option>
+                  <option value="other">{t("Other")}</option>
+                  <option value="prefer-not-to-say">
+                    {t("PreferNotToSay")}
+                  </option>
                 </select>
               </div>
 
@@ -335,7 +343,7 @@ const UserProfileSettings: React.FC = () => {
                   className="w-full h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
-                  <option value="">Select Timezone</option>
+                  <option value="">{t("SelectTimezone")}</option>
                   <option value="Asia/Bangkok">Bangkok (+07:00)</option>
                   <option value="Asia/Singapore">Singapore (+08:00)</option>
                   <option value="America/New_York">New York (-05:00)</option>
@@ -351,7 +359,7 @@ const UserProfileSettings: React.FC = () => {
                   name="email"
                   value={profile.email}
                   onChange={handleInputChange}
-                  placeholder="Input your email"
+                  placeholder={t("InputYourEmail")}
                   className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium"
                   required
                 />
@@ -362,7 +370,7 @@ const UserProfileSettings: React.FC = () => {
                   className="w-[442px] h-12 px-3 border rounded-md text-[18px] font-medium cursor-pointer"
                   required
                 >
-                  <option value="">Select Timezone</option>
+                  <option value="">{t("SelectTimezone")}</option>
                   <option value="Asia/Bangkok">Bangkok (+07:00)</option>
                   <option value="Asia/Singapore">Singapore (+08:00)</option>
                   <option value="America/New_York">New York (-05:00)</option>
@@ -373,21 +381,20 @@ const UserProfileSettings: React.FC = () => {
               </div>
 
               <div className="pt-4">
-                <PrimaryBtn py="py-1"> Update </PrimaryBtn>
+                <PrimaryBtn py="py-1">{t("Update")}</PrimaryBtn>
               </div>
             </form>
 
             {/* Delete Account Section */}
             <div className="mt-12 pt-6">
               <h2 className="text-[24px] font-bold text-black-900 mb-2">
-                Delete Account
+                {t("DeleteAccount")}
               </h2>
               <p className="text-gray-400 mb-4 text-[18px]">
-                Once you delete your account and account data, there is no going
-                back.
+                {t("DeleteAccountWarning")}
                 <br />
                 <span className="text-gray-400 font-bold">
-                  Delete your account and account data
+                  {t("DeleteAccountConfirmation")}
                 </span>
               </p>
               <form onSubmit={handleDeleteSubmit}>
@@ -396,7 +403,7 @@ const UserProfileSettings: React.FC = () => {
                     type="email"
                     value={confirmEmail}
                     onChange={handleConfirmEmailChange}
-                    placeholder="Confirm Email"
+                    placeholder={t("ConfirmEmail")}
                     className="w-full md:w-80 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-[18px]"
                     required
                   />
@@ -405,13 +412,13 @@ const UserProfileSettings: React.FC = () => {
                   py="py-1"
                   background={confirmEmail ? "#EB5757" : "#FFAFAF"}
                 >
-                  Delete Account
+                  {t("DeleteAccountButton")}
                 </PrimaryBtn>
               </form>
             </div>
             <div className="pt-4 ">
               <PrimaryBtn py="py-1" onClick={() => navigator("/setting")}>
-                Back
+                {t("Back")}
               </PrimaryBtn>
             </div>
           </div>

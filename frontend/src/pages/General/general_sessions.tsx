@@ -1,21 +1,23 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 const SessionManagement = () => {
+  const { t } = useTranslation();
+
   // Sample session data - this would come from your backend in a real app
   const sessions = [
     {
       id: 1,
-      platform: "Browser",
+      platform: t("Platform"),
       device: "Windows Chrome",
-      lastUsed: "an hour ago",
-      access: "Current Sessions",
+      lastUsed: t("an hour ago"),
+      access: t("CurrentSessions"),
     },
     {
       id: 2,
-      platform: "Mobile",
+      platform: t("Platform"),
       device: "iPhone Safari",
-      lastUsed: "2 days ago",
-      access: "Active",
+      lastUsed: t("2 days ago"),
+      access: t("Active"),
     },
   ];
 
@@ -24,11 +26,10 @@ const SessionManagement = () => {
       <div className="relative">
         <div className="space-y-6 mt-5 mx-4 md:ml-5">
           <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-1">
-            Sessions
+            {t("Sessions")}
           </h2>
           <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-6">
-            Below are your recent sessions, revoke access to log out of the
-            device
+            {t("SessionDescription")}
           </p>
 
           {/* Sessions Table/Cards */}
@@ -37,10 +38,14 @@ const SessionManagement = () => {
             <table className="w-full hidden sm:table">
               <thead>
                 <tr className="border-b text-gray-400 text-[14px] md:text-[16px] lg:text-[18px]">
-                  <th className="text-left font-medium pb-2">Platform</th>
-                  <th className="text-left font-medium pb-2">Device</th>
-                  <th className="text-left font-medium pb-2">Last Used</th>
-                  <th className="text-left font-medium pb-2">Access</th>
+                  <th className="text-left font-medium pb-2">
+                    {t("Platform")}
+                  </th>
+                  <th className="text-left font-medium pb-2">{t("Device")}</th>
+                  <th className="text-left font-medium pb-2">
+                    {t("LastUsed")}
+                  </th>
+                  <th className="text-left font-medium pb-2">{t("Access")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,9 +59,9 @@ const SessionManagement = () => {
                     <td className="py-4">{session.lastUsed}</td>
                     <td className="py-4 flex items-center justify-between">
                       <span>{session.access}</span>
-                      {session.access !== "Current Sessions" && (
+                      {session.access !== t("CurrentSessions") && (
                         <button className="text-red-500 hover:text-red-700">
-                          Revoke
+                          {t("Revoke")}
                         </button>
                       )}
                     </td>
@@ -75,27 +80,31 @@ const SessionManagement = () => {
                   <div className="divide-y divide-gray-200">
                     <div className="flex justify-between items-center py-3">
                       <span className="font-medium text-gray-600">
-                        Platform
+                        {t("Platform")}
                       </span>
                       <span>{session.platform}</span>
                     </div>
                     <div className="flex justify-between items-center py-3">
-                      <span className="font-medium text-gray-600">Device</span>
+                      <span className="font-medium text-gray-600">
+                        {t("Device")}
+                      </span>
                       <span>{session.device}</span>
                     </div>
                     <div className="flex justify-between items-center py-3">
                       <span className="font-medium text-gray-600">
-                        Last Used
+                        {t("LastUsed")}
                       </span>
                       <span>{session.lastUsed}</span>
                     </div>
                     <div className="flex justify-between items-center py-3">
-                      <span className="font-medium text-gray-600">Access</span>
+                      <span className="font-medium text-gray-600">
+                        {t("Access")}
+                      </span>
                       <div className="flex items-center gap-2">
                         <span>{session.access}</span>
-                        {session.access !== "Current Sessions" && (
+                        {session.access !== t("CurrentSessions") && (
                           <button className="text-red-500 hover:text-red-700 text-sm px-2 py-1">
-                            Revoke
+                            {t("Revoke")}
                           </button>
                         )}
                       </div>

@@ -1,7 +1,9 @@
 import React from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const MainGeneral: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const currentTab = location.pathname.split("/").pop() || "account";
 
@@ -9,7 +11,7 @@ const MainGeneral: React.FC = () => {
     <div className="min-h-screen">
       <div className="p-6">
         <h1 className="text-2xl lg:text-[36px] md:txet-[32px] sm:text-[30px] font-bold mb-6">
-          General
+          {t("General")}
         </h1>
         <div className="flex gap-4 mb-6">
           {["account", "password", "session"].map((tab) => (
@@ -23,7 +25,7 @@ const MainGeneral: React.FC = () => {
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {t(tab.charAt(0).toUpperCase() + tab.slice(1))}
             </Link>
           ))}
         </div>

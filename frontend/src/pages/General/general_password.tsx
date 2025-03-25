@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import { useTranslation } from "react-i18next";
 
 const PasswordChangeForm = () => {
+  const { t } = useTranslation();
   const [errors, setErrors] = useState({
     currentPassword: "",
     newPassword: "",
@@ -20,11 +22,10 @@ const PasswordChangeForm = () => {
     const hasSpecialChar = /[!@#$%^&*()]/.test(password);
     const hasMinLength = password.length >= 8;
 
-    if (!hasMinLength) return "Password must be at least 8 characters long";
-    if (!hasUpperCase)
-      return "Password must contain at least one uppercase letter";
-    if (!hasNumber) return "Password must contain at least one number";
-    if (!hasSpecialChar) return "Password must contain a spicafic symbol";
+    if (!hasMinLength) return t("PasswordErrorLength");
+    if (!hasUpperCase) return t("PasswordErrorUpperCase");
+    if (!hasNumber) return t("PasswordErrorNumber");
+    if (!hasSpecialChar) return t("PasswordErrorSpecialChar");
     return "";
   };
 
@@ -41,7 +42,7 @@ const PasswordChangeForm = () => {
       setErrors((prev) => ({
         ...prev,
         confirmPassword:
-          value !== formData.newPassword ? "Passwords do not match" : "",
+          value !== formData.newPassword ? t("PasswordErrorMatch") : "",
       }));
     }
   };
@@ -56,7 +57,7 @@ const PasswordChangeForm = () => {
         newPassword: passwordError,
         confirmPassword:
           formData.newPassword !== formData.confirmPassword
-            ? "Passwords do not match"
+            ? t("PasswordErrorMatch")
             : "",
       });
       return;
@@ -71,16 +72,15 @@ const PasswordChangeForm = () => {
         <div className="space-y-6">
           <form onSubmit={handleSubmit}>
             <h2 className="text-[18px] md:text-[20px] lg:text-[22px] font-bold mb-1">
-              Change Password
+              {t("ChangePassword")}
             </h2>
             <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-4">
-              Your password must include at least one special character from
-              !@#$%^&*(). Please update your password to meet this requirement.{" "}
+              {t("PasswordRequirements")}
             </p>
 
             <div className="mb-4">
               <label className="block text-[18px] md:text-[20px] lg:text-[22px] mb-2 font-medium">
-                Current Password
+                {t("CurrentPassword")}
               </label>
               <input
                 type="password"
@@ -90,7 +90,7 @@ const PasswordChangeForm = () => {
                 className={`lg:w-[442px] w-full h-12 px-3 py-2 border text-[14px] md:text-[16px] lg:text-[18px] ${
                   errors.currentPassword ? "border-red-500" : "border-gray-300"
                 } rounded-md bg-white`}
-                placeholder="Current Password"
+                placeholder={t("CurrentPassword")}
               />
               {errors.currentPassword && (
                 <p className="text-red-400 text-sm mt-1">
@@ -101,7 +101,7 @@ const PasswordChangeForm = () => {
 
             <div className="mb-4">
               <label className="block text-[18px] md:text-[20px] lg:text-[22px] mb-2 font-medium">
-                New Password
+                {t("NewPassword")}
               </label>
               <input
                 type="password"
@@ -111,7 +111,7 @@ const PasswordChangeForm = () => {
                 className={`lg:w-[442px] w-full h-12 px-3 py-2 border text-[14px] md:text-[16px] lg:text-[18px] ${
                   errors.newPassword ? "border-red-500" : "border-gray-300"
                 } rounded-md bg-white`}
-                placeholder="New Password"
+                placeholder={t("NewPassword")}
               />
               {errors.newPassword && (
                 <p className="text-red-400 text-sm mt-1">
@@ -122,7 +122,7 @@ const PasswordChangeForm = () => {
 
             <div className="mb-6">
               <label className="block text-[18px] md:text-[20px] lg:text-[22px]  mb-2 font-medium">
-                Confirm Password
+                {t("ConfirmPassword")}
               </label>
               <input
                 type="password"
@@ -132,7 +132,7 @@ const PasswordChangeForm = () => {
                 className={`lg:w-[442px] w-full h-12 px-3 py-2 border text-[14px] md:text-[16px] lg:text-[18px]  ${
                   errors.confirmPassword ? "border-red-500" : "border-gray-300"
                 } rounded-md bg-white`}
-                placeholder="Confirm Password"
+                placeholder={t("ConfirmPassword")}
               />
               {errors.confirmPassword && (
                 <p className="text-red-400 text-sm mt-1">
@@ -141,7 +141,7 @@ const PasswordChangeForm = () => {
               )}
             </div>
             <div>
-              <PrimaryBtn py="py-1"> Update </PrimaryBtn>
+              <PrimaryBtn py="py-1">{t("Update")}</PrimaryBtn>
             </div>
           </form>
         </div>

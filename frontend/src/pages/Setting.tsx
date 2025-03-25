@@ -1,4 +1,4 @@
-import { SetStateAction, useState, useEffect } from "react";
+import { SetStateAction, useState } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";

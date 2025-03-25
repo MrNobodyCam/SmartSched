@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import PrimaryBtn from "../components/PrimaryBtn";
+import { useTranslation } from "react-i18next";
 
 function FullScreenContactForm() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     title: "",
     message: "",
@@ -46,7 +48,7 @@ function FullScreenContactForm() {
     // Show success message
     setAlertMessage({
       type: "success",
-      message: "Message sent successfully!",
+      message: t("MessageSentSuccess"),
     });
 
     // Reset form after successful submission
@@ -85,10 +87,10 @@ function FullScreenContactForm() {
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <h1 className="text-[30px] md:text-[32px] lg:text-[36px] font-bold mb-1">
-              Contact us
+              {t("ContactUsTitle")}
             </h1>
             <p className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-400 mb-6">
-              Reach out and we'll get in touch within 24 hours.
+              {t("ContactUsDescription")}
             </p>
           </div>
           <div className="mb-5">
@@ -97,13 +99,13 @@ function FullScreenContactForm() {
               htmlFor="text"
               className="block text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black mb-1"
             >
-              Title
+              {t("Title")}
             </label>
             <input
               type="text"
               name="title"
               id="text"
-              placeholder="Enter your title of your message..."
+              placeholder={t("EnterTitle")}
               value={formData.title}
               onChange={handleChange}
               className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
@@ -115,13 +117,13 @@ function FullScreenContactForm() {
               htmlFor="message"
               className="mb-3 text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black "
             >
-              Message
+              {t("Message")}
             </label>
             <textarea
               rows={4}
               name="message"
               id="message"
-              placeholder="Enter your message"
+              placeholder={t("EnterMessage")}
               value={formData.message}
               onChange={handleChange}
               className="w-full min-h-[150px] sm:min-h-[200px] md:min-h-[230px] resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px]"
@@ -143,16 +145,16 @@ function FullScreenContactForm() {
               htmlFor="policy"
               className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0 cursor-pointer "
             >
-              You agree to our friendly{" "}
+              {t("AgreeToPolicy")}{" "}
               <a className="text-blue-500 hover:underline font-bold">
-                privacy policy
+                {t("PrivacyPolicy")}
               </a>
               .
             </label>
           </div>
           <div>
             <PrimaryBtn type="submit" py="py-1" px="px-8">
-              Send Messages
+              {t("SendMessages")}
             </PrimaryBtn>
           </div>
         </form>
