@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\ContactController;
+use App\Mail\ContactUsMail;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -49,6 +51,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/notification/markAllAsRead', [NotificationController::class, 'markAllAsRead']);
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
+
+    Route::post('/contactUs', [ContactController::class, 'sendContactMail']);
 });
 // // Group routes with prefix 'v1' 
 // Route::group(['prefix' => 'v1'], function () {

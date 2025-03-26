@@ -117,3 +117,19 @@ export const logout = async () => {
     throw error;
   }
 };
+
+/* Contact Us API */
+export const sendContactUsMessage = async (contactData: {
+  email: string;
+  title: string;
+  text: string;
+}) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/contactUs`, contactData);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      (error as any).response?.data?.message || "Failed to send contact message"
+    );
+  }
+};

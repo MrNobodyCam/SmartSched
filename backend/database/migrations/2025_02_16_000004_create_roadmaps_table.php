@@ -26,6 +26,8 @@ return new class extends Migration
             $table->date('date');
             $table->timestamps();
 
+            $table->unique(['roadmap_number', 'schedule_id']);
+
             $table->foreign('topic_id')
                 ->references('id')
                 ->on('topics')

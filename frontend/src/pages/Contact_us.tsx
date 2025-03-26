@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PrimaryBtn from "../components/PrimaryBtn";
+import { sendContactUsMessage } from "../service/api";
 
 function FullScreenContactForm() {
   const [formData, setFormData] = useState({
@@ -42,6 +43,13 @@ function FullScreenContactForm() {
       // submittedAt: new Date().toLocaleString(),
     });
     console.log("================");
+
+    // Call Contact API 
+    sendContactUsMessage({
+      title: formData.title,
+      text: formData.message,
+      email: localStorage.getItem("email") || "",
+    });
 
     // Show success message
     setAlertMessage({
