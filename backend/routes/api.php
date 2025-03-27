@@ -43,6 +43,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
     Route::get('/generate-schedule/end', [ScheduleController::class, 'endSchedule']);
     Route::get('/generate-schedule/procrastinate', [ScheduleController::class, 'scheduleProcrastinate']);
+    Route::get('/generate-schedule/continue', [ScheduleController::class, 'continueCourse']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);
     Route::get('/history-schedule', [ScheduleController::class, 'getHistorySchedule']);
     Route::get('/notification', [NotificationController::class, 'getNotification']);
@@ -51,6 +52,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
     Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);
+    Route::get('/checkSessionLimit', [ScheduleController::class, 'checkSessionLimit']);
+    Route::get('/checkSessionRemaining', [ScheduleController::class, 'checkSessionRemaining']);
 });
 // // Group routes with prefix 'v1' 
 // Route::group(['prefix' => 'v1'], function () {

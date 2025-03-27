@@ -33,13 +33,16 @@ const CustomCalendar: React.FC = () => {
   const [openQuiz, setopenQuiz] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [quizResult, setQuizResult] = useState<any>(null);
-  const [LeftQuiz, setLeftQuiz] = useState(false);
+  const [checkWarning, setCheckWarining] = useState(false);
   const calendarRef = useRef<FullCalendar | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const [sessionRemaining, setSessionRemaining] = useState(0);
   const [events, setEvents] = useState<any[]>([]);
+  const [checkSessionLimit, setCheckSessionLimit] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const [procrastinate, setProcrastinate] = useState("active");
+  const [procrastinate, setProcrastinate] = useState("end");
+  const [procrastinateWarning, setProcrastinateWarning] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -52,11 +55,7 @@ const CustomCalendar: React.FC = () => {
         console.log(error);
       }
     };
-
-    fetch();
-  }, []);
-  useEffect(() => {
-    const fetch = async () => {
+    const fetchRoadmaps = async () => {
       try {
         const data = await fetchGetRequestData(`generate-schedule/roadmaps`, {
           id: localStorage.getItem("id"),
@@ -66,7 +65,31 @@ const CustomCalendar: React.FC = () => {
         console.log(error);
       }
     };
-
+    const fetchcheckSessionLimit = async () => {
+      try {
+        const data = await fetchGetRequestData(`checkSessionLimit`, {
+          id: localStorage.getItem("id"),
+        });
+        setCheckSessionLimit(data.session_limit);
+        console.log(data.session_limit);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const fetchSessionRemaining = async () => {
+      try {
+        const data = await fetchGetRequestData(`checkSessionRemaining`, {
+          id: localStorage.getItem("id"),
+        });
+        setSessionRemaining(data?.session_remaining);
+        console.log(data.session_limit);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSessionRemaining();
+    fetchcheckSessionLimit();
+    fetchRoadmaps();
     fetch();
   }, []);
 
@@ -177,6 +200,19 @@ const CustomCalendar: React.FC = () => {
         ? "/generate-schedule/calendar"
         : "/generate-schedule/listview"
     );
+  };
+  const continueCourse = () => {
+    const fetch = async () => {
+      try {
+        await fetchGetRequestData(`generate-schedule/continue`, {
+          id: localStorage.getItem("id"),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+    window.location.reload();
   };
 
   const formattedEvents = events.map((event) => ({
@@ -425,8 +461,11 @@ const CustomCalendar: React.FC = () => {
             <div className="flex justify-between pt-1">
               {procrastinate == "procrastinate" ? (
                 <>
+                  <h1 className="flex items-center mr-5 text-[14px] md:text-[16px] lg:text-[18px] font-bold">
+                    {sessionRemaining}​ Study Session Remaining
+                  </h1>
                   <PrimaryBtn
-                    onClick={procrastinateCourse}
+                    onClick={continueCourse}
                     background="#27AE60"
                     py="py-1"
                     extraContent={
@@ -468,7 +507,10 @@ const CustomCalendar: React.FC = () => {
                     Continue Course
                   </PrimaryBtn> */}
                   <PrimaryBtn
-                    onClick={procrastinateCourse}
+                    onClick={() => {
+                      setCheckWarining(true);
+                      setProcrastinateWarning(true);
+                    }}
                     background="#F2994A"
                     py="py-1"
                     extraContent={
@@ -560,7 +602,7 @@ const CustomCalendar: React.FC = () => {
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            window.location.reload();
+            // window.location.reload();
           }}
           RoadMapNumber={RoadMapNumber}
           ScheduleID={ScheduleID}
@@ -573,8 +615,9 @@ const CustomCalendar: React.FC = () => {
           onPopupResult={onPopupResult}
           onSubmit={onSubmit}
           onClose={() => {
+            setProcrastinateWarning(false);
             setopenQuiz(true);
-            setLeftQuiz(true);
+            setCheckWarining(true);
           }}
         />
       )}
@@ -587,25 +630,41 @@ const CustomCalendar: React.FC = () => {
           }}
         />
       )}
-      {LeftQuiz && (
+      {checkWarning && (
         <WarningAlert
-          title="You left the quiz"
-          message="You left the quiz without submitting your answers. Do you want to leave the quiz?"
+          title={
+            procrastinateWarning
+              ? "Procrastination Warning!"
+              : "You left the quiz"
+          }
+          message={
+            procrastinateWarning
+              ? ` You have ${checkSessionLimit} study sessions available for procrastination. If you exceed this limit, your schedule will automatically end. Stay on track to complete your lessons successfully!`
+              : "You left the quiz without submitting your answers. Do you want to leave the quiz?"
+          }
           toastNotify={() =>
             toast.warning("You have left the quiz. Your progress may be lost!")
           }
           onClose={() => {
-            setLeftQuiz(false);
-            setopenQuiz(true);
+            if (procrastinateWarning) {
+              setCheckWarining(false);
+            } else {
+              setCheckWarining(false);
+              setopenQuiz(true);
+            }
           }}
           onConfirm={() => {
-            setLeftQuiz(false);
-            setopenQuiz(false);
-            setIsDetailOpen(true);
+            if (procrastinateWarning) {
+              procrastinateCourse();
+            } else {
+              setCheckWarining(false);
+              setopenQuiz(false);
+              setIsDetailOpen(true);
+            }
           }}
         />
       )}
-      <ToastContainer />
+      {procrastinateWarning == false && <ToastContainer />}
     </div>
   );
 };
