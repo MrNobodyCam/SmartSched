@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Play, Pause } from "lucide-react";
 import { useMusicContext } from "../../context/MusicContext";
 import lofi1 from "../../assets/images/lofi_image/lofi_1.jpg";
@@ -27,6 +27,7 @@ if (typeof document !== "undefined") {
 }
 
 const MusicPlayer = () => {
+  const audioRef = useRef<HTMLIFrameElement>(null);
   const { isPlaying, currentTrack, setIsPlaying, setCurrentTrack } =
     useMusicContext();
 
@@ -73,18 +74,35 @@ const MusicPlayer = () => {
   };
 
   const togglePlay = () => {
+    if (audioRef.current) {
+      const iframe = audioRef.current;
+      const message = isPlaying
+        ? '{"event":"command","func":"pauseVideo","args":""}'
+        : '{"event":"command","func":"playVideo","args":""}';
+      iframe.contentWindow?.postMessage(message, "*");
+    }
     setIsPlaying(!isPlaying);
   };
 
+  useEffect(() => {
+    // Reset playing state when component mounts
+    setIsPlaying(false);
+  }, []);
+
   const handleTrackClick = (index: number) => {
     if (currentTrack === index) {
-      // If clicking the same track, just toggle play/pause
       togglePlay();
     } else {
-      // If clicking a different track, switch to it but don't auto-play
       setCurrentTrack(index);
       setIsPlaying(false);
     }
+  };
+
+  const getEmbedUrl = (url: string) => {
+    const videoId = url.includes("youtu.be")
+      ? url.split("/").pop()?.split("?")[0]
+      : url.split("v=")[1]?.split("&")[0];
+    return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}`;
   };
 
   return (
@@ -121,6 +139,12 @@ const MusicPlayer = () => {
           </div>
         </div>
       </div>
+      <iframe
+        ref={audioRef}
+        src={tracks[currentTrack] ? getEmbedUrl(tracks[currentTrack].url) : ""}
+        style={{ display: "none" }}
+        allow="autoplay"
+      />
       <div className="flex-1 overflow-y-auto p-3 md:p-4 bg-gradient-to-b from-white to-gray-50 scrollbar-hide">
         <div className="w-8xl mx-auto px-2 md:px-4">
           <div className="mb-4 md:mb-8">
