@@ -44,7 +44,7 @@ function FullScreenContactForm() {
     });
     console.log("================");
 
-    // Call Contact API 
+    // Call Contact API
     sendContactUsMessage({
       title: formData.title,
       text: formData.message,
