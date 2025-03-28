@@ -85,16 +85,20 @@ const MusicPlayer = () => {
   };
 
   useEffect(() => {
-    // Reset playing state when component mounts
-    setIsPlaying(false);
-  }, []);
+    // Reset playing state when track changes
+    if (audioRef.current) {
+      const iframe = audioRef.current;
+      const message = '{"event":"command","func":"stopVideo","args":""}';
+      iframe.contentWindow?.postMessage(message, "*");
+      setIsPlaying(false);
+    }
+  }, [currentTrack]);
 
   const handleTrackClick = (index: number) => {
     if (currentTrack === index) {
       togglePlay();
     } else {
       setCurrentTrack(index);
-      setIsPlaying(false);
     }
   };
 
@@ -102,7 +106,7 @@ const MusicPlayer = () => {
     const videoId = url.includes("youtu.be")
       ? url.split("/").pop()?.split("?")[0]
       : url.split("v=")[1]?.split("&")[0];
-    return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}`;
+    return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}&autoplay=0&mute=0`;
   };
 
   return (
@@ -144,6 +148,7 @@ const MusicPlayer = () => {
         src={tracks[currentTrack] ? getEmbedUrl(tracks[currentTrack].url) : ""}
         style={{ display: "none" }}
         allow="autoplay"
+        onLoad={() => setIsPlaying(false)}
       />
       <div className="flex-1 overflow-y-auto p-3 md:p-4 bg-gradient-to-b from-white to-gray-50 scrollbar-hide">
         <div className="w-8xl mx-auto px-2 md:px-4">
