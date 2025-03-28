@@ -4,7 +4,6 @@ import PrimaryBtn from "../components/PrimaryBtn";
 function FullScreenContactForm() {
   const [formData, setFormData] = useState({
     title: "",
-    email: "",
     message: "",
     agreedToPolicy: false,
   });
@@ -38,10 +37,9 @@ function FullScreenContactForm() {
     console.log("=== Form Data ===");
     console.log({
       title: formData.title,
-      email: formData.email,
       message: formData.message,
       agreedToPolicy: formData.agreedToPolicy,
-      submittedAt: new Date().toLocaleString(),
+      // submittedAt: new Date().toLocaleString(),
     });
     console.log("================");
 
@@ -54,7 +52,6 @@ function FullScreenContactForm() {
     // Reset form after successful submission
     setFormData({
       title: "",
-      email: "",
       message: "",
       agreedToPolicy: false,
     });
@@ -66,7 +63,7 @@ function FullScreenContactForm() {
   };
 
   return (
-    <div className="relative w-full min-h-screen p-4 sm:p-6">
+    <div className="relative w-full h-[calc(100vh-100px)] p-4 sm:p-6">
       {alertMessage && (
         <div
           className={`fixed top-4 right-4 p-4 rounded-md ${
@@ -96,17 +93,18 @@ function FullScreenContactForm() {
           </div>
           <div className="mb-5">
             <label
-              htmlFor="email"
+              aria-required="true"
+              htmlFor="text"
               className="block text-[20px] md:text-[22px] lg:text-[24px] font-bold text-black mb-1"
             >
-              Email
+              Title
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter your email address..."
-              value={formData.email}
+              type="text"
+              name="title"
+              id="text"
+              placeholder="Enter your title of your message..."
+              value={formData.title}
               onChange={handleChange}
               className="w-full h-[48px] rounded-md border border-[#e0e0e0] bg-white py-2 sm:py-3 px-4 sm:px-6 text-[14px] md:text-[16px] lg:text-[18px] font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md placeholder:text-[14px] md:placeholder:text-[16px] lg:placeholder:text-[18px] transition-all duration-200"
               required
@@ -143,10 +141,13 @@ function FullScreenContactForm() {
             />
             <label
               htmlFor="policy"
-              className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0"
+              className="text-[14px] md:text-[16px] lg:text-[18px] text-gray-600 mt-2 sm:mt-0 cursor-pointer "
             >
               You agree to our friendly{" "}
-              <a className="text-blue-500 hover:underline">privacy policy</a>.
+              <a className="text-blue-500 hover:underline font-bold">
+                privacy policy
+              </a>
+              .
             </label>
           </div>
           <div>

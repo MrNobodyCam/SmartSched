@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { X, Clock, Menu, FileText } from "lucide-react";
 import { fetchGetData } from "../../service/api";
-import Pen from "../../assets/icons/pen.svg";
+// import Pen from "../../assets/icons/pen.svg";
 import PrimaryBtn from "../PrimaryBtn";
 import SecondaryBtn from "../SecondaryBtn";
 import Loading from "../Alert/Loading";
 
 const PopupComponent = ({
-  RoadMapID,
+  RoadMapNumber,
+  ScheduleID,
   onClose,
   openQuiz,
 }: {
-  RoadMapID: number;
+  ScheduleID: number;
+  RoadMapNumber: number;
   onClose(): void;
   openQuiz(): void;
 }) => {
@@ -19,11 +21,15 @@ const PopupComponent = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
+    console.log(RoadMapNumber, ScheduleID);
+
     const fetch = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchGetData(`roadmap/${RoadMapID}`);
+        const data = await fetchGetData(
+          `roadmap/detail?roadmap_number=${RoadMapNumber}&schedule_id=${ScheduleID}`
+        );
         setQuizData(data[0]);
       } catch (error) {
         setError((error as any).message);
@@ -34,7 +40,7 @@ const PopupComponent = ({
     };
 
     fetch();
-  }, [RoadMapID]);
+  }, [RoadMapNumber, ScheduleID]);
   if (loading) {
     return <Loading text="Wait For Detail... Stay focused! 📚⏳" />;
   }
@@ -138,7 +144,7 @@ const PopupComponent = ({
                   <img src={Pen} alt="" />
                   Edit
                 </button> */}
-              <PrimaryBtn
+              {/* <PrimaryBtn
                 extraContent={
                   <img
                     src={Pen}
@@ -150,7 +156,7 @@ const PopupComponent = ({
                 color="#F2994A"
               >
                 Edit
-              </PrimaryBtn>
+              </PrimaryBtn> */}
               {/* <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                   Make Quiz
                 </button> */}

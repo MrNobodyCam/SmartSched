@@ -14,6 +14,7 @@ const HistoryCourseScheduleViewer = ({
   ScheduleId: string;
 }) => {
   const [roadmapData, setRoadmapData] = useState<any[]>([]);
+  const [ScheduleID, setScheduleID] = useState<number>(1);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [RoadMapID, setRoadMapID] = useState<number>(1);
   const [openQuiz, setopenQuiz] = useState(false);
@@ -36,7 +37,8 @@ const HistoryCourseScheduleViewer = ({
     const fetch = async () => {
       try {
         const data = await fetchPostData(`history`, {
-          schedule_id: ScheduleId,
+          id: localStorage.getItem("id"),
+          schedule_number: ScheduleId,
         });
         setRoadmapData(data);
       } catch (error) {
@@ -48,7 +50,8 @@ const HistoryCourseScheduleViewer = ({
   }, []);
 
   type Lesson = {
-    id: number;
+    roadmap_number: number;
+    schedule_id: number;
     title: string;
     lesson: string;
     description: string;
@@ -139,11 +142,12 @@ const HistoryCourseScheduleViewer = ({
                   <div className="space-y-4 pt-5 pb-5">
                     {day.lessons.map((lesson) => (
                       <div
-                        key={lesson.id}
+                        key={lesson.roadmap_number}
                         className="bg-white rounded-lg shadow-md overflow-hidden relative hover:bg-gray-200 cursor-pointer"
                         onClick={() => {
                           togglePopup();
-                          setRoadMapID(lesson.id);
+                          setRoadMapID(lesson.roadmap_number);
+                          setScheduleID(lesson.schedule_id);
                         }}
                       >
                         <div className="flex">
@@ -199,14 +203,16 @@ const HistoryCourseScheduleViewer = ({
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            // window.location.reload();
+            window.location.reload();
           }}
-          RoadMapID={RoadMapID}
+          RoadMapNumber={RoadMapID}
+          ScheduleID={ScheduleID}
         />
       )}
       {openQuiz && (
         <QuizPopup
-          RoadMapID={RoadMapID}
+          ScheduleID={ScheduleID}
+          RoadMapNumber={RoadMapID}
           onPopupResult={onPopupResult}
           onSubmit={onSubmit}
           onClose={() => {

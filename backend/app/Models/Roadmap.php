@@ -10,8 +10,11 @@ class Roadmap extends Model
     use HasFactory;
 
     protected $fillable = [
-        'schedule_id',
         'topic_id',
+        'roadmap_number',
+        'schedule_id',
+        // 'schedule_number',
+        // 'user_id',
         'lesson',
         'description',
         'start_time',
@@ -22,6 +25,14 @@ class Roadmap extends Model
 
     public function topic()
     {
-        return $this->belongsTo(Topic::class);
+        return $this->belongsTo(Topic::class, 'topic_id', 'id');
+    }
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class, 'schedule_id', 'id');
+    }
+    public function schedule_notification()
+    {
+        return $this->belongsTo(ScheduleNotification::class);
     }
 }

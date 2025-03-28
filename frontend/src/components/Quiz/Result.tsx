@@ -12,7 +12,7 @@ const Result = ({
   });
   return (
     <div className="p-4">
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         {/* Popup Content */}
         <div className="bg-white rounded-lg shadow-lg h-[80%] w-[80%] md:w-[70%] lg:w-[60%] relative p-7">
           {/* Close Button */}
