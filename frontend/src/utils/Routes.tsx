@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, Outlet } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import HistoryScreen from "../pages/history_data";
 import TermOfService from "../pages/termof_service";
 import PolicyScreen from "../pages/policy";
@@ -41,7 +41,6 @@ const MainLayout = () => {
         console.error("Error fetching notifications:", error);
       }
     };
-
     fetchNotifications();
   }, []);
   return (
@@ -74,43 +73,72 @@ const MainLayout = () => {
 };
 
 const AppRoutes = () => {
+  const [userExists, setUserExists] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkUserExists = async () => {
+      try {
+        const response = await fetchGetRequestData("checkUserExists", {
+          id: localStorage.getItem("id"),
+        });
+
+        if (response.exists === true) {
+          setUserExists(true);
+        } else {
+          setUserExists(false);
+        }
+      } catch (error) {
+        console.error("Error checking user existence:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkUserExists();
+  }, []);
+
+  if (isLoading) {
+    return;
+  }
+
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/generate-schedule/listview" />} />
       {/* Main screen */}
-      <Route element={<MainLayout />}>
-        <Route
-          path="/generate-schedule/calendar"
-          element={<CustomCalendar />}
-        />
-        <Route
-          path="/generate-schedule/listview"
-          element={<CustomCalendar />}
-        />
-        <Route path="/music" element={<Music />}></Route>
-        <Route
-          path="/history/calendar/:id"
-          element={<HistoryCustomCalendar />}
-        />
-        <Route
-          path="/history/listview/:id"
-          element={<HistoryCustomCalendar />}
-        />
-        <Route path="/history" element={<HistoryScreen />} />
-        <Route path="/service" element={<TermOfService />} />
-        <Route path="/policy" element={<PolicyScreen />} />
-        <Route path="/contactus" element={<ContactScreen />} />
-        <Route path="/setting" element={<SettingsScreen />} />
+      {userExists ? (
+        <Route element={<MainLayout />}>
+          <Route
+            path="/generate-schedule/calendar"
+            element={<CustomCalendar />}
+          />
+          <Route
+            path="/generate-schedule/listview"
+            element={<CustomCalendar />}
+          />
+          <Route path="/music" element={<Music />} />
+          <Route
+            path="/history/calendar/:id"
+            element={<HistoryCustomCalendar />}
+          />
+          <Route
+            path="/history/listview/:id"
+            element={<HistoryCustomCalendar />}
+          />
+          <Route path="/history" element={<HistoryScreen />} />
+          <Route path="/service" element={<TermOfService />} />
+          <Route path="/policy" element={<PolicyScreen />} />
+          <Route path="/contactus" element={<ContactScreen />} />
+          <Route path="/setting" element={<SettingsScreen />} />
 
-        <Route path="/setting" element={<GeneralScreen />}>
-          <Route path="account" element={<AccountScreen />} />
-          <Route path="password" element={<PasswordScreen />} />
-          <Route path="session" element={<SessionScreen />} />
+          <Route path="/setting" element={<GeneralScreen />}>
+            <Route path="account" element={<AccountScreen />} />
+            <Route path="password" element={<PasswordScreen />} />
+            <Route path="session" element={<SessionScreen />} />
+          </Route>
         </Route>
-      </Route>
-      {/* When not yet login or signup */}
-      <Route path="*" element={<NotFoundPage />} />
-      <Route path="/landing" element={<Landingscreen />} />
+      ) : (
+        <Route path="*" element={<NotFoundPage />} />
+      )}
+      <Route path="/" element={<Landingscreen />} />
     </Routes>
   );
 };

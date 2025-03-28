@@ -66,7 +66,7 @@ const SideBar: React.FC<SideBarProps> = ({
   const handleItemClick = (item: string) => {
     if (item === "logout") {
       // Perform logout logic here (e.g., clearing tokens, etc.)
-      navigate("/landing"); // Redirect to the landing page
+      navigate("/"); // Redirect to the landing page
     } else {
       setSelectedItem(item);
       onScreenChange(item);
@@ -143,6 +143,7 @@ const SideBar: React.FC<SideBarProps> = ({
             onClick={() => {
               localStorage.clear();
               handleItemClick("logout");
+              window.location.reload();
             }}
           >
             {/* Icon */}

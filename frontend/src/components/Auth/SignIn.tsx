@@ -86,6 +86,7 @@ const SignIn = ({
         // set Access Token
         localStorage.setItem("access_token", response.access_token);
         navigate("/generate-schedule/listview");
+        window.location.reload();
       } catch (error) {
         setloginInvalid("Invalid email or password");
       }

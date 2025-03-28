@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);
     Route::get('/checkSessionLimit', [ScheduleController::class, 'checkSessionLimit']);
     Route::get('/checkSessionRemaining', [ScheduleController::class, 'checkSessionRemaining']);
+    Route::get('/checkUserExists', [UserController::class, 'checkUserExists']);
 });
 // // Group routes with prefix 'v1' 
 // Route::group(['prefix' => 'v1'], function () {
