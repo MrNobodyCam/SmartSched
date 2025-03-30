@@ -26,7 +26,18 @@ class OtpController extends Controller
 
         // Send email via raw mail instead of using a view
         $subject = 'Mail Verification';
-        $message = "Your OTP is: $otp";
+        $message = "Dear $user->full_name,
+
+Your One-Time Password (OTP) for verification is:
+
+🔑 $otp
+
+This OTP is valid for 3 minutes. Please do not share this code with anyone for security reasons.
+
+If you did not request this, please ignore this email.
+
+Best regards,
+SmartSched Team";
 
         try {
             Mail::raw($message, function ($mail) use ($user, $subject) {

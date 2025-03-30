@@ -46,4 +46,22 @@ class UserController extends Controller
         }
         return response()->json(['message' => 'User updated successfully']);
     }
+
+    public function checkUserExists(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
+
+        $user = DB::table('users')
+            ->where('id', $user_id)
+            ->first();
+
+        if ($user) {
+            return response()->json(['exists' => true]);
+        } else {
+            return response()->json(['exists' => false]);
+        }
+    }
 }

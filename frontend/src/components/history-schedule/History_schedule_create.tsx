@@ -203,7 +203,7 @@ const HistoryCourseScheduleViewer = ({
           }}
           onClose={() => {
             setIsDetailOpen(false);
-            window.location.reload();
+            // window.location.reload();
           }}
           RoadMapNumber={RoadMapID}
           ScheduleID={ScheduleID}

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['user_id', 'schedule_number']);
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign(['user_id', 'generator_number'])->references(['user_id', 'generator_number'])->on('generators')->onUpdate('cascade')->onDelete('cascade');
         });
