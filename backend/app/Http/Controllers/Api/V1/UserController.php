@@ -28,10 +28,11 @@ class UserController extends Controller
         $request->validate([
             'id' => 'required|integer',
             'full_name' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|email',
             'gender' => 'required|string',
             'time_zone' => 'required|string'
         ]);
+
         $user_id = $request->id;
         $user = DB::table('users')
             ->where('id', $user_id)
