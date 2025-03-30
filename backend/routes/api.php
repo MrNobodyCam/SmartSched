@@ -54,6 +54,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
     Route::get('/getUserEmail', [UserController::class, 'getUserEmail']);
+    Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
+    Route::put('/changePassword', [UserController::class, 'changePassword']);
 
     Route::post('/contactUs', [ContactController::class, 'sendContactMail']);
     Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);

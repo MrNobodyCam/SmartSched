@@ -3,7 +3,12 @@ import { FaTimes } from "react-icons/fa"; // or the correct path to the FaTimes 
 import PrimaryBtn from "../../components/PrimaryBtn";
 import SecondaryBtn from "../../components/SecondaryBtn";
 import { useNavigate } from "react-router-dom";
-import { fetchGetRequestData } from "../../service/api";
+import {
+  fetchGetRequestData,
+  fetchUpdateData,
+  fetchDeleteData,
+} from "../../service/api";
+import { X } from "react-feather";
 interface UserProfile {
   fullName: string;
   gender: string;
@@ -59,6 +64,38 @@ const UserProfileSettings: React.FC = () => {
     message: string;
   } | null>(null);
 
+  const onEditProfile = async () => {
+    try {
+      const response = await fetchUpdateData(`editUser`, {
+        id: localStorage.getItem("id"),
+        full_name: profile.fullName,
+        gender: profile.gender,
+        email: profile.email,
+        time_zone: profile.timezone,
+      });
+
+      console.log("Profile updated successfully:", response);
+
+      // Optionally update the profile state with the response data
+      setProfile((prev) => ({
+        ...prev,
+        fullName: response.user.full_name,
+        gender: response.user.gender,
+        email: response.user.email,
+        timezone: response.user.time_zone,
+      }));
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setAlertMessage({
+        type: "error",
+        message: "Failed to update profile. Please try again.",
+      });
+    }
+  };
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     setUploadError(null);
     const file = e.target.files?.[0];
@@ -131,11 +168,6 @@ const UserProfileSettings: React.FC = () => {
     console.log("Timezone:", profile.timezone);
     console.log("Has Profile Photo:", !!profile.profilePhoto);
     console.log("================================");
-
-    setAlertMessage({
-      type: "success",
-      message: "Profile updated successfully!",
-    });
   };
 
   const handleDeletePhoto = () => {
@@ -150,7 +182,7 @@ const UserProfileSettings: React.FC = () => {
     console.log("Profile photo deleted successfully");
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (confirmEmail !== profile.email) {
       console.log("Delete account failed: Email confirmation mismatch");
       console.log("Provided email:", confirmEmail);
@@ -166,6 +198,24 @@ const UserProfileSettings: React.FC = () => {
     console.log("Account email:", confirmEmail);
     console.log("Account data to be deleted:", profile);
     console.log("==============================");
+    try {
+      await fetchDeleteData(`deleteUser/${localStorage.getItem("id")}`);
+
+      setAlertMessage({
+        type: "success",
+        message: "Profile delete successfully!",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    } catch (error) {
+      console.error("Error delete profile:", error);
+      setAlertMessage({
+        type: "error",
+        message: "Failed to delete profile. Please try again.",
+      });
+    }
 
     setAlertMessage({
       type: "success",
@@ -191,7 +241,7 @@ const UserProfileSettings: React.FC = () => {
     <div className="w-full max-w-[800px]">
       {alertMessage && (
         <div
-          className={`fixed top-4 right-4 p-4 rounded-md ${
+          className={`fixed top-16 right-4 p-4 rounded-md z-400 ${
             alertMessage.type === "success"
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
@@ -202,7 +252,7 @@ const UserProfileSettings: React.FC = () => {
             onClick={() => setAlertMessage(null)}
             className="ml-4 text-sm font-bold"
           >
-            ✕
+            <X className="cursor-pointer"></X>
           </button>
         </div>
       )}
@@ -373,7 +423,15 @@ const UserProfileSettings: React.FC = () => {
               </div>
 
               <div className="pt-4">
-                <PrimaryBtn py="py-1"> Update </PrimaryBtn>
+                <PrimaryBtn
+                  onClick={() => {
+                    onEditProfile();
+                  }}
+                  py="py-1"
+                  type="submit"
+                >
+                  Update
+                </PrimaryBtn>
               </div>
             </form>
 
@@ -402,6 +460,10 @@ const UserProfileSettings: React.FC = () => {
                   />
                 </div>
                 <PrimaryBtn
+                  onClick={() => {
+                    handleDeleteAccount();
+                  }}
+                  type="submit"
                   py="py-1"
                   background={confirmEmail ? "#EB5757" : "#FFAFAF"}
                 >

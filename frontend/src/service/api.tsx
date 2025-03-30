@@ -41,6 +41,15 @@ export const fetchUpdateData = async (url: string, data: any) => {
   }
 };
 
+export const fetchDeleteData = async (url: string) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/${url}`);
+    return response.data;
+  } catch (error) {
+    throw new Error((error as any).message);
+  }
+};
+
 // Add more API functions as needed
 
 /* Auth API */

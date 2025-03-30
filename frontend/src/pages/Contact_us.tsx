@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import PrimaryBtn from "../components/PrimaryBtn";
 import { sendContactUsMessage } from "../service/api";
 import { fetchGetRequestData } from "../service/api";
+import Loading from "../components/Alert/Loading";
+import { X } from "react-feather";
 
 function FullScreenContactForm() {
   const [email, setEmail] = useState<string | null>(null);
@@ -47,50 +49,57 @@ function FullScreenContactForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Log form data immediately after submission
-    console.log("=== Form Data ===");
-    console.log({
-      title: formData.title,
-      message: formData.message,
-      agreedToPolicy: formData.agreedToPolicy,
-      // submittedAt: new Date().toLocaleString(),
-    });
-    console.log("================");
-
-    // Call Contact API
-    sendContactUsMessage({
-      title: formData.title,
-      text: formData.message,
-      email: email || "",
-    });
-
-    // Show success message
-    setAlertMessage({
-      type: "success",
-      message: "Message sent successfully!",
-    });
-
-    // Reset form after successful submission
-    setFormData({
-      title: "",
-      message: "",
-      agreedToPolicy: false,
-    });
+    try {
+      setLoading(true);
+      const response = await sendContactUsMessage({
+        title: formData.title,
+        text: formData.message,
+        email: email || "",
+      });
+      if (response && response.message === "Mail sent successfully") {
+        setAlertMessage({
+          type: "success",
+          message: "Message sent successfully!",
+        });
+        setFormData({
+          title: "",
+          message: "",
+          agreedToPolicy: false,
+        });
+      } else {
+        setAlertMessage({
+          type: "error",
+          message: "Failed to send the message. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error sending contact message:", error);
+      setAlertMessage({
+        type: "error",
+        message:
+          "An error occurred while sending the message. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
 
     // Hide alert after 3 seconds
     setTimeout(() => {
       setAlertMessage(null);
     }, 3000);
   };
-
+  if (loading) {
+    return <Loading text="Sending Your Message... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="relative w-full h-[calc(100vh-100px)] p-4 sm:p-6">
       {alertMessage && (
         <div
-          className={`fixed top-4 right-4 p-4 rounded-md ${
+          className={`fixed top-16 right-4 p-4 rounded-md z-400 ${
             alertMessage.type === "success"
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
@@ -101,7 +110,7 @@ function FullScreenContactForm() {
             onClick={() => setAlertMessage(null)}
             className="ml-4 text-sm font-bold"
           >
-            ✕
+            <X className="cursor-pointer"></X>
           </button>
         </div>
       )}
