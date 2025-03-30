@@ -101,6 +101,7 @@ class ScheduleController extends Controller
             ->where('user_id', $user_id)
             ->where('schedule_number', $activeSchedule->schedule_number)
             ->where('roadmap_number', null)
+            ->where('notification_type', 'schedule_end')
             ->exists();
         if (!$exists) {
             DB::table('schedule_notifications')->insert([
@@ -187,7 +188,29 @@ class ScheduleController extends Controller
             if (!$insertProcrastinate) {
                 return response()->json(['error' => 'Failed to procrastinate schedule', "success" => false], 500);
             }
-
+            $schedule_title = DB::table('generators')
+                ->where('id', $procrastinateSchedule->generator_number)
+                ->value('schedule_title');
+            $exists = DB::table('schedule_notifications')
+                ->where('user_id', $user_id)
+                ->where('schedule_number', $procrastinateSchedule->schedule_number)
+                ->where('roadmap_number', null)
+                ->where('notification_type', 'schedule_procrastinate')
+                ->exists();
+            if (!$exists) {
+                DB::table('schedule_notifications')->insert([
+                    'user_id' => $user_id,
+                    'schedule_number' => $procrastinateSchedule->schedule_number,
+                    'roadmap_number' => null,
+                    'notification_type' => 'schedule_procrastinate',
+                    'title' => 'Procrastination Successful: ' . $schedule_title,
+                    'message' => 'Your schedule "' . $schedule_title . '" has been successfully postponed. Stay on track and make the most of your remaining time!',
+                    'type' => 'success',
+                    'is_read' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
             return response()->json(['message' => 'Schedule procrastinated successfully', "success" => true]);
         }
     }

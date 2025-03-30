@@ -87,6 +87,7 @@ const CustomCalendar: React.FC = () => {
         console.log(error);
       }
     };
+
     fetchSessionRemaining();
     fetchcheckSessionLimit();
     fetchRoadmaps();
