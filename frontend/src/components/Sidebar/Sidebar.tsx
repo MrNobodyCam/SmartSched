@@ -1,4 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+// Extend the window interface to include onYouTubeIframeAPIReady
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
 import { Play, Pause } from "lucide-react";
 import { useMusicContext } from "../../context/MusicContext";
 import lofi1 from "../../assets/images/lofi_image/lofi_1.jpg";
@@ -9,6 +16,7 @@ import springGif from "../../assets/images/gif_lofi/Autumn.gif";
 import rainGif from "../../assets/images/gif_lofi/rain.gif";
 import winterGif from "../../assets/images/gif_lofi/winter.gif";
 import summerGif from "../../assets/images/gif_lofi/summer.gif";
+import { useMainRoutes } from "../../hooks/useMainRoutes";
 
 const scrollbarHideStyles = `
   .scrollbar-hide::-webkit-scrollbar {
@@ -26,36 +34,111 @@ if (typeof document !== "undefined") {
   document.head.appendChild(style);
 }
 
-const MusicPlayer = () => {
-  const { isPlaying, currentTrack, setIsPlaying, setCurrentTrack } =
-    useMusicContext();
+const tracks = [
+  {
+    id: 1,
+    title: "Fall Season",
+    image: lofi1,
+    videoId: "zhDwjnYZiCo",
+  },
+  {
+    id: 2,
+    title: "Rain Season",
+    image: lofi2,
+    videoId: "DEWzT1geuPU",
+  },
+  {
+    id: 3,
+    title: "Winter Season",
+    image: lofi3,
+    videoId: "2b0YiuEcIJs",
+  },
+  {
+    id: 4,
+    title: "Summer Season",
+    image: lofi4,
+    videoId: "HQwLPhE2zys",
+  },
+];
 
-  const tracks = [
-    {
-      id: 1,
-      title: "Fall Season",
-      image: lofi1,
-      url: "https://www.youtube.com/live/zhDwjnYZiCo?si=rXziRA3ULZ60fTDI",
-    },
-    {
-      id: 2,
-      title: "Rain Season",
-      image: lofi2,
-      url: "https://www.youtube.com/live/DEWzT1geuPU?si=nHVwLbAXTxKDTfWx",
-    },
-    {
-      id: 3,
-      title: "Winter Season",
-      image: lofi3,
-      url: "https://www.youtube.com/live/2b0YiuEcIJs?si=i44kZDktjlrSQiVC",
-    },
-    {
-      id: 4,
-      title: "Summer Season",
-      image: lofi4,
-      url: "https://youtu.be/HQwLPhE2zys?si=lJv-xE-zk5k4wTaS",
-    },
-  ];
+const MusicPlayer = () => {
+  const { isPlaying, currentTrack, setIsPlaying, setCurrentTrack, stopMusic } =
+    useMusicContext();
+  const isMainRoute = useMainRoutes();
+
+  useEffect(() => {
+    // Load YouTube IFrame API
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    let player: YT.Player | undefined;
+
+    // Initialize player when API is ready
+    window.onYouTubeIframeAPIReady = () => {
+      player = new window.YT.Player("youtube-player", {
+        height: "0",
+        width: "0",
+        videoId: tracks[currentTrack].videoId,
+        playerVars: {
+          autoplay: isPlaying ? 1 : 0,
+          controls: 0,
+        },
+        events: {
+          onReady: (event: YT.PlayerEvent) => {
+            if (isPlaying) event.target.playVideo();
+          },
+        },
+      });
+    };
+
+    return () => {
+      if (player) player.destroy();
+    };
+  }, []);
+
+  // Update player when track changes
+  useEffect(() => {
+    const player = document.getElementById(
+      "youtube-player"
+    ) as unknown as YT.Player;
+    if (player?.loadVideoById) {
+      player.loadVideoById(tracks[currentTrack].videoId);
+      if (isPlaying) player.playVideo();
+    }
+  }, [currentTrack]);
+
+  // Stop music when navigating away from main routes or on unmount
+  useEffect(() => {
+    if (!isMainRoute) {
+      stopMusic();
+    }
+
+    // Cleanup function that runs on unmount
+    return () => {
+      stopMusic();
+    };
+  }, [isMainRoute, stopMusic]);
+
+  // Add event listener for logout
+  useEffect(() => {
+    const handleLogout = () => {
+      stopMusic();
+    };
+
+    window.addEventListener("logout", handleLogout);
+    return () => {
+      window.removeEventListener("logout", handleLogout);
+    };
+  }, [stopMusic]);
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      stopMusic();
+    };
+  }, [stopMusic]);
 
   const getCurrentBannerGif = () => {
     switch (currentTrack) {
@@ -73,22 +156,21 @@ const MusicPlayer = () => {
   };
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (isMainRoute) {
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const handleTrackClick = (index: number) => {
-    if (currentTrack === index) {
-      // If clicking the same track, just toggle play/pause
-      togglePlay();
-    } else {
-      // If clicking a different track, switch to it but don't auto-play
+    if (isMainRoute) {
       setCurrentTrack(index);
-      setIsPlaying(false);
+      setIsPlaying(true);
     }
   };
 
   return (
     <div className="flex flex-col h-[calc(100vh-70px)] bg-white text-gray-800">
+      <div id="youtube-player" style={{ display: "none" }}></div>
       <div className="relative w-full h-[50vh] md:h-90 overflow-hidden bg-gradient-to-b from-gray-100 scrollbar-hide">
         <img
           src={getCurrentBannerGif()}
