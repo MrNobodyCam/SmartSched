@@ -53,6 +53,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/notification/markAllAsRead', [NotificationController::class, 'markAllAsRead']);
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
+    Route::get('/getUserEmail', [UserController::class, 'getUserEmail']);
 
     Route::post('/contactUs', [ContactController::class, 'sendContactMail']);
     Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);

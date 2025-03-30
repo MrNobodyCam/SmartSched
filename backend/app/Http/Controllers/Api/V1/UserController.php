@@ -64,4 +64,20 @@ class UserController extends Controller
             return response()->json(['exists' => false]);
         }
     }
+
+    public function getUserEmail(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+        $user_id = $request->id;
+        $user = DB::table('users')
+            ->select('email')
+            ->where('id', $user_id)
+            ->first();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json($user);
+    }
 }
