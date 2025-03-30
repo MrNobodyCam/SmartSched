@@ -1,7 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryBtn from "../components/PrimaryBtn";
+import { sendContactUsMessage } from "../service/api";
+import { fetchGetRequestData } from "../service/api";
 
 function FullScreenContactForm() {
+  const [email, setEmail] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      try {
+        const response = await fetchGetRequestData(`getUserEmail`, {
+          id: localStorage.getItem("id"),
+        });
+        setEmail(response.email);
+      } catch (error) {
+        console.error("Error fetching contact us data:", error);
+      }
+    };
+
+    fetchUserEmail();
+  }, []);
   const [formData, setFormData] = useState({
     title: "",
     message: "",
@@ -42,6 +59,13 @@ function FullScreenContactForm() {
       // submittedAt: new Date().toLocaleString(),
     });
     console.log("================");
+
+    // Call Contact API
+    sendContactUsMessage({
+      title: formData.title,
+      text: formData.message,
+      email: email || "",
+    });
 
     // Show success message
     setAlertMessage({

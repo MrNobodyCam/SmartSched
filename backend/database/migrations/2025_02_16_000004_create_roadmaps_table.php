@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roadmaps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('roadmap_number')->default(1);
+            $table->unsignedBigInteger('roadmap_number');
             $table->unsignedBigInteger('topic_id');
             $table->unsignedBigInteger('schedule_id');
             // $table->unsignedBigInteger('user_id')->default(1);
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('date');
             $table->timestamps();
 
+            $table->unique(['roadmap_number', 'schedule_id']);
             $table->foreign('topic_id')
                 ->references('id')
                 ->on('topics')
