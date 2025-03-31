@@ -95,7 +95,8 @@ class ScheduleController extends Controller
             ->update(['status' => 'end']);
 
         $schedule_title = DB::table('generators')
-            ->where('id', $activeSchedule->generator_number)
+            ->where('generator_number', $activeSchedule->generator_number)
+            ->where('user_id', $user_id)
             ->value('schedule_title');
         $exists = DB::table('schedule_notifications')
             ->where('user_id', $user_id)
@@ -189,7 +190,8 @@ class ScheduleController extends Controller
                 return response()->json(['error' => 'Failed to procrastinate schedule', "success" => false], 500);
             }
             $schedule_title = DB::table('generators')
-                ->where('id', $procrastinateSchedule->generator_number)
+                ->where('generator_number', $procrastinateSchedule->generator_number)
+                ->where('user_id', $user_id)
                 ->value('schedule_title');
             $exists = DB::table('schedule_notifications')
                 ->where('user_id', $user_id)

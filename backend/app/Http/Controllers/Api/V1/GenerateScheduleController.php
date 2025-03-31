@@ -183,7 +183,8 @@ class GenerateScheduleController extends Controller
                 $scheduleData['roadmap']
             );
             $schedule_title = DB::table('generators')
-                ->where('id', $countUserSchedule + 1)
+                ->where('generator_number', $countUserSchedule + 1)
+                ->where('user_id', $user->id)
                 ->value('schedule_title');
             DB::table('schedule_notifications')->insert([
                 'user_id' => $user_id,
