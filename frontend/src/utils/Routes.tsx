@@ -16,7 +16,7 @@ import GeneralScreen from "../pages/General/main_general";
 import AccountScreen from "../pages/General/general_account";
 import PasswordScreen from "../pages/General/general_password";
 import SessionScreen from "../pages/General/general_sessions";
-import Music from "../pages/Music/music";
+import Music from "../pages/Music/music_version2";
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
