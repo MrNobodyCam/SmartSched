@@ -53,15 +53,32 @@ const Signup = ({
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = (password: string) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+    const hasMinLength = password.length >= 8;
+
+    if (!hasMinLength) return "Password must be at least 8 characters long";
+    if (!hasUpperCase)
+      return "Password must contain at least one uppercase letter";
+    if (!hasNumber) return "Password must contain at least one number";
+    if (!hasSpecialChar)
+      return "Password must contain at least one special character (!@#$%^&*())";
+    return "";
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
+    // Validate email
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
       valid = false;
@@ -69,13 +86,16 @@ const Signup = ({
       setEmailError("");
     }
 
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters");
+    // Validate password
+    const passwordValidationError = validatePassword(password);
+    if (passwordValidationError) {
+      setPasswordError(passwordValidationError);
       valid = false;
     } else {
       setPasswordError("");
     }
 
+    // Validate confirm password
     if (confirmPassword !== password) {
       setConfirmPasswordError("Passwords do not match");
       valid = false;
@@ -92,14 +112,7 @@ const Signup = ({
           hash_password: password,
         });
 
-        console.log("status", response.status);
-        console.log("Signup response:", response);
-        console.log("Name:", name);
-        console.log("Email:", email);
-        console.log("Password:", password);
-
         if (response.success) {
-          console.log("Verification successful");
           localStorage.setItem("email", email);
           onClose();
           openVerifyEmail();
@@ -113,9 +126,11 @@ const Signup = ({
       }
     }
   };
+
   if (loading) {
     return <Loading text="Creating your account... Just a moment! 🚀⏳" />;
   }
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="relative flex bg-white py-[40px] sm:py-0 w-[80%] md:w-[80%] lg:w-[80%] rounded-l-[12px] overflow-hidden rounded-[12px]">
@@ -149,24 +164,6 @@ const Signup = ({
           <h1 className="text-[30px] md:text-[34px] lg:text-[32px] font-bold">
             Create Account
           </h1>
-          {/* <div className="flex my-[20px]">
-            <Card
-              icon={Google}
-              py="py-[14px] md:py-[16px]"
-              pl="pl-[14px] md:pl-[16px]"
-              pr="pr-[14px] md:pr-[16px]"
-              img_width="w-[20px] md:w-[28px]"
-            />
-            <div className="m-[20px]"></div>
-            <Card
-              background="bg-[#4267B2]"
-              py="py-[12px] md:py-[14px]"
-              pl="pl-[10px] md:pl-[14px]"
-              pr="pr-[14px] md:pr-[19px]"
-              img_width="w-[22px] md:w-[28px]"
-              icon={Facebook}
-            />
-          </div> */}
           <p className="text-[14px] md:text-[16px] lg:text-[18px] text-[#A5A5A5]">
             or use your email for registration
           </p>

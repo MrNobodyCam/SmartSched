@@ -23,17 +23,17 @@ const PasswordChangeForm = () => {
   } | null>(null);
 
   const validatePassword = (password: string) => {
-    // const hasUpperCase = /[A-Z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    // const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
     const hasMinLength = password.length >= 8;
 
     if (!hasMinLength) return "Password must be at least 8 characters long";
-    // if (!hasUpperCase)
-    //   return "Password must contain at least one uppercase letter";
+    if (!hasUpperCase)
+      return "Password must contain at least one uppercase letter";
     if (!hasNumber) return "Password must contain at least one number";
-    // if (!hasSpecialChar)
-    //   return "Password must contain at least one special character (!@#$%^&*())";
+    if (!hasSpecialChar)
+      return "Password must contain at least one special character (!@#$%^&*())";
     return "";
   };
 
