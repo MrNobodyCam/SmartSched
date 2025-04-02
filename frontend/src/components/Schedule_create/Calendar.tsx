@@ -236,7 +236,9 @@ const CustomCalendar: React.FC = () => {
       const scheduleID = event.extendedProps.schedule_id;
 
       setRoadMapNumber(roadmapNumber);
+      localStorage.setItem("roadmap_number", roadmapNumber);
       setScheduleID(scheduleID);
+      localStorage.setItem("schedule_id", scheduleID);
     },
     []
   );
@@ -611,8 +613,8 @@ const CustomCalendar: React.FC = () => {
       )}
       {openQuiz && (
         <QuizPopup
-          ScheduleID={ScheduleID}
-          RoadMapNumber={RoadMapNumber}
+          ScheduleID={Number(localStorage.getItem("schedule_id"))}
+          RoadMapNumber={Number(localStorage.getItem("roadmap_number"))}
           onPopupResult={onPopupResult}
           onSubmit={onSubmit}
           onClose={() => {
