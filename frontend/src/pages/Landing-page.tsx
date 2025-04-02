@@ -73,7 +73,7 @@ function Landingpage() {
     {
       name: "Kim Sokhom",
       position: "Frontend Developer",
-      imgSrc: "src/assets/images/profile.png",
+      imgSrc: "src/assets/images/khom.jpg",
     },
     {
       name: "Kim Limkhun",
@@ -83,17 +83,17 @@ function Landingpage() {
     {
       name: "Hy Sreanghour",
       position: "Frontend Developer",
-      imgSrc: "src/assets/images/profile.png",
+      imgSrc: "src/assets/images/hour.jpg",
     },
     {
       name: "Em Sereyvathna",
       position: "Frontend Developer",
-      imgSrc: "src/assets/images/profile.png",
+      imgSrc: "src/assets/images/vathna.jpg",
     },
     {
       name: "Kong Samnang",
       position: "Backend Developer",
-      imgSrc: "src/assets/images/profile.png",
+      imgSrc: "src/assets/images/nang.jpg",
     },
   ];
 
@@ -305,7 +305,7 @@ function Landingpage() {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-16"
+        className="py-16 flex flex-col items-center bg-white"
         id="about"
       >
         <div className="container px-6 sm:px-20">
@@ -369,7 +369,7 @@ function Landingpage() {
 
       {/* Team Members */}
       <section id="team" className="py-16 bg-[#A5A5A5]/20">
-        <div className="container mx-auto px-6 sm:px-20">
+        <div className="container mx-auto px-6 sm:px-20 ">
           {/* Section Title */}
           <h3 className="text-3xl sm:text-5xl text-gray-800 font-bold text-center">
             Meet Our Team

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import { fetchUpdateData } from "../../service/api"; // Assuming this is the function for API calls
+import { X } from "react-feather";
+import Loading from "../../components/Alert/Loading";
 
 const PasswordChangeForm = () => {
   const [errors, setErrors] = useState({
@@ -14,17 +17,23 @@ const PasswordChangeForm = () => {
     confirmPassword: "",
   });
 
+  const [alertMessage, setAlertMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
   const validatePassword = (password: string) => {
-    const hasUpperCase = /[A-Z]/.test(password);
+    // const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+    // const hasSpecialChar = /[!@#$%^&*()]/.test(password);
     const hasMinLength = password.length >= 8;
 
     if (!hasMinLength) return "Password must be at least 8 characters long";
-    if (!hasUpperCase)
-      return "Password must contain at least one uppercase letter";
+    // if (!hasUpperCase)
+    //   return "Password must contain at least one uppercase letter";
     if (!hasNumber) return "Password must contain at least one number";
-    if (!hasSpecialChar) return "Password must contain a spicafic symbol";
+    // if (!hasSpecialChar)
+    //   return "Password must contain at least one special character (!@#$%^&*())";
     return "";
   };
 
@@ -46,8 +55,8 @@ const PasswordChangeForm = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async () => {
     const passwordError = validatePassword(formData.newPassword);
 
     if (passwordError || formData.newPassword !== formData.confirmPassword) {
@@ -62,20 +71,80 @@ const PasswordChangeForm = () => {
       return;
     }
 
-    console.log("Form submitted:", formData);
-  };
+    try {
+      setLoading(true);
+      const response = await fetchUpdateData("changePassword", {
+        id: localStorage.getItem("id"),
+        old_password: formData.currentPassword,
+        new_password: formData.newPassword,
+        new_password_confirmation: formData.confirmPassword,
+      });
 
+      if (response.message === "Password changed successfully") {
+        setAlertMessage({
+          type: "success",
+          message: "Password changed successfully!",
+        });
+
+        // Reset form fields
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      } else {
+        setAlertMessage({
+          type: "error",
+          message: response.error || "Failed to change password",
+        });
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      setAlertMessage({
+        type: "error",
+        message:
+          "An error occurred while changing the password. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+
+    // Hide alert after 3 seconds
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 3000);
+  };
+  if (loading) {
+    return <Loading text="Change Your Password... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="w-full max-w-[500px]">
       <div className="relative">
         <div className="space-y-6">
+          {alertMessage && (
+            <div
+              className={`fixed top-16 right-4 p-4 rounded-md z-400 ${
+                alertMessage.type === "success"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {alertMessage.message}
+              <button
+                onClick={() => setAlertMessage(null)}
+                className="ml-4 text-sm font-bold"
+              >
+                <X className="cursor-pointer"></X>
+              </button>
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <h2 className="text-[18px] md:text-[20px] lg:text-[22px] font-bold mb-1">
               Change Password
             </h2>
             <p className="text-gray-400 text-[14px] md:text-[16px] lg:text-[18px] mb-4">
               Your password must include at least one special character from
-              !@#$%^&*(). Please update your password to meet this requirement.{" "}
+              !@#$%^&*(). Please update your password to meet this requirement.
             </p>
 
             <div className="mb-4">
@@ -141,7 +210,14 @@ const PasswordChangeForm = () => {
               )}
             </div>
             <div>
-              <PrimaryBtn py="py-1"> Update </PrimaryBtn>
+              <PrimaryBtn
+                py="py-1"
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                Update
+              </PrimaryBtn>
             </div>
           </form>
         </div>

@@ -182,7 +182,22 @@ class GenerateScheduleController extends Controller
                 $endTime,
                 $scheduleData['roadmap']
             );
-
+            $schedule_title = DB::table('generators')
+                ->where('generator_number', $countUserSchedule + 1)
+                ->where('user_id', $user->id)
+                ->value('schedule_title');
+            DB::table('schedule_notifications')->insert([
+                'user_id' => $user_id,
+                'schedule_number' =>  $countUserSchedule + 1,
+                'roadmap_number' => null,
+                'notification_type' => 'schedule_generated',
+                'title' => 'Schedule Created Successfully: ' . $schedule_title,
+                'message' => 'Your schedule "' . $schedule_title . '"  has been successfully generated. Stay committed and make progress toward your goals!',
+                'type' => 'success',
+                'is_read' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             return new ScheduleResource($schedule);
         } else {
             return response()->json(['error' => 'Schedule data not found in the response'], 400);

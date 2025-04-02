@@ -11,13 +11,14 @@ class QuizController extends Controller
 {
     public function generateQuiz(Request $request)
     {
-        $user_id = 1;
         $request->validate(
             [
                 'roadmap_number' => 'required|integer',
                 'schedule_id' => 'required|integer',
+                'user_id' => 'required|integer',
             ],
         );
+        $user_id = $request->input('user_id');
         $roadmap_number = $request->input('roadmap_number');
         $schedule_id = $request->input('schedule_id');
         $roadmap_id = DB::table('roadmaps')

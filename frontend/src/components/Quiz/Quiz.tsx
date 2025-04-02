@@ -36,6 +36,7 @@ const QuizPopup = ({
         const data = await fetchPostData(`generatequizz`, {
           roadmap_number: RoadMapNumber,
           schedule_id: ScheduleID,
+          user_id: localStorage.getItem("id"),
         });
         setQuizData(data.quiz);
       } catch (error) {
