@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\TelegramController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -49,14 +50,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/notification/markAllAsRead', [NotificationController::class, 'markAllAsRead']);
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
+    Route::get('/send-message', [TelegramController::class, 'sendMessage']);
 });
-// // Group routes with prefix 'v1' 
-// Route::group(['prefix' => 'v1'], function () {
-//     Route::post('schedule/generate', [ScheduleController::class, 'generateSchedule']);
-//     Route::get('schedule/{id}', [ScheduleController::class, 'show']);
-//     Route::delete('schedule/{id}', [ScheduleController::class, 'destroy']);
-// });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
     Route::apiResource('schedule', 'GenerateScheduleController');
 });
+
