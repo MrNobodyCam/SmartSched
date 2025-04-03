@@ -13,23 +13,20 @@ return new class extends Migration
     {
         Schema::create('schedule_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->unsignedBigInteger('schedule_number')->unique()->nullable();
-            $table->unsignedBigInteger('roadmap_number')->unique()->nullable();
-            $table->enum('notification_type', ['schedule_end', 'schedule_procrastinate', 'time_study'])->default('schedule_end');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('schedule_number')->nullable();
+            $table->unsignedBigInteger('roadmap_number')->nullable();
+            $table->enum('notification_type', ['schedule_end', 'schedule_procrastinate', 'time_study', 'schedule_generated', 'session_remaining'])->default('schedule_end');
             $table->string('title');
             $table->text('message');
             $table->enum('type', ['error', 'info', 'success'])->default('success');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
 
+            $table->unique(['user_id', 'roadmap_number']);
             $table->foreign('roadmap_number')
                 ->references('roadmap_number')
                 ->on('roadmaps')
-                ->onDelete('cascade');
-            $table->foreign('schedule_number')
-                ->references('schedule_number')
-                ->on('schedules')
                 ->onDelete('cascade');
             $table->foreign('user_id')
                 ->references('id')

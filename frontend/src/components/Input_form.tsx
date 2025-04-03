@@ -103,7 +103,7 @@ const InputForm: React.FC = () => {
             free_day: formData.freeDays,
             start_time: formData.startTime,
             end_time: formData.endTime,
-            duration: `${formData.duration} Weeks`,
+            duration: `${formData.duration}`,
           });
           window.location.reload();
           // console.log(data.quiz); // Log the correct data

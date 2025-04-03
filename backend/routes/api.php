@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\Api\V1\ContactController;
+use App\Mail\ContactUsMail;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -43,6 +45,8 @@ Route::prefix('v1')->group(function () {
     Route::put('/roadmap/score', [RoadmapController::class, 'updateRoadmapScore']);
     Route::get('/generate-schedule/roadmaps', [RoadmapController::class, 'getRoadMap']);
     Route::get('/generate-schedule/end', [ScheduleController::class, 'endSchedule']);
+    Route::get('/generate-schedule/procrastinate', [ScheduleController::class, 'scheduleProcrastinate']);
+    Route::get('/generate-schedule/continue', [ScheduleController::class, 'continueCourse']);
     Route::post('/history', [RoadmapController::class, 'getHistoryRoadMap']);
     Route::get('/history-schedule', [ScheduleController::class, 'getHistorySchedule']);
     Route::get('/notification', [NotificationController::class, 'getNotification']);
@@ -51,6 +55,15 @@ Route::prefix('v1')->group(function () {
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
     Route::get('/send-message', [TelegramController::class, 'sendMessage']);
+    Route::get('/getUserEmail', [UserController::class, 'getUserEmail']);
+    Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
+    Route::put('/changePassword', [UserController::class, 'changePassword']);
+
+    Route::post('/contactUs', [ContactController::class, 'sendContactMail']);
+    Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);
+    Route::get('/checkSessionLimit', [ScheduleController::class, 'checkSessionLimit']);
+    Route::get('/checkSessionRemaining', [ScheduleController::class, 'checkSessionRemaining']);
+    Route::get('/checkUserExists', [UserController::class, 'checkUserExists']);
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {

@@ -126,7 +126,7 @@ function HistoryScreen() {
                       />
                       <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black">
                         <span className="font-semibold">Duration:</span>{" "}
-                        {item.duration}
+                        {item.duration} Weeks
                       </p>
                     </div>
                   </div>
