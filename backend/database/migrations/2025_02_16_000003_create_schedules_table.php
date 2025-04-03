@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             // $table->unsignedBigInteger('generator_id');
-            $table->unsignedBigInteger('schedule_number')->default(1);
-            $table->unsignedBigInteger('generator_number')->default(1);
+            $table->unsignedBigInteger('schedule_number')->unique();
+            $table->unsignedBigInteger('generator_number')->unique();
             $table->enum('status', ['active', 'procrastinate', 'end'])->default('active');
             $table->date('start_date');
             $table->date('end_date');

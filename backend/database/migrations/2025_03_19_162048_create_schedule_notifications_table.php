@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('schedule_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('schedule_number')->nullable();
-            $table->unsignedBigInteger('roadmap_number')->nullable();
+            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('schedule_number')->unique()->nullable();
+            $table->unsignedBigInteger('roadmap_number')->unique()->nullable();
             $table->enum('notification_type', ['schedule_end', 'schedule_procrastinate', 'time_study'])->default('schedule_end');
             $table->string('title');
             $table->text('message');
