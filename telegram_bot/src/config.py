@@ -1,0 +1,6 @@
+API_TOKEN = 'YOUR_TELEGRAM_BOT_API_TOKEN'
+BACKEND_URL = 'http://127.0.0.1:8000/api/v1'
+TIMEOUT = 10  # seconds for API requests
+
+DEBUG = True
+LOGGING_LEVEL = 'INFO'

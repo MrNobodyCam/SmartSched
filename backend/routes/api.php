@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\Api\V1\TelegramBotController;
 use App\Http\Controllers\Api\V1\ContactController;
 use App\Mail\ContactUsMail;
 
@@ -54,7 +54,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/notification/markAllAsRead', [NotificationController::class, 'markAllAsRead']);
     Route::get('/user', [UserController::class, 'getUser']);
     Route::put('/editUser', [UserController::class, 'editUser']);
-    Route::get('/send-message', [TelegramController::class, 'sendMessage']);
+
+    /* Telegram Routes */
+    Route::get('/telegram/get-updates', [TelegramBotController::class,'getUpdates'])->name('getUpdates');
+    Route::get('/telegram/send-message', [TelegramBotController::class, 'sendMessage']);
+    Route::post('/telegram/register-bot', [TelegramBotController::class, 'registorTelegramBot'])->name('registorTelegramBot');
+
     Route::get('/getUserEmail', [UserController::class, 'getUserEmail']);
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
     Route::put('/changePassword', [UserController::class, 'changePassword']);

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('time_zone')->default('Asia/Bangkok');
             $table->string('hash_password');
             $table->boolean('is_verified')->default(0);
+            $table->string('telegram_chat_id')->nullable();
             $table->timestamps();
         });
 
