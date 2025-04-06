@@ -15,13 +15,22 @@ class UserController extends Controller
         ]);
         $user_id = $request->id;
         $user = DB::table('users')
-            ->select('full_name', 'gender', 'email', 'time_zone', 'hash_password')
+            ->select('full_name', 'gender', 'email', 'time_zone', 'profilePhoto', 'hash_password')
             ->where('id', $user_id)
             ->first();
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        return response()->json($user);
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'full_name' => $user->full_name,
+                'gender' => $user->gender,
+                'email' => $user->email,
+                'time_zone' => $user->time_zone,
+                'profilePhoto' => $user->profilePhoto ? asset('storage/' . $user->profilePhoto) : null,
+            ],
+        ]);
     }
     public function editUser(Request $request)
     {
@@ -30,22 +39,32 @@ class UserController extends Controller
             'full_name' => 'required|string',
             'email' => 'required|email',
             'gender' => 'required|string',
-            'time_zone' => 'required|string'
+            'time_zone' => 'required|string',
+            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user_id = $request->id;
-        $user = DB::table('users')
+        $user = DB::table('users')->where('id', $user_id)->first();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $profileImagePath = $user->profilePhoto;
+        if ($request->hasFile('profilePhoto')) {
+            $file = $request->file('profilePhoto');
+            $profileImagePath = $file->store('profilePhotos', 'public');
+        }
+        DB::table('users')
             ->where('id', $user_id)
             ->update([
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'gender' => $request->gender,
-                'time_zone' => $request->time_zone
+                'time_zone' => $request->time_zone,
+                'profilePhoto' => $profileImagePath,
             ]);
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-        return response()->json(['message' => 'User updated successfully']);
+
+        return response()->json(['message' => 'User updated successfully', 'profilePhoto' => $profileImagePath]);
     }
 
     public function deleteUser($id)

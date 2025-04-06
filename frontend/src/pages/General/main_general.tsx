@@ -12,7 +12,8 @@ const MainGeneral: React.FC = () => {
           General
         </h1>
         <div className="flex gap-4 mb-6">
-          {["account", "password", "session"].map((tab) => (
+          {/* {["account", "password", "session"].map((tab) => ( */}
+          {["account", "password"].map((tab) => (
             <Link
               key={tab}
               to={`/setting/${tab}`}

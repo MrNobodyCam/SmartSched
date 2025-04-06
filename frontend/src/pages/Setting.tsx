@@ -68,7 +68,7 @@ function SettingsPage() {
           </div>
 
           {/* Desktop */}
-          <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
+          {/*<div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
                 Desktop Notification
@@ -91,7 +91,7 @@ function SettingsPage() {
             </div>
           </div>
           {/* Email */}
-          <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
+          {/*<div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
                 Email Notification
@@ -114,7 +114,7 @@ function SettingsPage() {
             </div>
           </div>
           {/* Theme */}
-          <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
+          {/* <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <div className="flex items-center gap-2">
                 <p className="text-[20px] md:text-[22px] lg:text-[24px]">
@@ -140,9 +140,9 @@ function SettingsPage() {
                 }`}
               ></div>
             </div>
-          </div>
+          </div>*/}
           {/* Language*/}
-          <div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
+          {/*<div className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4">
             <div>
               <p className="text-[20px] md:text-[22px] lg:text-[24px]">
                 Language
@@ -199,7 +199,7 @@ function SettingsPage() {
                 </div>
               )}
             </div>
-          </div>
+          </div>*/}
           {/* Terms of Service */}
           <div
             className="p-3 md:p-4 border border-[#A5A5A5] rounded-[12px] flex justify-between items-center cursor-pointer mb-4"

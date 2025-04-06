@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -166,6 +167,7 @@ class ScheduleController extends Controller
                 ->where('schedule_number', $procrastinateSchedule->schedule_number)
                 ->where('user_id', $user_id)
                 ->update([
+                    'start_procrastinate' => now(),
                     'start_date' => now(),
                     'is_active' => true,
                     'updated_at' => now()
@@ -181,6 +183,7 @@ class ScheduleController extends Controller
                 'user_id' => $user_id,
                 'session_limit' => $sessionLimit,
                 'is_active' => true,
+                'start_procrastinate' => now(),
                 'start_date' => now(),
                 'end_date' => null,
                 'created_at' => now(),
@@ -228,7 +231,32 @@ class ScheduleController extends Controller
             ->first();
         DB::table('schedule_procrastinate')
             ->where('schedule_number', $procrastinate->schedule_number)
-            ->update(['is_active' => false, 'end_date' => now()]);
+            ->update(['is_active' => false, 'end_date' => now(), 'current_session' => 0]);
+        $checkDate = DB::table('schedule_procrastinate')
+            ->where('schedule_number', $procrastinate->schedule_number)
+            ->first();
+        $startProcrastinate = Carbon::parse($checkDate->start_procrastinate);
+        $endDate = Carbon::parse($checkDate->end_date);
+
+        $procrastinateDuration = $startProcrastinate->diffInDays($endDate);
+        $devideDuration = intdiv($procrastinateDuration, 7);
+        $procrastinateDuration = $devideDuration * 7;
+        $roadmaps = DB::table('roadmaps')
+            ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+            ->where('schedules.id', $procrastinate->id)
+            ->where('schedules.user_id', $user_id)
+            ->get();
+        foreach ($roadmaps as $roadmap) {
+            $currentDate = Carbon::parse($roadmap->date);
+            $newDate = $currentDate->addDays($procrastinateDuration);
+            DB::table('roadmaps')
+                ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+                ->where('roadmap_number', $roadmap->roadmap_number)
+                ->where('schedules.user_id', $user_id)
+                ->where('schedule_id', $procrastinate->id)
+                ->update(['date' =>  $newDate->format('Y-m-d')]);
+        }
+
         DB::table('schedules')
             ->where('id', $procrastinate->id)
             ->update(['status' => 'active']);
@@ -236,7 +264,7 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'No active schedule found', "success" => false], 404);
         }
 
-        return response()->json(['message' => 'Schedule continued successfully', "success" => true]);
+        return response()->json(['message' => 'Schedule continued successfully', 'procrastinate date' => $roadmaps, "success" => true]);
     }
 
     public function checkSessionLimit(Request $request)
@@ -301,7 +329,7 @@ class ScheduleController extends Controller
         $newSessionCount = $sessionCountUpdate + $schedule_procrastinate->session_count;
         DB::table('schedule_procrastinate')
             ->where('schedule_number', $procrastinate->schedule_number)
-            ->update(['session_count' => $newSessionCount, 'start_date' => now(),]);
+            ->update(['session_count' => $newSessionCount, 'start_date' => now(), 'current_session' => $sessionCountUpdate]);
         $sessionRemaining = $sessionLimit - $newSessionCount;
         $schedule_title = DB::table('generators')
             ->where('generator_number', $schedule->generator_number)
@@ -310,7 +338,7 @@ class ScheduleController extends Controller
         if ($sessionRemaining < 0) {
             DB::table('schedule_procrastinate')
                 ->where('schedule_number', $procrastinate->schedule_number)
-                ->update(['session_count' => $newSessionCount]);
+                ->update(['session_count' => $newSessionCount, 'current_session' => $newSessionCount]);
             DB::table('schedules')
                 ->where('id', $procrastinate->id)
                 ->update(['status' => 'end']);

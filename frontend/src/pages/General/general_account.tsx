@@ -28,18 +28,19 @@ const UserProfileSettings: React.FC = () => {
 
         // Map backend data to match the profile state structure
         setProfile({
-          fullName: data.full_name || "",
-          gender: data.gender || "",
-          email: data.email || "",
-          timezone: data.time_zone || "",
-          profilePhoto: null,
+          fullName: data.data.full_name || "",
+          gender: data.data.gender || "",
+          email: data.data.email || "",
+          timezone: data.data.time_zone || "",
+          profilePhoto: data.data.profilePhoto || null,
         });
 
         console.log("Mapped Profile Data:", {
-          fullName: data.full_name,
-          gender: data.gender,
-          email: data.email,
-          timezone: data.time_zone,
+          fullName: data.data.full_name,
+          gender: data.data.gender,
+          email: data.data.email,
+          timezone: data.data.time_zone,
+          profilePhoto: data.data.profilePhoto,
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -72,7 +73,10 @@ const UserProfileSettings: React.FC = () => {
         gender: profile.gender,
         email: profile.email,
         time_zone: profile.timezone,
+        profilePhoto: profile.profilePhoto,
       });
+
+      console.log("Profile Image", profile.profilePhoto);
 
       console.log("Profile updated successfully:", response);
 
@@ -302,8 +306,8 @@ const UserProfileSettings: React.FC = () => {
                   {profile.profilePhoto && (
                     <SecondaryBtn
                       py="py-1"
-                      borderColor="#A5A5A5"
-                      color="#A5A5A5"
+                      borderColor="#EB5757"
+                      color="#EB5757"
                       extraContent={
                         <FaTimes className="w-[16px] md:w-[18px] lg:w-[20px]" />
                       }

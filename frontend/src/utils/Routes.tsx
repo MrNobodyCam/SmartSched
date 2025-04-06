@@ -132,7 +132,7 @@ const AppRoutes = () => {
           <Route path="/setting" element={<GeneralScreen />}>
             <Route path="account" element={<AccountScreen />} />
             <Route path="password" element={<PasswordScreen />} />
-            <Route path="session" element={<SessionScreen />} />
+            {/* <Route path="session" element={<SessionScreen />} /> */}
           </Route>
         </Route>
       ) : (

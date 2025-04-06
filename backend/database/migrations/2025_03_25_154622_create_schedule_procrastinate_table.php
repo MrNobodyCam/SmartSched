@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('session_limit');
             $table->unsignedBigInteger('session_count')->default(0);
+            $table->unsignedBigInteger('current_session')->default(0);
+            $table->string('start_procrastinate')->nullable();
             $table->string('start_date');
             $table->string('end_date')->nullable();
             $table->boolean('is_active')->default(true);
