@@ -67,6 +67,9 @@ class GenerateScheduleController extends Controller
             "Start Date: " . $firstFreeDayDate . "\n" .
             "Duration: " . $duration . " weeks\n\n" .
             "Guidelines:\n" .
+            "- Each study session should be 1 hour and 30 minutes long, followed by a 15-minute break.\n" .
+            "- The schedule should be organized by week, with each week starting on the first free day.\n" .
+            "- Each study session should include a lesson and a brief description.\n" .
             "- Each lesson should be the title of the subject being studied.\n" .
             "- The description should be a brief overview of the lesson in minimum 50 words.\n" .
             "- Provide a structured weekly breakdown for effective learning.\n" .

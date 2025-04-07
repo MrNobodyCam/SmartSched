@@ -45,6 +45,7 @@ class NotificationController extends Controller
         foreach ($roadmaps as $roadmap) {
             $exists = DB::table('schedule_notifications')
                 ->where('user_id', $user_id)
+                ->where('schedule_number', $roadmap->schedule_number)
                 ->where('roadmap_number', $roadmap->roadmap_number)
                 ->exists();
 

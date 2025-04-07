@@ -241,21 +241,30 @@ class ScheduleController extends Controller
         $procrastinateDuration = $startProcrastinate->diffInDays($endDate);
         $devideDuration = intdiv($procrastinateDuration, 7);
         $procrastinateDuration = $devideDuration * 7;
-        $roadmaps = DB::table('roadmaps')
+        // $roadmaps = DB::table('roadmaps')
+        //     ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+        //     ->join('schedule_procrastinate', 'schedules.schedule_number', '=', 'schedule_procrastinate.schedule_number')
+        //     ->where('schedules.id', $procrastinate->id)
+        //     ->where('schedules.user_id', $user_id)
+        //     ->whereRaw("STR_TO_DATE(CONCAT(roadmaps.date, ' ', roadmaps.start_time), '%Y-%m-%d %H:%i:%s') > schedule_procrastinate.start_procrastinate")
+        //     ->update(['date' => DB::raw("DATE_ADD(roadmaps.date, INTERVAL $procrastinateDuration DAY)")]);
+        DB::table('roadmaps')
             ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+            ->join('schedule_procrastinate', 'schedules.schedule_number', '=', 'schedule_procrastinate.schedule_number')
             ->where('schedules.id', $procrastinate->id)
             ->where('schedules.user_id', $user_id)
-            ->get();
-        foreach ($roadmaps as $roadmap) {
-            $currentDate = Carbon::parse($roadmap->date);
-            $newDate = $currentDate->addDays($procrastinateDuration);
-            DB::table('roadmaps')
-                ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
-                ->where('roadmap_number', $roadmap->roadmap_number)
-                ->where('schedules.user_id', $user_id)
-                ->where('schedule_id', $procrastinate->id)
-                ->update(['date' =>  $newDate->format('Y-m-d')]);
-        }
+            ->whereRaw("STR_TO_DATE(CONCAT(roadmaps.date, ' ', roadmaps.start_time), '%Y-%m-%d %H:%i:%s') > schedule_procrastinate.start_procrastinate")
+            ->update(['date' => DB::raw("DATE_ADD(roadmaps.date, INTERVAL $procrastinateDuration DAY)")]);
+        // foreach ($roadmaps as $roadmap) {
+        //     $currentDate = Carbon::parse($roadmap->date);
+        //     $newDate = $currentDate->addDays($procrastinateDuration);
+        //     DB::table('roadmaps')
+        //         ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+        //         ->where('roadmap_number', $roadmap->roadmap_number)
+        //         ->where('schedules.user_id', $user_id)
+        //         ->where('schedule_id', $procrastinate->id)
+        //         ->update(['date' =>  $newDate->format('Y-m-d')]);
+        // }
 
         DB::table('schedules')
             ->where('id', $procrastinate->id)
@@ -264,7 +273,7 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'No active schedule found', "success" => false], 404);
         }
 
-        return response()->json(['message' => 'Schedule continued successfully', 'procrastinate date' => $roadmaps, "success" => true]);
+        return response()->json(['message' => 'Schedule continued successfully', "success" => true]);
     }
 
     public function checkSessionLimit(Request $request)
