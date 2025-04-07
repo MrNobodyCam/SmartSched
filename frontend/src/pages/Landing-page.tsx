@@ -67,6 +67,7 @@ function Landingpage() {
   const teamMembers = [
     {
       name: "Kao Vichet",
+      main_position: "Product Owner",
       position: "Backend Developer",
       imgSrc: "src/assets/images/Kao Vichet.jpg",
     },
@@ -398,6 +399,7 @@ function Landingpage() {
                   />
                 </div>
                 <h3 className="text-lg font-semibold mt-4">{member.name}</h3>
+                <p className="text-gray-500">{member.main_position}</p>
                 <p className="text-gray-500">{member.position}</p>
               </motion.div>
             ))}
