@@ -40,7 +40,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'gender' => 'required|string',
             'time_zone' => 'required|string',
-            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            // 'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user_id = $request->id;
@@ -54,6 +54,7 @@ class UserController extends Controller
             $file = $request->file('profilePhoto');
             $profileImagePath = $file->store('profilePhotos', 'public');
         }
+
         DB::table('users')
             ->where('id', $user_id)
             ->update([
@@ -61,10 +62,13 @@ class UserController extends Controller
                 'email' => $request->email,
                 'gender' => $request->gender,
                 'time_zone' => $request->time_zone,
-                'profilePhoto' => $profileImagePath,
+                'profilePhoto' => "profilePhotos/SmartSched_logo.png"
             ]);
 
-        return response()->json(['message' => 'User updated successfully', 'profilePhoto' => $profileImagePath]);
+        return response()->json([
+            'message' => 'User updated successfully',
+            'profilePhoto' => $profileImagePath ? asset('storage/' . $profileImagePath) : null,
+        ]);
     }
 
     public function deleteUser($id)

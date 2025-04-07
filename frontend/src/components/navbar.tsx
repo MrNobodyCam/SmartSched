@@ -1,5 +1,4 @@
 import NotificationPopup from "./NotificationPopup";
-import profilePic from "../assets/images/profile.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchGetRequestData } from "../service/api";
@@ -96,13 +95,30 @@ function NavBar({
         </div>
 
         {/* Profile Picture */}
-        <div className="profile">
-          <img
-            onClick={() => navigate("/setting/account")}
-            src={profile.profilePhoto || profilePic}
-            alt="Profile"
-            className="w-10 h-10 rounded-full cursor-pointer"
-          />
+        <div className="w-12 h-12 lg:w-12 lg:h-12 rounded-full bg-gray-300 cursor-pointer">
+          {profile.profilePhoto ? (
+            <img
+              onClick={() => navigate("/setting/account")}
+              src={profile.profilePhoto}
+              alt="Profile"
+              className="w-full h-full rounded-full"
+            />
+          ) : (
+            <div
+              onClick={() => navigate("/setting/account")}
+              className="w-full h-full flex items-center justify-center cursor-pointer"
+            >
+              <svg
+                className="w-6 h-10 md:w-8 md:h-8 text-gray-400"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+          )}
         </div>
       </div>
     </header>
