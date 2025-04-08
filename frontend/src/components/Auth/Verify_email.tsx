@@ -77,7 +77,12 @@ const VerifyEmail = ({
               console.log("Verification successful");
               localStorage.clear();
               onClose();
-              openSignIn();
+              if (fromResetPassword) {
+                localStorage.setItem("id", res.id);
+                openResetPasswordOpen();
+              } else {
+                openSignIn();
+              }
             } else {
               setCodeError(res.message || "Verification failed");
             }
@@ -91,13 +96,6 @@ const VerifyEmail = ({
       } else {
         setCodeError("Email not found. Please try again.");
       }
-
-      if (fromResetPassword) {
-        openResetPasswordOpen();
-      }
-      //  else {
-      //   openSignIn();
-      // }
     }
   };
 

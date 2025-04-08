@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 /* Auth Routes */
 Route::prefix('v1/auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
 });
 
@@ -34,6 +35,7 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1/auth')->group(function () {
     Route::get('/verification/{id}', [OtpController::class, 'verification'])->name('verification');
     Route::post('/verified', [OtpController::class, 'verifiedOtp'])->name('verifiedOtp');
+    Route::get('/verifyResetPassword/{id}', [OtpController::class, 'verifyResetPassword'])->name('verifyResetPassword');
     Route::get('/resend-otp', [OtpController::class, 'resendOtp'])->name('resendOtp');
 });
 
@@ -56,7 +58,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/getUserEmail', [UserController::class, 'getUserEmail']);
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
     Route::put('/changePassword', [UserController::class, 'changePassword']);
-
+    Route::post('/update-password', [UserController::class, 'resetPassword']);
     Route::post('/contactUs', [ContactController::class, 'sendContactMail']);
     Route::get('/check-schedule', [ScheduleController::class, 'checkSchedule']);
     Route::get('/checkSessionLimit', [ScheduleController::class, 'checkSessionLimit']);

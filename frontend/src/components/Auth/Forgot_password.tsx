@@ -3,6 +3,8 @@ import { X } from "react-feather";
 import PrimaryBtn from "../PrimaryBtn";
 import Email from "../../assets/icons/email-1-svgrepo-com.svg";
 import { useState } from "react";
+import { resetPassword } from "../../service/api";
+import Loading from "../Alert/Loading";
 
 const ForgotPassword = ({
   onClose,
@@ -18,8 +20,8 @@ const ForgotPassword = ({
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
@@ -32,11 +34,29 @@ const ForgotPassword = ({
 
     if (valid) {
       console.log("Email:", email);
-      onClose();
-      openVerifyEmail();
+      localStorage.setItem("email", email);
+      try {
+        setLoading(true);
+        const response = await resetPassword(email);
+
+        if (response.success) {
+          localStorage.setItem("email", email);
+          onClose();
+          openVerifyEmail();
+        } else if (response.email) {
+          setEmailError("The email has already been taken.");
+        }
+      } catch (error) {
+        console.error("Signup Error:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
+  if (loading) {
+    return <Loading text="Checking your email... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div

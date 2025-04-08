@@ -76,6 +76,19 @@ export const signup = async (userData: {
   }
 };
 
+export const resetPassword = async (email: string) => {
+  try {
+    const response = await axios.post(`${AUTH_BASE_URL}/reset-password`, {
+      email,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || "Failed to reset password"
+    );
+  }
+};
+
 export const verifyEmail = async (otpData: { email: string; otp: string }) => {
   try {
     const response = await axios.post(`${AUTH_BASE_URL}/verified`, otpData);

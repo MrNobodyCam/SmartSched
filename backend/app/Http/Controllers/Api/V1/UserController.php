@@ -70,7 +70,30 @@ class UserController extends Controller
             'profilePhoto' => $profileImagePath ? asset('storage/' . $profileImagePath) : null,
         ]);
     }
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'new_password' => 'required|string|min:8|confirmed',
+            'new_password_confirmation' => 'required|string|min:8',
+        ]);
 
+        $user_id = $request->id;
+        $user = DB::table('users')
+            ->where('id', $user_id)
+            ->first();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        if ($request->new_password !== $request->new_password_confirmation) {
+            return response()->json(['error' => 'New password and confirmation do not match'], 400);
+        }
+        $hashedPassword = password_hash($request->new_password, PASSWORD_BCRYPT);
+        DB::table('users')
+            ->where('id', $user_id)
+            ->update(['hash_password' => $hashedPassword]);
+        return response()->json(['message' => 'Password reset successfully']);
+    }
     public function deleteUser($id)
     {
 

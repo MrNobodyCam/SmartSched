@@ -3,6 +3,8 @@ import { X } from "react-feather";
 import PrimaryBtn from "../PrimaryBtn";
 import Password from "../../assets/icons/reset-password.svg";
 import { useState } from "react";
+import { fetchPostData } from "../../service/api";
+import Loading from "../Alert/Loading";
 
 const ResetPassword = ({
   onClose,
@@ -15,18 +17,36 @@ const ResetPassword = ({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const validatePassword = (password: string) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()]/.test(password);
+    const hasMinLength = password.length >= 8;
 
-  const handleSubmit = (event: React.FormEvent) => {
+    if (!hasMinLength) return "Password must be at least 8 characters long";
+    if (!hasUpperCase)
+      return "Password must contain at least one uppercase letter";
+    if (!hasNumber) return "Password must contain at least one number";
+    if (!hasSpecialChar)
+      return "Password must contain at least one special character (!@#$%^&*())";
+    return "";
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let valid = true;
 
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters");
+    // Validate password
+    const passwordValidationError = validatePassword(password);
+    if (passwordValidationError) {
+      setPasswordError(passwordValidationError);
       valid = false;
     } else {
       setPasswordError("");
     }
 
+    // Validate confirm password
     if (confirmPassword !== password) {
       setConfirmPasswordError("Passwords do not match");
       valid = false;
@@ -35,13 +55,30 @@ const ResetPassword = ({
     }
 
     if (valid) {
-      console.log("Password:", password);
-      alert("Password reset successful");
+      try {
+        setLoading(true);
+        const response = await fetchPostData(`update-password`, {
+          id: localStorage.getItem("id"),
+          new_password: password,
+          new_password_confirmation: confirmPassword,
+        });
+        console.log("Password reset response:", response);
+      } catch (error) {
+        console.error("Error resetting password:", error);
+      } finally {
+        setLoading(false);
+        setPassword("");
+        setConfirmPassword("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+      }
       onClose();
       openSignIn();
     }
   };
-
+  if (loading) {
+    return <Loading text="Resetting your password... Just a moment! 🚀⏳" />;
+  }
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div

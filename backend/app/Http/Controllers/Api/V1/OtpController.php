@@ -77,7 +77,23 @@ SmartSched Team";
             ], 500);
         }
     }
-
+    public function verifyResetPassword($id)
+    {
+        $user = User::where('id', $id)->first();
+        $emailSent = $this->sendOtp($user);
+        if ($emailSent) {
+            return response()->json([
+                'success' => true,
+                'message' => 'OTP has been sent',
+                'id' => $user->id
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send OTP'
+            ], 500);
+        }
+    }
     public function verifiedOtp(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -112,6 +128,7 @@ SmartSched Team";
 
                 return response()->json([
                     'success' => true,
+                    'id' => $user->id,
                     'message' => 'Email has been verified'
                 ]);
             } else {

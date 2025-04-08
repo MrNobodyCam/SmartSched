@@ -47,6 +47,22 @@ class AuthController extends Controller
         //     'token_type'    => 'Bearer'
         // ]);
     }
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json([
+                'message' => 'User with this email not found'
+            ], 401);
+        }
+        return redirect()->route('verifyResetPassword', ['id' => $user->id]);
+    }
 
     public function signin(Request $request)
     {
