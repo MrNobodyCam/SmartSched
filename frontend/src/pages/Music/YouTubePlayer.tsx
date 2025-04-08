@@ -17,7 +17,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   isPlaying,
   onEnded,
   volume = 50,
-  autoplay = true,
+  autoplay = false,
 }) => {
   const playerRef = useRef<YTPlayer | null>(null);
 
@@ -49,7 +49,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         videoId={videoId}
         opts={{
           playerVars: {
-            autoplay: autoplay ? 1 : 0,
+            autoplay: autoplay ? 0 : 1,
             controls: 0,
             disablekb: 1,
             fs: 0,
