@@ -226,42 +226,16 @@ class ScheduleController extends Controller
             ->where('status', '=', 'procrastinate')
             ->where('user_id', $user_id)
             ->first();
-
+        DB::table('schedule_procrastinate')
+            ->where('schedule_number', $procrastinate->schedule_number)
+            ->update(['is_active' => false, 'end_date' => now()]);
         DB::table('schedules')
             ->where('id', $procrastinate->id)
             ->update(['status' => 'active']);
         if (!$procrastinate) {
             return response()->json(['error' => 'No active schedule found', "success" => false], 404);
         }
-        DB::table('schedule_procrastinate')
-            ->where('schedule_number', $procrastinate->schedule_number)
-            ->update(['is_active' => false, 'end_date' => now()]);
-        $sessionCount = DB::table('roadmaps')
-            ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
-            ->join('schedule_procrastinate', 'schedules.schedule_number', '=', 'schedule_procrastinate.schedule_number')
-            ->where('schedule_procrastinate.user_id', $user_id)
-            ->where('schedule_procrastinate.schedule_number', $procrastinate->schedule_number)
-            ->whereRaw("CONCAT(roadmaps.date, ' ', roadmaps.start_time) BETWEEN schedule_procrastinate.start_date AND NOW()")
-            ->count();
-        $schedule_procrastinate = DB::table('schedule_procrastinate')
-            ->where('schedule_number', $procrastinate->schedule_number)
-            ->where('user_id', $user_id)
-            ->first();
-        $newSessionCount = $sessionCount + $schedule_procrastinate->session_count;
-        if ($sessionCount <= $schedule_procrastinate->session_limit) {
-            DB::table('schedule_procrastinate')
-                ->where('schedule_number', $procrastinate->schedule_number)
-                ->update(['session_count' => $newSessionCount]);
-            return response()->json(['message' => 'Session Count is small than 0', "success" => false]);
-        } else if ($sessionCount > $schedule_procrastinate->session_limit) {
-            DB::table('schedule_procrastinate')
-                ->where('schedule_number', $procrastinate->schedule_number)
-                ->update(['session_count' => $newSessionCount]);
-            DB::table('schedules')
-                ->where('id', $procrastinate->id)
-                ->update(['status' => 'end']);
-            return response()->json(['message' => 'You have reach the limit of procrastinate', "success" => false]);
-        }
+
         return response()->json(['message' => 'Schedule continued successfully', "success" => true]);
     }
 
@@ -309,7 +283,63 @@ class ScheduleController extends Controller
         if (!$procrastinateSchedule) {
             return response()->json(['message' => 'Schedule Not Found', "success" => false]);
         }
-        $sessionRemaining​ = $sessionLimit - $procrastinate->session_count;
-        return response()->json(['session_remaining' => $sessionRemaining​, "success" => true]);
+        $sessionCountUpdate = DB::table('roadmaps')
+            ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
+            ->join('schedule_procrastinate', 'schedules.schedule_number', '=', 'schedule_procrastinate.schedule_number')
+            ->where('schedule_procrastinate.user_id', $user_id)
+            ->where('schedule_procrastinate.schedule_number', $procrastinate->schedule_number)
+            ->whereRaw("CONCAT(roadmaps.date, ' ', roadmaps.start_time) BETWEEN schedule_procrastinate.start_date AND NOW()")
+            ->count();
+        $schedule_procrastinate = DB::table('schedule_procrastinate')
+            ->where('schedule_number', $procrastinate->schedule_number)
+            ->where('user_id', $user_id)
+            ->first();
+        $schedule = DB::table('schedules')
+            ->where('schedule_number', $procrastinate->schedule_number)
+            ->where('user_id', $user_id)
+            ->first();
+        $newSessionCount = $sessionCountUpdate + $schedule_procrastinate->session_count;
+        DB::table('schedule_procrastinate')
+            ->where('schedule_number', $procrastinate->schedule_number)
+            ->update(['session_count' => $newSessionCount, 'start_date' => now(),]);
+        $sessionRemaining = $sessionLimit - $newSessionCount;
+        $schedule_title = DB::table('generators')
+            ->where('generator_number', $schedule->generator_number)
+            ->where('user_id', $user_id)
+            ->value('schedule_title');
+        if ($sessionRemaining < 0) {
+            DB::table('schedule_procrastinate')
+                ->where('schedule_number', $procrastinate->schedule_number)
+                ->update(['session_count' => $newSessionCount]);
+            DB::table('schedules')
+                ->where('id', $procrastinate->id)
+                ->update(['status' => 'end']);
+
+            $exists = DB::table('schedule_notifications')
+                ->where('user_id', $user_id)
+                ->where('schedule_number', $schedule->schedule_number)
+                ->where('roadmap_number', null)
+                ->where('notification_type', 'schedule_end')
+                ->exists();
+            if (!$exists) {
+                DB::table('schedule_notifications')->insert([
+                    'user_id' => $user_id,
+                    'schedule_number' => $schedule->schedule_number,
+                    'roadmap_number' => null,
+                    'notification_type' => 'schedule_end',
+                    'title' => 'Schedule Procrastinate Out Of Limit: ' . $schedule_title,
+                    'message' => 'Your schedule "' . $schedule_title . '" has been successfully completed. Well done!',
+                    'type' => 'error',
+                    'is_read' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+            return response()->json(['message' => 'You have reach the limit of procrastinate', "success" => false]);
+        }
+        if ($sessionRemaining < 0) {
+            $sessionRemaining = 0;
+        }
+        return response()->json(['session_remaining' => $sessionRemaining, "success" => true]);
     }
 }

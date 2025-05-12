@@ -54,6 +54,7 @@
         </div>
         <div class="content">
             <p><strong>From:</strong> {{ $email }}</p>
+            <p><strong>Subject:</strong> {{ $title }}</p>
             <p><strong>Message:</strong></p>
             <p>{{ $text }}</p>
         </div>

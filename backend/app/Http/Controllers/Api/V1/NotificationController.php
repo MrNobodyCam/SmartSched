@@ -29,7 +29,7 @@ class NotificationController extends Controller
         $roadmaps = DB::table('roadmaps')
             ->join('schedules', 'roadmaps.schedule_id', '=', 'schedules.id')
             ->where('schedules.user_id', $user_id)
-            // ->where('schedules.status', 'active')
+            ->where('schedules.status', 'active')
             ->whereRaw("STR_TO_DATE(CONCAT(roadmaps.date, ' ', roadmaps.start_time), '%Y-%m-%d %H:%i:%s') <= ?", [$now])
             ->select(
                 'roadmaps.roadmap_number',
@@ -48,7 +48,7 @@ class NotificationController extends Controller
                 ->where('roadmap_number', $roadmap->roadmap_number)
                 ->exists();
 
-            if (!$exists && $activeSchedule) {
+            if (!$exists) {
                 DB::table('schedule_notifications')->insert([
                     'user_id' => $user_id,
                     'schedule_number' => $activeSchedule->schedule_number,
